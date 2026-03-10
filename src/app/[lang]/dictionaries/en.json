@@ -1,0 +1,9 @@
+{
+  "common": {
+    "siteName": "Cheongmaek Hospital"
+  },
+  "home": {
+    "title": "Welcome to Cheongmaek Hospital",
+    "description": "This multilingual site supports Korean as the default, plus English and Japanese."
+  }
+}
