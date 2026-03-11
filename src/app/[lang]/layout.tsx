@@ -32,14 +32,11 @@ export default async function RootLayout({
 
   if (!hasLocale(lang)) notFound();
 
-  const dict = await getDictionary(lang);
-
   return (
     <html lang={lang}>
       <body>
-        <Header lang={lang} siteName={dict.common.siteName} />
-
-        <main className="mx-auto max-w-6xl px-6 py-10">{children}</main>
+        <Header lang={lang} />
+        <main className="mx-auto max-w-7xl px-6 py-10">{children}</main>
       </body>
     </html>
   );
