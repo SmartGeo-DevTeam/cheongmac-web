@@ -38,37 +38,12 @@ export const NAVIGATION: NavigationItem[] = [
   {
     id: 'about',
     href: '/about',
-    title: title('병원소개', 'About', '病院紹介'),
+    title: title('병원 소개', 'About', '病院紹介'),
     children: [
       {
-        id: 'about-cheongmaek',
-        href: '/about/cheongmaek-hospital',
-        title: title(
-          '청맥병원 소개',
-          'Cheongmaek Hospital',
-          'チョンメク病院紹介',
-        ),
-        children: [
-          {
-            id: 'about-cheongmaek-greeting',
-            href: '/about/cheongmaek-hospital/greeting-philosophy',
-            title: title(
-              '인사말 & 진료 철학',
-              'Greeting & Medical Philosophy',
-              'ごあいさつ・診療哲学',
-            ),
-          },
-          {
-            id: 'about-cheongmaek-history',
-            href: '/about/cheongmaek-hospital/history',
-            title: title('연혁', 'History', '沿革'),
-          },
-          {
-            id: 'about-cheongmaek-social',
-            href: '/about/cheongmaek-hospital/social-contribution',
-            title: title('사회공헌', 'Social Contribution', '社会貢献'),
-          },
-        ],
+        id: 'about-hospital',
+        href: '/about/hospital-introduction',
+        title: title('병원 소개', 'Hospital Introduction', '病院紹介'),
       },
       {
         id: 'about-doctors-departments',
@@ -78,40 +53,11 @@ export const NAVIGATION: NavigationItem[] = [
           'Doctors & Departments',
           '医療スタッフ・診療科',
         ),
-        children: [
-          {
-            id: 'about-doctors-all',
-            href: '/about/doctors-departments/doctors',
-            title: title('의료진 전체보기', 'All Doctors', '医療スタッフ一覧'),
-          },
-          {
-            id: 'about-doctors-detail',
-            href: '/about/doctors-departments/detail',
-            title: title('세부정보', 'Details', '詳細情報'),
-          },
-          {
-            id: 'about-departments-all',
-            href: '/about/doctors-departments/departments',
-            title: title('진료과 전체보기', 'All Departments', '診療科一覧'),
-          },
-        ],
       },
       {
         id: 'about-tour',
         href: '/about/hospital-tour',
         title: title('병원 둘러보기', 'Hospital Tour', '院内案内'),
-        children: [
-          {
-            id: 'about-tour-floor-guide',
-            href: '/about/hospital-tour/floor-guide',
-            title: title('층별안내', 'Floor Guide', 'フロア案内'),
-          },
-          {
-            id: 'about-tour-facility-guide',
-            href: '/about/hospital-tour/facility-guide',
-            title: title('시설안내', 'Facility Guide', '施設案内'),
-          },
-        ],
       },
       {
         id: 'about-equipment',
@@ -121,28 +67,6 @@ export const NAVIGATION: NavigationItem[] = [
           'Advanced Medical Equipment',
           '先端医療機器',
         ),
-        children: [
-          {
-            id: 'about-equipment-special',
-            href: '/about/advanced-medical-equipment/special-equipment',
-            title: title('특수장비', 'Special Equipment', '特殊機器'),
-          },
-          {
-            id: 'about-equipment-diagnostic',
-            href: '/about/advanced-medical-equipment/diagnostic-equipment',
-            title: title('진단장비', 'Diagnostic Equipment', '診断機器'),
-          },
-          {
-            id: 'about-equipment-treatment',
-            href: '/about/advanced-medical-equipment/treatment-equipment',
-            title: title('치료장비', 'Treatment Equipment', '治療機器'),
-          },
-          {
-            id: 'about-equipment-other',
-            href: '/about/advanced-medical-equipment/other-equipment',
-            title: title('기타장비', 'Other Equipment', 'その他の機器'),
-          },
-        ],
       },
     ],
   },
@@ -160,8 +84,8 @@ export const NAVIGATION: NavigationItem[] = [
             id: 'vascular-cardiovascular-angina-mi',
             href: '/vascular-focus-care/cardiovascular-disease/angina-myocardial-infarction',
             title: title(
-              '협심증/심근경색',
-              'Angina / Myocardial Infarction',
+              '협십증 심근경색',
+              'Angina & Myocardial Infarction',
               '狭心症・心筋梗塞',
             ),
           },
@@ -173,7 +97,16 @@ export const NAVIGATION: NavigationItem[] = [
           {
             id: 'vascular-cardiovascular-heart-failure',
             href: '/vascular-focus-care/cardiovascular-disease/heart-failure',
-            title: title('심부전증', 'Heart Failure', '心不全'),
+            title: title('심부전', 'Heart Failure', '心不全'),
+          },
+          {
+            id: 'vascular-cardiovascular-valvular',
+            href: '/vascular-focus-care/cardiovascular-disease/valvular-heart-disease',
+            title: title(
+              '심장판막질환',
+              'Valvular Heart Disease',
+              '心臓弁膜症',
+            ),
           },
         ],
       },
@@ -267,13 +200,18 @@ export const NAVIGATION: NavigationItem[] = [
         ),
         children: [
           {
-            id: 'vascular-rare-nutcracker-kt',
-            href: '/vascular-focus-care/rare-special-disease/nutcracker-syndrome-kt-syndrome',
+            id: 'vascular-rare-nutcracker',
+            href: '/vascular-focus-care/rare-special-disease/nutcracker-syndrome',
             title: title(
-              '호두까기증후군 KT증후군',
-              'Nutcracker Syndrome / KT Syndrome',
-              'ナットクラッカー症候群・KT症候群',
+              '호두까기증후군',
+              'Nutcracker Syndrome',
+              'ナットクラッカー症候群',
             ),
+          },
+          {
+            id: 'vascular-rare-kt',
+            href: '/vascular-focus-care/rare-special-disease/kt-syndrome',
+            title: title('KT증후군', 'KT Syndrome', 'KT症候群'),
           },
           {
             id: 'vascular-rare-may-thurner',
@@ -302,8 +240,12 @@ export const NAVIGATION: NavigationItem[] = [
         children: [
           {
             id: 'vascular-renal-dialysis-center',
-            href: '/vascular-focus-care/renal-dialysis-vascular/dialysis-center',
-            title: title('인공신장실', 'Dialysis Center', '人工腎臓室'),
+            href: '/vascular-focus-care/renal-dialysis-vascular/hemodialysis-center',
+            title: title(
+              '인공신장실 (혈액투석)',
+              'Hemodialysis Center',
+              '人工腎臓室（血液透析）',
+            ),
           },
           {
             id: 'vascular-renal-dialysis-access',
@@ -315,11 +257,6 @@ export const NAVIGATION: NavigationItem[] = [
             ),
           },
           {
-            id: 'vascular-renal-ckd',
-            href: '/vascular-focus-care/renal-dialysis-vascular/chronic-kidney-disease',
-            title: title('만성콩팥병', 'Chronic Kidney Disease', '慢性腎臓病'),
-          },
-          {
             id: 'vascular-renal-complications',
             href: '/vascular-focus-care/renal-dialysis-vascular/complications',
             title: title('합병증', 'Complications', '合併症'),
@@ -329,74 +266,70 @@ export const NAVIGATION: NavigationItem[] = [
     ],
   },
   {
-    id: 'urology-womens-medicine',
-    href: '/urology-womens-medicine',
-    title: title(
-      '비뇨기·여성의학',
-      'Urology & Women’s Health',
-      '泌尿器・女性医学',
-    ),
+    id: 'mens-womens-medicine',
+    href: '/mens-womens-medicine',
+    title: title('남성·여성의학', 'Men’s & Women’s Health', '男性・女性医学'),
     children: [
       {
         id: 'womens-gynecology',
-        href: '/urology-womens-medicine/gynecologic-disease',
+        href: '/mens-womens-medicine/womens-gynecologic-disease',
         title: title(
-          '여성 부인과질환',
+          '여성·부인과질환',
           'Women’s Gynecologic Disease',
-          '女性婦人科疾患',
+          '女性・婦人科疾患',
         ),
         children: [
           {
             id: 'womens-uterine',
-            href: '/urology-womens-medicine/gynecologic-disease/uterine-disease',
+            href: '/mens-womens-medicine/womens-gynecologic-disease/uterine-disease',
             title: title('자궁질환', 'Uterine Disease', '子宮疾患'),
           },
           {
             id: 'womens-ovarian',
-            href: '/urology-womens-medicine/gynecologic-disease/ovarian-disease',
+            href: '/mens-womens-medicine/womens-gynecologic-disease/ovarian-disease',
             title: title('난소질환', 'Ovarian Disease', '卵巣疾患'),
           },
           {
             id: 'womens-gynecology-general',
-            href: '/urology-womens-medicine/gynecologic-disease/general-gynecology',
+            href: '/mens-womens-medicine/womens-gynecologic-disease/gynecologic-disease',
             title: title('부인과질환', 'Gynecologic Disease', '婦人科疾患'),
           },
           {
             id: 'womens-clinic',
-            href: '/urology-womens-medicine/gynecologic-disease/womens-clinic',
+            href: '/mens-womens-medicine/womens-gynecologic-disease/womens-clinic',
             title: title('여성클리닉', 'Women’s Clinic', '女性クリニック'),
           },
         ],
       },
       {
         id: 'mens-prostate',
-        href: '/urology-womens-medicine/mens-prostate-disease',
+        href: '/mens-womens-medicine/mens-prostate-disease',
         title: title(
-          '남성 전립선질환',
+          '남성·전립선질환',
           'Men’s Prostate Disease',
-          '男性前立腺疾患',
+          '男性・前立腺疾患',
         ),
         children: [
           {
             id: 'mens-prostate-disease',
-            href: '/urology-womens-medicine/mens-prostate-disease/prostate-disease',
+            href: '/mens-womens-medicine/mens-prostate-disease/prostate-disease',
             title: title('전립선질환', 'Prostate Disease', '前立腺疾患'),
           },
           {
             id: 'mens-testicular-disease',
-            href: '/urology-womens-medicine/mens-prostate-disease/testicular-disease',
+            href: '/mens-womens-medicine/mens-prostate-disease/testicular-disease',
             title: title('고환질환', 'Testicular Disease', '精巣疾患'),
           },
           {
             id: 'mens-clinic',
-            href: '/urology-womens-medicine/mens-prostate-disease/mens-clinic',
+            href: '/mens-womens-medicine/mens-prostate-disease/mens-clinic',
             title: title('남성클리닉', 'Men’s Clinic', '男性クリニック'),
           },
         ],
       },
       {
         id: 'urology-common',
-        href: '/urology-womens-medicine/common-urologic-disease',
+        href: '/mens-womens-medicine/common-urologic-disease',
         title: title(
           '남녀 비뇨기질환',
           'Common Urologic Disease',
@@ -405,21 +338,21 @@ export const NAVIGATION: NavigationItem[] = [
         children: [
           {
             id: 'urology-stones',
-            href: '/urology-womens-medicine/common-urologic-disease/urinary-kidney-stones',
+            href: '/mens-womens-medicine/common-urologic-disease/urinary-kidney-stones',
             title: title(
-              '요로결석·신장결석',
+              '요로결석/신장결석',
               'Urinary / Kidney Stones',
               '尿路結石・腎結石',
             ),
           },
           {
             id: 'urology-voiding',
-            href: '/urology-womens-medicine/common-urologic-disease/voiding-dysfunction',
+            href: '/mens-womens-medicine/common-urologic-disease/voiding-dysfunction',
             title: title('배뇨장애', 'Voiding Dysfunction', '排尿障害'),
           },
           {
             id: 'urology-infection',
-            href: '/urology-womens-medicine/common-urologic-disease/urologic-infection',
+            href: '/mens-womens-medicine/common-urologic-disease/urologic-infection',
             title: title(
               '비뇨기 감염질환',
               'Urologic Infection',
@@ -440,44 +373,42 @@ export const NAVIGATION: NavigationItem[] = [
     ),
     children: [
       {
-        id: 'chronic-metabolic',
-        href: '/chronic-integrated-care/metabolic-disease',
-        title: title('대사질환', 'Metabolic Disease', '代謝疾患'),
+        id: 'chronic-disease',
+        href: '/chronic-integrated-care/chronic-disease',
+        title: title('만성질환', 'Chronic Disease', '慢性疾患'),
         children: [
           {
-            id: 'chronic-metabolic-hypertension',
-            href: '/chronic-integrated-care/metabolic-disease/hypertension',
-            title: title('고혈압', 'Hypertension', '高血圧'),
+            id: 'chronic-metabolic-three',
+            href: '/chronic-integrated-care/chronic-disease/three-major-metabolic-diseases',
+            title: title(
+              '3대 대사질환',
+              'Three Major Metabolic Diseases',
+              '3大代謝疾患',
+            ),
           },
           {
-            id: 'chronic-metabolic-dyslipidemia',
-            href: '/chronic-integrated-care/metabolic-disease/dyslipidemia',
-            title: title('고지혈증', 'Dyslipidemia', '脂質異常症'),
-          },
-          {
-            id: 'chronic-metabolic-diabetes',
-            href: '/chronic-integrated-care/metabolic-disease/diabetes',
-            title: title('당뇨', 'Diabetes', '糖尿病'),
-          },
-          {
-            id: 'chronic-metabolic-lymphedema',
-            href: '/chronic-integrated-care/metabolic-disease/lymphedema',
+            id: 'chronic-lymphedema',
+            href: '/chronic-integrated-care/chronic-disease/lymphedema',
             title: title('림프부종', 'Lymphedema', 'リンパ浮腫'),
           },
           {
-            id: 'chronic-metabolic-gout',
-            href: '/chronic-integrated-care/metabolic-disease/gout',
+            id: 'chronic-gout',
+            href: '/chronic-integrated-care/chronic-disease/gout',
             title: title('통풍', 'Gout', '痛風'),
           },
           {
-            id: 'chronic-metabolic-thyroid',
-            href: '/chronic-integrated-care/metabolic-disease/thyroid',
-            title: title('갑상선', 'Thyroid', '甲状腺'),
+            id: 'chronic-thyroid-hormone',
+            href: '/chronic-integrated-care/chronic-disease/thyroid-hormone',
+            title: title(
+              '갑상성(호르몬)',
+              'Thyroid (Hormone)',
+              '甲状腺（ホルモン）',
+            ),
           },
           {
-            id: 'chronic-metabolic-fatty-liver',
-            href: '/chronic-integrated-care/metabolic-disease/fatty-liver',
-            title: title('지방간', 'Fatty Liver', '脂肪肝'),
+            id: 'chronic-gout-second',
+            href: '/chronic-integrated-care/chronic-disease/gout-care',
+            title: title('통풍', 'Gout Care', '痛風'),
           },
         ],
       },
@@ -488,18 +419,30 @@ export const NAVIGATION: NavigationItem[] = [
         children: [
           {
             id: 'chronic-obesity-evaluation',
-            href: '/chronic-integrated-care/obesity-clinic/evaluation',
-            title: title('평가', 'Evaluation', '評価'),
+            href: '/chronic-integrated-care/obesity-clinic/evaluation-diagnosis',
+            title: title(
+              '비만 평가 및 진단',
+              'Obesity Evaluation & Diagnosis',
+              '肥満評価・診断',
+            ),
           },
           {
-            id: 'chronic-obesity-cause-analysis',
-            href: '/chronic-integrated-care/obesity-clinic/cause-analysis',
-            title: title('원인분석', 'Cause Analysis', '原因分析'),
+            id: 'chronic-obesity-custom',
+            href: '/chronic-integrated-care/obesity-clinic/custom-management',
+            title: title(
+              '맞춤 비만 관리',
+              'Personalized Obesity Management',
+              'オーダーメイド肥満管理',
+            ),
           },
           {
-            id: 'chronic-obesity-treatment',
-            href: '/chronic-integrated-care/obesity-clinic/treatment-method',
-            title: title('치료법', 'Treatment Method', '治療法'),
+            id: 'chronic-obesity-wegovy-saxenda',
+            href: '/chronic-integrated-care/obesity-clinic/wegovy-saxenda',
+            title: title(
+              '위고비/삭센다',
+              'Wegovy / Saxenda',
+              'ウゴービ・サクセンダ',
+            ),
           },
         ],
       },
@@ -513,17 +456,26 @@ export const NAVIGATION: NavigationItem[] = [
         ),
         children: [
           {
-            id: 'chronic-hbot-specialized-care',
-            href: '/chronic-integrated-care/hyperbaric-oxygen-therapy/specialized-care',
-            title: title('전문치료', 'Specialized Care', '専門治療'),
+            id: 'chronic-hbot-emergency',
+            href: '/chronic-integrated-care/hyperbaric-oxygen-therapy/emergency-disease',
+            title: title('응급질환', 'Emergency Conditions', '救急疾患'),
+          },
+          {
+            id: 'chronic-hbot-non-emergency',
+            href: '/chronic-integrated-care/hyperbaric-oxygen-therapy/non-emergency-disease',
+            title: title(
+              '비응급질환',
+              'Non-emergency Conditions',
+              '非救急疾患',
+            ),
           },
           {
             id: 'chronic-hbot-immunity-regeneration',
-            href: '/chronic-integrated-care/hyperbaric-oxygen-therapy/immunity-cell-regeneration',
+            href: '/chronic-integrated-care/hyperbaric-oxygen-therapy/immunity-regeneration-therapy',
             title: title(
-              '면역·세포재생',
-              'Immunity & Cell Regeneration',
-              '免疫・細胞再生',
+              '면역/재생 테라피',
+              'Immunity / Regeneration Therapy',
+              '免疫・再生テラピー',
             ),
           },
         ],
@@ -538,19 +490,27 @@ export const NAVIGATION: NavigationItem[] = [
         ),
         children: [
           {
+            id: 'chronic-screening-items',
+            href: '/chronic-integrated-care/advanced-screening-program/items',
+            title: title(
+              '정밀검진 항목',
+              'Advanced Screening Items',
+              '精密検診項目',
+            ),
+          },
+          {
             id: 'chronic-screening-special-equipment',
-            href: '/chronic-integrated-care/advanced-screening-program/special-equipment',
-            title: title('특수장비', 'Special Equipment', '特殊機器'),
+            href: '/chronic-integrated-care/advanced-screening-program/special-equipment-diagnosis',
+            title: title(
+              '특수장비 진단',
+              'Special Equipment Diagnosis',
+              '特殊機器診断',
+            ),
           },
           {
-            id: 'chronic-screening-diagnostic-tests',
-            href: '/chronic-integrated-care/advanced-screening-program/diagnostic-tests',
-            title: title('진단검사', 'Diagnostic Tests', '診断検査'),
-          },
-          {
-            id: 'chronic-screening-partner-network',
-            href: '/chronic-integrated-care/advanced-screening-program/partner-network',
-            title: title('협력기관 연계', 'Partner Network', '協力機関連携'),
+            id: 'chronic-screening-wedding',
+            href: '/chronic-integrated-care/advanced-screening-program/wedding-screening',
+            title: title('웨딩 검진', 'Wedding Screening', 'ウェディング検診'),
           },
         ],
       },
@@ -562,6 +522,26 @@ export const NAVIGATION: NavigationItem[] = [
           'Recovery Management Program',
           '回復管理プログラム',
         ),
+        children: [
+          {
+            id: 'chronic-postoperative-care',
+            href: '/chronic-integrated-care/postoperative-care-system',
+            title: title(
+              '수술후 케어시스템',
+              'Postoperative Care System',
+              '術後ケアシステム',
+            ),
+          },
+          {
+            id: 'chronic-lifelong-care',
+            href: '/chronic-integrated-care/lifelong-care-program',
+            title: title(
+              '평생관리 프로그램',
+              'Lifelong Care Program',
+              '生涯管理プログラム',
+            ),
+          },
+        ],
       },
     ],
   },
@@ -609,17 +589,17 @@ export const NAVIGATION: NavigationItem[] = [
       {
         id: 'community-news',
         href: '/community/cheongmaek-news',
-        title: title('청맥뉴스', 'Cheongmaek News', 'チョンメクニュース'),
+        title: title('청맥 뉴스', 'Cheongmaek News', 'チョンメクニュース'),
       },
       {
         id: 'community-cases',
         href: '/community/case-study',
-        title: title('치료사례', 'Treatment Cases', '治療事例'),
+        title: title('치료 사례', 'Treatment Cases', '治療事例'),
       },
       {
         id: 'community-consultation',
         href: '/community/medical-consultation',
-        title: title('의학상담', 'Medical Consultation', '医療相談'),
+        title: title('의학 상담', 'Medical Consultation', '医療相談'),
       },
       {
         id: 'community-feedback',
@@ -636,32 +616,23 @@ export const NAVIGATION: NavigationItem[] = [
       {
         id: 'guide-outpatient',
         href: '/guide/outpatient-care',
-        title: title('외래 진료안내', 'Outpatient Guide', '外来診療案内'),
+        title: title('외래진료안내', 'Outpatient Guide', '外来診療案内'),
         children: [
           {
-            id: 'guide-outpatient-hours',
-            href: '/guide/outpatient-care/hours',
-            title: title('진료시간', 'Hours', '診療時間'),
-          },
-          {
-            id: 'guide-outpatient-process',
-            href: '/guide/outpatient-care/process',
-            title: title(
-              '절차 (초진/재진)',
-              'Process (First / Follow-up Visit)',
-              '手続き（初診・再診）',
-            ),
+            id: 'guide-outpatient-info',
+            href: '/guide/outpatient-care/information',
+            title: title('진료 안내', 'Care Information', '診療案内'),
           },
           {
             id: 'guide-outpatient-reservation',
             href: '/guide/outpatient-care/reservation',
-            title: title('예약', 'Reservation', '予約'),
+            title: title('진료 예약', 'Reservation', '診療予約'),
           },
           {
             id: 'guide-outpatient-location-parking',
             href: '/guide/outpatient-care/location-parking',
             title: title(
-              '오시는길 주차',
+              '오시는길 및 주차',
               'Directions & Parking',
               'アクセス・駐車場',
             ),
@@ -683,11 +654,6 @@ export const NAVIGATION: NavigationItem[] = [
         ),
         children: [
           {
-            id: 'guide-admission-overview',
-            href: '/guide/admission-discharge/overview',
-            title: title('입·퇴원안내', 'Admission & Discharge', '入退院案内'),
-          },
-          {
             id: 'guide-admission-preparation',
             href: '/guide/admission-discharge/preparation',
             title: title('입원 준비', 'Admission Preparation', '入院準備'),
@@ -705,13 +671,29 @@ export const NAVIGATION: NavigationItem[] = [
         ],
       },
       {
-        id: 'guide-medical-cooperation',
-        href: '/guide/medical-cooperation-service',
-        title: title(
-          '의료협력 서비스',
-          'Medical Cooperation Service',
-          '医療連携サービス',
-        ),
+        id: 'guide-partner-hospital',
+        href: '/guide/partner-hospital',
+        title: title('의료협약병원', 'Partner Hospitals', '医療提携病院'),
+        children: [
+          {
+            id: 'guide-partner-institutions',
+            href: '/guide/partner-hospital/institutions',
+            title: title(
+              '협약기관 조회',
+              'Partner Institution Search',
+              '提携機関検索',
+            ),
+          },
+          {
+            id: 'guide-veterans-hospital',
+            href: '/guide/partner-hospital/veterans-commissioned-hospital',
+            title: title(
+              '보훈위탁병원',
+              'Veterans Commissioned Hospital',
+              '報勲委託病院',
+            ),
+          },
+        ],
       },
     ],
   },

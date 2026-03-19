@@ -10,7 +10,7 @@ export default async function HomePage({ params }: PageProps<'/[lang]'>) {
 
   return (
     <section className="space-y-4">
-      <h1 className="text-3xl font-bold">{dict.home.title}</h1>
+      <h1 className="text-xl font-bold">{dict.home.title}</h1>
       {/* <p className="text-gray-600">{dict.home.description}</p> */}
     </section>
   );

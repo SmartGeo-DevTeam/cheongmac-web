@@ -2,8 +2,24 @@
   "common": {
     "siteName": "Cheongmaek Hospital"
   },
+  "header": {
+    "banner": {
+      "close": "Do not show this window again today"
+    },
+    "button": {
+      "signIn": "Sign In"
+    },
+    "reservation": {
+      "title": "Quick Reservation",
+      "desc_1": "Leave your contact information",
+      "desc_2": "and our specialist will assist you with the reservation.",
+      "button_1": "Book",
+      "button_2": "Now"
+    }
+  },
   "home": {
     "title": "Welcome to Cheongmaek Hospital",
-    "description": "This multilingual site supports Korean as the default, plus English and Japanese."
+    "description": "This multilingual site supports Korean as the default, plus English and Japanese.",
+    "temp": "login"
   }
 }
