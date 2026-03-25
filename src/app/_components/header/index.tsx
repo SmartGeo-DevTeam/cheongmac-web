@@ -132,7 +132,7 @@ export default function Header({ lang, headerText, isMobile }: HeaderProps) {
         </section>
 
         {/* Common - GNB */}
-        <section className="relative mx-auto max-w-440 px-5 w-full h-14 flex justify-between xl:h-20">
+        <section className="relative mx-auto max-w-420 px-5 w-full h-14 flex justify-between xl:h-20">
           <Link
             href={withLocale(lang, '/')}
             className="relative flex items-center"
