@@ -1,10 +1,12 @@
 import '../globals.css';
+import Script from 'next/script';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { userAgent } from 'next/server';
 import { headers } from 'next/headers';
 import { i18n } from '@/i18n-config';
 import { getDictionary, hasLocale } from './dictionaries';
+import Footer from '@/app/_components/footer';
 import Header from '@/app/_components/header';
 
 export async function generateStaticParams() {
@@ -45,6 +47,13 @@ export default async function RootLayout({
       <body>
         <Header lang={lang} headerText={dict.header} isMobile={isMobile} />
         <main className="mx-auto max-w-7xl px-6 py-10">{children}</main>
+        <Footer isMobile={isMobile} />
+
+        <Script
+          type="text/javascript"
+          strategy="beforeInteractive"
+          src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=slkdysugpr"
+        />
       </body>
     </html>
   );

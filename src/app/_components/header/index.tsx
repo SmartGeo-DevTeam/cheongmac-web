@@ -87,7 +87,7 @@ export default function Header({ lang, headerText, isMobile }: HeaderProps) {
 
   const [isHamburgerOpen, setIsHamburgerOpen] = useState<boolean>(false);
   const [mobileOpenIds, setMobileOpenIds] = useState<string[]>(() =>
-    primaryNavigation.slice(0, 2).map((item) => item.id),
+    primaryNavigation.slice(1, 3).map((item) => item.id),
   );
 
   return (
@@ -243,7 +243,6 @@ export default function Header({ lang, headerText, isMobile }: HeaderProps) {
           </div>
         </section>
 
-        {/* Desktop - LNB */}
         {/* Desktop - LNB */}
         {hoveredPrimary?.children?.length ? (
           <section className="relative border-t border-t-[#CCCCCC] before:absolute before:left-0 before:top-0 before:w-1/2 before:h-full before:bg-[#EEEEEE]">

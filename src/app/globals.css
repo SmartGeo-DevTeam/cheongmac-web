@@ -9,6 +9,7 @@
   --color-cm-orange: #FA6805;
   --color-cm-green: #254635;
   --aspect-logo: 3.875 / 1; 
+  --aspect-retro: 4 / 3; 
 }
 
 @media (prefers-color-scheme: dark) { }
