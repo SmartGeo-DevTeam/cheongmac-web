@@ -345,7 +345,7 @@ export default function Header({ lang, headerText, isMobile }: HeaderProps) {
 
         {/* Mobile - Hamburger */}
         {isHamburgerOpen ? (
-          <div className="fixed left-0 top-0 w-full h-screen flex flex-col overflow-y-scroll bg-white z-50">
+          <div className="fixed left-0 top-0 w-full min-h-screen flex flex-col overflow-y-scroll bg-white z-50">
             {/* GNB */}
             <div className="fixed left-0 top-0 px-5 w-full h-51 flex flex-col border-b border-b-[#EEEEEE] bg-cm-orange z-10">
               {/* Header */}

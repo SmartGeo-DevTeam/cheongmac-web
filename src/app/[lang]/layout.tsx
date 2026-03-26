@@ -52,7 +52,7 @@ export default async function RootLayout({
         <Script
           type="text/javascript"
           strategy="beforeInteractive"
-          src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=slkdysugpr"
+          src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=its02p5ph4"
         />
       </body>
     </html>
