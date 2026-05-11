@@ -1,13 +1,14 @@
-import '../globals.css';
-import Script from 'next/script';
-import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
-import { userAgent } from 'next/server';
-import { headers } from 'next/headers';
-import { i18n } from '@/i18n-config';
-import { getDictionary, hasLocale } from './dictionaries';
+import { suit } from '@/_lib/fonts';
 import Footer from '@/app/_components/footer';
 import Header from '@/app/_components/header';
+import { i18n } from '@/i18n-config';
+import type { Metadata } from 'next';
+import { headers } from 'next/headers';
+import { notFound } from 'next/navigation';
+import Script from 'next/script';
+import { userAgent } from 'next/server';
+import '../globals.css';
+import { getDictionary, hasLocale } from './dictionaries';
 
 export async function generateStaticParams() {
   return i18n.locales.map((lang) => ({ lang }));
@@ -43,7 +44,7 @@ export default async function RootLayout({
   const isMobile = ua.device.type === 'mobile';
 
   return (
-    <html lang={lang}>
+    <html lang={lang} className={`${suit.className} h-full antialiased`}>
       <body>
         <Header lang={lang} headerText={dict.header} isMobile={isMobile} />
         <main className="mx-auto max-w-7xl px-6 py-10">{children}</main>
