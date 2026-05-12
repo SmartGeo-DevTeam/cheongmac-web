@@ -1,4 +1,6 @@
 import { notFound } from 'next/navigation';
+import { HomeProvider } from '../_providers/home-provider';
+import HomeSections from './_components/home';
 import { getDictionary, hasLocale } from './dictionaries';
 
 export default async function HomePage({ params }: PageProps<'/[lang]'>) {
@@ -9,9 +11,8 @@ export default async function HomePage({ params }: PageProps<'/[lang]'>) {
   const dict = await getDictionary(lang);
 
   return (
-    <section className="space-y-4">
-      <h1 className="text-xl font-bold">{dict.home.title}</h1>
-      {/* <p className="text-gray-600">{dict.home.description}</p> */}
-    </section>
+    <HomeProvider lang={lang} home={dict.home}>
+      <HomeSections />
+    </HomeProvider>
   );
 }

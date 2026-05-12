@@ -1,12 +1,10 @@
 import { suit } from '@/_lib/fonts';
 import Footer from '@/app/_components/footer';
 import Header from '@/app/_components/header';
+import { ViewportProvider } from '@/app/_providers/viewport-provider';
 import { i18n } from '@/i18n-config';
 import type { Metadata } from 'next';
-import { headers } from 'next/headers';
 import { notFound } from 'next/navigation';
-import Script from 'next/script';
-import { userAgent } from 'next/server';
 import '../globals.css';
 import { getDictionary, hasLocale } from './dictionaries';
 
@@ -26,6 +24,9 @@ export async function generateMetadata({
   return {
     title: dict.common.siteName,
     description: dict.home.description,
+    other: {
+      google: 'notranslate',
+    },
   };
 }
 
@@ -39,22 +40,19 @@ export default async function RootLayout({
 
   const dict = await getDictionary(lang);
 
-  const headersList = await headers();
-  const ua = userAgent({ headers: headersList });
-  const isMobile = ua.device.type === 'mobile';
-
   return (
-    <html lang={lang} className={`${suit.className} h-full antialiased`}>
+    <html
+      lang={lang}
+      translate="no"
+      suppressHydrationWarning
+      className={`${suit.className} antialiased`}
+    >
       <body>
-        <Header lang={lang} headerText={dict.header} isMobile={isMobile} />
-        <main className="mx-auto max-w-7xl px-6 py-10">{children}</main>
-        <Footer isMobile={isMobile} />
-
-        <Script
-          type="text/javascript"
-          strategy="beforeInteractive"
-          src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=its02p5ph4"
-        />
+        <ViewportProvider>
+          <Header lang={lang} headerText={dict.header} />
+          <main>{children}</main>
+          <Footer />
+        </ViewportProvider>
       </body>
     </html>
   );

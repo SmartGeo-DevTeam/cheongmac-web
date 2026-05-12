@@ -1,16 +1,16 @@
 'use client';
 
-import { useMemo, useState } from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import Image from 'next/image';
-import type { Locale } from '@/i18n-config';
 import {
   getLocalePath,
   getPrimaryNavigation,
   withLocale,
 } from '@/_lib/navigation';
 import Inner from '@/app/_components/inner';
+import type { Locale } from '@/i18n-config';
+import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useMemo, useState } from 'react';
 
 type HeaderText = {
   banner: {
@@ -31,10 +31,9 @@ type HeaderText = {
 type HeaderProps = {
   lang: Locale;
   headerText: HeaderText;
-  isMobile: boolean;
 };
 
-export default function Header({ lang, headerText, isMobile }: HeaderProps) {
+export default function Header({ lang, headerText }: HeaderProps) {
   const pathname = usePathname();
 
   const [hoveredPrimaryId, setHoveredPrimaryId] = useState<string | null>(null);
@@ -58,9 +57,7 @@ export default function Header({ lang, headerText, isMobile }: HeaderProps) {
   };
 
   const currentLangIcon = {
-    ko: isMobile
-      ? '/icons/common/header/gnb/lang-ko-black.svg'
-      : '/icons/common/header/gnb/lang-ko-gray.svg',
+    ko: '/icons/common/header/gnb/lang-earth.svg',
     en: '/icons/common/header/gnb/lang-en.svg',
     ja: '/icons/common/header/gnb/lang-ja.svg',
   }[lang];
@@ -68,19 +65,17 @@ export default function Header({ lang, headerText, isMobile }: HeaderProps) {
   const languageMenus = [
     {
       code: 'ko' as const,
-      label: 'KR',
-      icon: isMobile
-        ? '/icons/common/header/gnb/lang-ko-black.svg'
-        : '/icons/common/header/gnb/lang-ko-gray.svg',
+      label: '한국어',
+      icon: '/icons/common/header/gnb/lang-ko.svg',
     },
     {
       code: 'en' as const,
-      label: 'EN',
+      label: 'English',
       icon: '/icons/common/header/gnb/lang-en.svg',
     },
     {
       code: 'ja' as const,
-      label: 'JP',
+      label: '日本語',
       icon: '/icons/common/header/gnb/lang-ja.svg',
     },
   ];
@@ -93,17 +88,17 @@ export default function Header({ lang, headerText, isMobile }: HeaderProps) {
   return (
     <>
       <header
-        className="fixed left-0 top-0 w-full border-b border-b-[#CCCCCC] bg-white z-40"
+        className="fixed left-0 top-0 w-full bg-white z-40"
         onMouseLeave={() => setHoveredPrimaryId(null)}
       >
         {/* Desktop - Banner */}
-        <section className="hidden xl:block xl:relative xl:h-20 xl:bg-cm-green xl:text-white">
+        <section className="hidden xl:block xl:relative xl:h-20 xl:bg-[linear-gradient(90deg,#FDFCFC_0%,#FEE3D6_100%)] xl:text-[#333333]">
           <Inner>
             <div className="h-20 flex justify-center items-center gap-4.5">
-              <span className="px-3 py-0.5 rounded-full bg-white tracking-[-5%] font-medium text-xs text-cm-green">
+              <span className="px-3 py-0.5 rounded-full bg-cm-orange tracking-[-5%] font-medium text-xs text-white">
                 공지사항
               </span>
-              <p className="tracking-[-3%] text-2xl">
+              <p className="tracking-[-3%] font-semibold text-2xl">
                 골반정맥류 1,000례 달성!
               </p>
             </div>
@@ -120,7 +115,7 @@ export default function Header({ lang, headerText, isMobile }: HeaderProps) {
               </span>
             </label>
 
-            <button type="button">
+            <button type="button" className="brightness-0">
               <Image
                 src={`/icons/common/header/banner/close.svg`}
                 alt="banner-close"
@@ -132,17 +127,18 @@ export default function Header({ lang, headerText, isMobile }: HeaderProps) {
         </section>
 
         {/* Common - GNB */}
-        <section className="relative mx-auto max-w-420 px-5 w-full h-14 flex justify-between xl:h-20">
+        <section className="relative mx-auto max-w-420 px-5 w-full h-14 flex justify-between items-center xl:h-20">
           <Link
             href={withLocale(lang, '/')}
-            className="relative flex items-center"
+            className="relative w-33 h-8.5 flex items-center
+            xl:w-38.75 xl:h-10
+            "
           >
             <Image
               src={`/common/logo.svg`}
               alt="logo"
               style={{ objectFit: 'cover' }}
-              width={isMobile ? 132 : 155}
-              height={isMobile ? 34 : 40}
+              fill
             />
           </Link>
 
@@ -172,14 +168,14 @@ export default function Header({ lang, headerText, isMobile }: HeaderProps) {
 
           {/* Common - Buttons */}
           <div
-            className="relative right-0 top-1/2 -translate-y-1/2 flex items-center gap-3 z-50
+            className="relative right-0 flex items-center gap-3 z-50
             xl:gap-4"
           >
             {/* Common - Language */}
             <div className="group relative flex justify-center">
               <button
                 type="button"
-                className="relative w-7.5 h-7.5 xl:w-5 xl:h-5"
+                className="relative w-7.5 h-7.5 xl:opacity-50"
               >
                 <Image
                   src={currentLangIcon}

@@ -12,14 +12,86 @@
     "reservation": {
       "title": "Quick Reservation",
       "desc_1": "Leave your contact information",
-      "desc_2": "and our specialist will assist you with the reservation.",
+      "desc_2": "and our specialist will assist you with your reservation.",
       "button_1": "Book",
       "button_2": "Now"
     }
   },
   "home": {
     "title": "Welcome to Cheongmaek Hospital",
-    "description": "This multilingual site supports Korean as the default, plus English and Japanese.",
-    "temp": "login"
+    "description": "This multilingual site supports Korean as the default language, plus English and Japanese.",
+    "temp": "Sign In",
+    "hero": {
+      "eyebrow": "CHEONGMAEK HOSPITAL",
+      "title": "Safer, more precise care centered on vascular health",
+      "description": "Cheongmaek Hospital provides integrated care for vascular diseases, men's and women's medicine, and chronic conditions.",
+      "primaryCta": "About the Hospital",
+      "secondaryCta": "View Specialty Care"
+    },
+    "specialties": {
+      "eyebrow": "SPECIAL CARE",
+      "title": "Cheongmaek Hospital Specialty Care",
+      "items": [
+        {
+          "title": "Vascular-Focused Care",
+          "description": "We provide systematic care for cardiovascular, arterial, and venous diseases.",
+          "href": "/vascular-focus-care"
+        },
+        {
+          "title": "Men's & Women's Medicine",
+          "description": "We provide detailed care for major health concerns affecting men and women.",
+          "href": "/mens-womens-medicine"
+        },
+        {
+          "title": "Chronic Disease & Integrated Care",
+          "description": "We offer integrated management for chronic diseases and recovery care.",
+          "href": "/chronic-integrated-care"
+        }
+      ]
+    },
+    "quickLinks": {
+      "items": [
+        {
+          "title": "Doctors & Departments",
+          "description": "Meet our medical specialists.",
+          "href": "/about/doctors-departments"
+        },
+        {
+          "title": "Advanced Medical Equipment",
+          "description": "Explore our examination and treatment equipment.",
+          "href": "/about/advanced-medical-equipment"
+        },
+        {
+          "title": "Hospital Tour",
+          "description": "Take a look around Cheongmaek Hospital.",
+          "href": "/about/hospital-tour"
+        },
+        {
+          "title": "Quick Reservation",
+          "description": "Leave a request for a fast consultation appointment.",
+          "href": "/reservation"
+        }
+      ]
+    },
+    "notice": {
+      "eyebrow": "NOTICE",
+      "title": "Hospital News",
+      "items": [
+        {
+          "title": "The Cheongmaek Hospital website has been newly opened.",
+          "date": "2026.05.11"
+        },
+        {
+          "title": "Announcement: 1,000 pelvic varicose vein cases achieved",
+          "date": "2026.05.01"
+        }
+      ]
+    },
+    "locationCta": {
+      "eyebrow": "LOCATION",
+      "title": "Cheongmaek Hospital in the heart of Busan",
+      "address": "716-1 Jungang-daero, Busanjin-gu, Busan",
+      "button": "Take a Hospital Tour"
+    }
   }
 }

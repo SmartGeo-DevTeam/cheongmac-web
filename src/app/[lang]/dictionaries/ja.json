@@ -20,6 +20,78 @@
   "home": {
     "title": "チョンメク病院へようこそ",
     "description": "韓国語を基本として、英語と日本語に対応する多言語サイトです。",
-    "temp": "ログイン"
+    "temp": "ログイン",
+    "hero": {
+      "eyebrow": "CHEONGMAEK HOSPITAL",
+      "title": "血管を中心とした、より正確で安全な診療",
+      "description": "チョンメク病院は、血管疾患、男性・女性医療、慢性疾患を統合的に診療します。",
+      "primaryCta": "病院紹介",
+      "secondaryCta": "重点診療を見る"
+    },
+    "specialties": {
+      "eyebrow": "SPECIAL CARE",
+      "title": "チョンメク病院の重点診療",
+      "items": [
+        {
+          "title": "血管重点診療",
+          "description": "心血管、動脈、静脈疾患を体系的に診療します。",
+          "href": "/vascular-focus-care"
+        },
+        {
+          "title": "男性・女性医療",
+          "description": "男性と女性の主な疾患をきめ細かく診療します。",
+          "href": "/mens-womens-medicine"
+        },
+        {
+          "title": "慢性疾患・統合管理",
+          "description": "慢性疾患と回復管理を統合的に提供します。",
+          "href": "/chronic-integrated-care"
+        }
+      ]
+    },
+    "quickLinks": {
+      "items": [
+        {
+          "title": "医療陣・診療科",
+          "description": "専門医療陣をご確認ください。",
+          "href": "/about/doctors-departments"
+        },
+        {
+          "title": "先端医療機器",
+          "description": "検査および治療機器をご確認ください。",
+          "href": "/about/advanced-medical-equipment"
+        },
+        {
+          "title": "病院ツアー",
+          "description": "チョンメク病院の施設をご覧ください。",
+          "href": "/about/hospital-tour"
+        },
+        {
+          "title": "簡単予約",
+          "description": "スピーディーに相談予約をお申し込みください。",
+          "href": "/reservation"
+        }
+      ]
+    },
+    "notice": {
+      "eyebrow": "NOTICE",
+      "title": "病院からのお知らせ",
+      "items": [
+        {
+          "title": "チョンメク病院のホームページを新しくオープンしました。",
+          "date": "2026.05.11"
+        },
+        {
+          "title": "骨盤静脈瘤1,000例達成のお知らせ",
+          "date": "2026.05.01"
+        }
+      ]
+    },
+    "locationCta": {
+      "eyebrow": "LOCATION",
+      "title": "釜山の中心で出会うチョンメク病院",
+      "address": "釜山広域市 釜山鎮区 中央大路 716-1",
+      "button": "病院ツアーを見る"
+    }
   }
 }

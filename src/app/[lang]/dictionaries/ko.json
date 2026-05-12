@@ -20,6 +20,78 @@
   "home": {
     "title": "청맥병원에 오신 것을 환영합니다",
     "description": "한국어를 기본으로 영어와 일본어를 지원하는 다국어 사이트입니다.",
-    "temp": "로그인"
+    "temp": "로그인",
+    "hero": {
+      "eyebrow": "CHEONGMAEK HOSPITAL",
+      "title": "혈관 중심 진료로 더 정확하고 안전하게",
+      "description": "청맥병원은 혈관질환, 남성·여성의학, 만성질환을 통합적으로 진료합니다.",
+      "primaryCta": "병원 소개",
+      "secondaryCta": "중점 진료 보기"
+    },
+    "specialties": {
+      "eyebrow": "SPECIAL CARE",
+      "title": "청맥병원 중점 진료",
+      "items": [
+        {
+          "title": "혈관중점진료",
+          "description": "심혈관, 동맥, 정맥질환을 체계적으로 진료합니다.",
+          "href": "/vascular-focus-care"
+        },
+        {
+          "title": "남성·여성의학",
+          "description": "남성과 여성의 주요 질환을 세밀하게 진료합니다.",
+          "href": "/mens-womens-medicine"
+        },
+        {
+          "title": "만성질환·통합관리",
+          "description": "만성질환과 회복 관리를 통합적으로 제공합니다.",
+          "href": "/chronic-integrated-care"
+        }
+      ]
+    },
+    "quickLinks": {
+      "items": [
+        {
+          "title": "의료진/진료과",
+          "description": "전문 의료진을 확인하세요.",
+          "href": "/about/doctors-departments"
+        },
+        {
+          "title": "첨단의료장비",
+          "description": "검사 및 치료 장비를 확인하세요.",
+          "href": "/about/advanced-medical-equipment"
+        },
+        {
+          "title": "병원 둘러보기",
+          "description": "청맥병원 시설을 둘러보세요.",
+          "href": "/about/hospital-tour"
+        },
+        {
+          "title": "간편예약",
+          "description": "빠르게 상담 예약을 남겨보세요.",
+          "href": "/reservation"
+        }
+      ]
+    },
+    "notice": {
+      "eyebrow": "NOTICE",
+      "title": "병원 소식",
+      "items": [
+        {
+          "title": "청맥병원 홈페이지가 새롭게 오픈했습니다.",
+          "date": "2026.05.11"
+        },
+        {
+          "title": "골반정맥류 1,000례 달성 안내",
+          "date": "2026.05.01"
+        }
+      ]
+    },
+    "locationCta": {
+      "eyebrow": "LOCATION",
+      "title": "부산 중심에서 만나는 청맥병원",
+      "address": "부산 부산진구 중앙대로 716-1",
+      "button": "병원 둘러보기"
+    }
   }
 }
