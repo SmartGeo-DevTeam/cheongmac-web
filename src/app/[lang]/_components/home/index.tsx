@@ -1,7 +1,7 @@
 import HomeCover from './1_cover';
 import HomeNavs from './2_navs';
 import HomeSpecialties from './3_specialties';
-import HomeTemp from './4_temp';
+import HomeReviews from './4_reviews';
 
 export default function HomeSections() {
   return (
@@ -9,7 +9,7 @@ export default function HomeSections() {
       <HomeCover />
       <HomeNavs />
       <HomeSpecialties />
-      <HomeTemp />
+      <HomeReviews />
     </>
   );
 }

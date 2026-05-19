@@ -27,7 +27,7 @@ export default function HomeCover() {
         slidesPerView={1}
         loop
         autoplay={{
-          delay: 5000,
+          delay: 500000,
           disableOnInteraction: false,
         }}
         onSlideChange={(swiper: SwiperType) => {
@@ -49,13 +49,11 @@ export default function HomeCover() {
             </div>
 
             <div
-              className="mt-6 flex flex-col items-center text-[15px] leading-[150%] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)]
+              className="mt-5 flex flex-col items-center text-[15px] leading-[150%] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)]
                 xl:flex-row xl:gap-1 xl:text-2xl"
             >
-              <p>
-                AI 어시스턴트 <strong>맥GPT</strong>가
-              </p>
-              <p>필요한 혈관 정보를 빠르게 찾아드립니다.</p>
+              <p>더 스마트해진 혈관 특화 의료 혁신의 시작.</p>
+              <p>증상부터 치료까지 AI가 빠르고 정확한 길을 안내합니다.</p>
             </div>
 
             <div
@@ -63,16 +61,19 @@ export default function HomeCover() {
                 xl:mx-auto xl:max-w-180"
             >
               <button
-                className="flex w-full h-13.5 items-center justify-between rounded-xl bg-white p-1 pl-4 text-[15px] font-semibold text-[#CCCCCC]
+                className="relative w-full
                   xl:w-148"
               >
-                <p>어떤 증상이 있으신가요?</p>
-                <Image
-                  src="/images/home/cover/search.svg"
-                  alt="search"
-                  width={46}
-                  height={46}
-                />
+                <div className="relative p-1 pl-4 w-full h-13.5 flex items-center justify-between rounded-xl bg-white text-[15px] font-semibold text-[#CCCCCC] z-2">
+                  <p>어떤 증상이 있으신가요?</p>
+                  <Image
+                    src="/images/home/cover/search.svg"
+                    alt="search"
+                    width={46}
+                    height={46}
+                  />
+                </div>
+                <div className="absolute left-0 top-0 w-full h-full rounded-xl bg-[linear-gradient(90deg,#FA6805_0%,#FFFFFF_50%,#FA6805_100%)] blur-[5px] z-1" />
               </button>
 
               <div
