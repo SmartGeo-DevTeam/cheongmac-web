@@ -507,7 +507,9 @@ function PatientReviewsTitleCard() {
 
 function PatientReviewCard({ review }: { review: PatientReview }) {
   return (
-    <article
+    <Link
+      target="_blank"
+      href={`/`}
       className="w-40 h-45 rounded-[14px] bg-white shadow-[0_8px_24px_rgba(0,0,0,0.04)] overflow-clip
       xl:h-62.5 xl:w-auto xl:flex xl:flex-col xl:rounded-xl"
     >
@@ -540,6 +542,6 @@ function PatientReviewCard({ review }: { review: PatientReview }) {
           {review.patient}
         </p>
       </div>
-    </article>
+    </Link>
   );
 }
