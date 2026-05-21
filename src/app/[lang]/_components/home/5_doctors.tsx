@@ -213,8 +213,7 @@ export default function HomeDoctors() {
 
   return (
     <section
-      className="
-    relative isolate overflow-hidden px-5 py-15 bg-white
+      className="relative isolate overflow-hidden px-5 py-15 bg-white
      xl:bg-[linear-gradient(to_bottom,#F6F2EF_0%,#F4F4F4_20%,#F4F4F4_100%)] xl:pt-20 xl:pb-0
   "
     >

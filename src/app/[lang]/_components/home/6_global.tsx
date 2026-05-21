@@ -146,8 +146,7 @@ export default function HomeGlobal() {
   return (
     <section
       ref={sectionRef}
-      className="
-        relative py-15 overflow-hidden
+      className="relative py-15 overflow-hidden
         bg-[url('/images/home/global/m-bg.png')] bg-cover bg-no-repeat
         xl:pt-40 xl:pb-15 xl:bg-[url('/images/home/global/pc-bg.png')]
       "

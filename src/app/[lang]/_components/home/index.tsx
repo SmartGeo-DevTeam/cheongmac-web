@@ -4,6 +4,7 @@ import HomeSpecialties from './3_specialties';
 import HomeReviews from './4_reviews';
 import HomeDoctors from './5_doctors';
 import HomeGlobal from './6_global';
+import HomeEquipment from './7_equipment';
 
 export default function HomeSections() {
   return (
@@ -14,6 +15,7 @@ export default function HomeSections() {
       <HomeReviews />
       <HomeDoctors />
       <HomeGlobal />
+      <HomeEquipment />
     </>
   );
 }
