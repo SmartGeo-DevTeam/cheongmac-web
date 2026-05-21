@@ -12,7 +12,10 @@ export default function HomeMessage() {
       xl:pb-20"
     >
       <div className="xl:mx-auto xl:max-w-7xl xl:w-full xl:flex xl:flex-col xl:items-center">
-        <div className="font-semibold">
+        <div
+          className="font-semibold
+          xl:flex xl:flex-col xl:items-center"
+        >
           <p className="text-xl">나이테가 한 나무의 세월을 기록하듯,</p>
           <div
             className="mt-8 text-[26px]

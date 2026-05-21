@@ -6,6 +6,7 @@ import HomeDoctors from './5_doctors';
 import HomeGlobal from './6_global';
 import HomeEquipment from './7_equipment';
 import HomeMessage from './8_message';
+import HomeShorts from './9_shorts';
 
 export default function HomeSections() {
   return (
@@ -18,6 +19,7 @@ export default function HomeSections() {
       <HomeGlobal />
       <HomeEquipment />
       <HomeMessage />
+      <HomeShorts />
     </>
   );
 }
