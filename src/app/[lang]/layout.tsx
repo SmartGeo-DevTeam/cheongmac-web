@@ -1,4 +1,5 @@
 import { suit } from '@/_lib/fonts';
+import Footer from '@/app/_components/footer';
 import Header from '@/app/_components/header';
 import { ScrollDirectionProvider } from '@/app/_providers/scroll-direction-provider';
 import { ViewportProvider } from '@/app/_providers/viewport-provider';
@@ -60,7 +61,7 @@ export default async function RootLayout({
           </ScrollDirectionProvider>
 
           <main>{children}</main>
-          {/* <Footer /> */}
+          <Footer />
         </ViewportProvider>
       </body>
     </html>

@@ -364,9 +364,9 @@ function HomeCoverPopups({
       {desktopPopups.length > 0 && (
         <div
           className={`hidden
-          absolute inset-x-0 bottom-36 px-5 pointer-events-none  z-20  justify-center xl:flex`}
+          absolute inset-x-0 bottom-20 px-5 pointer-events-none  z-20  justify-center xl:flex`}
         >
-          <motion.div className="max-w-420 w-full flex justify-center gap-4">
+          <motion.div className="max-w-7xl w-full flex justify-center gap-4">
             <AnimatePresence initial={false}>
               {desktopPopups.map((popup) => (
                 <motion.div
@@ -567,117 +567,98 @@ export default function HomeCover() {
   }, [canStartSwiperAutoplay]);
 
   return (
-    <>
-      <section className="relative h-[78vh] overflow-hidden px-2 xl:px-0">
-        <Swiper
-          modules={[Autoplay]}
-          spaceBetween={isMobile ? 8 : 0}
-          slidesPerView={1}
-          loop
-          autoplay={{
-            delay: 5000,
-            disableOnInteraction: false,
-          }}
-          onSwiper={(swiper) => {
-            swiperRef.current = swiper;
+    <section className="relative h-[78vh] overflow-hidden px-2 xl:px-0">
+      <Swiper
+        modules={[Autoplay]}
+        spaceBetween={isMobile ? 8 : 0}
+        slidesPerView={1}
+        loop
+        autoplay={{
+          delay: 5000,
+          disableOnInteraction: false,
+        }}
+        onSwiper={(swiper) => {
+          swiperRef.current = swiper;
 
-            if (isMobile) {
-              swiper.autoplay.stop();
-            }
-          }}
-          className="h-[78vh] w-full"
-        >
-          <SwiperSlide>
-            <div className="relative flex h-full w-full flex-col items-center justify-center rounded-[20px] bg-[url('/images/home/cover/m-slide-bg-1.png')] bg-cover bg-center bg-no-repeat px-5 xl:rounded-none xl:bg-[url('/images/home/cover/pc-slide-bg-1.png')]">
-              <div className="flex flex-col items-center text-4xl leading-[125%] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)] xl:flex-row xl:gap-1.75 xl:text-6xl">
-                <p>혈관의 모든 정답,</p>
-                <p className="font-extrabold">청맥에 있습니다</p>
-              </div>
-
-              <div className="mt-5 flex flex-col items-center leading-[150%] break-keep text-center text-[15px] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)] xl:flex-row xl:gap-1 xl:text-2xl">
-                <p>더 스마트해진 혈관 특화 의료 혁신의 시작.</p>
-                <p>증상부터 치료까지 AI가 빠르고 정확한 길을 안내합니다.</p>
-              </div>
-
-              <Link
-                target="_blank"
-                href="/"
-                className="mt-3 rounded-full border border-white px-4 py-1 text-[15px] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)] xl:mt-6 xl:text-lg"
-              >
-                맥GPT에게 물어보기→
-              </Link>
-            </div>
-          </SwiperSlide>
-
-          <SwiperSlide>
-            <div className="relative flex h-full w-full flex-col items-center justify-center rounded-[20px] bg-[url('/images/home/cover/m-slide-bg-2.png')] bg-cover bg-center bg-no-repeat px-5 xl:rounded-none xl:bg-[url('/images/home/cover/pc-slide-bg-2.png')]">
-              <div className="flex flex-col items-center text-4xl leading-[125%] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)] xl:flex-row xl:gap-1.75 xl:text-6xl">
-                <p>혈관을 잘 아는 의사,</p>
-                <p className="font-extrabold">청맥에 있습니다</p>
-              </div>
-
-              <div className="mt-5 flex flex-col items-center leading-[150%] break-keep text-center text-[15px] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)] xl:flex-row xl:gap-1 xl:text-2xl">
-                <p>오직 혈관질환에 집중한 전문의 협진으로</p>
-                <p>깊이 있는 진료, 정밀한 치료를 약속드립니다.</p>
-              </div>
-
-              <Link
-                target="_blank"
-                href="/"
-                className="mt-3 rounded-full border border-white px-4 py-1 text-[15px] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)] xl:mt-6 xl:text-lg"
-              >
-                맞춤 의료진 찾기→
-              </Link>
-            </div>
-          </SwiperSlide>
-
-          <SwiperSlide>
-            <div className="relative flex h-full w-full flex-col items-center justify-center rounded-[20px] bg-[url('/images/home/cover/m-slide-bg-3.png')] bg-cover bg-center bg-no-repeat px-5 xl:rounded-none xl:bg-[url('/images/home/cover/pc-slide-bg-3.png')]">
-              <div className="flex flex-col items-center text-4xl leading-[125%] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)] xl:flex-row xl:gap-1.75 xl:text-6xl">
-                <p>대한정맥학회도</p>
-                <p className="font-extrabold">인정한 청맥의 전문성</p>
-              </div>
-
-              <div className="mt-5 flex flex-col items-center leading-[150%] break-keep text-center text-[15px] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)] xl:flex-row xl:gap-1 xl:text-2xl">
-                <p>2026 대한정맥학회 학술연구비 지원 대상 선정!</p>
-                <p>차별화된 전문성으로 혈관 진료의 발전을 선도합니다.</p>
-              </div>
-
-              <Link
-                target="_blank"
-                href="/"
-                className="mt-3 rounded-full border border-white px-4 py-1 text-[15px] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)] xl:mt-6 xl:text-lg"
-              >
-                자세히 보기→
-              </Link>
-            </div>
-          </SwiperSlide>
-        </Swiper>
-
-        <HomeCoverPopups
-          isMobile={isMobile}
-          onMobilePopupsClosed={() => {
-            setCanStartSwiperAutoplay(true);
-          }}
-        />
-      </section>
-
-      <style>{`
-        .home-cover-input-gradient-glow {
-          background-size: 200% 100%;
-          animation: home-cover-input-gradient-move 5s linear infinite;
-        }
-
-        @keyframes home-cover-input-gradient-move {
-          0% {
-            background-position: 0% 50%;
+          if (isMobile) {
+            swiper.autoplay.stop();
           }
+        }}
+        className="h-[78vh] w-full"
+      >
+        <SwiperSlide>
+          <div className="relative flex h-full w-full flex-col items-center justify-center rounded-[20px] bg-[url('/images/home/cover/m-slide-bg-1.png')] bg-cover bg-center bg-no-repeat px-5 xl:rounded-none xl:bg-[url('/images/home/cover/pc-slide-bg-1.png')]">
+            <div className="flex flex-col items-center text-4xl leading-[125%] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)] xl:flex-row xl:gap-1.75 xl:text-6xl">
+              <p>혈관의 모든 정답,</p>
+              <p className="font-extrabold">청맥에 있습니다</p>
+            </div>
 
-          100% {
-            background-position: 200% 50%;
-          }
-        }
-      `}</style>
-    </>
+            <div className="mt-5 flex flex-col items-center leading-[150%] break-keep text-center text-[15px] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)] xl:flex-row xl:gap-1 xl:text-2xl">
+              <p>더 스마트해진 혈관 특화 의료 혁신의 시작.</p>
+              <p>증상부터 치료까지 AI가 빠르고 정확한 길을 안내합니다.</p>
+            </div>
+
+            <Link
+              target="_blank"
+              href="/"
+              className="mt-3 rounded-full border border-white px-4 py-1 text-[15px] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)] xl:mt-6 xl:text-lg"
+            >
+              맥GPT에게 물어보기→
+            </Link>
+          </div>
+        </SwiperSlide>
+
+        <SwiperSlide>
+          <div className="relative flex h-full w-full flex-col items-center justify-center rounded-[20px] bg-[url('/images/home/cover/m-slide-bg-2.png')] bg-cover bg-center bg-no-repeat px-5 xl:rounded-none xl:bg-[url('/images/home/cover/pc-slide-bg-2.png')]">
+            <div className="flex flex-col items-center text-4xl leading-[125%] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)] xl:flex-row xl:gap-1.75 xl:text-6xl">
+              <p>혈관을 잘 아는 의사,</p>
+              <p className="font-extrabold">청맥에 있습니다</p>
+            </div>
+
+            <div className="mt-5 flex flex-col items-center leading-[150%] break-keep text-center text-[15px] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)] xl:flex-row xl:gap-1 xl:text-2xl">
+              <p>오직 혈관질환에 집중한 전문의 협진으로</p>
+              <p>깊이 있는 진료, 정밀한 치료를 약속드립니다.</p>
+            </div>
+
+            <Link
+              target="_blank"
+              href="/"
+              className="mt-3 rounded-full border border-white px-4 py-1 text-[15px] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)] xl:mt-6 xl:text-lg"
+            >
+              맞춤 의료진 찾기→
+            </Link>
+          </div>
+        </SwiperSlide>
+
+        <SwiperSlide>
+          <div className="relative flex h-full w-full flex-col items-center justify-center rounded-[20px] bg-[url('/images/home/cover/m-slide-bg-3.png')] bg-cover bg-center bg-no-repeat px-5 xl:rounded-none xl:bg-[url('/images/home/cover/pc-slide-bg-3.png')]">
+            <div className="flex flex-col items-center text-4xl leading-[125%] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)] xl:flex-row xl:gap-1.75 xl:text-6xl">
+              <p>대한정맥학회도</p>
+              <p className="font-extrabold">인정한 청맥의 전문성</p>
+            </div>
+
+            <div className="mt-5 flex flex-col items-center leading-[150%] break-keep text-center text-[15px] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)] xl:flex-row xl:gap-1 xl:text-2xl">
+              <p>2026 대한정맥학회 학술연구비 지원 대상 선정!</p>
+              <p>차별화된 전문성으로 혈관 진료의 발전을 선도합니다.</p>
+            </div>
+
+            <Link
+              target="_blank"
+              href="/"
+              className="mt-3 rounded-full border border-white px-4 py-1 text-[15px] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)] xl:mt-6 xl:text-lg"
+            >
+              자세히 보기→
+            </Link>
+          </div>
+        </SwiperSlide>
+      </Swiper>
+
+      <HomeCoverPopups
+        isMobile={isMobile}
+        onMobilePopupsClosed={() => {
+          setCanStartSwiperAutoplay(true);
+        }}
+      />
+    </section>
   );
 }
