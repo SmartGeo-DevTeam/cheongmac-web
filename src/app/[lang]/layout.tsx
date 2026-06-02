@@ -1,6 +1,6 @@
 import { suit } from '@/_lib/fonts';
-import Footer from '@/app/_components/footer';
 import Header from '@/app/_components/header';
+import { ScrollDirectionProvider } from '@/app/_providers/scroll-direction-provider';
 import { ViewportProvider } from '@/app/_providers/viewport-provider';
 import { i18n } from '@/i18n-config';
 import type { Metadata } from 'next';
@@ -49,9 +49,18 @@ export default async function RootLayout({
     >
       <body>
         <ViewportProvider>
-          <Header lang={lang} headerText={dict.header} />
+          <ScrollDirectionProvider>
+            <Header lang={lang} headerText={dict.header} />
+            {/* 
+            <QuickReservationForm
+              lang={lang}
+              reservationText={dict.header.reservation}
+            />
+             */}
+          </ScrollDirectionProvider>
+
           <main>{children}</main>
-          <Footer />
+          {/* <Footer /> */}
         </ViewportProvider>
       </body>
     </html>
