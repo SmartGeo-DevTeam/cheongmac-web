@@ -208,8 +208,8 @@ export default function HomeSpecialties(): React.ReactNode {
         <div
           ref={contRef}
           className="relative mt-5
-        xl:mt-36
-      "
+          xl:mt-36
+          "
         >
           <div className="absolute left-1/2 top-0 h-full w-0.75 -translate-x-1/2 overflow-visible">
             <motion.div

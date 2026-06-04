@@ -134,7 +134,7 @@ const DEPARTMENT_DEFAULT_DOCTOR_ID: Record<DepartmentId, string> = {
 
 const AUTO_PLAY_DELAY = 4500;
 
-export default function HomeDoctors() {
+export default function Home__Doctors() {
   const { lang } = useHome();
 
   const [swiper, setSwiper] = useState<SwiperType | null>(null);

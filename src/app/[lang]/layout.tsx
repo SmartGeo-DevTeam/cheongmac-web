@@ -6,6 +6,7 @@ import { ViewportProvider } from '@/app/_providers/viewport-provider';
 import { i18n } from '@/i18n-config';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import QuickReservationForm from '../_components/quick-reservation-form';
 import '../globals.css';
 import { getDictionary, hasLocale } from './dictionaries';
 
@@ -52,12 +53,10 @@ export default async function RootLayout({
         <ViewportProvider>
           <ScrollDirectionProvider>
             <Header lang={lang} headerText={dict.header} />
-            {/* 
             <QuickReservationForm
               lang={lang}
               reservationText={dict.header.reservation}
             />
-             */}
           </ScrollDirectionProvider>
 
           <main>{children}</main>

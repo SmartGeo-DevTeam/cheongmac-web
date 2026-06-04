@@ -14,7 +14,7 @@ const HOME_POPUP_HIDE_KEY = 'home-cover-popups-hidden';
 const MOBILE_CARD_GAP = 16;
 const MOBILE_STACK_OFFSET = 14;
 const MOBILE_STACK_SCALE_STEP = 0.07;
-const MOBILE_POPUP_COUNTDOWN_SECONDS = 5;
+const MOBILE_POPUP_COUNTDOWN_SECONDS = 3;
 const MOBILE_STACK_BOTTOM_OFFSET = 32;
 
 const mobileStackTransition = {
@@ -39,7 +39,7 @@ const COVER_POPUPS: CoverPopup[] = [
     id: 'may-clinic',
     title: '5월 진료 안내',
     lines: ['5월 1일 (금) 노동절 정상진료', '5월 25일 (월) 대체공휴일 휴진'],
-    bgClassName: 'bg-[#A81E1E]',
+    bgClassName: 'bg-[#3270C3]',
     icon: '➕',
     desktopOrder: 1,
     mobileOrder: 1,
@@ -51,7 +51,7 @@ const COVER_POPUPS: CoverPopup[] = [
       '오전 11시까지 / 오후 4시까지',
       '접수하시면 당일 진료가 가능합니다.',
     ],
-    bgClassName: 'bg-[#C6E400]',
+    bgClassName: 'bg-[#767E93]',
     icon: '🗓️',
     desktopOrder: 2,
     mobileOrder: 3,
@@ -63,7 +63,7 @@ const COVER_POPUPS: CoverPopup[] = [
       '오전 11시까지 / 오후 4시까지',
       '접수하시면 당일 진료가 가능합니다.',
     ],
-    bgClassName: 'bg-[#009CE4]',
+    bgClassName: 'bg-[#4F8D76]',
     icon: '🗓️',
     desktopOrder: 3,
     mobileOrder: 2,
@@ -364,9 +364,9 @@ function HomeCoverPopups({
       {desktopPopups.length > 0 && (
         <div
           className={`hidden
-          absolute inset-x-0 bottom-20 px-5 pointer-events-none  z-20  justify-center xl:flex`}
+          absolute inset-x-0 bottom-36 px-5 pointer-events-none  z-20  justify-center xl:flex`}
         >
-          <motion.div className="max-w-7xl w-full flex justify-center gap-4">
+          <motion.div className="w-full flex justify-center gap-4">
             <AnimatePresence initial={false}>
               {desktopPopups.map((popup) => (
                 <motion.div
