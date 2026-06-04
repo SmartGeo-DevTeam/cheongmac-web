@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export default function HomeBanners() {
   return (
-    <section className="px-5 pt-10 pb-15">
+    <section className="px-5 pt-10">
       <Link
         target="_blank"
         href={`/`}
