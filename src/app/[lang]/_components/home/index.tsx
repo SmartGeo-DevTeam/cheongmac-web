@@ -5,6 +5,7 @@ import HomeBanners from './4_banners';
 import HomeName from './5_name';
 import HomeReviews from './6_reviews';
 import HomeNotice from './7_notice';
+import HomeInfo from './8_info';
 
 export default function HomeSections() {
   return (
@@ -16,6 +17,7 @@ export default function HomeSections() {
       <HomeName />
       <HomeReviews />
       <HomeNotice />
+      <HomeInfo />
     </>
   );
 }
