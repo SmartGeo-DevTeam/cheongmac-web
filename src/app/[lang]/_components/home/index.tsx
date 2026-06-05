@@ -6,6 +6,7 @@ import HomeName from './5_name';
 import HomeReviews from './6_reviews';
 import HomeNotice from './7_notice';
 import HomeInfo from './8_info';
+import HomePartners from './9_partners';
 
 export default function HomeSections() {
   return (
@@ -18,6 +19,7 @@ export default function HomeSections() {
       <HomeReviews />
       <HomeNotice />
       <HomeInfo />
+      <HomePartners />
     </>
   );
 }
