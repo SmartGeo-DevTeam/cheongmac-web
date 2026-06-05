@@ -3,6 +3,7 @@ import HomeSpecialties from './2_specialties';
 import HomeDoctors from './3_doctors';
 import HomeBanners from './4_banners';
 import HomeName from './5_name';
+import HomeReviews from './6_reviews';
 
 export default function HomeSections() {
   return (
@@ -12,6 +13,7 @@ export default function HomeSections() {
       <HomeDoctors />
       <HomeBanners />
       <HomeName />
+      <HomeReviews />
     </>
   );
 }

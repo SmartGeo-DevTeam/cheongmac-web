@@ -314,7 +314,7 @@ export default function HomeDoctors(): React.ReactNode {
         <div className="mt-5">
           <div className="xl:grid xl:grid-cols-[7fr_3fr] xl:gap-20">
             <div
-              className="relative px-14 w-full overflow-hidden
+              className="relative px-13 w-full overflow-hidden
               xl:pl-5 xl:pr-0 xl:grid xl:grid-cols-[5.25fr_4.75fr] xl:gap-x-15"
             >
               <Swiper
