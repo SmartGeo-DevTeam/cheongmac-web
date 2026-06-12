@@ -1,5 +1,6 @@
 'use client';
 
+import FadeInUp from '@/app/_components/fade-in-up';
 import Image from 'next/image';
 import Marquee from 'react-fast-marquee';
 
@@ -43,32 +44,34 @@ const partners = [
 
 export default function HomePartners() {
   return (
-    <section
-      className="my-20 overflow-hidden opacity-50
+    <FadeInUp>
+      <section
+        className="my-20 overflow-hidden opacity-50
       xl:my-28"
-    >
-      <div>
-        <Marquee autoFill gradient={false} speed={35} pauseOnHover={false}>
-          {partners.map((partner) => (
-            <PartnerLogo key={`top-${partner.id}`} partner={partner} />
-          ))}
-        </Marquee>
-
-        <div className="mt-6 xl:mt-10">
-          <Marquee
-            autoFill
-            gradient={false}
-            speed={35}
-            direction="right"
-            pauseOnHover={false}
-          >
-            {[...partners].reverse().map((partner) => (
-              <PartnerLogo key={`bottom-${partner.id}`} partner={partner} />
+      >
+        <div>
+          <Marquee autoFill gradient={false} speed={35} pauseOnHover={false}>
+            {partners.map((partner) => (
+              <PartnerLogo key={`top-${partner.id}`} partner={partner} />
             ))}
           </Marquee>
+
+          <div className="mt-6 xl:mt-10">
+            <Marquee
+              autoFill
+              gradient={false}
+              speed={35}
+              direction="right"
+              pauseOnHover={false}
+            >
+              {[...partners].reverse().map((partner) => (
+                <PartnerLogo key={`bottom-${partner.id}`} partner={partner} />
+              ))}
+            </Marquee>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </FadeInUp>
   );
 }
 

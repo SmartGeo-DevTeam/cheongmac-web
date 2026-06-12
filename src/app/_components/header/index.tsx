@@ -5,6 +5,7 @@ import {
   getPrimaryNavigation,
   withLocale,
 } from '@/_lib/navigation';
+import { openMacGptSearch } from '@/app/_components/mac-gpt-search';
 import { useScrollDirection } from '@/app/_providers/scroll-direction-provider';
 import type { Locale } from '@/i18n-config';
 import Image from 'next/image';
@@ -86,10 +87,14 @@ export default function Header({ lang, headerText }: HeaderProps) {
   ];
 
   const aiSearchPlaceholder = {
-    ko: '질문을 입력해 주세요',
+    ko: '무엇이 궁금하신가요?',
     en: 'Ask a question',
     ja: '質問を入力してください',
   }[lang];
+
+  const handleAiSearchOpen = () => {
+    openMacGptSearch();
+  };
 
   const [isHamburgerOpen, setIsHamburgerOpen] = useState<boolean>(false);
   const [mobileOpenIds, setMobileOpenIds] = useState<string[]>(() =>
@@ -107,11 +112,13 @@ export default function Header({ lang, headerText }: HeaderProps) {
   return (
     <>
       <header
-        className={`fixed left-0 top-0 z-40 w-full border-b border-b-[#CCCCCC] transition-transform duration-300 ease-out will-change-transform ${
-          isHeaderVisible
-            ? 'translate-y-0 pointer-events-auto'
-            : '-translate-y-[calc(100%+72px)] pointer-events-none xl:-translate-y-[calc(100%+64px)]'
-        }`}
+        className={`fixed left-0 top-0 z-40 w-full transition-transform duration-300 ease-out will-change-transform
+          xl:border-b xl:border-b-[#CCCCCC]
+          ${
+            isHeaderVisible
+              ? 'translate-y-0 pointer-events-auto'
+              : '-translate-y-[calc(100%+72px)] pointer-events-none xl:-translate-y-[calc(100%+64px)]'
+          }`}
         onMouseLeave={() => setHoveredPrimaryId(null)}
       >
         {/* Common - GNB */}
@@ -119,7 +126,7 @@ export default function Header({ lang, headerText }: HeaderProps) {
           <div className="mx-auto max-w-420 px-5 w-full h-14 flex justify-between items-center xl:h-20">
             <Link
               href={withLocale(lang, '/')}
-              className="relative w-33 h-8.5 flex items-center xl:w-38.75 xl:h-10"
+              className="relative w-33 aspect-logo flex items-center xl:w-38.75"
             >
               <Image
                 src={`/common/logo.svg`}
@@ -226,7 +233,7 @@ export default function Header({ lang, headerText }: HeaderProps) {
 
         {/* Common - AI Search */}
         <section
-          className={`absolute left-0 top-16 w-full transition-all duration-200 ease-out z-30
+          className={`absolute left-0 top-16.5 w-full transition-all duration-200 ease-out z-30
             xl:top-22
             ${
               shouldHideAiSearch
@@ -237,21 +244,26 @@ export default function Header({ lang, headerText }: HeaderProps) {
         >
           <div className="relative px-4 mx-auto max-w-420 w-full flex justify-end">
             <form
-              className="px-3 py-1.75 w-full flex items-center rounded-2xl border border-white bg-[#333333]/50 font-medium
-              xl:px-4 xl:py-2.5 xl:w-auto"
-              onSubmit={(event) => event.preventDefault()}
+              className="px-3 py-1.75 w-full flex items-center gap-1 rounded-xl border border-white bg-white shadow-[0_1px_0_0_rgb(55_55_55/0.2)]
+              xl:px-4 xl:py-2.5 xl:w-auto xl:bg-[#333333]/50"
+              onClick={handleAiSearchOpen}
+              onFocusCapture={handleAiSearchOpen}
+              onSubmit={(event) => {
+                event.preventDefault();
+                handleAiSearchOpen();
+              }}
             >
               <Image
-                src={'/images/common/header/gnb/spacle.png'}
-                alt="spacle"
+                src={'/common/sparkle.gif'}
+                alt="sparkle"
                 width={32}
                 height={32}
               />
               <input
                 type="search"
                 placeholder={aiSearchPlaceholder}
-                className="flex-1 ml-1 text-white
-                xl:min-w-80"
+                className="flex-1 ml-1 font-semibold text-sm text-[#656565]
+                xl:min-w-80 xl:font-medium xl:text-white xl:text-base"
               />
 
               <button type="submit" className="relative shrink-0 w-6.5 h-6.5">
@@ -259,7 +271,7 @@ export default function Header({ lang, headerText }: HeaderProps) {
                   src={`/icons/common/header/gnb/search.svg`}
                   alt="search"
                   fill
-                  className="brightness-[5]"
+                  className="xl:brightness-300"
                 />
               </button>
             </form>

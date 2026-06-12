@@ -1,3 +1,6 @@
+import FadeInUp from '@/app/_components/fade-in-up';
+import MainSectionHeader from '@/app/_components/main-section-header';
+import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 
 const notices = [
@@ -77,87 +80,78 @@ const notices = [
 
 export default function HomeInfo() {
   return (
-    <section className="mt-25 xl:mt-40">
-      <div
-        className="px-5 text-[#262C35]
-        xl:mx-auto xl:max-w-7xl xl:w-full"
-      >
-        <span
-          className="font-semibold text-lg
-          xl:text-2xl"
-        >
-          알려드립니다
-        </span>
-        <h2
-          className="mt-2 font-bold text-[30px]
-          xl:text-[50px]"
-        >
-          청맥병원 소식
-        </h2>
-      </div>
+    <FadeInUp>
+      <section className="mt-25 xl:mt-40">
+        <MainSectionHeader
+          usePaddingHorizontal
+          eyebrow="알려드립니다"
+          title={<p>청맥병원 소식</p>}
+        />
 
-      <div
-        className="mt-5 overflow-x-auto overflow-y-hidden
+        <div
+          className="mt-5 overflow-x-auto overflow-y-hidden
         xl:mt-6"
-      >
-        <ul
-          className="px-5 flex w-max items-stretch gap-3 text-[#262C35]
+        >
+          <ul
+            className="px-5 flex w-max items-stretch gap-3 text-[#262C35]
           xl:gap-6 xl:pl-[max(1.25rem,calc((100vw-80rem)/2+1.25rem))] xl:pr-5"
-        >
-          {notices.map((notice) => (
-            <li key={notice.id} className="flex shrink-0">
-              <Link
-                target="_blank"
-                rel="noopener noreferrer"
-                href={notice.href}
-                className="px-5 pt-7 pb-10 w-[60vw] flex flex-col rounded-2xl bg-[#F3F3F3]
+          >
+            {notices.map((notice) => (
+              <li key={notice.id} className="flex shrink-0">
+                <Link
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={notice.href}
+                  className="px-5 pt-7 pb-10 w-[60vw] flex flex-col rounded-2xl bg-[#F3F3F3]
                 xl:px-10 xl:pt-10 xl:pb-15 xl:w-[16vw]"
-              >
-                <div
-                  className="flex items-center gap-1.75 font-medium text-xs
+                >
+                  <div
+                    className="flex items-center gap-1.75 font-medium text-xs
                   xl:gap-3 xl:text-sm"
-                >
-                  <h4
-                    className="px-3 py-0.75 rounded-sm bg-white
-                    xl:px-5 xl:py-1.5"
                   >
-                    {notice.category}
-                  </h4>
-                  <span>{notice.date}</span>
-                </div>
+                    <h4
+                      className="px-3 py-0.75 rounded-sm bg-white
+                    xl:px-5 xl:py-1.5"
+                    >
+                      {notice.category}
+                    </h4>
+                    <span>{notice.date}</span>
+                  </div>
 
-                <h3
-                  className="mt-3 font-extrabold text-lg
+                  <h3
+                    className="mt-3 font-extrabold text-lg
                   xl:mt-6.5 xl:text-2xl"
-                >
-                  {notice.title}
-                </h3>
-                <p
-                  className="mt-3 break-keep text-sm
+                  >
+                    {notice.title}
+                  </h3>
+                  <p
+                    className="mt-3 break-keep text-sm
                   xl:mt-5 xl:text-xl"
-                >
-                  {notice.description}
-                </p>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </div>
+                  >
+                    {notice.description}
+                  </p>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
 
-      <div
-        className="mt-5 flex justify-center
+        <div
+          className="mt-5 flex justify-center
         xl:mx-auto xl:mt-10 xl:max-w-7xl xl:w-full"
-      >
-        <Link
-          target="_blank"
-          rel="noopener noreferrer"
-          href={`/`}
-          className="px-10 py-2.5 rounded-full bg-[#333333] text-white
-          xl:text-xl"
         >
-          더보기
-        </Link>
-      </div>
-    </section>
+          <Link
+            target="_blank"
+            rel="noopener noreferrer"
+            href={`/`}
+            className="px-10 py-2.5 flex items-center gap-2 rounded-full bg-[#333333] text-white
+          xl:text-xl"
+          >
+            <span>더보기</span>
+            <ArrowRight size={18} color="#FFFFFF" />
+          </Link>
+        </div>
+      </section>
+    </FadeInUp>
   );
 }

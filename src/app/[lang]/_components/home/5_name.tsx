@@ -6,7 +6,10 @@ const marqueeTexts = Array.from({ length: 6 }, (_, index) => index);
 
 export default function HomeName() {
   return (
-    <section className="mt-15 overflow-hidden">
+    <section
+      className="mt-15 overflow-hidden
+      xl:mt-20"
+    >
       <Marquee
         autoFill
         speed={40}

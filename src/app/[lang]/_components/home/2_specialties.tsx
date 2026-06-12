@@ -1,6 +1,7 @@
 'use client';
 
 import FadeInUp from '@/app/_components/fade-in-up';
+import MainSectionHeader from '@/app/_components/main-section-header';
 import {
   motion,
   useScroll,
@@ -170,78 +171,70 @@ export default function HomeSpecialties(): React.ReactNode {
   );
 
   return (
-    <section className="bg-[linear-gradient(to_bottom,#FFFFFF_0%,#F6F2EF_100%)]">
-      <div
-        className="px-5 pt-20 pb-15 text-[#262C35] overflow-x-hidden
+    <FadeInUp>
+      <section className="bg-[linear-gradient(to_bottom,#FFFFFF_0%,#F6F2EF_100%)]">
+        <div
+          className="px-5 pt-20 pb-15 text-[#262C35] overflow-x-hidden
         xl:mx-auto xl:pt-32 xl:pb-20 xl:max-w-240 xl:w-full xl:overflow-visible
       "
-      >
-        <FadeInUp>
-          <h1
-            className="font-semibold text-lg
-          xl:text-2xl"
-          >
-            진료분야
-          </h1>
+        >
+          <MainSectionHeader
+            eyebrow="진료분야"
+            title={
+              <>
+                <p>혈관 질환 전 영역을</p>
+                <p>책임집니다</p>
+              </>
+            }
+            description={
+              <>
+                <p>
+                  우리 몸 구석구석 닿지 않는 곳 없는 혈관, {` `}
+                  <br className="block xl:hidden" />
+                  건강의 시작과 끝은 결국 혈관입니다.
+                </p>
+                <p>청맥은 숨은 근본 문제까지 찾아 해결해드립니다.</p>
+              </>
+            }
+          />
 
           <div
-            className="mt-2 font-extrabold text-3xl
-          xl:leading-[120%] xl:text-5xl"
-          >
-            <p>혈관 질환 전 영역을</p>
-            <p>책임집니다</p>
-          </div>
-
-          <div
-            className="mt-6
-          xl:mt-10 xl:text-xl"
-          >
-            <p>
-              우리 몸 구석구석 닿지 않는 곳 없는 혈관, {` `}
-              <br className="block xl:hidden" />
-              건강의 시작과 끝은 결국 혈관입니다.
-            </p>
-            <p>청맥은 숨은 근본 문제까지 찾아 해결해드립니다.</p>
-          </div>
-        </FadeInUp>
-
-        <div
-          ref={contRef}
-          className="relative mt-5
+            ref={contRef}
+            className="relative mt-5
           xl:mt-36
           "
-        >
-          <div className="absolute left-1/2 top-0 h-full w-0.75 -translate-x-1/2 overflow-visible">
-            <motion.div
-              className="absolute left-0 top-0 h-full w-full origin-top bg-[linear-gradient(180deg,#D9D9D900_0%,#FD77404D_97%,#DECCC500_100%)] will-change-transform"
-              style={{
-                scaleY: lineScaleY,
-              }}
-            />
+          >
+            <div className="absolute left-1/2 top-0 h-full w-0.75 -translate-x-1/2 overflow-visible">
+              <motion.div
+                className="absolute left-0 top-0 h-full w-full origin-top bg-[linear-gradient(180deg,#D9D9D900_0%,#FD77404D_97%,#DECCC500_100%)] will-change-transform"
+                style={{
+                  scaleY: lineScaleY,
+                }}
+              />
 
-            <motion.div
-              className="absolute left-1/2 w-3 aspect-square will-change-transform
+              <motion.div
+                className="absolute left-1/2 w-3 aspect-square will-change-transform
             xl:w-6
             "
-              style={{
-                top: dotTop,
-                x: '-50%',
-                y: '-50%',
-                opacity: dotOpacity,
-              }}
-            >
-              <img
-                src="/common/symbol.svg"
-                alt=""
-                aria-hidden="true"
-                className="size-3
+                style={{
+                  top: dotTop,
+                  x: '-50%',
+                  y: '-50%',
+                  opacity: dotOpacity,
+                }}
+              >
+                <img
+                  src="/common/symbol.svg"
+                  alt=""
+                  aria-hidden="true"
+                  className="size-3
               xl:size-6"
-              />
-            </motion.div>
-          </div>
+                />
+              </motion.div>
+            </div>
 
-          <ul
-            className="pb-15 flex flex-wrap gap-x-5
+            <ul
+              className="pb-15 flex flex-wrap gap-x-5
           xl:gap-x-21
           [&>li]:relative
           [&>li]:even:top-15
@@ -263,22 +256,23 @@ export default function HomeSpecialties(): React.ReactNode {
           xl:[&>li>a>span]:bottom-8
           xl:[&>li>a>span]:text-3xl
           "
-          >
-            {specialties.map((item, index) => (
-              <SpecialtiesItem
-                key={item.title}
-                index={index}
-                href={item.href}
-                containerRef={contRef}
-                progress={scrollYProgress}
-              >
-                <span>{item.title}</span>
-                <Image src={item.imageSrc} alt={item.alt} fill />
-              </SpecialtiesItem>
-            ))}
-          </ul>
+            >
+              {specialties.map((item, index) => (
+                <SpecialtiesItem
+                  key={item.title}
+                  index={index}
+                  href={item.href}
+                  containerRef={contRef}
+                  progress={scrollYProgress}
+                >
+                  <span>{item.title}</span>
+                  <Image src={item.imageSrc} alt={item.alt} fill />
+                </SpecialtiesItem>
+              ))}
+            </ul>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </FadeInUp>
   );
 }

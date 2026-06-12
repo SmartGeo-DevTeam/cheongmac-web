@@ -77,3 +77,12 @@ export const notoSerifKR = localFont({
     },
   ],
 });
+
+export const jejuMyeongjo = localFont({
+  src: [
+    {
+      path: '../../public/fonts/jeju-myeongjo/400.woff2',
+      weight: '400',
+    },
+  ],
+});

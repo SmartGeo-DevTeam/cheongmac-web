@@ -45,11 +45,12 @@ export default function Footer(): ReactElement {
   return (
     <>
       <footer
-        className="relative z-0 overflow-hidden bg-[#102716] py-30 text-white [overflow-anchor:none]
+        className="relative py-10 bg-[#205145] text-white [overflow-anchor:none] overflow-hidden z-0
         xl:pt-15 xl:pb-20"
       >
         <div className="relative mx-auto w-full max-w-420 px-5">
           <div className="xl:grid xl:grid-cols-[1fr_auto_auto] xl:items-start xl:gap-5">
+            {/* 대표 전화 */}
             <section
               className="flex items-center gap-2 h-full
               xl:col-start-2 xl:col-end-3 xl:row-start-1 xl:row-end-2 xl:gap-5 xl:rounded-[20px] xl:border xl:border-white/10 xl:bg-white/5 xl:py-10 xl:pr-39 xl:pl-10"
@@ -73,6 +74,7 @@ export default function Footer(): ReactElement {
               </p>
             </section>
 
+            {/* 지도 */}
             <section
               className="mt-2 block text-xs font-medium tracking-[-4%]
               xl:hidden"

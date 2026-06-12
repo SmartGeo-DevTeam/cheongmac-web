@@ -1,6 +1,7 @@
 import { suit } from '@/_lib/fonts';
 import Footer from '@/app/_components/footer';
 import Header from '@/app/_components/header';
+import MacGptSearchLayer from '@/app/_components/mac-gpt-search';
 import { ScrollDirectionProvider } from '@/app/_providers/scroll-direction-provider';
 import { ViewportProvider } from '@/app/_providers/viewport-provider';
 import { i18n } from '@/i18n-config';
@@ -58,6 +59,8 @@ export default async function RootLayout({
               reservationText={dict.header.reservation}
             />
           </ScrollDirectionProvider>
+
+          <MacGptSearchLayer lang={lang} />
 
           <main>{children}</main>
           <Footer />

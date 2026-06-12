@@ -4,9 +4,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { Swiper as SwiperType } from 'swiper';
-import { EffectCards } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
+import { jejuMyeongjo } from '@/_lib/fonts';
+import FadeInUp from '@/app/_components/fade-in-up';
+import MainSectionHeader from '@/app/_components/main-section-header';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import 'swiper/css';
 import 'swiper/css/effect-cards';
@@ -22,6 +24,7 @@ type Doctor = {
   imageSrc: string;
   profileImageSrc: string;
   histories: string[];
+  detailHref: string;
   scheduleHref: string;
   reservationHref: string;
 };
@@ -44,6 +47,7 @@ const doctors: Doctor[] = [
     profileImageSrc: '/images/home/doctors/bak.png',
     scheduleHref: '/doctors/park-yong-beom/schedule',
     reservationHref: '/reservation',
+    detailHref: '/',
     histories: [
       '부산대학교 의과대학 졸업',
       '양산부산대학교병원 혈관외과',
@@ -65,6 +69,7 @@ const doctors: Doctor[] = [
     profileImageSrc: '/images/home/doctors/jeon.png',
     scheduleHref: '/doctors/kim-cheong-maek/schedule',
     reservationHref: '/reservation',
+    detailHref: '/',
     histories: [
       '혈관외과 전문의',
       '하지정맥류 및 말초혈관질환 진료',
@@ -82,6 +87,7 @@ const doctors: Doctor[] = [
     profileImageSrc: '/images/home/doctors/jang.png',
     scheduleHref: '/doctors/lee-cheong-maek/schedule',
     reservationHref: '/reservation',
+    detailHref: '/',
     histories: [
       '영상의학과 전문의',
       '초음파 및 혈관 영상 진단',
@@ -99,6 +105,7 @@ const doctors: Doctor[] = [
     profileImageSrc: '/images/home/doctors/byun.png',
     scheduleHref: '/doctors/jung-cheong-maek/schedule',
     reservationHref: '/reservation',
+    detailHref: '/',
     histories: [
       '마취통증의학과 전문의',
       '통증 관리 및 시술 마취',
@@ -116,6 +123,7 @@ const doctors: Doctor[] = [
     profileImageSrc: '/images/home/doctors/bae.png',
     scheduleHref: '/doctors/choi-cheong-maek/schedule',
     reservationHref: '/reservation',
+    detailHref: '/',
     histories: [
       '혈관외과 전문의',
       '동맥경화 및 투석혈관 진료',
@@ -133,6 +141,7 @@ const doctors: Doctor[] = [
     profileImageSrc: '/images/home/doctors/kim.png',
     scheduleHref: '/doctors/han-cheong-maek/schedule',
     reservationHref: '/reservation',
+    detailHref: '/',
     histories: [
       '영상의학과 전문의',
       '혈관 초음파 및 정밀 영상 판독',
@@ -234,226 +243,233 @@ export default function HomeDoctors(): React.ReactNode {
   if (!activeDoctor) return null;
 
   return (
-    <section className="py-20 bg-[#F6F2EF] xl:py-25">
-      <div className="mx-auto max-w-7xl w-full">
-        <div
-          className="px-5 flex flex-col
-          xl:items-center"
-        >
-          <span
-            className="font-bold text-lg text-[#AFAFAF]
-            xl:hidden"
-          >
-            의료진 소개
-          </span>
-          <p
-            className="hidden
-            xl:block xl:font-semibold xl:text-2xl text-[#262C35]"
-          >
-            당신의 혈관을 지키는 사람들
-          </p>
-          <h3
-            className="font-extrabold text-[32px] text-[#333333]
-            xl:mt-2 xl:text-[50px]"
-          >
-            대학병원 20년 경험의 <br className="block xl:hidden" />
-            혈관 특화 전문의
-          </h3>
-        </div>
+    <FadeInUp>
+      <section className="py-20 bg-[#F6F2EF] xl:py-25">
+        <div className="mx-auto max-w-7xl w-full">
+          <MainSectionHeader
+            usePaddingHorizontal
+            eyebrow="당신의 혈관을 지키는 사람들"
+            title={
+              <>
+                <p>대학병원 20년 경험의</p>
+                <p>혈관 특화 전문의</p>
+              </>
+            }
+          />
 
-        <div
-          className="flex flex-col
+          <div
+            className="flex flex-col
           xl:mt-15 xl:flex-row-reverse xl:justify-between xl:items-center"
-        >
-          <div className="pr-5 self-end">
-            <Link
-              target="_blank"
-              rel="noopener noreferrer"
-              href={`/`}
-              className="self-end
-              xl:flex xl:items-center"
-            >
-              <span
-                className="font-semibold text-[15px] text-[#D3BBA2]
-                xl:hidden"
+          >
+            <div className="pr-5 self-end">
+              <Link
+                target="_blank"
+                rel="noopener noreferrer"
+                href={`/`}
+                className="self-end mt-5 px-2.5 py-1.5 inline-block rounded-lg border border-[#FD7740]
+              xl:mt-0 xl:px-7 xl:py-2.5 xl:rounded-full"
               >
-                + 전체보기
-              </span>
-              <span
-                className="hidden px-5 py-2.5 rounded-xl border border-[#D3BBA2] font-semibold text-[#D3BBA2]
-              xl:block"
-              >{`의료진 전체보기 >`}</span>
-            </Link>
+                <div
+                  className="flex items-center gap-1
+                "
+                >
+                  <span
+                    className="font-semibold text-[15px] text-[#FD7740]
+                  xl:text-lg"
+                  >
+                    의료진 모두 보기
+                  </span>
+                  <ArrowRight size={20} color="#FD7740" />
+                </div>
+              </Link>
+            </div>
+
+            <ul
+              className="mt-5 px-5 grid grid-cols-3 justify-items-center gap-0.5
+  xl:mt-0 xl:flex xl:items-center"
+            >
+              {doctors.map((doctor) => {
+                const isActive = activeDoctor.id === doctor.id;
+
+                return (
+                  <li key={doctor.id} className="w-full">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const targetIndex = filteredDoctors.findIndex(
+                          (item) => item.id === doctor.id,
+                        );
+
+                        if (targetIndex >= 0) {
+                          goToIndex(targetIndex);
+                        }
+                      }}
+                      className={`py-2 w-full h-full flex justify-center items-center font-semibold
+            xl:px-5 xl:py-2.5
+            ${isActive ? `rounded-[10px] bg-[#171719] text-white` : `text-[#A39B96]`}
+          `}
+                    >
+                      {doctor.name} {doctor.position}
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
           </div>
 
-          <ul
-            className="mt-5 pl-5 flex gap-3
-            xl:gap-0"
+          <div
+            className="mt-3
+          xl:mt-5"
           >
-            {categories.map((category) => {
-              const isActive = activeCategory === category;
-
-              return (
-                <li key={category}>
-                  <button
-                    type="button"
-                    onClick={() => setActiveCategory(category)}
-                    className={`font-bold
-                        xl:px-5 xl:py-2.5 
-                        ${isActive ? `text-[#FF7740] xl:rounded-xl xl:bg-[#171719] xl:text-white` : `text-[#CCCCCC] xl:text-[#999999]`}
-                        `}
-                  >
-                    {category}
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-
-        <div className="mt-5">
-          <div className="xl:grid xl:grid-cols-[7fr_3fr] xl:gap-20">
-            <div
-              className="relative px-13 w-full overflow-hidden
-              xl:pl-5 xl:pr-0 xl:grid xl:grid-cols-[5.25fr_4.75fr] xl:gap-x-15"
-            >
-              <Swiper
-                key={activeCategory}
-                effect="cards"
-                grabCursor
-                modules={[EffectCards]}
-                cardsEffect={{
-                  perSlideOffset: 8,
-                  perSlideRotate: 2,
-                  slideShadows: false,
-                }}
-                onSwiper={(swiper) => {
-                  swiperRef.current = swiper;
-                }}
-                onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
-                className="w-full xl:overflow-hidden!"
-              >
-                {filteredDoctors.map((doctor) => (
-                  <SwiperSlide key={doctor.id}>
-                    <DoctorPhotoCard doctor={doctor} />
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-
+            <div className="xl:grid xl:grid-cols-[7fr_3fr] xl:gap-20">
               <div
-                className="mt-2
-                xl:mt-0 xl:flex xl:flex-col xl:justify-center xl:items-start"
+                className="relative px-5 w-full overflow-hidden
+              xl:pl-5 xl:pr-0 xl:grid xl:grid-cols-[5.25fr_4.75fr] xl:gap-x-10"
               >
-                <p
-                  className="mx-auto w-9/10 break-keep font-semibold text-center text-lg text-[#164534]
-                  xl:w-full xl:text-left xl:text-2xl"
+                <Swiper
+                  key={activeCategory}
+                  slidesPerView={1}
+                  spaceBetween={0}
+                  onSwiper={(swiper) => {
+                    swiperRef.current = swiper;
+                  }}
+                  onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
+                  className="w-full overflow-hidden"
                 >
-                  “{activeDoctor.quote}”
-                </p>
+                  {filteredDoctors.map((doctor) => (
+                    <SwiperSlide key={doctor.id}>
+                      <DoctorPhotoCard doctor={doctor} />
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
 
                 <div
-                  className="mt-3 flex justify-center items-center font-bold gap-2.5
-                  xl:mt-10 xl:gap-2"
+                  className="mt-5
+                xl:mt-0 xl:flex xl:flex-col xl:justify-center xl:items-start"
                 >
-                  <h2
-                    className="text-xl text-[#262C35]
-                    xl:text-3xl"
+                  <p
+                    className={`mx-auto w-9/10 break-keep ${jejuMyeongjo.className} text-center text-lg text-[#164534]
+                  xl:w-full xl:text-left xl:text-2xl`}
                   >
-                    {activeDoctor.name} {activeDoctor.position}
-                  </h2>
-                  <span
-                    className="text-sm text-[#C8AFA4]
-                    xl:text-lg"
-                  >
-                    {activeDoctor.category} 전문의
-                  </span>
-                </div>
+                    “{activeDoctor.quote}”
+                  </p>
 
-                <ul
-                  className="hidden
+                  <div
+                    className="mt-3 flex justify-center items-center font-bold gap-2.5
+                  xl:mt-10 xl:gap-2"
+                  >
+                    <div
+                      className="flex items-center gap-1
+                    xl:gap-1.5  
+                    "
+                    >
+                      <h2
+                        className="text-xl text-[#262C35]
+                      xl:text-[32px]"
+                      >
+                        {activeDoctor.name}
+                      </h2>
+                      <span
+                        className="text-xl text-[#262C35]
+                      xl:relative xl:top-0.5 xl:text-2xl"
+                      >
+                        {activeDoctor.position}
+                      </span>
+                    </div>
+                    <span
+                      className="py-0.5 px-2.5 rounded-full bg-[#AE8F82] text-sm text-white
+                    xl:text-[15px]"
+                    >
+                      {activeDoctor.category} 전문의
+                    </span>
+                  </div>
+
+                  <ul
+                    className="hidden
                   xl:block xl:mt-5 xl:space-y-1 xl:font-medium xl:text-lg xl:text-[#555555]"
-                >
-                  {activeDoctor.histories.map((history) => (
-                    <li key={history} className="flex gap-3">
-                      <span aria-hidden="true">•</span>
-                      <span>{history}</span>
-                    </li>
-                  ))}
-                </ul>
+                  >
+                    {activeDoctor.histories.map((history) => (
+                      <li key={history} className="flex gap-3">
+                        <span aria-hidden="true">•</span>
+                        <span>{history}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              <div
+                className="hidden
+              xl:relative xl:flex xl:opacity-50"
+              >
+                {stackedDoctors.slice(0, 5).map((doctor, index) => (
+                  <button
+                    key={doctor.id}
+                    type="button"
+                    onClick={() => {
+                      const targetIndex = filteredDoctors.findIndex(
+                        (item) => item.id === doctor.id,
+                      );
+
+                      if (targetIndex >= 0) {
+                        goToIndex(targetIndex);
+                      }
+                    }}
+                    className="absolute left-1/2 top-1/2 aspect-[0.95/1] w-75 overflow-hidden rounded-3xl bg-white shadow-[0_16px_45px_rgba(0,0,0,0.08)] transition-transform duration-300"
+                    style={{
+                      zIndex: stackedDoctors.length - index,
+                      transform: `translate(calc(-50% + ${
+                        index * 10
+                      }px), calc(-50% + ${index * 3}px))`,
+                      opacity: 1 - index * 0.08,
+                    }}
+                    aria-label={`${doctor.name} ${doctor.position} 보기`}
+                  >
+                    <Image
+                      src={doctor.profileImageSrc}
+                      alt={`${doctor.name} ${doctor.position}`}
+                      fill
+                      className="object-contain object-bottom"
+                    />
+                  </button>
+                ))}
               </div>
             </div>
-
-            <div
-              className="hidden
-              xl:relative xl:flex xl:opacity-50"
-            >
-              {stackedDoctors.slice(0, 5).map((doctor, index) => (
-                <button
-                  key={doctor.id}
-                  type="button"
-                  onClick={() => {
-                    const targetIndex = filteredDoctors.findIndex(
-                      (item) => item.id === doctor.id,
-                    );
-
-                    if (targetIndex >= 0) {
-                      goToIndex(targetIndex);
-                    }
-                  }}
-                  className="absolute left-1/2 top-1/2 aspect-[0.95/1] w-75 overflow-hidden rounded-3xl bg-white shadow-[0_16px_45px_rgba(0,0,0,0.08)] transition-transform duration-300"
-                  style={{
-                    zIndex: stackedDoctors.length - index,
-                    transform: `translate(calc(-50% + ${
-                      index * 10
-                    }px), calc(-50% + ${index * 3}px))`,
-                    opacity: 1 - index * 0.08,
-                  }}
-                  aria-label={`${doctor.name} ${doctor.position} 보기`}
-                >
-                  <Image
-                    src={doctor.profileImageSrc}
-                    alt={`${doctor.name} ${doctor.position}`}
-                    fill
-                    className="object-contain object-bottom"
-                  />
-                </button>
-              ))}
-            </div>
           </div>
-        </div>
 
-        <div
-          className="mt-8 flex justify-center items-center gap-3.5
+          <div
+            className="mt-8 flex justify-center items-center gap-3.5
           xl:mt-5"
-        >
-          <button
-            type="button"
-            onClick={handlePrev}
-            disabled={!canGoPrev}
-            aria-label="이전 의료진"
-            className={canGoPrev ? 'text-[#666666]' : 'text-[#D0D0D0]'}
           >
-            <ArrowLeft />
-          </button>
+            <button
+              type="button"
+              onClick={handlePrev}
+              disabled={!canGoPrev}
+              aria-label="이전 의료진"
+              className={canGoPrev ? 'text-[#666666]' : 'text-[#D0D0D0]'}
+            >
+              <ArrowLeft />
+            </button>
 
-          <div className="flex items-center gap-2.5 font-semibold">
-            <span className="text-[#D0D0D0]">{safeActiveIndex + 1}</span>
-            <span className="text-[#D0D0D0]">/</span>
-            <span className="text-[#666666]">{filteredDoctors.length}</span>
+            <div className="flex items-center gap-2.5 font-semibold">
+              <span className="text-[#D0D0D0]">{safeActiveIndex + 1}</span>
+              <span className="text-[#D0D0D0]">/</span>
+              <span className="text-[#666666]">{filteredDoctors.length}</span>
+            </div>
+
+            <button
+              type="button"
+              onClick={handleNext}
+              disabled={!canGoNext}
+              aria-label="다음 의료진"
+              className={canGoNext ? 'text-[#666666]' : 'text-[#D0D0D0]'}
+            >
+              <ArrowRight />
+            </button>
           </div>
-
-          <button
-            type="button"
-            onClick={handleNext}
-            disabled={!canGoNext}
-            aria-label="다음 의료진"
-            className={canGoNext ? 'text-[#666666]' : 'text-[#D0D0D0]'}
-          >
-            <ArrowRight />
-          </button>
         </div>
-      </div>
-    </section>
+      </section>
+    </FadeInUp>
   );
 }
 
@@ -461,7 +477,7 @@ function DoctorPhotoCard({ doctor }: { doctor: Doctor }): React.ReactNode {
   return (
     <div
       className="rounded-xl border border-gray-200 bg-white overflow-clip
-      xl:rounded-[40px]"
+      xl:rounded-[20px]"
     >
       <div className="relative w-full aspect-[1/1.197]">
         <Image
@@ -479,8 +495,8 @@ function DoctorPhotoCard({ doctor }: { doctor: Doctor }): React.ReactNode {
             target="_blank"
             rel="noopener noreferrer"
             href={doctor.scheduleHref}
-            className="py-3 bg-[#21886C]/70
-          xl:py-5 xl:bg-[#133C2B]/70"
+            className="py-3 bg-[#319681]
+          xl:py-5"
           >
             휴진일정
           </Link>
@@ -489,7 +505,7 @@ function DoctorPhotoCard({ doctor }: { doctor: Doctor }): React.ReactNode {
             target="_blank"
             rel="noopener noreferrer"
             href={doctor.reservationHref}
-            className="py-3 bg-[#FD7740]
+            className="py-3 bg-[#045545]
           xl:py-5"
           >
             예약하기

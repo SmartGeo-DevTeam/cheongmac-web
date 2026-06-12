@@ -1,12 +1,22 @@
 'use client';
 
+import { openMacGptSearch } from '@/app/_components/mac-gpt-search';
 import { useViewport } from '@/app/_providers/viewport-provider';
 import { AnimatePresence, motion } from 'framer-motion';
+import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import type { Swiper as SwiperType } from 'swiper';
 import 'swiper/css';
-import { Autoplay } from 'swiper/modules';
+import 'swiper/css/pagination';
+import { Autoplay, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 const HOME_POPUP_HIDE_KEY = 'home-cover-popups-hidden';
@@ -15,7 +25,7 @@ const MOBILE_CARD_GAP = 16;
 const MOBILE_STACK_OFFSET = 14;
 const MOBILE_STACK_SCALE_STEP = 0.07;
 const MOBILE_POPUP_COUNTDOWN_SECONDS = 3;
-const MOBILE_STACK_BOTTOM_OFFSET = 32;
+const MOBILE_STACK_BOTTOM_OFFSET = 8;
 
 const mobileStackTransition = {
   type: 'spring',
@@ -222,9 +232,13 @@ function HomeCoverPopups({
   }, []);
 
   useEffect(() => {
-    if (!isMobile) {
+    if (
+      !isMobile ||
+      mobilePopups.length === 0 ||
+      !isInitialMobileLayoutReady ||
+      isStacked
+    ) {
       hasStartedMobileTimerRef.current = false;
-      setIsStacked(false);
       setCountdown(MOBILE_POPUP_COUNTDOWN_SECONDS);
       return;
     }
@@ -235,11 +249,14 @@ function HomeCoverPopups({
 
     hasStartedMobileTimerRef.current = true;
 
-    setIsStacked(false);
     setCountdown(MOBILE_POPUP_COUNTDOWN_SECONDS);
 
     const countdownTimer = window.setInterval(() => {
-      setCountdown((prev) => Math.max(prev - 1, 1));
+      setCountdown((prev) => {
+        if (prev <= 1) return 1;
+
+        return prev - 1;
+      });
     }, 1000);
 
     const closeTimer = window.setTimeout(() => {
@@ -248,10 +265,17 @@ function HomeCoverPopups({
     }, MOBILE_POPUP_COUNTDOWN_SECONDS * 1000);
 
     return () => {
+      hasStartedMobileTimerRef.current = false;
       window.clearInterval(countdownTimer);
       window.clearTimeout(closeTimer);
     };
-  }, [isMobile, onMobilePopupsClosed]);
+  }, [
+    isMobile,
+    mobilePopups.length,
+    isInitialMobileLayoutReady,
+    isStacked,
+    onMobilePopupsClosed,
+  ]);
 
   useEffect(() => {
     const node = mobileLayerRef.current;
@@ -544,6 +568,20 @@ export default function HomeCover() {
   const swiperRef = useRef<SwiperType | null>(null);
   const [canStartSwiperAutoplay, setCanStartSwiperAutoplay] = useState(false);
 
+  const [initialCoverHeight, setInitialCoverHeight] = useState<number | null>(
+    null,
+  );
+
+  const handleMobilePopupsClosed = useCallback(() => {
+    setCanStartSwiperAutoplay(true);
+  }, []);
+
+  useLayoutEffect(() => {
+    const initialViewportHeight = window.innerHeight;
+
+    setInitialCoverHeight(Math.round(initialViewportHeight * 0.78));
+  }, []);
+
   useEffect(() => {
     if (!isMobile) {
       setCanStartSwiperAutoplay(true);
@@ -567,14 +605,23 @@ export default function HomeCover() {
   }, [canStartSwiperAutoplay]);
 
   return (
-    <section className="relative h-[78vh] overflow-hidden px-2 xl:px-0">
+    <section
+      className="relative overflow-hidden px-2 xl:px-0"
+      style={{
+        height:
+          initialCoverHeight === null ? '78vh' : `${initialCoverHeight}px`,
+      }}
+    >
       <Swiper
-        modules={[Autoplay]}
+        modules={[Autoplay, Pagination]}
         spaceBetween={isMobile ? 8 : 0}
         slidesPerView={1}
         loop
+        pagination={{
+          clickable: true,
+        }}
         autoplay={{
-          delay: 5000,
+          delay: 500000,
           disableOnInteraction: false,
         }}
         onSwiper={(swiper) => {
@@ -584,38 +631,71 @@ export default function HomeCover() {
             swiper.autoplay.stop();
           }
         }}
-        className="h-[78vh] w-full"
+        className="h-full w-full
+        [&_.swiper-pagination]:absolute!
+        [&_.swiper-pagination]:bottom-15!
+        [&_.swiper-pagination]:top-auto!
+        [&_.swiper-pagination]:z-10!
+        [&_.swiper-pagination-bullet]:bg-white!
+        [&_.swiper-pagination-bullet]:opacity-40!
+        [&_.swiper-pagination-bullet-active]:opacity-100!
+        [&_.swiper-pagination-bullet]:mx-1.5!
+        [&_.swiper-pagination-bullet]:w-3!
+        [&_.swiper-pagination-bullet]:h-3!
+        "
       >
         <SwiperSlide>
-          <div className="relative flex h-full w-full flex-col items-center justify-center rounded-[20px] bg-[url('/images/home/cover/m-slide-bg-1.png')] bg-cover bg-center bg-no-repeat px-5 xl:rounded-none xl:bg-[url('/images/home/cover/pc-slide-bg-1.png')]">
-            <div className="flex flex-col items-center text-4xl leading-[125%] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)] xl:flex-row xl:gap-1.75 xl:text-6xl">
+          <div
+            className="relative px-5 pb-[5%] w-full h-full flex flex-col justify-center items-center rounded-[20px] bg-[url('/images/home/cover/m-slide-bg-1.png')] bg-cover bg-center bg-no-repeat
+            xl:pb-[6%] xl:rounded-none xl:bg-[url('/images/home/cover/pc-slide-bg-1.png')]"
+          >
+            <div
+              className="order-1 flex flex-col items-center text-4xl leading-[125%] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)]
+              xl:order-2 xl:mt-14 xl:flex-row xl:gap-1.75 xl:text-6xl"
+            >
               <p>혈관의 모든 정답,</p>
               <p className="font-extrabold">청맥에 있습니다</p>
             </div>
 
-            <div className="mt-5 flex flex-col items-center leading-[150%] break-keep text-center text-[15px] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)] xl:flex-row xl:gap-1 xl:text-2xl">
+            <div
+              className="order-2 mt-5 flex flex-col items-center leading-[150%] break-keep text-center text-[15px] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)]
+              xl:order-3 xl:gap-1 xl:text-2xl"
+            >
               <p>더 스마트해진 혈관 특화 의료 혁신의 시작.</p>
               <p>증상부터 치료까지 AI가 빠르고 정확한 길을 안내합니다.</p>
             </div>
 
-            <Link
-              target="_blank"
-              href="/"
-              className="mt-3 rounded-full border border-white px-4 py-1 text-[15px] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)] xl:mt-6 xl:text-lg"
+            <button
+              type="button"
+              onClick={() => openMacGptSearch()}
+              className="order-3 mt-5 px-3 py-[4.5px] flex items-center gap-1.5 rounded-full bg-white border border-white font-semibold text-[15px] text-black shadow-[0_0_20px_2px_#FF7740]
+              xl:order-1 xl:mt-0 xl:text-lg"
             >
-              맥GPT에게 물어보기→
-            </Link>
+              <Image
+                src={'/common/sparkle.gif'}
+                alt="sparkle"
+                width={22}
+                height={22}
+              />
+              <span>맥GPT에게 물어보기→</span>
+            </button>
           </div>
         </SwiperSlide>
 
         <SwiperSlide>
-          <div className="relative flex h-full w-full flex-col items-center justify-center rounded-[20px] bg-[url('/images/home/cover/m-slide-bg-2.png')] bg-cover bg-center bg-no-repeat px-5 xl:rounded-none xl:bg-[url('/images/home/cover/pc-slide-bg-2.png')]">
+          <div
+            className="relative px-5 pb-[5%] flex h-full w-full flex-col items-center justify-center rounded-[20px] bg-[url('/images/home/cover/m-slide-bg-1.png')] bg-cover bg-center bg-no-repeat
+            xl:pb-[3%] xl:rounded-none xl:bg-[url('/images/home/cover/pc-slide-bg-2.png')]"
+          >
             <div className="flex flex-col items-center text-4xl leading-[125%] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)] xl:flex-row xl:gap-1.75 xl:text-6xl">
               <p>혈관을 잘 아는 의사,</p>
               <p className="font-extrabold">청맥에 있습니다</p>
             </div>
 
-            <div className="mt-5 flex flex-col items-center leading-[150%] break-keep text-center text-[15px] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)] xl:flex-row xl:gap-1 xl:text-2xl">
+            <div
+              className="mt-5 flex flex-col items-center leading-[150%] break-keep text-center text-[15px] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)]
+              xl:text-2xl"
+            >
               <p>오직 혈관질환에 집중한 전문의 협진으로</p>
               <p>깊이 있는 진료, 정밀한 치료를 약속드립니다.</p>
             </div>
@@ -631,13 +711,19 @@ export default function HomeCover() {
         </SwiperSlide>
 
         <SwiperSlide>
-          <div className="relative flex h-full w-full flex-col items-center justify-center rounded-[20px] bg-[url('/images/home/cover/m-slide-bg-3.png')] bg-cover bg-center bg-no-repeat px-5 xl:rounded-none xl:bg-[url('/images/home/cover/pc-slide-bg-3.png')]">
+          <div
+            className="relative px-5 pb-[5%] flex h-full w-full flex-col items-center justify-center rounded-[20px] bg-[url('/images/home/cover/m-slide-bg-1.png')] bg-cover bg-center bg-no-repeat
+            xl:pb-[3%] xl:rounded-none xl:bg-[url('/images/home/cover/pc-slide-bg-3.png')]"
+          >
             <div className="flex flex-col items-center text-4xl leading-[125%] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)] xl:flex-row xl:gap-1.75 xl:text-6xl">
               <p>대한정맥학회도</p>
               <p className="font-extrabold">인정한 청맥의 전문성</p>
             </div>
 
-            <div className="mt-5 flex flex-col items-center leading-[150%] break-keep text-center text-[15px] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)] xl:flex-row xl:gap-1 xl:text-2xl">
+            <div
+              className="mt-5 flex flex-col items-center leading-[150%] break-keep text-center text-[15px] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)]
+              xl:text-2xl"
+            >
               <p>2026 대한정맥학회 학술연구비 지원 대상 선정!</p>
               <p>차별화된 전문성으로 혈관 진료의 발전을 선도합니다.</p>
             </div>
@@ -655,9 +741,7 @@ export default function HomeCover() {
 
       <HomeCoverPopups
         isMobile={isMobile}
-        onMobilePopupsClosed={() => {
-          setCanStartSwiperAutoplay(true);
-        }}
+        onMobilePopupsClosed={handleMobilePopupsClosed}
       />
     </section>
   );

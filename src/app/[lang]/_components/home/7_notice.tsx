@@ -1,3 +1,4 @@
+import FadeInUp from '@/app/_components/fade-in-up';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -24,26 +25,28 @@ const noticeBanners = [
 
 export default function HomeNotice() {
   return (
-    <section
-      className="mt-15 flex flex-col
+    <FadeInUp>
+      <section
+        className="mt-15 flex flex-col
       xl:mx-auto xl:mt-28 xl:px-5 xl:max-w-7xl xl:w-full xl:flex-row xl:gap-6"
-    >
-      {noticeBanners.map((banner) => (
-        <Link
-          key={banner.id}
-          target="_blank"
-          href={banner.href}
-          className="relative w-full aspect-375/133"
-        >
-          <Image
-            src={banner.imageSrc}
-            alt={banner.alt}
-            fill
-            className="object-cover
+      >
+        {noticeBanners.map((banner) => (
+          <Link
+            key={banner.id}
+            target="_blank"
+            href={banner.href}
+            className="relative w-full aspect-375/133"
+          >
+            <Image
+              src={banner.imageSrc}
+              alt={banner.alt}
+              fill
+              className="object-cover
             xl:rounded-xl"
-          />
-        </Link>
-      ))}
-    </section>
+            />
+          </Link>
+        ))}
+      </section>
+    </FadeInUp>
   );
 }
