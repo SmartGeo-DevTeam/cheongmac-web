@@ -46,8 +46,8 @@ export const NAVIGATION: NavigationItem[] = [
         title: title('병원 소개', 'Hospital Introduction', '病院紹介'),
       },
       {
-        id: 'about-doctors-departments',
-        href: '/about/doctors-departments',
+        id: 'about-doctors',
+        href: '/about/doctors',
         title: title(
           '의료진/진료과',
           'Doctors & Departments',

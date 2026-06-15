@@ -244,7 +244,7 @@ export default function Header({ lang, headerText }: HeaderProps) {
         >
           <div className="relative px-4 mx-auto max-w-420 w-full flex justify-end">
             <form
-              className="px-3 py-1.75 w-full flex items-center gap-1 rounded-xl border border-white bg-white shadow-[0_1px_0_0_rgb(55_55_55/0.2)]
+              className="px-3 py-1.75 w-full flex items-center gap-1 rounded-xl border border-black/5 bg-white shadow-[0_1px_0_0_rgb(55_55_55/0.2)]
               xl:px-4 xl:py-2.5 xl:w-auto xl:bg-[#333333]/50"
               onClick={handleAiSearchOpen}
               onFocusCapture={handleAiSearchOpen}

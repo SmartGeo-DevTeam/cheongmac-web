@@ -96,6 +96,7 @@ export default function Footer(): ReactElement {
               </div>
             </section>
 
+            {/*  */}
             <section
               className="mt-2 text-xs font-medium tracking-[-4%]
               xl:col-start-1 xl:col-end-2 xl:row-start-1 xl:row-end-3 xl:mt-0"
