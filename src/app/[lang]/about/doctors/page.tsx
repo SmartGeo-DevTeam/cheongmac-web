@@ -4,94 +4,23 @@ import { HeartIcon, Home, Search } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-type Doctor = {
-  id: number;
-  name: string;
-  position: string;
-  department: string;
-  specialties: string[];
-  mobileImageSrc: string;
-  desktopImageSrc: string;
-  detailHref: string;
-  reservationHref: string;
-};
+import { DOCTORS, type Doctor } from './data';
 
-const doctors: Doctor[] = [
-  {
-    id: 1,
-    name: '박용범',
-    position: '원장',
-    department: '혈관외과 전문의',
-    specialties: ['하지정맥류', '정계정맥류', '골반정맥류'],
-    mobileImageSrc: '/images/doctors/m-headshot-bak.png',
-    desktopImageSrc: '/images/doctors/pc-headshot-bak.png',
-    detailHref: '/',
-    reservationHref: '/',
-  },
-  {
-    id: 2,
-    name: '전진원',
-    position: '원장',
-    department: '혈관외과 전문의',
-    specialties: ['하지정맥류', '정계정맥류', '골반정맥류'],
-    mobileImageSrc: '/images/doctors/m-headshot-jeon.png',
-    desktopImageSrc: '/images/doctors/pc-headshot-jeon.png',
-    detailHref: '/',
-    reservationHref: '/',
-  },
-  {
-    id: 3,
-    name: '장지란',
-    position: '원장',
-    department: '혈관외과 전문의',
-    specialties: ['하지정맥류', '정계정맥류', '골반정맥류'],
-    mobileImageSrc: '/images/doctors/m-headshot-jang.png',
-    desktopImageSrc: '/images/doctors/pc-headshot-jang.png',
-    detailHref: '/',
-    reservationHref: '/',
-  },
-  {
-    id: 4,
-    name: '변승재',
-    position: '원장',
-    department: '혈관외과 전문의',
-    specialties: ['하지정맥류', '정계정맥류', '골반정맥류'],
-    mobileImageSrc: '/images/doctors/m-headshot-byun.png',
-    desktopImageSrc: '/images/doctors/pc-headshot-byun.png',
-    detailHref: '/',
-    reservationHref: '/',
-  },
-  {
-    id: 5,
-    name: '배병호',
-    position: '원장',
-    department: '영상의학과 전문의',
-    specialties: ['하지정맥류', '정계정맥류', '골반정맥류'],
-    mobileImageSrc: '/images/doctors/m-headshot-bae.png',
-    desktopImageSrc: '/images/doctors/pc-headshot-bae.png',
-    detailHref: '/',
-    reservationHref: '/',
-  },
-  {
-    id: 6,
-    name: '김병주',
-    position: '원장',
-    department: '마취통증의학과 전문의',
-    specialties: ['하지정맥류', '정계정맥류', '골반정맥류'],
-    mobileImageSrc: '/images/doctors/m-headshot-kim.png',
-    desktopImageSrc: '/images/doctors/pc-headshot-kim.png',
-    detailHref: '/',
-    reservationHref: '/',
-  },
-];
-
-function DoctorCard({ doctor }: { doctor: Doctor }): React.ReactNode {
+function DoctorCard({
+  doctor,
+  lang,
+}: {
+  doctor: Doctor;
+  lang: string;
+}): React.ReactNode {
   return (
     <li
       className="relative grid grid-cols-[145px_1fr] gap-x-5 gap-y-10
       xl:grid-cols-[302px_1fr]"
     >
       <button
+        type="button"
+        aria-label={`${doctor.name} ${doctor.position} 관심 의료진`}
         className="absolute right-0 top-0.5 z-10
         xl:left-6 xl:top-6"
       >
@@ -100,7 +29,7 @@ function DoctorCard({ doctor }: { doctor: Doctor }): React.ReactNode {
 
       <div
         className="shrink-0 relative w-full aspect-145/200 rounded-[14px] bg-[#F7F4F2] overflow-clip
-      xl:aspexct-302/360"
+        xl:aspect-[302/360]"
       >
         <Image
           src={doctor.mobileImageSrc}
@@ -132,6 +61,7 @@ function DoctorCard({ doctor }: { doctor: Doctor }): React.ReactNode {
           >
             {doctor.name}
           </h3>
+
           <span
             className="relative font-bold text-[22px] text-[#262C35]
             xl:bottom-0.5 xl:text-[26px]"
@@ -146,6 +76,7 @@ function DoctorCard({ doctor }: { doctor: Doctor }): React.ReactNode {
         >
           전문분야
         </span>
+
         <p
           className="break-keep text-[#262C35]
           xl:flex-1 xl:mt-2 xl:text-xl"
@@ -158,13 +89,13 @@ function DoctorCard({ doctor }: { doctor: Doctor }): React.ReactNode {
           xl:mb-6 xl:gap-x-2 xl:text-base"
         >
           <Link
-            target="_blank"
-            href={doctor.detailHref}
+            href={`/${lang}/about/doctors/${doctor.slug}`}
             className="py-2 rounded-full bg-[#8BC9B8] text-center
             xl:py-3"
           >
             상세보기
           </Link>
+
           <Link
             target="_blank"
             href={doctor.reservationHref}
@@ -179,36 +110,42 @@ function DoctorCard({ doctor }: { doctor: Doctor }): React.ReactNode {
   );
 }
 
-export default function AboutDoctors(): React.ReactNode {
+export default async function AboutDoctors({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}): Promise<React.ReactNode> {
+  const { lang } = await params;
+
   return (
     <div
       className="mt-20
       xl:mt-5"
     >
-      {/* component content-header */}
       <Inner usePaddingHorizontal>
         <section>
-          {/* breadcrumb */}
-          <div className="flex items-center text-xs">
-            <Link target="_blank" href="/" className="flex items-center gap-1">
+          <div
+            className="flex items-center text-xs
+            xl:text-base"
+          >
+            <Link href={`/${lang}`} className="flex items-center gap-1">
               <Home size={16} />
               <span>홈</span>
             </Link>
 
             <div className="mx-1.5 w-px h-4 bg-[#DDDDDD]" />
 
-            <select>
+            <select defaultValue="병원소개">
               <option>병원소개</option>
             </select>
 
             <div className="mx-1.5 w-px h-4 bg-[#DDDDDD]" />
 
-            <select>
+            <select defaultValue="의료진/진료과">
               <option>의료진/진료과</option>
             </select>
           </div>
 
-          {/* contentTitle */}
           <div
             className="mt-10 mb-5 flex flex-col items-center justify-center
             xl:mt-15"
@@ -232,10 +169,8 @@ export default function AboutDoctors(): React.ReactNode {
         </section>
       </Inner>
 
-      {/* target page content */}
       <section>
         <Inner usePaddingHorizontal>
-          {/* tab */}
           <div
             className="grid grid-cols-2 font-semibold text-[15px]
             xl:mt-15 xl:text-[23px]"
@@ -253,12 +188,11 @@ export default function AboutDoctors(): React.ReactNode {
               className="py-1 border-b border-b-[#FD7740] bg-[#FBFBFB] text-[#999999]
               xl:py-4"
             >
-              -
+              진료과
             </button>
           </div>
         </Inner>
 
-        {/* search bar */}
         <Inner usePaddingHorizontal>
           <div
             className="mt-2 py-7 bg-[#FBFBFB]
@@ -283,13 +217,14 @@ export default function AboutDoctors(): React.ReactNode {
 
               <button
                 type="button"
+                aria-label="의료진 검색"
                 className="shrink-0 w-10.5 h-10.5 flex justify-center items-center rounded-lg bg-[#FD7740]
                 xl:w-15 xl:h-15"
               >
                 <Search
                   color="#FFFFFF"
                   className="w-8 h-8
-                xl:w-8 xl:h-9"
+                  xl:w-8 xl:h-9"
                 />
               </button>
             </div>
@@ -325,72 +260,65 @@ export default function AboutDoctors(): React.ReactNode {
           </div>
         </Inner>
 
-        {/* doctors */}
         <Inner usePaddingHorizontal>
           <ul
             className="mt-12 grid grid-cols-1 gap-10
             xl:mt-15 xl:grid-cols-2 xl:gap-6"
           >
-            {doctors.map((doctor) => (
-              <DoctorCard key={doctor.id} doctor={doctor} />
+            {DOCTORS.map((doctor) => (
+              <DoctorCard key={doctor.id} doctor={doctor} lang={lang} />
             ))}
           </ul>
         </Inner>
 
-        {/* matching */}
         <Inner usePaddingHorizontal>
           <Link
             target="_blank"
-            href={`/`}
+            href="/"
             className="mt-10 px-5 relative block w-full aspect-335/180 rounded-[14px] overflow-clip
             xl:aspect-1280/360"
           >
             <Image
-              src={`/images/doctors/m-matching.png`}
-              alt="m-matching"
+              src="/images/doctors/m-matching.png"
+              alt="지금 나에게 필요한 청맥 의료진은 누구일까?"
               fill
-              className="block
-              xl:hidden"
+              className="block xl:hidden"
             />
+
             <Image
-              src={`/images/doctors/pc-matching.png`}
-              alt="m-matching"
+              src="/images/doctors/pc-matching.png"
+              alt="지금 나에게 필요한 청맥 의료진은 누구일까?"
               fill
-              className="hidden
-              xl:block"
+              className="hidden xl:block"
             />
           </Link>
         </Inner>
 
-        {/* message */}
         <Inner>
           <Link
             target="_blank"
-            href={`/`}
+            href="/"
             className="mt-5 relative block w-full aspect-375/250
             xl:mt-10 xl:px-5 xl:aspect-1320/715"
           >
             <Image
-              src={`/images/doctors/m-message.png`}
-              alt="m-message"
+              src="/images/doctors/m-message.png"
+              alt="환자의 아픔을 먼저 듣고, 가장 안전한 길을 제시하겠습니다."
               fill
-              className="block
-              xl:hidden"
+              className="block xl:hidden"
             />
 
             <div className="relative w-full h-full z-10">
               <Image
-                src={`/images/doctors/pc-message.png`}
-                alt="pc-message"
+                src="/images/doctors/pc-message.png"
+                alt="환자의 아픔을 먼저 듣고, 가장 안전한 길을 제시하겠습니다."
                 fill
-                className="hidden
-              xl:block"
+                className="hidden xl:block"
               />
             </div>
           </Link>
         </Inner>
 
-        {/* component - bottom banners */}
         <BottomBanner />
       </section>
     </div>
