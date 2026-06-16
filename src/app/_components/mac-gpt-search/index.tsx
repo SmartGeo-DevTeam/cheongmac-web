@@ -7,6 +7,7 @@ import { usePathname } from 'next/navigation';
 import { type FormEvent, useEffect, useRef, useState } from 'react';
 
 const MAC_GPT_SEARCH_OPEN_EVENT = 'mac-gpt-search:open';
+const MAC_GPT_SEARCH_CLOSE_EVENT = 'mac-gpt-search:close';
 
 type MacGptSearchOpenDetail = {
   query?: string;
@@ -77,6 +78,12 @@ export function openMacGptSearch(query = '') {
   );
 }
 
+export function closeMacGptSearch() {
+  if (typeof window === 'undefined') return;
+
+  window.dispatchEvent(new Event(MAC_GPT_SEARCH_CLOSE_EVENT));
+}
+
 export default function MacGptSearchLayer({ lang }: MacGptSearchLayerProps) {
   const pathname = usePathname();
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -98,10 +105,16 @@ export default function MacGptSearchLayer({ lang }: MacGptSearchLayerProps) {
       });
     };
 
+    const handleClose = () => {
+      setIsOpen(false);
+    };
+
     window.addEventListener(MAC_GPT_SEARCH_OPEN_EVENT, handleOpen);
+    window.addEventListener(MAC_GPT_SEARCH_CLOSE_EVENT, handleClose);
 
     return () => {
       window.removeEventListener(MAC_GPT_SEARCH_OPEN_EVENT, handleOpen);
+      window.removeEventListener(MAC_GPT_SEARCH_CLOSE_EVENT, handleClose);
     };
   }, []);
 

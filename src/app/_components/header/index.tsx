@@ -5,7 +5,10 @@ import {
   getPrimaryNavigation,
   withLocale,
 } from '@/_lib/navigation';
-import { openMacGptSearch } from '@/app/_components/mac-gpt-search';
+import {
+  closeMacGptSearch,
+  openMacGptSearch,
+} from '@/app/_components/mac-gpt-search';
 import { useScrollDirection } from '@/app/_providers/scroll-direction-provider';
 import type { Locale } from '@/i18n-config';
 import Image from 'next/image';
@@ -126,6 +129,11 @@ export default function Header({ lang, headerText }: HeaderProps) {
           <div className="mx-auto max-w-420 px-5 w-full h-14 flex justify-between items-center xl:h-20">
             <Link
               href={withLocale(lang, '/')}
+              onClick={() => {
+                closeMacGptSearch();
+                setHoveredPrimaryId(null);
+                setIsHamburgerOpen(false);
+              }}
               className="relative w-33 aspect-logo flex items-center xl:w-38.75"
             >
               <Image

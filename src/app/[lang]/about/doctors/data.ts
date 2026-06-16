@@ -22,6 +22,7 @@ export type Doctor = {
   mobileImageSrc: string;
   desktopImageSrc: string;
   commonProfileImageSrc: string;
+  movingProfileImageSrc: string;
   reservationHref: string;
   schedule: DoctorScheduleRow[];
 };
@@ -56,6 +57,7 @@ export const DOCTORS: Doctor[] = [
     mobileImageSrc: '/images/doctors/m-headshot-bak.png',
     desktopImageSrc: '/images/doctors/pc-profile-bak.png',
     commonProfileImageSrc: '/images/doctors/profile-bak-bg-transparent.png',
+    movingProfileImageSrc: '/images/doctors/moving-profile-bak.gif',
     reservationHref: '/',
     schedule: [
       {
@@ -96,6 +98,7 @@ export const DOCTORS: Doctor[] = [
     mobileImageSrc: '/images/doctors/m-headshot-jeon.png',
     desktopImageSrc: '/images/doctors/pc-profile-jeon.png',
     commonProfileImageSrc: '/images/doctors/profile-jeon-bg-transparent.png',
+    movingProfileImageSrc: '/images/doctors/moving-profile-jeon.gif',
     reservationHref: '/',
     schedule: [
       {
@@ -136,6 +139,7 @@ export const DOCTORS: Doctor[] = [
     mobileImageSrc: '/images/doctors/m-headshot-jang.png',
     desktopImageSrc: '/images/doctors/pc-profile-jang.png',
     commonProfileImageSrc: '/images/doctors/profile-jang-bg-transparent.png',
+    movingProfileImageSrc: '/images/doctors/moving-profile-jang.gif',
     reservationHref: '/',
     schedule: [
       {
@@ -176,6 +180,7 @@ export const DOCTORS: Doctor[] = [
     mobileImageSrc: '/images/doctors/m-headshot-byun.png',
     desktopImageSrc: '/images/doctors/pc-profile-byun.png',
     commonProfileImageSrc: '/images/doctors/profile-byun-bg-transparent.png',
+    movingProfileImageSrc: '/images/doctors/moving-profile-byun.gif',
     reservationHref: '/',
     schedule: [
       {
@@ -215,6 +220,7 @@ export const DOCTORS: Doctor[] = [
     mobileImageSrc: '/images/doctors/m-headshot-bae.png',
     desktopImageSrc: '/images/doctors/pc-profile-bae.png',
     commonProfileImageSrc: '/images/doctors/profile-bae-bg-transparent.png',
+    movingProfileImageSrc: '/images/doctors/moving-profile-bae.gif',
     reservationHref: '/',
     schedule: [
       {
@@ -254,6 +260,7 @@ export const DOCTORS: Doctor[] = [
     mobileImageSrc: '/images/doctors/m-headshot-kim.png',
     desktopImageSrc: '/images/doctors/pc-profile-kim.png',
     commonProfileImageSrc: '/images/doctors/profile-kim-bg-transparent.png',
+    movingProfileImageSrc: '/images/doctors/moving-profile-kim.gif',
     reservationHref: '/',
     schedule: [
       {

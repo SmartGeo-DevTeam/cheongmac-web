@@ -43,7 +43,7 @@ const doctors: Doctor[] = [
     position: '원장',
     category: '혈관외과',
     quote: '끊임없는 연구를 통해 환자분들의 치유에 앞장서겠습니다',
-    imageSrc: '/images/home/doctors/bak.png',
+    imageSrc: '/images/doctors/moving-profile-bak.gif',
     profileImageSrc: '/images/home/doctors/bak.png',
     scheduleHref: '/doctors/park-yong-beom/schedule',
     reservationHref: '/reservation',
@@ -65,7 +65,7 @@ const doctors: Doctor[] = [
     position: '원장',
     category: '혈관외과',
     quote: '정확한 진단과 섬세한 치료로 혈관 건강을 지키겠습니다',
-    imageSrc: '/images/home/doctors/jeon.png',
+    imageSrc: '/images/doctors/moving-profile-jeon.gif',
     profileImageSrc: '/images/home/doctors/jeon.png',
     scheduleHref: '/doctors/kim-cheong-maek/schedule',
     reservationHref: '/reservation',
@@ -83,7 +83,7 @@ const doctors: Doctor[] = [
     position: '원장',
     category: '영상의학과',
     quote: '영상 진단의 정확도를 높여 치료의 방향을 세우겠습니다',
-    imageSrc: '/images/home/doctors/jang.png',
+    imageSrc: '/images/doctors/moving-profile-jang.gif',
     profileImageSrc: '/images/home/doctors/jang.png',
     scheduleHref: '/doctors/lee-cheong-maek/schedule',
     reservationHref: '/reservation',
@@ -101,7 +101,7 @@ const doctors: Doctor[] = [
     position: '원장',
     category: '마취통증의학과',
     quote: '환자분의 통증과 회복 과정을 세심하게 살피겠습니다',
-    imageSrc: '/images/home/doctors/byun.png',
+    imageSrc: '/images/doctors/moving-profile-byun.gif',
     profileImageSrc: '/images/home/doctors/byun.png',
     scheduleHref: '/doctors/jung-cheong-maek/schedule',
     reservationHref: '/reservation',
@@ -119,7 +119,7 @@ const doctors: Doctor[] = [
     position: '원장',
     category: '혈관외과',
     quote: '환자에게 꼭 필요한 치료만 정직하게 제안하겠습니다',
-    imageSrc: '/images/home/doctors/bae.png',
+    imageSrc: '/images/doctors/moving-profile-bae.gif',
     profileImageSrc: '/images/home/doctors/bae.png',
     scheduleHref: '/doctors/choi-cheong-maek/schedule',
     reservationHref: '/reservation',
@@ -137,7 +137,7 @@ const doctors: Doctor[] = [
     position: '원장',
     category: '영상의학과',
     quote: '작은 이상도 놓치지 않는 진단으로 함께하겠습니다',
-    imageSrc: '/images/home/doctors/kim.png',
+    imageSrc: '/images/doctors/moving-profile-kim.gif',
     profileImageSrc: '/images/home/doctors/kim.png',
     scheduleHref: '/doctors/han-cheong-maek/schedule',
     reservationHref: '/reservation',
@@ -217,16 +217,16 @@ export default function HomeDoctors(): React.ReactNode {
   useEffect(() => {
     if (filteredDoctors.length <= 1) return;
 
-    const timer = window.setInterval(() => {
+    const timer = window.setTimeout(() => {
       setActiveIndex((prev) => {
         return prev >= filteredDoctors.length - 1 ? 0 : prev + 1;
       });
-    }, 5000);
+    }, 6000);
 
     return () => {
-      window.clearInterval(timer);
+      window.clearTimeout(timer);
     };
-  }, [activeCategory, filteredDoctors.length]);
+  }, [activeCategory, filteredDoctors.length, safeActiveIndex]);
 
   const handlePrev = (): void => {
     if (!canGoPrev) return;
@@ -243,8 +243,8 @@ export default function HomeDoctors(): React.ReactNode {
   if (!activeDoctor) return null;
 
   return (
-    <FadeInUp>
-      <section className="py-20 bg-[#F6F2EF] xl:py-25">
+    <section className="py-20 bg-[#F6F2EF] xl:py-25">
+      <FadeInUp>
         <div className="mx-auto max-w-7xl w-full">
           <MainSectionHeader
             usePaddingHorizontal
@@ -336,9 +336,12 @@ export default function HomeDoctors(): React.ReactNode {
                   onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
                   className="w-full overflow-hidden"
                 >
-                  {filteredDoctors.map((doctor) => (
+                  {filteredDoctors.map((doctor, index) => (
                     <SwiperSlide key={doctor.id}>
-                      <DoctorPhotoCard doctor={doctor} />
+                      <DoctorPhotoCard
+                        doctor={doctor}
+                        isActive={index === safeActiveIndex}
+                      />
                     </SwiperSlide>
                   ))}
                 </Swiper>
@@ -468,25 +471,51 @@ export default function HomeDoctors(): React.ReactNode {
             </button>
           </div>
         </div>
-      </section>
-    </FadeInUp>
+      </FadeInUp>
+    </section>
   );
 }
 
-function DoctorPhotoCard({ doctor }: { doctor: Doctor }): React.ReactNode {
+function DoctorPhotoCard({
+  doctor,
+  isActive,
+}: {
+  doctor: Doctor;
+  isActive: boolean;
+}): React.ReactNode {
+  const [gifRestartKey, setGifRestartKey] = useState(0);
+
+  useEffect(() => {
+    if (!isActive) return;
+
+    setGifRestartKey((prev) => prev + 1);
+  }, [isActive]);
+
   return (
     <div
       className="rounded-xl border border-gray-200 bg-white overflow-clip
       xl:rounded-[20px]"
     >
       <div className="relative w-full aspect-[1/1.197]">
-        <Image
-          src={doctor.imageSrc}
-          alt={`${doctor.name} ${doctor.position}`}
-          fill
-          className="object-cover"
-          priority={doctor.id === 1}
-        />
+        {isActive ? (
+          <Image
+            key={`${doctor.id}-${gifRestartKey}`}
+            src={`${doctor.imageSrc}?restart=${gifRestartKey}`}
+            alt={`${doctor.name} ${doctor.position}`}
+            fill
+            unoptimized
+            className="object-cover"
+            priority={doctor.id === 1}
+          />
+        ) : (
+          <Image
+            src={doctor.profileImageSrc}
+            alt={`${doctor.name} ${doctor.position}`}
+            fill
+            className="object-contain object-bottom"
+          />
+        )}
+
         <div
           className="absolute left-0 bottom-0 w-full grid grid-cols-2 text-center font-bold text-white
           xl:text-[22px]"
@@ -496,7 +525,7 @@ function DoctorPhotoCard({ doctor }: { doctor: Doctor }): React.ReactNode {
             rel="noopener noreferrer"
             href={doctor.scheduleHref}
             className="py-3 bg-[#319681]
-          xl:py-5"
+            xl:py-5"
           >
             휴진일정
           </Link>
@@ -506,7 +535,7 @@ function DoctorPhotoCard({ doctor }: { doctor: Doctor }): React.ReactNode {
             rel="noopener noreferrer"
             href={doctor.reservationHref}
             className="py-3 bg-[#045545]
-          xl:py-5"
+            xl:py-5"
           >
             예약하기
           </Link>
