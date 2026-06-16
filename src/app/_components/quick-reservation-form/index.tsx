@@ -2,7 +2,8 @@
 
 import { useScrollDirection } from '@/app/_providers/scroll-direction-provider';
 import type { Locale } from '@/i18n-config';
-import { X } from 'lucide-react';
+import { ChevronRight, X } from 'lucide-react';
+import Image from 'next/image';
 import { useState } from 'react';
 
 type ReservationText = {
@@ -24,6 +25,8 @@ export default function QuickReservationForm({
 }: QuickReservationFormProps) {
   const { isVisible } = useScrollDirection();
   const [isMobileFormOpen, setIsMobileFormOpen] = useState(false);
+  const [isConsultationOpen, setIsConsultationOpen] = useState(false);
+  const [selectedConsultation, setSelectedConsultation] = useState('');
 
   const labels = {
     ko: {
@@ -58,6 +61,22 @@ export default function QuickReservationForm({
     },
   }[lang];
 
+  const consultationOptions = [
+    { value: '', label: '선택' },
+    { value: 'varicose-veins', label: '하지정맥류' },
+    { value: 'pelvic-varicose-veins', label: '골반정맥류' },
+    { value: 'varicocele', label: '정계정맥류' },
+    { value: 'uterine-fibroids', label: '자궁근종' },
+    { value: 'peripheral-arterial-disease', label: '말초동맥폐쇄증' },
+    { value: 'dialysis-access', label: '투석혈관' },
+    { value: 'diabetic-foot', label: '당뇨발' },
+    { value: 'etc', label: '기타' },
+  ];
+
+  const selectedConsultationLabel =
+    consultationOptions.find((option) => option.value === selectedConsultation)
+      ?.label ?? labels.content;
+
   return (
     <div
       className={`fixed left-0 right-0 bottom-0 w-full transition-all duration-300 ease-out will-change-transform z-50
@@ -75,19 +94,22 @@ export default function QuickReservationForm({
           type="button"
           onClick={() => setIsMobileFormOpen(true)}
           className={`h-[50px] w-full items-center justify-center gap-2 rounded-t-[18px] bg-[#FF9A74] font-bold text-white transition-all duration-300 ease-out
-  ${isMobileFormOpen ? 'max-h-0 opacity-0 pointer-events-none' : 'flex max-h-[50px] opacity-100'}
-  `}
+            ${isMobileFormOpen ? 'max-h-0 opacity-0 pointer-events-none' : 'flex max-h-[50px] opacity-100'}
+            `}
         >
           <span>{labels.title || reservationText.title}</span>
-          <span className="flex size-4 items-center justify-center rounded-full bg-[#5056C9] text-[10px] leading-none text-white">
-            •••
-          </span>
+          <Image
+            src={`/common/talking.gif`}
+            alt="speech-bubble"
+            width={18}
+            height={18}
+          />
         </button>
 
         <form
-          className={`relative overflow-hidden rounded-t-[18px] bg-white shadow-[0_1px_3px_0_rgba(0,0,0,0.2)] transition-all duration-300 ease-out
-  ${isMobileFormOpen ? 'max-h-[360px] opacity-100' : 'max-h-0 opacity-0 pointer-events-none'}
-  `}
+          className={`relative rounded-t-[18px] bg-white shadow-[0_1px_3px_0_rgba(0,0,0,0.2)] transition-all duration-300 ease-out
+            ${isMobileFormOpen ? 'max-h-90 opacity-100' : 'max-h-0 opacity-0 pointer-events-none'}
+            `}
           onSubmit={(event) => event.preventDefault()}
         >
           <button
@@ -102,29 +124,65 @@ export default function QuickReservationForm({
           <button
             type="button"
             onClick={() => setIsMobileFormOpen(false)}
-            className="mx-auto flex items-center justify-center gap-2 py-4 font-bold text-[#FF7740]"
+            className="mx-auto flex items-center justify-center gap-2 pt-5 pb-2"
           >
-            <span>{labels.title || reservationText.title}</span>
+            <span className="font-bold text-[#FB9A74]">
+              {labels.title || reservationText.title}
+            </span>
             <span className="mt-[-4px] size-2 rotate-45 border-b-2 border-r-2 border-[#FF7740]" />
           </button>
-
           <div className="px-5 pb-5">
-            <label className="relative block">
+            <div className="relative">
               <span className="sr-only">{labels.content}</span>
-              <select
-                defaultValue=""
-                className="h-10 w-full appearance-none rounded-full border border-[#E8E8E8] bg-white px-5 pr-10 text-sm text-[#333333] outline-none"
+
+              <input
+                type="hidden"
+                name="consultationType"
+                value={selectedConsultation}
+              />
+
+              <button
+                type="button"
+                onClick={() => setIsConsultationOpen((prev) => !prev)}
+                className={`relative flex h-10 w-full items-center rounded-full border bg-white px-5 pr-11 text-left text-sm font-medium outline-none transition-colors
+      ${selectedConsultation ? 'text-[#333333]' : 'text-[#999999]'}
+      ${isConsultationOpen ? 'border-[#FD7740]' : 'border-[#E8E8E8]'}`}
               >
-                <option value="" disabled>
-                  {labels.content}
-                </option>
-                <option value="reservation">예약 상담</option>
-                <option value="treatment">진료 문의</option>
-                <option value="result">검사 결과 문의</option>
-                <option value="etc">기타 문의</option>
-              </select>
-              <span className="pointer-events-none absolute right-5 top-1/2 size-2 -translate-y-1/2 rotate-45 border-b border-r border-[#888888]" />
-            </label>
+                <span>
+                  {selectedConsultation
+                    ? selectedConsultationLabel
+                    : labels.content}
+                </span>
+
+                <span
+                  className={`pointer-events-none absolute right-6 top-1/2 h-2.5 w-2.5 -translate-y-[65%] rotate-45 border-b-2 border-r-2 border-[#999999] transition-transform
+        ${isConsultationOpen ? 'rotate-[225deg] -translate-y-[20%]' : ''}`}
+                />
+              </button>
+
+              {isConsultationOpen && (
+                <div className="absolute bottom-[calc(100%+8px)] left-0 z-[60] w-full rounded-[14px] border border-[#E8E8E8] bg-white py-3 shadow-[0_8px_24px_rgba(0,0,0,0.12)]">
+                  {consultationOptions.map((option) => (
+                    <button
+                      key={option.value || 'empty'}
+                      type="button"
+                      onClick={() => {
+                        setSelectedConsultation(option.value);
+                        setIsConsultationOpen(false);
+                      }}
+                      className={`block w-full px-5 py-1.5 text-left text-sm leading-[160%] transition-colors hover:text-[#FD7740]
+        ${
+          selectedConsultation === option.value
+            ? 'font-semibold text-[#FD7740]'
+            : 'font-medium text-[#555555]'
+        }`}
+                    >
+                      {option.label}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
 
             <div className="mt-2 grid grid-cols-2 gap-3">
               <label>
@@ -166,10 +224,10 @@ export default function QuickReservationForm({
 
               <button
                 type="submit"
-                className="h-12 rounded-full bg-[#FF7040] font-bold text-white"
+                className="flex h-12 items-center justify-center gap-1 rounded-full bg-[#FF7040] font-bold text-white"
               >
-                {labels.submit || reservationText.button_2}
-                <span className="ml-1">{`>`}</span>
+                <span>{labels.submit || reservationText.button_2}</span>
+                <ChevronRight size={18} color="white" />
               </button>
             </div>
           </div>
@@ -178,67 +236,73 @@ export default function QuickReservationForm({
 
       {/* Desktop */}
       <form
-        className="hidden overflow-hidden rounded-2xl border border-[#E6E6E6] bg-white shadow-[0_14px_40px_rgba(0,0,0,0.18)] xl:grid xl:h-[76px] xl:grid-cols-[180px_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_128px] xl:items-center"
+        className="hidden
+        xl:px-8 xl:h-25 xl:grid xl:grid-cols-[max-content_minmax(0,1fr)_max-content] xl:items-center xl:gap-x-8 xl:rounded-[20px] xl:border xl:border-[#E6E6E6] xl:bg-white xl:shadow-[0_14px_40px_rgba(0,0,0,0.18)]"
         onSubmit={(event) => event.preventDefault()}
       >
-        <div className="px-5 py-4 bg-cm-green text-white xl:flex xl:h-full xl:items-center xl:justify-center">
-          <p className="tracking-[-5%] font-bold text-lg xl:text-xl">
-            {labels.title || reservationText.title}
-          </p>
-        </div>
+        <h4 className="shrink-0 whitespace-nowrap font-bold text-2xl text-[#FD7740]">
+          가장 빠른 상담
+        </h4>
 
-        <div className="grid grid-cols-1 gap-3 px-5 py-4 xl:contents">
-          <label className="flex flex-col gap-1 xl:px-4">
+        <div className="grid min-w-0 grid-cols-[minmax(150px,1.1fr)_minmax(100px,0.7fr)_minmax(120px,0.9fr)_minmax(160px,1.3fr)] items-center gap-2">
+          <label className="relative block">
             <span className="sr-only">{labels.content}</span>
+
             <select
               defaultValue=""
-              className="h-10 w-full border-b border-b-[#DDDDDD] bg-transparent tracking-[-4%] text-sm text-[#333333] outline-none xl:h-[76px]"
+              className="h-12 w-full appearance-none rounded-full border border-[#E8E8E8] bg-white px-8 pr-12 text-center font-medium text-base text-[#999999] outline-none transition-colors focus:border-[#FD7740] focus:text-[#333333]"
             >
               <option value="" disabled>
-                {labels.content} *
+                {labels.content}
               </option>
               <option value="reservation">예약 상담</option>
               <option value="treatment">진료 문의</option>
               <option value="result">검사 결과 문의</option>
               <option value="etc">기타 문의</option>
             </select>
+
+            <span className="pointer-events-none absolute right-8 top-1/2 h-2.5 w-2.5 -translate-y-[65%] rotate-45 border-b-2 border-r-2 border-[#999999]" />
           </label>
 
-          <label className="flex flex-col gap-1 xl:px-4">
-            <span className="sr-only">{labels.hopeDate}</span>
-            <input
-              type="text"
-              placeholder={labels.hopeDate}
-              className="h-10 w-full border-b border-b-[#DDDDDD] bg-transparent tracking-[-4%] text-sm text-[#333333] outline-none placeholder:text-[#999999] xl:h-[76px]"
-            />
-          </label>
-
-          <label className="flex flex-col gap-1 xl:px-4">
+          <label className="block">
             <span className="sr-only">{labels.name}</span>
+
             <input
               type="text"
-              placeholder={`${labels.name} *`}
-              className="h-10 w-full border-b border-b-[#DDDDDD] bg-transparent tracking-[-4%] text-sm text-[#333333] outline-none placeholder:text-[#999999] xl:h-[76px]"
+              placeholder={labels.name}
+              className="h-12 w-full rounded-full border border-[#E8E8E8] bg-white px-5 text-center font-medium text-base text-[#333333] outline-none transition-colors placeholder:text-[#999999] focus:border-[#FD7740]"
             />
           </label>
 
-          <label className="flex flex-col gap-1 xl:px-4">
+          <label className="block">
+            <span className="sr-only">{labels.birthDate}</span>
+
+            <input
+              type="text"
+              placeholder={labels.birthDate}
+              className="h-12 w-full rounded-full border border-[#E8E8E8] bg-white px-5 text-center font-medium text-base text-[#333333] outline-none transition-colors placeholder:text-[#999999] focus:border-[#FD7740]"
+            />
+          </label>
+
+          <label className="block">
             <span className="sr-only">{labels.phone}</span>
+
             <input
               type="tel"
               inputMode="numeric"
-              placeholder={`${labels.phone}(숫자만) *`}
-              className="h-10 w-full border-b border-b-[#DDDDDD] bg-transparent tracking-[-4%] text-sm text-[#333333] outline-none placeholder:text-[#999999] xl:h-[76px]"
+              placeholder={labels.phone}
+              className="h-12 w-full rounded-full border border-[#E8E8E8] bg-white px-5 text-center font-medium text-base text-[#333333] outline-none transition-colors placeholder:text-[#999999] focus:border-[#FD7740]"
             />
           </label>
-
-          <button
-            type="submit"
-            className="h-12 rounded-xl bg-cm-green tracking-[-5%] font-bold text-white transition hover:brightness-95 xl:mx-4"
-          >
-            {labels.submit || reservationText.button_2}
-          </button>
         </div>
+
+        <button
+          type="submit"
+          className="shrink-0 whitespace-nowrap px-8 py-5 flex items-center gap-2 rounded-full bg-[#FD7740] font-semibold text-2xl text-white"
+        >
+          <span>신청하기</span>
+          <ChevronRight color="white" />
+        </button>
       </form>
     </div>
   );
