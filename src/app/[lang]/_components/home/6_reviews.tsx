@@ -17,8 +17,8 @@ const reviewCategories = [
 ] as const;
 
 const mainReview = {
-  beforeImageSrc: '/images/home/reviews/1-before.png',
-  afterImageSrc: '/images/home/reviews/1-after.png',
+  beforeImageSrc: '/assets/home/reviews/1-before.png',
+  afterImageSrc: '/assets/home/reviews/1-after.png',
   beforeImageAlt: 'beforeImage',
   afterImageAlt: 'afterImage',
   quote: '거짓말처럼 나아서 너무 신기합니다.',
@@ -27,14 +27,14 @@ const mainReview = {
   gender: '여성',
   treatment: '레이저 정맥 폐쇄술 + 경화요법',
   doctorName: '박용범 원장',
-  doctorImageSrc: '/images/common/doctor/bak.png',
+  doctorImageSrc: '/assets/common/doctors/bak.png',
   doctorImageAlt: 'bak',
 };
 
 const videoReviews = [
   {
     id: 1,
-    imageSrc: '/images/home/reviews/patient-1.gif',
+    imageSrc: '/assets/home/reviews/patient-1.gif',
     imageAlt: 'patient-1',
     patientName: 'ㅇㅇㅇ님',
     gender: '남성',
@@ -44,7 +44,7 @@ const videoReviews = [
   },
   {
     id: 2,
-    imageSrc: '/images/home/reviews/patient-2.gif',
+    imageSrc: '/assets/home/reviews/patient-2.gif',
     imageAlt: 'patient-2',
     patientName: 'ㅇㅇㅇ님',
     gender: '남성',
@@ -54,7 +54,7 @@ const videoReviews = [
   },
   {
     id: 3,
-    imageSrc: '/images/home/reviews/patient-3.gif',
+    imageSrc: '/assets/home/reviews/patient-3.gif',
     imageAlt: 'patient-3',
     patientName: 'ㅇㅇㅇ님',
     gender: '남성',
@@ -218,7 +218,7 @@ export default function HomeReviews() {
               xl:flex xl:absolute xl:left-1/2 xl:top-1/2 xl:-translate-x-1/2 xl:-translate-y-1/2 xl:w-12.5 xl:h-12.5"
               >
                 <Image
-                  src="/images/home/reviews/more.svg"
+                  src="/assets/home/reviews/more.svg"
                   alt="more-btn"
                   fill
                 />

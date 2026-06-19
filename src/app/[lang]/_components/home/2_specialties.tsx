@@ -16,49 +16,49 @@ const specialties = [
   {
     title: '하지정맥류',
     href: '/specialties/leg-varicose-veins',
-    imageSrc: '/images/home/specialties/leg-varicose-veins.png',
+    imageSrc: '/assets/home/specialties/leg-varicose-veins.png',
     alt: 'leg-varicose-veins-bg',
   },
   {
     title: '동맥경화',
     href: '/specialties/arteriosclerosis',
-    imageSrc: '/images/home/specialties/arteriosclerosis.png',
+    imageSrc: '/assets/home/specialties/arteriosclerosis.png',
     alt: 'arteriosclerosis-bg',
   },
   {
     title: '골반정맥류',
     href: '/specialties/pelvic-varicose-veins',
-    imageSrc: '/images/home/specialties/pelvic-varicose-veins.png',
+    imageSrc: '/assets/home/specialties/pelvic-varicose-veins.png',
     alt: 'pelvic-varicose-veins-bg',
   },
   {
     title: '정계정맥류',
     href: '/specialties/varicocele',
-    imageSrc: '/images/home/specialties/varicocele.png',
+    imageSrc: '/assets/home/specialties/varicocele.png',
     alt: 'varicocele-bg',
   },
   {
     title: '희귀특수질환',
     href: '/specialties/rare-special-diseases',
-    imageSrc: '/images/home/specialties/rare-special-diseases.png',
+    imageSrc: '/assets/home/specialties/rare-special-diseases.png',
     alt: 'rare-special-diseases-bg',
   },
   {
     title: '투석혈관',
     href: '/specialties/dialysis-access',
-    imageSrc: '/images/home/specialties/dialysis-access.png',
+    imageSrc: '/assets/home/specialties/dialysis-access.png',
     alt: 'dialysis-access-bg',
   },
   {
     title: '고압산소치료',
     href: '/specialties/hyperbaric-oxygen-therapy',
-    imageSrc: '/images/home/specialties/hyperbaric-oxygen-therapy.png',
+    imageSrc: '/assets/home/specialties/hyperbaric-oxygen-therapy.png',
     alt: 'hyperbaric-oxygen-therapy-bg',
   },
   {
     title: '혈관검진',
     href: '/specialties/vascular-screening',
-    imageSrc: '/images/home/specialties/vascular-screening.png',
+    imageSrc: '/assets/home/specialties/vascular-screening.png',
     alt: 'vascular-screening-bg',
   },
 ] as const;
@@ -224,7 +224,7 @@ export default function HomeSpecialties(): React.ReactNode {
                 }}
               >
                 <img
-                  src="/common/symbol.svg"
+                  src="/assets/common/brand/symbol.svg"
                   alt=""
                   aria-hidden="true"
                   className="size-3

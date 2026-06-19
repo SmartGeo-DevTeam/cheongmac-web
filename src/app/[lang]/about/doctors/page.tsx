@@ -279,14 +279,14 @@ export default async function AboutDoctors({
             xl:aspect-1280/360"
           >
             <Image
-              src="/images/doctors/m-matching.png"
+              src="/assets/doctors/sections/matching-mobile.png"
               alt="지금 나에게 필요한 청맥 의료진은 누구일까?"
               fill
               className="block xl:hidden"
             />
 
             <Image
-              src="/images/doctors/pc-matching.png"
+              src="/assets/doctors/sections/matching-desktop.png"
               alt="지금 나에게 필요한 청맥 의료진은 누구일까?"
               fill
               className="hidden xl:block"
@@ -302,7 +302,7 @@ export default async function AboutDoctors({
             xl:mt-10 xl:px-5 xl:aspect-1320/715"
           >
             <Image
-              src="/images/doctors/m-message.png"
+              src="/assets/doctors/sections/message-mobile.png"
               alt="환자의 아픔을 먼저 듣고, 가장 안전한 길을 제시하겠습니다."
               fill
               className="block xl:hidden"
@@ -310,7 +310,7 @@ export default async function AboutDoctors({
 
             <div className="relative w-full h-full z-10">
               <Image
-                src="/images/doctors/pc-message.png"
+                src="/assets/doctors/sections/message-desktop.png"
                 alt="환자의 아픔을 먼저 듣고, 가장 안전한 길을 제시하겠습니다."
                 fill
                 className="hidden xl:block"

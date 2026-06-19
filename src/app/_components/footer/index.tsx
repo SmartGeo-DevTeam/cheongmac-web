@@ -86,7 +86,7 @@ export default function Footer(): ReactElement {
                       부산 부산진구 중앙대로 716-1 지하1층 ~ 지상6층 (부전동)
                     </p>
                     <Image
-                      src="/icons/common/footer/copy.svg"
+                      src="/assets/common/footer/icons/copy.svg"
                       alt="copy"
                       width={20}
                       height={20}
@@ -119,7 +119,7 @@ export default function Footer(): ReactElement {
               >
                 <div className="flex items-center gap-2 py-2">
                   <Image
-                    src="/icons/common/footer/location.svg"
+                    src="/assets/common/footer/icons/location.svg"
                     alt="location"
                     width={28}
                     height={28}
@@ -140,7 +140,7 @@ export default function Footer(): ReactElement {
                     <button className="flex cursor-pointer items-center gap-1.5 rounded-full border-[0.5px] border-[#F1F5F2] bg-white/10 px-4 py-1 text-sm">
                       <span>주소 복사</span>
                       <Image
-                        src="/icons/common/footer/copy.svg"
+                        src="/assets/common/footer/icons/copy.svg"
                         alt="copy"
                         width={16}
                         height={16}
@@ -161,7 +161,7 @@ export default function Footer(): ReactElement {
                 >
                   <div className="relative w-4.5 aspect-square rounded-sm overflow-clip xl:w-7.5">
                     <Image
-                      src="/images/common/footer/navermap.png"
+                      src="/assets/common/footer/maps/navermap.png"
                       alt="navermap"
                       fill
                     />
@@ -176,7 +176,7 @@ export default function Footer(): ReactElement {
                 >
                   <div className="relative w-4.5 aspect-square rounded-sm overflow-clip xl:w-7.5">
                     <Image
-                      src="/images/common/footer/kakaomap.png"
+                      src="/assets/common/footer/maps/kakaomap.png"
                       alt="kakaomap"
                       fill
                     />
@@ -191,7 +191,7 @@ export default function Footer(): ReactElement {
                 >
                   <div className="relative w-4.5 aspect-square rounded-sm overflow-clip xl:w-7.5">
                     <Image
-                      src="/images/common/footer/tmap.png"
+                      src="/assets/common/footer/maps/tmap.png"
                       alt="tmap"
                       fill
                     />
@@ -206,7 +206,7 @@ export default function Footer(): ReactElement {
                 >
                   <div className="relative w-4.5 aspect-square rounded-sm overflow-clip xl:w-7.5">
                     <Image
-                      src="/images/common/footer/googlemap.png"
+                      src="/assets/common/footer/maps/googlemap.png"
                       alt="googlemap"
                       fill
                     />
@@ -222,7 +222,7 @@ export default function Footer(): ReactElement {
             >
               <div className="hidden xl:flex xl:items-center xl:gap-2 xl:py-2">
                 <Image
-                  src="/icons/common/footer/clock.svg"
+                  src="/assets/common/footer/icons/clock.svg"
                   alt="clock"
                   width={28}
                   height={28}
@@ -294,7 +294,7 @@ export default function Footer(): ReactElement {
             xl:w-50 xl:opacity-50"
           >
             <Image
-              src="/common/logo-white.svg"
+              src="/assets/common/brand/logo-white.svg"
               alt="logo-white"
               fill
               style={{ objectFit: 'cover' }}
@@ -315,7 +315,7 @@ export default function Footer(): ReactElement {
                 className="relative h-6 w-6 xl:h-11.5 xl:w-11.5"
               >
                 <Image
-                  src="/images/common/footer/youtube.png"
+                  src="/assets/common/footer/socials/youtube.png"
                   alt="youtube"
                   fill
                   style={{ objectFit: 'cover' }}
@@ -328,7 +328,7 @@ export default function Footer(): ReactElement {
                 className="relative h-6 w-6 xl:h-11.5 xl:w-11.5"
               >
                 <Image
-                  src="/images/common/footer/instagram.png"
+                  src="/assets/common/footer/socials/instagram.png"
                   alt="instagram"
                   fill
                   style={{ objectFit: 'cover' }}
@@ -341,7 +341,7 @@ export default function Footer(): ReactElement {
                 className="relative h-6 w-6 xl:h-11.5 xl:w-11.5"
               >
                 <Image
-                  src="/images/common/footer/blog.png"
+                  src="/assets/common/footer/socials/blog.png"
                   alt="blog"
                   fill
                   style={{ objectFit: 'cover' }}
@@ -354,7 +354,7 @@ export default function Footer(): ReactElement {
                 className="relative h-6 w-6 xl:h-11.5 xl:w-11.5"
               >
                 <Image
-                  src="/images/common/footer/tictok.png"
+                  src="/assets/common/footer/socials/tictok.png"
                   alt="tictok"
                   fill
                   style={{ objectFit: 'cover' }}
@@ -367,7 +367,7 @@ export default function Footer(): ReactElement {
                 className="relative h-6 w-6 xl:h-11.5 xl:w-11.5"
               >
                 <Image
-                  src="/images/common/footer/kakao.png"
+                  src="/assets/common/footer/socials/kakao.png"
                   alt="kakao"
                   fill
                   style={{ objectFit: 'cover' }}

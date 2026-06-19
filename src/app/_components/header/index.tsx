@@ -66,26 +66,26 @@ export default function Header({ lang, headerText }: HeaderProps) {
   };
 
   const currentLangIcon = {
-    ko: '/icons/common/header/gnb/lang-earth.svg',
-    en: '/icons/common/header/gnb/lang-en.svg',
-    ja: '/icons/common/header/gnb/lang-ja.svg',
+    ko: '/assets/common/header/gnb/lang-earth.svg',
+    en: '/assets/common/header/gnb/lang-en.svg',
+    ja: '/assets/common/header/gnb/lang-ja.svg',
   }[lang];
 
   const languageMenus = [
     {
       code: 'ko' as const,
       label: '한국어',
-      icon: '/icons/common/header/gnb/lang-ko.svg',
+      icon: '/assets/common/header/gnb/lang-ko.svg',
     },
     {
       code: 'en' as const,
       label: 'English',
-      icon: '/icons/common/header/gnb/lang-en.svg',
+      icon: '/assets/common/header/gnb/lang-en.svg',
     },
     {
       code: 'ja' as const,
       label: '日本語',
-      icon: '/icons/common/header/gnb/lang-ja.svg',
+      icon: '/assets/common/header/gnb/lang-ja.svg',
     },
   ];
 
@@ -103,6 +103,10 @@ export default function Header({ lang, headerText }: HeaderProps) {
   const [mobileOpenIds, setMobileOpenIds] = useState<string[]>(() =>
     primaryNavigation.slice(1, 3).map((item) => item.id),
   );
+
+  const closeHamburgerMenu = () => {
+    setIsHamburgerOpen(false);
+  };
 
   const isHeaderVisible = isHamburgerOpen || scrollY <= 72 || isVisible;
 
@@ -137,7 +141,7 @@ export default function Header({ lang, headerText }: HeaderProps) {
               className="relative w-33 aspect-logo flex items-center xl:w-38.75"
             >
               <Image
-                src={`/common/logo.svg`}
+                src={`/assets/common/brand/logo.svg`}
                 alt="logo"
                 style={{ objectFit: 'cover' }}
                 fill
@@ -186,7 +190,7 @@ export default function Header({ lang, headerText }: HeaderProps) {
                 <div className="absolute left-1/2 top-full z-10 pt-1.5 -translate-x-1/2 opacity-0 invisible pointer-events-none transition-all duration-200 group-hover:opacity-100 group-hover:visible group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:visible group-focus-within:pointer-events-auto">
                   <div className="w-max flex flex-col items-center gap-1.5">
                     <Image
-                      src={`/icons/common/header/gnb/arrow-down.svg`}
+                      src={`/assets/common/header/gnb/arrow-down.svg`}
                       alt="arrow-down"
                       width={14}
                       height={8}
@@ -230,7 +234,7 @@ export default function Header({ lang, headerText }: HeaderProps) {
                 onClick={() => setIsHamburgerOpen(true)}
               >
                 <Image
-                  src={`/icons/common/header/gnb/hamburger.svg`}
+                  src={`/assets/common/header/gnb/hamburger.svg`}
                   alt="hamburger"
                   fill
                 />
@@ -262,7 +266,7 @@ export default function Header({ lang, headerText }: HeaderProps) {
               }}
             >
               <Image
-                src={'/common/sparkle.gif'}
+                src={'/assets/common/effects/sparkle.gif'}
                 alt="sparkle"
                 width={32}
                 height={32}
@@ -276,7 +280,7 @@ export default function Header({ lang, headerText }: HeaderProps) {
 
               <button type="submit" className="relative shrink-0 w-6.5 h-6.5">
                 <Image
-                  src={`/icons/common/header/gnb/search.svg`}
+                  src={`/assets/common/header/gnb/search.svg`}
                   alt="search"
                   fill
                   className="xl:brightness-300"
@@ -405,7 +409,7 @@ export default function Header({ lang, headerText }: HeaderProps) {
               <section className="h-14 flex justify-between items-center">
                 <Link href={withLocale(lang, '/')} className="relative">
                   <Image
-                    src={`/common/logo-white.svg`}
+                    src={`/assets/common/brand/logo-white.svg`}
                     alt="logo-white"
                     style={{ objectFit: 'cover' }}
                     width={132}
@@ -416,7 +420,7 @@ export default function Header({ lang, headerText }: HeaderProps) {
                 <div className="flex items-center gap-3">
                   <button className="relative w-7.5 h-7.5">
                     <Image
-                      src={`/icons/common/header/gnb/lang-ko-white.svg`}
+                      src={`/assets/common/header/gnb/lang-ko-white.svg`}
                       alt={`lang-ko-white`}
                       fill
                     />
@@ -424,7 +428,7 @@ export default function Header({ lang, headerText }: HeaderProps) {
 
                   <button className="relative w-7.5 h-7.5">
                     <Image
-                      src={`/icons/common/header/gnb/profile.svg`}
+                      src={`/assets/common/header/gnb/profile.svg`}
                       alt={`profile`}
                       fill
                     />
@@ -436,7 +440,7 @@ export default function Header({ lang, headerText }: HeaderProps) {
                     onClick={() => setIsHamburgerOpen(false)}
                   >
                     <Image
-                      src={`/icons/common/header/gnb/close.svg`}
+                      src={`/assets/common/header/gnb/close.svg`}
                       alt="close"
                       fill
                     />
@@ -458,7 +462,7 @@ export default function Header({ lang, headerText }: HeaderProps) {
 
                   <button type="submit" className="relative w-7.5 h-7.5">
                     <Image
-                      src={`/icons/common/header/gnb/search.svg`}
+                      src={`/assets/common/header/gnb/search.svg`}
                       alt={`search`}
                       fill
                     />
@@ -473,7 +477,7 @@ export default function Header({ lang, headerText }: HeaderProps) {
                   className="flex flex-col justify-center items-center gap-2"
                 >
                   <Image
-                    src={`/icons/common/header/gnb/reservation.svg`}
+                    src={`/assets/common/header/gnb/reservation.svg`}
                     alt={`reservation`}
                     width={26}
                     height={26}
@@ -486,7 +490,7 @@ export default function Header({ lang, headerText }: HeaderProps) {
                   className="flex flex-col justify-center items-center gap-2"
                 >
                   <Image
-                    src={`/icons/common/header/gnb/doctor.svg`}
+                    src={`/assets/common/header/gnb/doctor.svg`}
                     alt={`doctor`}
                     width={26}
                     height={26}
@@ -499,7 +503,7 @@ export default function Header({ lang, headerText }: HeaderProps) {
                   className="flex flex-col justify-center items-center gap-2"
                 >
                   <Image
-                    src={`/icons/common/header/gnb/info.svg`}
+                    src={`/assets/common/header/gnb/info.svg`}
                     alt={`info`}
                     width={26}
                     height={26}
@@ -512,7 +516,7 @@ export default function Header({ lang, headerText }: HeaderProps) {
                   className="flex flex-col justify-center items-center gap-2"
                 >
                   <Image
-                    src={`/icons/common/header/gnb/location.svg`}
+                    src={`/assets/common/header/gnb/location.svg`}
                     alt={`location`}
                     width={26}
                     height={26}
@@ -552,7 +556,7 @@ export default function Header({ lang, headerText }: HeaderProps) {
                         }`}
                       >
                         <Image
-                          src={`/icons/common/header/gnb/${
+                          src={`/assets/common/header/gnb/${
                             isOpen ? 'minus' : 'plus'
                           }.svg`}
                           alt={isOpen ? 'minus' : 'plus'}
@@ -565,7 +569,7 @@ export default function Header({ lang, headerText }: HeaderProps) {
                         </span>
 
                         <Image
-                          src={`/icons/common/header/gnb/symbol.svg`}
+                          src={`/assets/common/header/gnb/symbol.svg`}
                           alt="symbol"
                           width={74}
                           height={65}
@@ -580,6 +584,7 @@ export default function Header({ lang, headerText }: HeaderProps) {
                               <li key={child.id}>
                                 <Link
                                   href={withLocale(lang, child.href)}
+                                  onClick={closeHamburgerMenu}
                                   className="h-11 flex items-center tracking-[-4%] text-xl text-[#555555]"
                                 >
                                   {`· ${child.title}`}
@@ -596,8 +601,9 @@ export default function Header({ lang, headerText }: HeaderProps) {
 
               <section className="w-full max-w-none bg-white px-5 pb-2">
                 <div className="relative w-full aspect-[3.98809524/1]">
-                  <Image src={`/images/temp/banner.png`} alt="banner" fill />
+                  <Image src={`/assets/temp/banner.png`} alt="banner" fill />
                 </div>
+                ``~
               </section>
             </div>
           </div>
