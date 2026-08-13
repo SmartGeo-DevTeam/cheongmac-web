@@ -25,8 +25,7 @@ const BASE_NEWS_ITEMS: NewsItem[] = [
     id: 2,
     category: 'inside',
     title: '제헌절 휴진 안내',
-    excerpt:
-      '제헌절 진료 일정을 안내드립니다. 내원 전 진료시간을 확인해 주세요.',
+    excerpt: '제헌절 진료 일정을 안내드립니다. 내원 전 진료시간을 확인해 주세요.',
     date: '2026.10.28',
     imageSrc: '/assets/news/holiday.webp',
   },
@@ -34,8 +33,7 @@ const BASE_NEWS_ITEMS: NewsItem[] = [
     id: 3,
     category: 'inside',
     title: '청맥병원 개원 16주년',
-    excerpt:
-      '청맥병원이 개원 16주년을 맞았습니다. 보내주신 신뢰에 더 좋은 진료로 보답하겠습니다.',
+    excerpt: '청맥병원이 개원 16주년을 맞았습니다. 보내주신 신뢰에 더 좋은 진료로 보답하겠습니다.',
     date: '2026.10.28',
     imageSrc: '/assets/news/anniversary.webp',
   },
@@ -43,8 +41,7 @@ const BASE_NEWS_ITEMS: NewsItem[] = [
     id: 4,
     category: 'inside',
     title: '2026년 새해 인사',
-    excerpt:
-      '새해에도 건강과 행복이 가득하시길 바랍니다. 청맥병원이 늘 함께하겠습니다.',
+    excerpt: '새해에도 건강과 행복이 가득하시길 바랍니다. 청맥병원이 늘 함께하겠습니다.',
     date: '2026.10.28',
     imageSrc: '/assets/news/new-year.webp',
   },
@@ -52,8 +49,7 @@ const BASE_NEWS_ITEMS: NewsItem[] = [
     id: 5,
     category: 'inside',
     title: '원데이 수술 안내',
-    excerpt:
-      '검사부터 수술, 회복과 퇴원까지 환자분의 일상을 고려한 진료 시스템을 안내합니다.',
+    excerpt: '검사부터 수술, 회복과 퇴원까지 환자분의 일상을 고려한 진료 시스템을 안내합니다.',
     date: '2026.10.28',
     imageSrc: '/assets/news/one-day-surgery.webp',
   },
@@ -69,8 +65,7 @@ const BASE_NEWS_ITEMS: NewsItem[] = [
     id: 7,
     category: 'inside',
     title: '당일접수 진료 안내',
-    excerpt:
-      '오전·오후 진료 접수 시간을 확인하시고 편안한 내원을 준비해 주세요.',
+    excerpt: '오전·오후 진료 접수 시간을 확인하시고 편안한 내원을 준비해 주세요.',
     date: '2026.10.28',
     imageSrc: '/assets/news/same-day-care.webp',
   },
@@ -144,8 +139,7 @@ const BASE_NEWS_ITEMS: NewsItem[] = [
   {
     id: 15,
     category: 'press',
-    title:
-      '[의학칼럼] 보험 환경 변화 속 하지정맥류 부거술이 다시 언급되는 이유',
+    title: '[의학칼럼] 보험 환경 변화 속 하지정맥류 부거술이 다시 언급되는 이유',
     excerpt:
       '보장 환경 변화와 의료 현장의 흐름 속에서 하지정맥류 치료 방법의 선택 기준을 살펴봅니다.',
     date: '2026.10.28',
@@ -156,8 +150,7 @@ const BASE_NEWS_ITEMS: NewsItem[] = [
   {
     id: 16,
     category: 'press',
-    title:
-      "[의학칼럼] '허리 디스크인 줄 알고 찾았는데'···다리 절단 부르는 질환",
+    title: "[의학칼럼] '허리 디스크인 줄 알고 찾았는데'···다리 절단 부르는 질환",
     excerpt:
       '일상적인 다리 통증처럼 보여도 주의해야 할 혈관질환의 신호와 조기 진단의 중요성을 전합니다.',
     date: '2026.10.28',
@@ -178,9 +171,7 @@ const BASE_NEWS_ITEMS: NewsItem[] = [
   },
 ];
 
-const ALL_NEWS_ORDER = [
-  1, 2, 3, 4, 5, 6, 7, 13, 14, 8, 9, 10, 11, 12, 15, 16, 17,
-];
+const ALL_NEWS_ORDER = [1, 2, 3, 4, 5, 6, 7, 13, 14, 8, 9, 10, 11, 12, 15, 16, 17];
 
 const ORDERED_BASE_NEWS_ITEMS = ALL_NEWS_ORDER.map((id) =>
   BASE_NEWS_ITEMS.find((item) => item.id === id),

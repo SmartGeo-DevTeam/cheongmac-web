@@ -1,26 +1,28 @@
 'use client';
 
-import { createContext, useContext, useMemo, type ReactNode } from 'react';
-import { HomeSectionProps } from '../[lang]/_components/home/types';
+import {
+  createContext,
+  useContext,
+  useMemo,
+  type ReactNode,
+} from 'react';
 
-type HomeContextValue = HomeSectionProps;
+type HomeContextValue = {
+  home?: Record<string, unknown>;
+};
+
+type HomeProviderProps = HomeContextValue & {
+  children: ReactNode;
+};
 
 const HomeContext = createContext<HomeContextValue | null>(null);
 
-export function HomeProvider({
-  lang,
-  home,
-  children,
-}: HomeSectionProps & {
-  children: ReactNode;
-}) {
-  const value = useMemo<HomeContextValue>(
-    () => ({
-      lang,
-      home,
-    }),
-    [lang, home],
-  );
+/**
+ * 다국어 구조 제거 전의 HomeProvider import 호환성을 위한 provider입니다.
+ * 현재 홈 섹션은 정적 컴포넌트로 구성되어 있어 lang 값은 더 이상 사용하지 않습니다.
+ */
+export function HomeProvider({ home, children }: HomeProviderProps) {
+  const value = useMemo<HomeContextValue>(() => ({ home }), [home]);
 
   return <HomeContext.Provider value={value}>{children}</HomeContext.Provider>;
 }
