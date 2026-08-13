@@ -20,11 +20,16 @@ const footerNavs = [
   },
   {
     id: '3',
+    title: '이용약관',
+    link: '/terms',
+  },
+  {
+    id: '4',
     title: '환자권리장전',
     link: '/',
   },
   {
-    id: '4',
+    id: '5',
     title: '이메일무단수집거부',
     link: '/',
   },
