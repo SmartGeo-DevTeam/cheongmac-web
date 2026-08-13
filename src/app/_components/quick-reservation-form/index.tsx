@@ -60,7 +60,7 @@ export default function QuickReservationForm() {
         >
           <span>{labels.title}</span>
           <Image
-            src={`/assets/common/effects/talking.gif`}
+            src={`/assets/effects/talking.gif`}
             alt="speech-bubble"
             width={18}
             height={18}

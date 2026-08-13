@@ -646,8 +646,8 @@ export default function HomeCover() {
       >
         <SwiperSlide>
           <div
-            className="relative px-5 pb-[5%] w-full h-full flex flex-col justify-center items-center rounded-[20px] bg-[url('/assets/home/cover/m-slide-bg-1.png')] bg-cover bg-center bg-no-repeat
-            xl:pb-[6%] xl:rounded-none xl:bg-[url('/assets/home/cover/pc-slide-bg-1.png')]"
+            className="relative px-5 pb-[5%] w-full h-full flex flex-col justify-center items-center rounded-[20px] bg-[url('/assets/images/home-cover-mobile-1.png')] bg-cover bg-center bg-no-repeat
+            xl:pb-[6%] xl:rounded-none xl:bg-[url('/assets/images/home-cover-desktop-1.png')]"
           >
             <div
               className="order-1 flex flex-col items-center text-4xl leading-[125%] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)]
@@ -672,7 +672,7 @@ export default function HomeCover() {
               xl:order-1 xl:mt-0 xl:text-lg"
             >
               <Image
-                src={'/assets/common/effects/sparkle.gif'}
+                src={'/assets/effects/sparkle.gif'}
                 alt="sparkle"
                 width={22}
                 height={22}
@@ -684,8 +684,8 @@ export default function HomeCover() {
 
         <SwiperSlide>
           <div
-            className="relative px-5 pb-[5%] flex h-full w-full flex-col items-center justify-center rounded-[20px] bg-[url('/assets/home/cover/m-slide-bg-1.png')] bg-cover bg-center bg-no-repeat
-            xl:pb-[3%] xl:rounded-none xl:bg-[url('/assets/home/cover/pc-slide-bg-2.png')]"
+            className="relative px-5 pb-[5%] flex h-full w-full flex-col items-center justify-center rounded-[20px] bg-[url('/assets/images/home-cover-mobile-1.png')] bg-cover bg-center bg-no-repeat
+            xl:pb-[3%] xl:rounded-none xl:bg-[url('/assets/images/home-cover-desktop-2.png')]"
           >
             <div className="flex flex-col items-center text-4xl leading-[125%] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)] xl:flex-row xl:gap-1.75 xl:text-6xl">
               <p>혈관을 잘 아는 의사,</p>
@@ -712,8 +712,8 @@ export default function HomeCover() {
 
         <SwiperSlide>
           <div
-            className="relative px-5 pb-[5%] flex h-full w-full flex-col items-center justify-center rounded-[20px] bg-[url('/assets/home/cover/m-slide-bg-1.png')] bg-cover bg-center bg-no-repeat
-            xl:pb-[3%] xl:rounded-none xl:bg-[url('/assets/home/cover/pc-slide-bg-3.png')]"
+            className="relative px-5 pb-[5%] flex h-full w-full flex-col items-center justify-center rounded-[20px] bg-[url('/assets/images/home-cover-mobile-1.png')] bg-cover bg-center bg-no-repeat
+            xl:pb-[3%] xl:rounded-none xl:bg-[url('/assets/images/home-cover-desktop-3.png')]"
           >
             <div className="flex flex-col items-center text-4xl leading-[125%] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)] xl:flex-row xl:gap-1.75 xl:text-6xl">
               <p>대한정맥학회도</p>

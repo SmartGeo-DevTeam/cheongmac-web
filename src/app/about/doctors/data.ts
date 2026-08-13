@@ -54,10 +54,10 @@ export const DOCTORS: Doctor[] = [
       '대한외과학회 상임이사/평생회원',
       '미국정맥학회 정회원',
     ],
-    mobileImageSrc: '/assets/doctors/bak/headshot-mobile.png',
-    desktopImageSrc: '/assets/doctors/bak/profile-desktop.png',
-    commonProfileImageSrc: '/assets/doctors/bak/profile-transparent.png',
-    movingProfileImageSrc: '/assets/doctors/bak/motion.gif',
+    mobileImageSrc: '/assets/doctors/bak-headshot-mobile.png',
+    desktopImageSrc: '/assets/doctors/bak-profile-desktop.png',
+    commonProfileImageSrc: '/assets/doctors/bak-profile-transparent.png',
+    movingProfileImageSrc: '/assets/doctors/bak-motion.gif',
     reservationHref: '/',
     schedule: [
       {
@@ -95,10 +95,10 @@ export const DOCTORS: Doctor[] = [
       '대한혈관외과학회 정회원',
       '대한정맥학회 정회원',
     ],
-    mobileImageSrc: '/assets/doctors/jeon/headshot-mobile.png',
-    desktopImageSrc: '/assets/doctors/jeon/profile-desktop.png',
-    commonProfileImageSrc: '/assets/doctors/jeon/profile-transparent.png',
-    movingProfileImageSrc: '/assets/doctors/jeon/motion.gif',
+    mobileImageSrc: '/assets/doctors/jeon-headshot-mobile.png',
+    desktopImageSrc: '/assets/doctors/jeon-profile-desktop.png',
+    commonProfileImageSrc: '/assets/doctors/jeon-profile-transparent.png',
+    movingProfileImageSrc: '/assets/doctors/jeon-motion.gif',
     reservationHref: '/',
     schedule: [
       {
@@ -136,10 +136,10 @@ export const DOCTORS: Doctor[] = [
       '대한혈관외과학회 정회원',
       '대한정맥학회 정회원',
     ],
-    mobileImageSrc: '/assets/doctors/jang/headshot-mobile.png',
-    desktopImageSrc: '/assets/doctors/jang/profile-desktop.png',
-    commonProfileImageSrc: '/assets/doctors/jang/profile-transparent.png',
-    movingProfileImageSrc: '/assets/doctors/jang/motion.gif',
+    mobileImageSrc: '/assets/doctors/jang-headshot-mobile.png',
+    desktopImageSrc: '/assets/doctors/jang-profile-desktop.png',
+    commonProfileImageSrc: '/assets/doctors/jang-profile-transparent.png',
+    movingProfileImageSrc: '/assets/doctors/jang-motion.gif',
     reservationHref: '/',
     schedule: [
       {
@@ -177,10 +177,10 @@ export const DOCTORS: Doctor[] = [
       '대한혈관외과학회 정회원',
       '대한정맥학회 정회원',
     ],
-    mobileImageSrc: '/assets/doctors/byun/headshot-mobile.png',
-    desktopImageSrc: '/assets/doctors/byun/profile-desktop.png',
-    commonProfileImageSrc: '/assets/doctors/byun/profile-transparent.png',
-    movingProfileImageSrc: '/assets/doctors/byun/motion.gif',
+    mobileImageSrc: '/assets/doctors/byun-headshot-mobile.png',
+    desktopImageSrc: '/assets/doctors/byun-profile-desktop.png',
+    commonProfileImageSrc: '/assets/doctors/byun-profile-transparent.png',
+    movingProfileImageSrc: '/assets/doctors/byun-motion.gif',
     reservationHref: '/',
     schedule: [
       {
@@ -217,10 +217,10 @@ export const DOCTORS: Doctor[] = [
       '대한영상의학회 정회원',
       '대한초음파의학회 정회원',
     ],
-    mobileImageSrc: '/assets/doctors/bae/headshot-mobile.png',
-    desktopImageSrc: '/assets/doctors/bae/profile-desktop.png',
-    commonProfileImageSrc: '/assets/doctors/bae/profile-transparent.png',
-    movingProfileImageSrc: '/assets/doctors/bae/motion.gif',
+    mobileImageSrc: '/assets/doctors/bae-headshot-mobile.png',
+    desktopImageSrc: '/assets/doctors/bae-profile-desktop.png',
+    commonProfileImageSrc: '/assets/doctors/bae-profile-transparent.png',
+    movingProfileImageSrc: '/assets/doctors/bae-motion.gif',
     reservationHref: '/',
     schedule: [
       {
@@ -257,10 +257,10 @@ export const DOCTORS: Doctor[] = [
       '대한마취통증의학회 정회원',
       '대한통증학회 정회원',
     ],
-    mobileImageSrc: '/assets/doctors/kim/headshot-mobile.png',
-    desktopImageSrc: '/assets/doctors/kim/profile-desktop.png',
-    commonProfileImageSrc: '/assets/doctors/kim/profile-transparent.png',
-    movingProfileImageSrc: '/assets/doctors/kim/motion.gif',
+    mobileImageSrc: '/assets/doctors/kim-headshot-mobile.png',
+    desktopImageSrc: '/assets/doctors/kim-profile-desktop.png',
+    commonProfileImageSrc: '/assets/doctors/kim-profile-transparent.png',
+    movingProfileImageSrc: '/assets/doctors/kim-motion.gif',
     reservationHref: '/',
     schedule: [
       {

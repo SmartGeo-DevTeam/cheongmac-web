@@ -6,19 +6,19 @@ const noticeBanners = [
   {
     id: 1,
     href: '/',
-    imageSrc: '/assets/home/notice/1.png',
+    imageSrc: '/assets/images/home-notice-1.png',
     alt: 'banner-1',
   },
   {
     id: 2,
     href: '/',
-    imageSrc: '/assets/home/notice/2.png',
+    imageSrc: '/assets/images/home-notice-2.png',
     alt: 'banner-2',
   },
   {
     id: 3,
     href: '/',
-    imageSrc: '/assets/home/notice/3.png',
+    imageSrc: '/assets/images/home-notice-3.png',
     alt: 'banner-3',
   },
 ] as const;

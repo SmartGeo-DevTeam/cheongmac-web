@@ -691,7 +691,7 @@ export default function MacGptSearchLayer() {
                       duration: 0.32,
                       ease: [0.22, 1, 0.36, 1],
                     }}
-                    className="flex h-full flex-col items-center pt-[193px]"
+                    className="flex h-full flex-col justify-center items-center"
                   >
                     <button
                       type="button"

@@ -267,14 +267,14 @@ export default function AboutDoctors(): React.ReactNode {
             xl:aspect-1280/360"
           >
             <Image
-              src="/assets/doctors/sections/matching-mobile.png"
+              src="/assets/doctors/section-matching-mobile.png"
               alt="지금 나에게 필요한 청맥 의료진은 누구일까?"
               fill
               className="block xl:hidden"
             />
 
             <Image
-              src="/assets/doctors/sections/matching-desktop.png"
+              src="/assets/doctors/section-matching-desktop.png"
               alt="지금 나에게 필요한 청맥 의료진은 누구일까?"
               fill
               className="hidden xl:block"
@@ -290,7 +290,7 @@ export default function AboutDoctors(): React.ReactNode {
             xl:mt-10 xl:px-5 xl:aspect-1320/715"
           >
             <Image
-              src="/assets/doctors/sections/message-mobile.png"
+              src="/assets/doctors/section-message-mobile.png"
               alt="환자의 아픔을 먼저 듣고, 가장 안전한 길을 제시하겠습니다."
               fill
               className="block xl:hidden"
@@ -298,7 +298,7 @@ export default function AboutDoctors(): React.ReactNode {
 
             <div className="relative w-full h-full z-10">
               <Image
-                src="/assets/doctors/sections/message-desktop.png"
+                src="/assets/doctors/section-message-desktop.png"
                 alt="환자의 아픔을 먼저 듣고, 가장 안전한 길을 제시하겠습니다."
                 fill
                 className="hidden xl:block"

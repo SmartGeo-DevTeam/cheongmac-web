@@ -16,13 +16,13 @@ export default function HomeBanners() {
         xl:mx-auto xl:max-w-7xl xl:aspect-1280/317"
         >
           <Image
-            src="/assets/home/banners/m-item-1.png"
+            src="/assets/images/home-banner-mobile.png"
             alt="m-item-1"
             fill
             className="block xl:hidden"
           />
           <Image
-            src="/assets/home/banners/pc-item-1.png"
+            src="/assets/images/home-banner-desktop.png"
             alt="pc-item-1"
             fill
             className="hidden xl:block"

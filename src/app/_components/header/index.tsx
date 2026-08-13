@@ -1,26 +1,26 @@
-"use client";
+'use client';
 
-import { getPrimaryNavigation } from "@/_lib/navigation";
+import { getPrimaryNavigation } from '@/_lib/navigation';
 import {
   closeMacGptSearch,
   openMacGptSearch,
-} from "@/app/_components/mac-gpt-search";
-import { useScrollDirection } from "@/app/_providers/scroll-direction-provider";
-import Image from "next/image";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useState } from "react";
+} from '@/app/_components/mac-gpt-search';
+import { useScrollDirection } from '@/app/_providers/scroll-direction-provider';
+import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useState } from 'react';
 
 const HEADER_TEXT = {
   button: {
-    signIn: "로그인",
+    signIn: '로그인',
   },
   reservation: {
-    title: "간편예약",
-    desc_1: "연락처를 남겨주시면",
-    desc_2: "전문상담원이 예약을 도와드립니다.",
-    button_1: "예약",
-    button_2: "신청",
+    title: '간편예약',
+    desc_1: '연락처를 남겨주시면',
+    desc_2: '전문상담원이 예약을 도와드립니다.',
+    button_1: '예약',
+    button_2: '신청',
   },
 } as const;
 
@@ -30,7 +30,7 @@ export default function Header() {
   const { isVisible, scrollY } = useScrollDirection();
 
   const [hoveredPrimaryId, setHoveredPrimaryId] = useState<string | null>(
-    "null",
+    'null',
   );
 
   const primaryNavigation = getPrimaryNavigation();
@@ -42,14 +42,14 @@ export default function Header() {
   const shouldHideAiSearch = Boolean(hoveredPrimary?.children?.length);
 
   const isCurrentPath = (href: string) => {
-    if (href === "/") {
+    if (href === '/') {
       return pathname === href;
     }
 
     return pathname === href || pathname.startsWith(`${href}/`);
   };
 
-  const aiSearchPlaceholder = "무엇이 궁금하신가요?";
+  const aiSearchPlaceholder = '무엇이 궁금하신가요?';
 
   const handleAiSearchOpen = () => {
     openMacGptSearch();
@@ -73,8 +73,8 @@ export default function Header() {
           xl:border-b xl:border-b-[#CCCCCC]
           ${
             isHeaderVisible
-              ? "translate-y-0 pointer-events-auto"
-              : "-translate-y-[calc(100%+72px)] pointer-events-none xl:-translate-y-[calc(100%+64px)]"
+              ? 'translate-y-0 pointer-events-auto'
+              : '-translate-y-[calc(100%+72px)] pointer-events-none xl:-translate-y-[calc(100%+64px)]'
           }`}
         onMouseLeave={() => setHoveredPrimaryId(null)}
         onTransitionEnd={() => {
@@ -87,7 +87,7 @@ export default function Header() {
         <section className="relative z-50 bg-white">
           <div className="mx-auto max-w-420 px-5 w-full h-14 flex justify-between items-center xl:h-20">
             <Link
-              href={"/"}
+              href={'/'}
               onClick={() => {
                 closeMacGptSearch();
                 setHoveredPrimaryId(null);
@@ -96,9 +96,9 @@ export default function Header() {
               className="relative w-33 aspect-logo flex items-center xl:w-38.75"
             >
               <Image
-                src={`/assets/common/brand/logo.svg`}
+                src={`/assets/brand/logo.svg`}
                 alt="logo"
-                style={{ objectFit: "cover" }}
+                style={{ objectFit: 'cover' }}
                 fill
               />
             </Link>
@@ -117,8 +117,8 @@ export default function Header() {
                     onFocus={() => setHoveredPrimaryId(item.id)}
                     className={`relative px-7 flex items-center tracking-[-4%] font-medium text-lg cursor-pointer transition ${
                       isActive
-                        ? "border-cm-orange text-cm-orange"
-                        : "border-transparent text-gray-700 hover:font-bold hover:text-cm-orange"
+                        ? 'border-cm-orange text-cm-orange'
+                        : 'border-transparent text-gray-700 hover:font-bold hover:text-cm-orange'
                     }`}
                   >
                     {item.title}
@@ -131,7 +131,7 @@ export default function Header() {
             <div className="relative right-0 flex items-center gap-3 z-50 xl:gap-4">
               {/* Desktop - Login Button */}
               <Link
-                href={"/signin"}
+                href={'/signin'}
                 className="hidden xl:block shrink-0 px-3.5 py-[3.5px] rounded-lg border border-[#E8E9EA] tracking-[-5%] text-[15px] text-[#555555]"
               >
                 {headerText.button.signIn}
@@ -144,7 +144,7 @@ export default function Header() {
                 onClick={() => setIsHamburgerOpen(true)}
               >
                 <Image
-                  src={`/assets/common/header/gnb/hamburger.svg`}
+                  src={`/assets/icons/header-hamburger.svg`}
                   alt="hamburger"
                   fill
                 />
@@ -159,8 +159,8 @@ export default function Header() {
             xl:top-22
             ${
               shouldHideAiSearch
-                ? "invisible -translate-y-2 opacity-0"
-                : "visible translate-y-0 opacity-100"
+                ? 'invisible -translate-y-2 opacity-0'
+                : 'visible translate-y-0 opacity-100'
             }
             `}
         >
@@ -176,7 +176,7 @@ export default function Header() {
               }}
             >
               <Image
-                src={"/assets/common/effects/sparkle.gif"}
+                src={'/assets/effects/sparkle.gif'}
                 alt="sparkle"
                 width={32}
                 height={32}
@@ -190,7 +190,7 @@ export default function Header() {
 
               <button type="submit" className="relative shrink-0 w-6.5 h-6.5">
                 <Image
-                  src={`/assets/common/header/gnb/search.svg`}
+                  src={`/assets/icons/header-search.svg`}
                   alt="search"
                   fill
                   className="xl:brightness-300"
@@ -218,8 +218,8 @@ export default function Header() {
                       key={item.id}
                       className={`col-start-1 row-start-1 flex ${
                         isActive
-                          ? "visible opacity-100"
-                          : "invisible opacity-0 pointer-events-none"
+                          ? 'visible opacity-100'
+                          : 'invisible opacity-0 pointer-events-none'
                       }`}
                     >
                       {/* Reservation */}
@@ -317,24 +317,28 @@ export default function Header() {
             <div className="fixed left-0 top-0 z-10 flex h-51 w-screen max-w-none flex-col border-b border-b-[#EEEEEE] bg-cm-orange px-5">
               {/* Header */}
               <section className="h-14 flex justify-between items-center">
-                <Link href={"/"} className="relative">
+                <Link href={'/'} className="relative">
                   <Image
-                    src={`/assets/common/brand/logo-white.svg`}
+                    src={`/assets/brand/logo-white.svg`}
                     alt="logo-white"
-                    style={{ objectFit: "cover" }}
+                    style={{ objectFit: 'cover' }}
                     width={132}
                     height={34}
                   />
                 </Link>
 
                 <div className="flex items-center gap-3">
-                  <button className="relative w-7.5 h-7.5">
+                  <Link
+                    href="/signin"
+                    onClick={closeHamburgerMenu}
+                    className="relative w-7.5 h-7.5"
+                  >
                     <Image
-                      src={`/assets/common/header/gnb/profile.svg`}
-                      alt={`profile`}
+                      src={`/assets/icons/header-profile.svg`}
+                      alt="로그인"
                       fill
                     />
-                  </button>
+                  </Link>
 
                   <button
                     type="button"
@@ -342,7 +346,7 @@ export default function Header() {
                     onClick={() => setIsHamburgerOpen(false)}
                   >
                     <Image
-                      src={`/assets/common/header/gnb/close.svg`}
+                      src={`/assets/icons/header-close.svg`}
                       alt="close"
                       fill
                     />
@@ -364,7 +368,7 @@ export default function Header() {
 
                   <button type="submit" className="relative w-7.5 h-7.5">
                     <Image
-                      src={`/assets/common/header/gnb/search.svg`}
+                      src={`/assets/icons/header-search.svg`}
                       alt={`search`}
                       fill
                     />
@@ -373,57 +377,19 @@ export default function Header() {
               </section>
 
               {/* Quick Menus */}
-              <section className="h-19.5 grid grid-cols-4 text-white tracking-[-4%] text-xs">
+              <section className="h-19.5 flex items-center justify-center text-white tracking-[-4%] text-xs">
                 <Link
-                  href={"/"}
-                  className="flex flex-col justify-center items-center gap-2"
+                  href="/about/doctors"
+                  onClick={closeHamburgerMenu}
+                  className="w-1/4 flex flex-col justify-center items-center gap-2"
                 >
                   <Image
-                    src={`/assets/common/header/gnb/reservation.svg`}
-                    alt={`reservation`}
-                    width={26}
-                    height={26}
-                  />
-                  <span>간편예약</span>
-                </Link>
-
-                <Link
-                  href={"/"}
-                  className="flex flex-col justify-center items-center gap-2"
-                >
-                  <Image
-                    src={`/assets/common/header/gnb/doctor.svg`}
-                    alt={`doctor`}
+                    src={`/assets/icons/header-doctor.svg`}
+                    alt="의료진"
                     width={26}
                     height={26}
                   />
                   <span>의료진</span>
-                </Link>
-
-                <Link
-                  href={"/"}
-                  className="flex flex-col justify-center items-center gap-2"
-                >
-                  <Image
-                    src={`/assets/common/header/gnb/info.svg`}
-                    alt={`info`}
-                    width={26}
-                    height={26}
-                  />
-                  <span>진료안내</span>
-                </Link>
-
-                <Link
-                  href={"/"}
-                  className="flex flex-col justify-center items-center gap-2"
-                >
-                  <Image
-                    src={`/assets/common/header/gnb/location.svg`}
-                    alt={`location`}
-                    width={26}
-                    height={26}
-                  />
-                  <span>오시는길</span>
                 </Link>
               </section>
             </div>
@@ -432,6 +398,29 @@ export default function Header() {
               {/* Navs */}
               <section className="w-full max-w-none flex-1 overflow-y-auto overflow-x-hidden bg-white pb-28">
                 {primaryNavigation.map((item) => {
+                  if (!item.children?.length) {
+                    return (
+                      <Link
+                        key={item.id}
+                        href={item.href}
+                        onClick={closeHamburgerMenu}
+                        className="relative flex h-15 w-full items-center border-t border-t-[#EEEEEE] border-b border-b-[#EEEEEE] px-10 bg-white"
+                      >
+                        <span className="tracking-[-4%] font-medium text-xl text-cm-orange">
+                          {item.title}
+                        </span>
+
+                        <Image
+                          src={`/assets/brand/symbol-white.svg`}
+                          alt="symbol"
+                          width={74}
+                          height={65}
+                          className="absolute -right-3 top-2"
+                        />
+                      </Link>
+                    );
+                  }
+
                   const isOpen = mobileOpenIds.includes(item.id);
 
                   return (
@@ -454,14 +443,14 @@ export default function Header() {
                     >
                       <summary
                         className={`relative flex h-15 w-full list-none items-center gap-2 border-t border-t-[#EEEEEE] border-b border-b-[#EEEEEE] px-10 [&::-webkit-details-marker]:hidden ${
-                          isOpen ? "bg-[#F7F7F7]" : ""
+                          isOpen ? 'bg-[#F7F7F7]' : ''
                         }`}
                       >
                         <Image
-                          src={`/assets/common/header/gnb/${
-                            isOpen ? "minus" : "plus"
+                          src={`/assets/icons/header-${
+                            isOpen ? 'minus' : 'plus'
                           }.svg`}
-                          alt={isOpen ? "minus" : "plus"}
+                          alt={isOpen ? 'minus' : 'plus'}
                           width={30}
                           height={30}
                         />
@@ -471,7 +460,7 @@ export default function Header() {
                         </span>
 
                         <Image
-                          src={`/assets/common/header/gnb/symbol.svg`}
+                          src={`/assets/brand/symbol-white.svg`}
                           alt="symbol"
                           width={74}
                           height={65}
@@ -479,23 +468,21 @@ export default function Header() {
                         />
                       </summary>
 
-                      {item.children?.length ? (
-                        <div className="w-full max-w-none py-2 pl-[72px]">
-                          <ul className="flex flex-col">
-                            {item.children.map((child) => (
-                              <li key={child.id}>
-                                <Link
-                                  href={child.href}
-                                  onClick={closeHamburgerMenu}
-                                  className="h-11 flex items-center tracking-[-4%] text-xl text-[#555555]"
-                                >
-                                  {`· ${child.title}`}
-                                </Link>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      ) : null}
+                      <div className="w-full max-w-none py-2 pl-[72px]">
+                        <ul className="flex flex-col">
+                          {item.children.map((child) => (
+                            <li key={child.id}>
+                              <Link
+                                href={child.href}
+                                onClick={closeHamburgerMenu}
+                                className="h-11 flex items-center tracking-[-4%] text-xl text-[#555555]"
+                              >
+                                {`· ${child.title}`}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
                     </details>
                   );
                 })}
@@ -503,7 +490,7 @@ export default function Header() {
 
               <section className="w-full max-w-none bg-white px-5 pb-2">
                 <div className="relative w-full aspect-[3.98809524/1]">
-                  <Image src={`/assets/temp/banner.png`} alt="banner" fill />
+                  <Image src={`/assets/images/temp-banner.png`} alt="banner" fill />
                 </div>
                 ``~
               </section>

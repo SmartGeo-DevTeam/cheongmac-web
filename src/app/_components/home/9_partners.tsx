@@ -8,37 +8,37 @@ const partners = [
   {
     id: 1,
     name: '국가보훈부',
-    imageSrc: '/assets/home/partners/1.png',
+    imageSrc: '/assets/images/home-partner-1.png',
   },
   {
     id: 2,
     name: '울산청맥외과의원',
-    imageSrc: '/assets/home/partners/2.png',
+    imageSrc: '/assets/images/home-partner-2.png',
   },
   {
     id: 3,
     name: '대구청맥의원',
-    imageSrc: '/assets/home/partners/3.png',
+    imageSrc: '/assets/images/home-partner-3.png',
   },
   {
     id: 4,
     name: '남북하나개발원',
-    imageSrc: '/assets/home/partners/4.png',
+    imageSrc: '/assets/images/home-partner-4.png',
   },
   {
     id: 5,
     name: '경남정보대학교',
-    imageSrc: '/assets/home/partners/5.png',
+    imageSrc: '/assets/images/home-partner-5.png',
   },
   {
     id: 6,
     name: '부산대학교병원',
-    imageSrc: '/assets/home/partners/6.png',
+    imageSrc: '/assets/images/home-partner-6.png',
   },
   {
     id: 7,
     name: '사랑의열매',
-    imageSrc: '/assets/home/partners/7.png',
+    imageSrc: '/assets/images/home-partner-7.png',
   },
 ] as const;
 

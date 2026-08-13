@@ -27,7 +27,7 @@ const scheduleDays = [
 const patientReviews = [
   {
     id: 1,
-    imageSrc: "/assets/home/reviews/1-after.png",
+    imageSrc: "/assets/images/home-review-after-1.png",
     patientName: "김*숙 님",
     age: 34,
     gender: "여성",
@@ -35,7 +35,7 @@ const patientReviews = [
   },
   {
     id: 2,
-    imageSrc: "/assets/home/reviews/1-before.png",
+    imageSrc: "/assets/images/home-review-before-1.png",
     patientName: "김*숙 님",
     age: 34,
     gender: "여성",
@@ -43,7 +43,7 @@ const patientReviews = [
   },
   {
     id: 3,
-    imageSrc: "/assets/home/reviews/1-after.png",
+    imageSrc: "/assets/images/home-review-after-1.png",
     patientName: "김*숙 님",
     age: 34,
     gender: "여성",
@@ -55,19 +55,19 @@ const thumbnails = [
   {
     id: 1,
     title: "하지정맥류 관리 말도 안되는 소리!",
-    imageUrl: "/assets/doctors/temp/temp-thumbnail-1.png",
+    imageUrl: "/assets/doctors/temp-thumbnail-1.png",
     path: "/",
   },
   {
     id: 2,
     title: "일상을 바꾸다",
-    imageUrl: "/assets/doctors/temp/temp-thumbnail-2.png",
+    imageUrl: "/assets/doctors/temp-thumbnail-2.png",
     path: "/",
   },
   {
     id: 3,
     title: "왜 해?! 자궁적출",
-    imageUrl: "/assets/doctors/temp/temp-thumbnail-3.png",
+    imageUrl: "/assets/doctors/temp-thumbnail-3.png",
     path: "/",
   },
 ] as const;
@@ -76,19 +76,19 @@ const thesis = [
   {
     id: 1,
     title: "대한정맥학회 학술지 논문 게재",
-    imageUrl: "/assets/doctors/temp/temp-thesis.png",
+    imageUrl: "/assets/doctors/temp-thesis.png",
     path: "/",
   },
   {
     id: 2,
     title: "대한정맥학회 학술지 논문 게재",
-    imageUrl: "/assets/doctors/temp/temp-thesis.png",
+    imageUrl: "/assets/doctors/temp-thesis.png",
     path: "/",
   },
   {
     id: 3,
     title: "대한정맥학회 학술지 논문 게재",
-    imageUrl: "/assets/doctors/temp/temp-thesis.png",
+    imageUrl: "/assets/doctors/temp-thesis.png",
     path: "/",
   },
 ] as const;
@@ -297,7 +297,7 @@ function DetailInfoBlock({
         className="relative mb-2 pb-2 border-b border-b-[#E5E7EB] font-semibold text-sm text-[#FB9A74]
         xl:pl-9 xl:text-[28px] xl:text-[#FD7740]
         xl:before:absolute xl:before:left-0 xl:before:top-2 xl:before:w-7 xl:before:h-7
-        xl:before:bg-[url('/assets/common/brand/symbol.svg')] xl:before:bg-contain xl:before:bg-center xl:before:bg-no-repeat"
+        xl:before:bg-[url('/assets/brand/symbol.svg')] xl:before:bg-contain xl:before:bg-center xl:before:bg-no-repeat"
       >
         {title}
       </h3>
@@ -494,7 +494,7 @@ function MediaSection(): React.ReactElement {
           xl:rounded-[20px]"
         >
           <Image
-            src={`/assets/doctors/temp/temp-thumbnail-0.png`}
+            src={`/assets/doctors/temp-thumbnail-0.png`}
             alt={`temp-thumbnail-0`}
             fill
           />

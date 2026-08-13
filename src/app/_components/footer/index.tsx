@@ -34,25 +34,25 @@ const footerSocials = [
   {
     id: '1',
     title: 'youtube',
-    imagePath: '/assets/common/footer/socials/youtube.png',
+    imagePath: '/assets/icons/social-youtube.png',
     link: '/',
   },
   {
     id: '2',
     title: 'instagram',
-    imagePath: '/assets/common/footer/socials/instagram.png',
+    imagePath: '/assets/icons/social-instagram.png',
     link: '/',
   },
   {
     id: '3',
     title: 'naver-blog',
-    imagePath: '/assets/common/footer/socials/naver-blog.png',
+    imagePath: '/assets/icons/social-naver-blog.png',
     link: '/',
   },
   {
     id: '4',
     title: 'naver-talktalk',
-    imagePath: '/assets/common/footer/socials/naver-talktalk.png',
+    imagePath: '/assets/icons/social-naver-talktalk.png',
     link: '/',
   },
 ];
@@ -177,7 +177,7 @@ export default function Footer(): ReactElement {
                       부산 부산진구 중앙대로 716-1 지하1층 ~ 지상6층 (부전동)
                     </p>
                     <Image
-                      src="/assets/common/footer/icons/copy.svg"
+                      src="/assets/icons/footer-copy.svg"
                       alt="copy"
                       width={20}
                       height={20}
@@ -196,7 +196,7 @@ export default function Footer(): ReactElement {
                   >
                     <div className="relative w-5 aspect-square rounded-sm overflow-clip xl:w-7.5">
                       <Image
-                        src="/assets/common/footer/maps/navermap.png"
+                        src="/assets/icons/map-navermap.png"
                         alt="navermap"
                         fill
                       />
@@ -211,7 +211,7 @@ export default function Footer(): ReactElement {
                   >
                     <div className="relative w-5 aspect-square rounded-sm overflow-clip xl:w-7.5">
                       <Image
-                        src="/assets/common/footer/maps/kakaomap.png"
+                        src="/assets/icons/map-kakaomap.png"
                         alt="kakaomap"
                         fill
                       />
@@ -226,7 +226,7 @@ export default function Footer(): ReactElement {
                   >
                     <div className="relative w-5 aspect-square rounded-sm overflow-clip xl:w-7.5">
                       <Image
-                        src="/assets/common/footer/maps/tmap.png"
+                        src="/assets/icons/map-tmap.png"
                         alt="tmap"
                         fill
                       />
@@ -241,7 +241,7 @@ export default function Footer(): ReactElement {
                   >
                     <div className="relative w-5 aspect-square rounded-sm overflow-clip xl:w-7.5">
                       <Image
-                        src="/assets/common/footer/maps/googlemap.png"
+                        src="/assets/icons/map-googlemap.png"
                         alt="googlemap"
                         fill
                       />
@@ -347,7 +347,7 @@ export default function Footer(): ReactElement {
               xl:w-48"
             >
               <Image
-                src={`/assets/common/brand/logo-white.svg`}
+                src={`/assets/brand/logo-white.svg`}
                 alt="logo"
                 fill
               />
