@@ -1,5 +1,6 @@
-import Inner from '@/app/_components/inner';
-import { Home } from 'lucide-react';
+import LegalPageLayout, {
+  LegalSection,
+} from '@/app/_components/legal-page';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
@@ -13,46 +14,11 @@ interface ChildrenProps {
   children: ReactNode;
 }
 
-interface PolicySectionProps extends ChildrenProps {
-  title: ReactNode;
-}
-
-export function PolicySection({ title, children }: PolicySectionProps) {
-  return (
-    <section className="mt-10 xl:mt-15">
-      <SectionTitle>{title}</SectionTitle>
-      <SectionContent>{children}</SectionContent>
-    </section>
-  );
-}
-
-export function SectionTitle({ children }: ChildrenProps) {
-  return (
-    <h2
-      className="mb-5 font-bold text-xl leading-[1.4] tracking-[-0.035em] text-[#262C35]
-      xl:text-[34px]"
-    >
-      {children}
-    </h2>
-  );
-}
-
-export function SectionContent({ children }: ChildrenProps) {
-  return (
-    <div
-      className="space-y-5 text-sm leading-normal text-[#262C35]
-      xl:text-lg"
-    >
-      {children}
-    </div>
-  );
-}
-
-export function SectionSubTitle({ children }: ChildrenProps) {
+function SectionSubTitle({ children }: ChildrenProps) {
   return <h3 className="font-semibold text-[#444444]">{children}</h3>;
 }
 
-export function PolicyList({ children }: ChildrenProps) {
+function PolicyList({ children }: ChildrenProps) {
   return (
     <ul className="list-disc space-y-1 pl-5 marker:text-[#444444] xl:space-y-1.5">
       {children}
@@ -60,7 +26,7 @@ export function PolicyList({ children }: ChildrenProps) {
   );
 }
 
-export function PolicyTable({ children }: ChildrenProps) {
+function PolicyTable({ children }: ChildrenProps) {
   return (
     <div className="w-full overflow-hidden border-y border-[#E5E7EB]">
       <table className="w-full table-fixed border-collapse text-center text-[10px] leading-normal text-[#555555] xl:text-[13px] xl:leading-[1.55]">
@@ -72,42 +38,11 @@ export function PolicyTable({ children }: ChildrenProps) {
 
 export default function PrivacyPolicyPage() {
   return (
-    <div className="pt-20 xl:pt-5">
-      <Inner usePaddingHorizontal>
-        <div>
-          <div className="flex items-center text-xs text-[#666666] xl:text-sm">
-            <Link href="/" className="flex items-center gap-1">
-              <Home size={14} strokeWidth={1.8} />
-              <span>홈</span>
-            </Link>
-
-            <div className="mx-2 h-3.5 w-px bg-[#DDDDDD]" />
-
-            <label className="relative pr-5">
-              <span className="sr-only">현재 페이지</span>
-              <select
-                aria-label="현재 페이지"
-                defaultValue="개인정보처리방침"
-                className="appearance-none bg-transparent pr-1 text-xs outline-none xl:text-sm"
-              >
-                <option>개인정보처리방침</option>
-              </select>
-              <span className="pointer-events-none absolute right-1 top-1/2 h-1.5 w-1.5 -translate-y-[65%] rotate-45 border-b border-r border-[#777777]" />
-            </label>
-          </div>
-
-          <header className="mt-10 flex flex-col items-center text-center xl:mt-11">
-            <h1 className="font-bold text-[26px] tracking-[-0.04em] text-[#262C35] xl:text-[50px]">
-              개인정보 처리방침
-            </h1>
-          </header>
-        </div>
-      </Inner>
-
-      <div className="mt-8 border-t border-[#EEEEEE] xl:mt-12" />
-
-      <Inner usePaddingHorizontal>
-        <article className="pb-14 pt-8 xl:pb-24 xl:pt-12">
+    <LegalPageLayout
+      title="개인정보 처리방침"
+      breadcrumbLabel="개인정보처리방침"
+      articleClassName="pb-14 pt-8 xl:pb-24 xl:pt-12"
+    >
           <div className="flex flex-col">
             <p className="order-2 mx-auto mt-6 max-w-420 break-keep text-[15px] leading-[1.75] tracking-[-0.02em] text-[#555555] xl:order-1 xl:mt-0 xl:text-center xl:text-xl xl:leading-[1.9]">
               청맥병원은 환자분의 소중한 개인정보를 안전하게 보호하며,
@@ -140,7 +75,7 @@ export default function PrivacyPolicyPage() {
             </div>
           </div>
 
-          <PolicySection title="1. 개인정보의 처리 목적">
+          <LegalSection title="1. 개인정보의 처리 목적">
             <p>
               청맥병원은 다음의 목적을 위하여 개인정보를 처리합니다.
               <br />
@@ -171,9 +106,9 @@ export default function PrivacyPolicyPage() {
                 콘텐츠 안내, 만족도 조사
               </li>
             </PolicyList>
-          </PolicySection>
+          </LegalSection>
 
-          <PolicySection title="2. 처리하는 개인정보의 항목 및 수집 방법">
+          <LegalSection title="2. 처리하는 개인정보의 항목 및 수집 방법">
             <p>
               청맥병원은 처리하는 개인정보를 ①정보주체의 동의를 받지 않고
               처리하는 항목과 ②정보주체의 동의를 받아 수집·이용하는 항목으로
@@ -360,9 +295,9 @@ export default function PrivacyPolicyPage() {
               <li>진료 예약·상담·민원 접수 과정에서의 수집</li>
               <li>생성정보 수집 도구를 통한 자동 수집</li>
             </PolicyList>
-          </PolicySection>
+          </LegalSection>
 
-          <PolicySection title="3. 개인정보의 제3자 제공">
+          <LegalSection title="3. 개인정보의 제3자 제공">
             <p>
               청맥병원은 원칙적으로 정보주체의 개인정보를 개인정보의 처리
               목적에서 명시한 범위 내에서만 사용하며, 정보주체의 동의 없이 그
@@ -381,9 +316,9 @@ export default function PrivacyPolicyPage() {
               </li>
               <li>법령에 특별한 규정이 있거나 법적 의무가 있는 경우</li>
             </PolicyList>
-          </PolicySection>
+          </LegalSection>
 
-          <PolicySection title="4. 개인정보 처리업무의 위탁">
+          <LegalSection title="4. 개인정보 처리업무의 위탁">
             <p>
               청맥병원은 원활한 개인정보 업무처리를 위하여 다음과 같이 개인정보
               처리업무를 위탁하고 있습니다.
@@ -437,9 +372,9 @@ export default function PrivacyPolicyPage() {
                 </tr>
               </tbody>
             </PolicyTable>
-          </PolicySection>
+          </LegalSection>
 
-          <PolicySection title="5. 개인정보의 파기 절차 및 방법">
+          <LegalSection title="5. 개인정보의 파기 절차 및 방법">
             <p>
               청맥병원은 개인정보 보유 기간의 경과, 처리 목적 달성 등 개인정보가
               불필요하게 되었을 때에는 지체 없이 해당 개인정보를 파기합니다.
@@ -455,9 +390,9 @@ export default function PrivacyPolicyPage() {
                 기록된 개인정보는 분쇄기로 분쇄하거나 소각하여 파기합니다.
               </li>
             </PolicyList>
-          </PolicySection>
+          </LegalSection>
 
-          <PolicySection title="6. 정보주체와 법정대리인의 권리·의무 및 행사 방법">
+          <LegalSection title="6. 정보주체와 법정대리인의 권리·의무 및 행사 방법">
             <p>
               정보주체는 청맥병원에 대해 언제든지 개인정보
               열람·정정·삭제·처리정지 및 동의 철회를 요구할 수 있습니다.
@@ -481,17 +416,17 @@ export default function PrivacyPolicyPage() {
                 요구가 제한될 수 있습니다.
               </li>
             </PolicyList>
-          </PolicySection>
+          </LegalSection>
 
-          <PolicySection title="7. 만 14세 미만 아동의 개인정보 처리">
+          <LegalSection title="7. 만 14세 미만 아동의 개인정보 처리">
             <p>
               현재 청맥병원은 만 14세 미만 아동의 회원가입을 제한하고 있으며, 만
               14세 미만 아동의 개인정보를 수집하지 않습니다. 필요한 경우 만 14세
               미만임을 확인하고 법정대리인의 동의를 받는 절차를 진행합니다.
             </p>
-          </PolicySection>
+          </LegalSection>
 
-          <PolicySection title="8. 개인정보 자동 수집 장치의 설치·운영 및 웹 분석 도구 사용">
+          <LegalSection title="8. 개인정보 자동 수집 장치의 설치·운영 및 웹 분석 도구 사용">
             <p>
               청맥병원은 이용자에게 맞춤형 서비스를 제공하기 위해 이용정보를
               저장하고 수시로 불러오는 ‘쿠키(cookie)’를 사용할 수 있으며, 서비스
@@ -535,9 +470,9 @@ export default function PrivacyPolicyPage() {
                 도구를 통해 정보 수집을 제한할 수 있습니다.
               </li>
             </PolicyList>
-          </PolicySection>
+          </LegalSection>
 
-          <PolicySection title="9. 개인정보의 안전성 확보 조치">
+          <LegalSection title="9. 개인정보의 안전성 확보 조치">
             <p>
               청맥병원은 개인정보의 안전성 확보를 위하여 다음과 같은 조치를
               취하고 있습니다.
@@ -556,9 +491,9 @@ export default function PrivacyPolicyPage() {
                 접근통제
               </li>
             </PolicyList>
-          </PolicySection>
+          </LegalSection>
 
-          <PolicySection title="10. 개인정보 보호책임자 및 담당부서">
+          <LegalSection title="10. 개인정보 보호책임자 및 담당부서">
             <p>
               청맥병원은 개인정보 처리에 관한 업무를 총괄하여 책임지고, 개인정보
               처리와 관련한 정보주체의 문의·불만·피해구제 등을 처리하기 위하여
@@ -616,9 +551,9 @@ export default function PrivacyPolicyPage() {
                 </tr>
               </tbody>
             </PolicyTable>
-          </PolicySection>
+          </LegalSection>
 
-          <PolicySection title="11. 정보주체의 권익침해에 대한 구제 방법">
+          <LegalSection title="11. 정보주체의 권익침해에 대한 구제 방법">
             <p>
               정보주체는 개인정보 침해로 인한 구제를 받기 위하여 아래 기관에
               분쟁 해결이나 상담 등을 신청할 수 있습니다.
@@ -671,9 +606,9 @@ export default function PrivacyPolicyPage() {
                 </Link>
               </li>
             </PolicyList>
-          </PolicySection>
+          </LegalSection>
 
-          <PolicySection title="12. 개인정보 처리방침의 변경에 관한 사항">
+          <LegalSection title="12. 개인정보 처리방침의 변경에 관한 사항">
             <p>
               이 개인정보 처리방침은 법령·정책 또는 보안기술의 변경에 따라
               내용의 추가·삭제 및 수정이 있을 경우, 변경사항의 시행 최소 7일
@@ -683,9 +618,8 @@ export default function PrivacyPolicyPage() {
               <li>공고일자: [YYYY년 MM월 DD일]</li>
               <li>시행일자: [YYYY년 MM월 DD일]</li>
             </PolicyList>
-          </PolicySection>
-        </article>
-      </Inner>
-    </div>
+          </LegalSection>
+        
+    </LegalPageLayout>
   );
 }

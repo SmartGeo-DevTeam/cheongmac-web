@@ -1,7 +1,6 @@
-import Inner from '@/app/_components/inner';
-import { Home, Mail, ShieldCheck } from 'lucide-react';
+import LegalPageLayout from '@/app/_components/legal-page';
+import { Mail, ShieldCheck } from 'lucide-react';
 import type { Metadata } from 'next';
-import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: '이메일 무단수집거부 | 청맥병원',
@@ -10,42 +9,11 @@ export const metadata: Metadata = {
 
 export default function EmailCollectionRefusalPage() {
   return (
-    <div className="pt-20 xl:pt-5">
-      <Inner usePaddingHorizontal>
-        <div>
-          <div className="flex items-center text-xs text-[#666666] xl:text-sm">
-            <Link href="/" className="flex items-center gap-1">
-              <Home size={14} strokeWidth={1.8} />
-              <span>홈</span>
-            </Link>
-
-            <div className="mx-2 h-3.5 w-px bg-[#DDDDDD]" />
-
-            <label className="relative pr-5">
-              <span className="sr-only">현재 페이지</span>
-              <select
-                aria-label="현재 페이지"
-                defaultValue="이메일무단수집거부"
-                className="appearance-none bg-transparent pr-1 text-xs outline-none xl:text-sm"
-              >
-                <option>이메일무단수집거부</option>
-              </select>
-              <span className="pointer-events-none absolute right-1 top-1/2 h-1.5 w-1.5 -translate-y-[65%] rotate-45 border-b border-r border-[#777777]" />
-            </label>
-          </div>
-
-          <header className="mt-10 flex flex-col items-center text-center xl:mt-11">
-            <h1 className="font-bold text-[26px] tracking-[-0.04em] text-[#262C35] xl:text-[50px]">
-              이메일 무단수집거부
-            </h1>
-          </header>
-        </div>
-      </Inner>
-
-      <div className="mt-8 border-t border-[#EEEEEE] xl:mt-12" />
-
-      <Inner usePaddingHorizontal>
-        <article className="mx-auto max-w-[1080px] pb-14 pt-16 xl:pb-24 xl:pt-20">
+    <LegalPageLayout
+      title="이메일 무단수집거부"
+      breadcrumbLabel="이메일무단수집거부"
+      articleClassName="mx-auto max-w-[1080px] pb-14 pt-16 xl:pb-24 xl:pt-20"
+    >
           <div
             className="flex flex-col items-center gap-10
             xl:flex-row xl:justify-center xl:gap-12"
@@ -92,8 +60,7 @@ export default function EmailCollectionRefusalPage() {
               </p>
             </div>
           </div>
-        </article>
-      </Inner>
-    </div>
+        
+    </LegalPageLayout>
   );
 }
