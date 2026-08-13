@@ -1,6 +1,5 @@
 'use client';
 
-// import { openMacGptSearch } from "@/app/_components/mac-gpt-search";
 import { openMacGptSearch } from '@/app/_components/mac-gpt-search';
 import { useViewport } from '@/app/_providers/viewport-provider';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -358,6 +357,12 @@ function HomeCoverPopups({
     window.addEventListener('resize', measureCardHeights);
 
     return () => {
+      // React Strict Mode(dev)에서는 layout effect가 setup → cleanup → setup 순서로
+      // 한 번 더 실행될 수 있습니다. 첫 setup에서 예약한 readyFrame을 cleanup이
+      // 취소하므로, 준비 완료 여부 ref도 반드시 함께 되돌려야 다음 setup에서
+      // 다시 isInitialMobileLayoutReady를 활성화할 수 있습니다.
+      hasPreparedInitialMobileLayoutRef.current = false;
+
       window.cancelAnimationFrame(frameId);
       window.cancelAnimationFrame(readyFrameId);
       resizeObserver.disconnect();
@@ -569,8 +574,18 @@ export default function HomeCover() {
   const swiperRef = useRef<SwiperType | null>(null);
   const [canStartSwiperAutoplay, setCanStartSwiperAutoplay] = useState(false);
 
+  const [initialCoverHeight, setInitialCoverHeight] = useState<number | null>(
+    null,
+  );
+
   const handleMobilePopupsClosed = useCallback(() => {
     setCanStartSwiperAutoplay(true);
+  }, []);
+
+  useLayoutEffect(() => {
+    const initialViewportHeight = window.innerHeight;
+
+    setInitialCoverHeight(Math.round(initialViewportHeight * 0.78));
   }, []);
 
   useEffect(() => {
@@ -596,7 +611,13 @@ export default function HomeCover() {
   }, [canStartSwiperAutoplay]);
 
   return (
-    <section className="relative h-[960px] overflow-hidden px-2 xl:px-0">
+    <section
+      className="relative overflow-hidden px-2 xl:px-0"
+      style={{
+        height:
+          initialCoverHeight === null ? '78vh' : `${initialCoverHeight}px`,
+      }}
+    >
       <Swiper
         modules={[Autoplay, Pagination]}
         spaceBetween={isMobile ? 8 : 0}
