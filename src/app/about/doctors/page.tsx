@@ -1,18 +1,12 @@
-import BottomBanner from '@/app/_components/bottom-banners';
-import Inner from '@/app/_components/inner';
-import { HeartIcon, Home, Search } from 'lucide-react';
-import Image from 'next/image';
-import Link from 'next/link';
+import BottomBanner from "@/app/_components/bottom-banners";
+import Inner from "@/app/_components/inner";
+import { HeartIcon, Home, Search } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 
-import { DOCTORS, type Doctor } from './data';
+import { DOCTORS, type Doctor } from "./data";
 
-function DoctorCard({
-  doctor,
-  lang,
-}: {
-  doctor: Doctor;
-  lang: string;
-}): React.ReactNode {
+function DoctorCard({ doctor }: { doctor: Doctor }): React.ReactNode {
   return (
     <li
       className="relative grid grid-cols-[145px_1fr] gap-x-5 gap-y-10
@@ -81,7 +75,7 @@ function DoctorCard({
           className="break-keep text-[#262C35]
           xl:flex-1 xl:mt-2 xl:text-xl"
         >
-          {doctor.specialties.join(', ')}
+          {doctor.specialties.join(", ")}
         </p>
 
         <div
@@ -89,7 +83,7 @@ function DoctorCard({
           xl:mb-6 xl:gap-x-2 xl:text-base"
         >
           <Link
-            href={`/${lang}/about/doctors/${doctor.slug}`}
+            href={`/about/doctors/${doctor.slug}`}
             className="py-2 rounded-full bg-[#8BC9B8] text-center
             xl:py-3"
           >
@@ -110,13 +104,7 @@ function DoctorCard({
   );
 }
 
-export default async function AboutDoctors({
-  params,
-}: {
-  params: Promise<{ lang: string }>;
-}): Promise<React.ReactNode> {
-  const { lang } = await params;
-
+export default function AboutDoctors(): React.ReactNode {
   return (
     <div
       className="mt-20
@@ -128,7 +116,7 @@ export default async function AboutDoctors({
             className="flex items-center text-xs
             xl:text-base"
           >
-            <Link href={`/${lang}`} className="flex items-center gap-1">
+            <Link href="/" className="flex items-center gap-1">
               <Home size={16} />
               <span>홈</span>
             </Link>
@@ -161,7 +149,7 @@ export default async function AboutDoctors({
               className="mt-2 break-keep text-center text-sm text-[#555555]
               xl:mt-2.5 xl:text-xl"
             >
-              환자의 삶에 흐르는 건강을 최고의 전문성으로 지켜내며{' '}
+              환자의 삶에 흐르는 건강을 최고의 전문성으로 지켜내며{" "}
               <br className="hidden xl:block" />
               대한민국 혈관 치료의 표준을 만드는 청맥의 의료진을 소개합니다.
             </p>
@@ -266,7 +254,7 @@ export default async function AboutDoctors({
             xl:mt-15 xl:grid-cols-2 xl:gap-6"
           >
             {DOCTORS.map((doctor) => (
-              <DoctorCard key={doctor.id} doctor={doctor} lang={lang} />
+              <DoctorCard key={doctor.id} doctor={doctor} />
             ))}
           </ul>
         </Inner>

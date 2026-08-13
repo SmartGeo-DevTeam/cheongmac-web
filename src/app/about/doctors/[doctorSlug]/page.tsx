@@ -1,105 +1,104 @@
-'use client';
+"use client";
 
-import Inner from '@/app/_components/inner';
-import { ArrowRight, HeartIcon, Home } from 'lucide-react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { useParams } from 'next/navigation';
-import Marquee from 'react-fast-marquee';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import Inner from "@/app/_components/inner";
+import { ArrowRight, HeartIcon, Home } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useParams } from "next/navigation";
+import Marquee from "react-fast-marquee";
+import { Swiper, SwiperSlide } from "swiper/react";
 import {
   getDoctorBySlug,
   type Doctor,
   type DoctorScheduleStatus,
-} from '../data';
+} from "../data";
 
-import 'swiper/css';
+import "swiper/css";
 
 const scheduleDays = [
-  { key: 'mon', label: '월' },
-  { key: 'tue', label: '화' },
-  { key: 'wed', label: '수' },
-  { key: 'thu', label: '목' },
-  { key: 'fri', label: '금' },
-  { key: 'sat', label: '토' },
+  { key: "mon", label: "월" },
+  { key: "tue", label: "화" },
+  { key: "wed", label: "수" },
+  { key: "thu", label: "목" },
+  { key: "fri", label: "금" },
+  { key: "sat", label: "토" },
 ] as const;
 
 const patientReviews = [
   {
     id: 1,
-    imageSrc: '/assets/home/reviews/1-after.png',
-    patientName: '김*숙 님',
+    imageSrc: "/assets/home/reviews/1-after.png",
+    patientName: "김*숙 님",
     age: 34,
-    gender: '여성',
-    treatment: '레이저 정맥 폐쇄술 + 경화요법',
+    gender: "여성",
+    treatment: "레이저 정맥 폐쇄술 + 경화요법",
   },
   {
     id: 2,
-    imageSrc: '/assets/home/reviews/1-before.png',
-    patientName: '김*숙 님',
+    imageSrc: "/assets/home/reviews/1-before.png",
+    patientName: "김*숙 님",
     age: 34,
-    gender: '여성',
-    treatment: '레이저 정맥 폐쇄술 + 경화요법',
+    gender: "여성",
+    treatment: "레이저 정맥 폐쇄술 + 경화요법",
   },
   {
     id: 3,
-    imageSrc: '/assets/home/reviews/1-after.png',
-    patientName: '김*숙 님',
+    imageSrc: "/assets/home/reviews/1-after.png",
+    patientName: "김*숙 님",
     age: 34,
-    gender: '여성',
-    treatment: '레이저 정맥 폐쇄술 + 경화요법',
+    gender: "여성",
+    treatment: "레이저 정맥 폐쇄술 + 경화요법",
   },
 ] as const;
 
 const thumbnails = [
   {
     id: 1,
-    title: '하지정맥류 관리 말도 안되는 소리!',
-    imageUrl: '/assets/doctors/temp/temp-thumbnail-1.png',
-    path: '/',
+    title: "하지정맥류 관리 말도 안되는 소리!",
+    imageUrl: "/assets/doctors/temp/temp-thumbnail-1.png",
+    path: "/",
   },
   {
     id: 2,
-    title: '일상을 바꾸다',
-    imageUrl: '/assets/doctors/temp/temp-thumbnail-2.png',
-    path: '/',
+    title: "일상을 바꾸다",
+    imageUrl: "/assets/doctors/temp/temp-thumbnail-2.png",
+    path: "/",
   },
   {
     id: 3,
-    title: '왜 해?! 자궁적출',
-    imageUrl: '/assets/doctors/temp/temp-thumbnail-3.png',
-    path: '/',
+    title: "왜 해?! 자궁적출",
+    imageUrl: "/assets/doctors/temp/temp-thumbnail-3.png",
+    path: "/",
   },
 ] as const;
 
 const thesis = [
   {
     id: 1,
-    title: '대한정맥학회 학술지 논문 게재',
-    imageUrl: '/assets/doctors/temp/temp-thesis.png',
-    path: '/',
+    title: "대한정맥학회 학술지 논문 게재",
+    imageUrl: "/assets/doctors/temp/temp-thesis.png",
+    path: "/",
   },
   {
     id: 2,
-    title: '대한정맥학회 학술지 논문 게재',
-    imageUrl: '/assets/doctors/temp/temp-thesis.png',
-    path: '/',
+    title: "대한정맥학회 학술지 논문 게재",
+    imageUrl: "/assets/doctors/temp/temp-thesis.png",
+    path: "/",
   },
   {
     id: 3,
-    title: '대한정맥학회 학술지 논문 게재',
-    imageUrl: '/assets/doctors/temp/temp-thesis.png',
-    path: '/',
+    title: "대한정맥학회 학술지 논문 게재",
+    imageUrl: "/assets/doctors/temp/temp-thesis.png",
+    path: "/",
   },
 ] as const;
 
 type DoctorDetailRouteParams = {
-  lang: string;
   doctorSlug: string;
 };
 
 export default function DoctorDetailPage(): React.ReactElement {
-  const { lang, doctorSlug } = useParams<DoctorDetailRouteParams>();
+  const { doctorSlug } = useParams<DoctorDetailRouteParams>();
   const doctor = getDoctorBySlug(doctorSlug);
 
   if (!doctor) {
@@ -110,7 +109,7 @@ export default function DoctorDetailPage(): React.ReactElement {
         </p>
 
         <Link
-          href={`/${lang}/about/doctors`}
+          href="/about/doctors"
           className="mt-5 inline-flex rounded-full border border-[#E5E7EB] px-5 py-2 font-bold text-sm text-[#262C35]"
         >
           의료진 전체보기
@@ -130,7 +129,7 @@ export default function DoctorDetailPage(): React.ReactElement {
             className="flex items-center text-xs
           xl:text-base"
           >
-            <Link href={`/${lang}`} className="flex items-center gap-1">
+            <Link href="/" className="flex items-center gap-1">
               <Home size={16} />
               <span>홈</span>
             </Link>
@@ -177,7 +176,7 @@ export default function DoctorDetailPage(): React.ReactElement {
         <MediaSection />
       </section>
 
-      <ResearchSection lang={lang} />
+      <ResearchSection />
     </div>
   );
 }
@@ -260,7 +259,7 @@ function DoctorHero({ doctor }: { doctor: Doctor }): React.ReactElement {
                 className="text-[#262C35]
                 xl:text-xl"
               >
-                {doctor.detailSpecialties.join(', ')}
+                {doctor.detailSpecialties.join(", ")}
               </p>
             </DetailInfoBlock>
 
@@ -285,7 +284,7 @@ function DoctorHero({ doctor }: { doctor: Doctor }): React.ReactElement {
 
 function DetailInfoBlock({
   title,
-  className = '',
+  className = "",
   children,
 }: {
   title: string;
@@ -362,9 +361,9 @@ function ScheduleBadge({
   status: DoctorScheduleStatus;
 }): React.ReactElement {
   const className = {
-    진료: 'bg-[#EEF0F4] text-[#111111]',
-    휴진: 'bg-transparent text-[#BBBBBB]',
-    문의: 'bg-transparent text-[#0E705B]',
+    진료: "bg-[#EEF0F4] text-[#111111]",
+    휴진: "bg-transparent text-[#BBBBBB]",
+    문의: "bg-transparent text-[#0E705B]",
   }[status];
 
   return (
@@ -564,7 +563,7 @@ function SectionHead({
   );
 }
 
-function ResearchSection({ lang }: { lang: string }): React.ReactElement {
+function ResearchSection(): React.ReactElement {
   return (
     <section className="pt-20 pb-15 bg-[linear-gradient(to_bottom,#FFFFFF_0%,#FFEAE2_66%,#FFFFFF_100%)]">
       <div className="px-5 text-center text-[#333333]">
@@ -580,7 +579,7 @@ function ResearchSection({ lang }: { lang: string }): React.ReactElement {
           className="mt-3 text-sm
           xl:mt-5 xl:text-xl"
         >
-          수많은 SCI급 논문 발표와 전문 서적 집필,{' '}
+          수많은 SCI급 논문 발표와 전문 서적 집필,{" "}
           <br className="block xl:hidden" />
           국내외 학술 활동 및 수상을 통해 <br className="block xl:hidden" />
           의료계에서도 인정받는 전문성을 이어가고 있습니다.
@@ -611,7 +610,7 @@ function ResearchSection({ lang }: { lang: string }): React.ReactElement {
         xl:mt-15 xl:mb-20"
       >
         <Link
-          href={`/${lang}/about/doctors`}
+          href="/about/doctors"
           className="px-5 py-2 rounded-full border border-[#E5E7EB] bg-white font-bold text-sm text-[#262C35]
           xl:px-10 xl:py-3 xl:text-xl"
         >

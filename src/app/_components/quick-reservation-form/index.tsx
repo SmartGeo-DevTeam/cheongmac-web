@@ -1,76 +1,37 @@
-'use client';
+"use client";
 
-import { useScrollDirection } from '@/app/_providers/scroll-direction-provider';
-import type { Locale } from '@/i18n-config';
-import { ChevronRight, X } from 'lucide-react';
-import Image from 'next/image';
-import { useState } from 'react';
+import { useScrollDirection } from "@/app/_providers/scroll-direction-provider";
+import { ChevronRight, X } from "lucide-react";
+import Image from "next/image";
+import { useState } from "react";
 
-type ReservationText = {
-  title: string;
-  desc_1: string;
-  desc_2: string;
-  button_1: string;
-  button_2: string;
-};
-
-type QuickReservationFormProps = {
-  lang: Locale;
-  reservationText: ReservationText;
-};
-
-export default function QuickReservationForm({
-  lang,
-  reservationText,
-}: QuickReservationFormProps) {
+export default function QuickReservationForm() {
   const { isVisible } = useScrollDirection();
   const [isMobileFormOpen, setIsMobileFormOpen] = useState(false);
   const [isConsultationOpen, setIsConsultationOpen] = useState(false);
-  const [selectedConsultation, setSelectedConsultation] = useState('');
+  const [selectedConsultation, setSelectedConsultation] = useState("");
 
   const labels = {
-    ko: {
-      title: '가장 빠른 상담',
-      content: '상담내용',
-      hopeDate: '희망날짜 *',
-      birthDate: '생년월일',
-      name: '성함',
-      phone: '연락처',
-      phoneCall: '전화걸기',
-      submit: '문의 접수',
-    },
-    en: {
-      title: 'Quick consultation',
-      content: 'Consultation details',
-      hopeDate: 'Preferred date *',
-      birthDate: 'Date of birth',
-      name: 'Name',
-      phone: 'Phone number',
-      phoneCall: 'Call',
-      submit: 'Submit',
-    },
-    ja: {
-      title: '最短相談',
-      content: '相談内容',
-      hopeDate: '希望日 *',
-      birthDate: '生年月日',
-      name: 'お名前',
-      phone: '連絡先',
-      phoneCall: '電話する',
-      submit: '申し込む',
-    },
-  }[lang];
+    title: "가장 빠른 상담",
+    content: "상담내용",
+    hopeDate: "희망날짜 *",
+    birthDate: "생년월일",
+    name: "성함",
+    phone: "연락처",
+    phoneCall: "전화걸기",
+    submit: "문의 접수",
+  } as const;
 
   const consultationOptions = [
-    { value: '', label: '선택' },
-    { value: 'varicose-veins', label: '하지정맥류' },
-    { value: 'pelvic-varicose-veins', label: '골반정맥류' },
-    { value: 'varicocele', label: '정계정맥류' },
-    { value: 'uterine-fibroids', label: '자궁근종' },
-    { value: 'peripheral-arterial-disease', label: '말초동맥폐쇄증' },
-    { value: 'dialysis-access', label: '투석혈관' },
-    { value: 'diabetic-foot', label: '당뇨발' },
-    { value: 'etc', label: '기타' },
+    { value: "", label: "선택" },
+    { value: "varicose-veins", label: "하지정맥류" },
+    { value: "pelvic-varicose-veins", label: "골반정맥류" },
+    { value: "varicocele", label: "정계정맥류" },
+    { value: "uterine-fibroids", label: "자궁근종" },
+    { value: "peripheral-arterial-disease", label: "말초동맥폐쇄증" },
+    { value: "dialysis-access", label: "투석혈관" },
+    { value: "diabetic-foot", label: "당뇨발" },
+    { value: "etc", label: "기타" },
   ];
 
   const selectedConsultationLabel =
@@ -83,8 +44,8 @@ export default function QuickReservationForm({
     xl:left-1/2 xl:right-auto xl:bottom-8 xl:w-[calc(100%-40px)] xl:max-w-[1180px] xl:-translate-x-1/2
     ${
       isVisible
-        ? 'translate-y-0 opacity-100'
-        : 'translate-y-[calc(100%+40px)] opacity-0 pointer-events-none'
+        ? "translate-y-0 opacity-100"
+        : "translate-y-[calc(100%+40px)] opacity-0 pointer-events-none"
     }
     `}
     >
@@ -94,10 +55,10 @@ export default function QuickReservationForm({
           type="button"
           onClick={() => setIsMobileFormOpen(true)}
           className={`h-[50px] w-full items-center justify-center gap-2 rounded-t-[18px] bg-[#FF9A74] font-bold text-white transition-all duration-300 ease-out
-            ${isMobileFormOpen ? 'max-h-0 opacity-0 pointer-events-none' : 'flex max-h-[50px] opacity-100'}
+            ${isMobileFormOpen ? "max-h-0 opacity-0 pointer-events-none" : "flex max-h-[50px] opacity-100"}
             `}
         >
-          <span>{labels.title || reservationText.title}</span>
+          <span>{labels.title}</span>
           <Image
             src={`/assets/common/effects/talking.gif`}
             alt="speech-bubble"
@@ -108,7 +69,7 @@ export default function QuickReservationForm({
 
         <form
           className={`relative rounded-t-[18px] bg-white shadow-[0_1px_3px_0_rgba(0,0,0,0.2)] transition-all duration-300 ease-out
-            ${isMobileFormOpen ? 'max-h-90 opacity-100' : 'max-h-0 opacity-0 pointer-events-none'}
+            ${isMobileFormOpen ? "max-h-90 opacity-100" : "max-h-0 opacity-0 pointer-events-none"}
             `}
           onSubmit={(event) => event.preventDefault()}
         >
@@ -126,9 +87,7 @@ export default function QuickReservationForm({
             onClick={() => setIsMobileFormOpen(false)}
             className="mx-auto flex items-center justify-center gap-2 pt-5 pb-2"
           >
-            <span className="font-bold text-[#FB9A74]">
-              {labels.title || reservationText.title}
-            </span>
+            <span className="font-bold text-[#FB9A74]">{labels.title}</span>
             <span className="mt-[-4px] size-2 rotate-45 border-b-2 border-r-2 border-[#FF7740]" />
           </button>
           <div className="px-5 pb-5">
@@ -145,8 +104,8 @@ export default function QuickReservationForm({
                 type="button"
                 onClick={() => setIsConsultationOpen((prev) => !prev)}
                 className={`relative flex h-10 w-full items-center rounded-full border bg-white px-5 pr-11 text-left text-sm font-medium outline-none transition-colors
-      ${selectedConsultation ? 'text-[#333333]' : 'text-[#999999]'}
-      ${isConsultationOpen ? 'border-[#FD7740]' : 'border-[#E8E8E8]'}`}
+      ${selectedConsultation ? "text-[#333333]" : "text-[#999999]"}
+      ${isConsultationOpen ? "border-[#FD7740]" : "border-[#E8E8E8]"}`}
               >
                 <span>
                   {selectedConsultation
@@ -156,7 +115,7 @@ export default function QuickReservationForm({
 
                 <span
                   className={`pointer-events-none absolute right-6 top-1/2 h-2.5 w-2.5 -translate-y-[65%] rotate-45 border-b-2 border-r-2 border-[#999999] transition-transform
-        ${isConsultationOpen ? 'rotate-[225deg] -translate-y-[20%]' : ''}`}
+        ${isConsultationOpen ? "rotate-[225deg] -translate-y-[20%]" : ""}`}
                 />
               </button>
 
@@ -164,7 +123,7 @@ export default function QuickReservationForm({
                 <div className="absolute bottom-[calc(100%+8px)] left-0 z-[60] w-full rounded-[14px] border border-[#E8E8E8] bg-white py-3 shadow-[0_8px_24px_rgba(0,0,0,0.12)]">
                   {consultationOptions.map((option) => (
                     <button
-                      key={option.value || 'empty'}
+                      key={option.value || "empty"}
                       type="button"
                       onClick={() => {
                         setSelectedConsultation(option.value);
@@ -173,8 +132,8 @@ export default function QuickReservationForm({
                       className={`block w-full px-5 py-1.5 text-left text-sm leading-[160%] transition-colors hover:text-[#FD7740]
         ${
           selectedConsultation === option.value
-            ? 'font-semibold text-[#FD7740]'
-            : 'font-medium text-[#555555]'
+            ? "font-semibold text-[#FD7740]"
+            : "font-medium text-[#555555]"
         }`}
                     >
                       {option.label}
@@ -219,14 +178,14 @@ export default function QuickReservationForm({
                 type="button"
                 className="h-12 rounded-full bg-[#171719] font-bold text-white"
               >
-                {labels.phoneCall || reservationText.button_1}
+                {labels.phoneCall}
               </button>
 
               <button
                 type="submit"
                 className="flex h-12 items-center justify-center gap-1 rounded-full bg-[#FF7040] font-bold text-white"
               >
-                <span>{labels.submit || reservationText.button_2}</span>
+                <span>{labels.submit}</span>
                 <ChevronRight size={18} color="white" />
               </button>
             </div>

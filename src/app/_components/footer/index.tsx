@@ -94,7 +94,7 @@ function TimeLabel({ children }: { children: string }) {
 function TimeText({ children }: { children: string }) {
   return (
     <p
-      className="w-[13ch] whitespace-nowrap tabular-nums
+      className="w-[13ch] font-medium whitespace-nowrap tabular-nums
       xl:text-[28px]"
     >
       {children}
@@ -374,7 +374,11 @@ export default function Footer(): ReactElement {
               <div className="flex gap-5">
                 <div className="flex gap-1.5">
                   <span className="shrink-0 opacity-50">대표전화</span>
-                  <p>051-804-1119</p>
+                  <p>
+                    <Link target="_blank" href="tel:051-804-1119">
+                      051-804-1119
+                    </Link>
+                  </p>
                 </div>
                 <div className="flex gap-1.5">
                   <span className="shrink-0 opacity-50">팩스</span>

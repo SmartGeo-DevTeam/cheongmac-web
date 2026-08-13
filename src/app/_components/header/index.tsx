@@ -1,51 +1,39 @@
-'use client';
+"use client";
 
-import {
-  getLocalePath,
-  getPrimaryNavigation,
-  withLocale,
-} from '@/_lib/navigation';
+import { getPrimaryNavigation } from "@/_lib/navigation";
 import {
   closeMacGptSearch,
   openMacGptSearch,
-} from '@/app/_components/mac-gpt-search';
-import { useScrollDirection } from '@/app/_providers/scroll-direction-provider';
-import type { Locale } from '@/i18n-config';
-import Image from 'next/image';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { useEffect, useMemo, useState } from 'react';
+} from "@/app/_components/mac-gpt-search";
+import { useScrollDirection } from "@/app/_providers/scroll-direction-provider";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
 
-type HeaderText = {
-  banner: {
-    close: string;
-  };
+const HEADER_TEXT = {
   button: {
-    signIn: string;
-  };
+    signIn: "로그인",
+  },
   reservation: {
-    title: string;
-    desc_1: string;
-    desc_2: string;
-    button_1: string;
-    button_2: string;
-  };
-};
+    title: "간편예약",
+    desc_1: "연락처를 남겨주시면",
+    desc_2: "전문상담원이 예약을 도와드립니다.",
+    button_1: "예약",
+    button_2: "신청",
+  },
+} as const;
 
-type HeaderProps = {
-  lang: Locale;
-  headerText: HeaderText;
-};
-
-export default function Header({ lang, headerText }: HeaderProps) {
+export default function Header() {
+  const headerText = HEADER_TEXT;
   const pathname = usePathname();
   const { isVisible, scrollY } = useScrollDirection();
 
   const [hoveredPrimaryId, setHoveredPrimaryId] = useState<string | null>(
-    'null',
+    "null",
   );
 
-  const primaryNavigation = useMemo(() => getPrimaryNavigation(lang), [lang]);
+  const primaryNavigation = getPrimaryNavigation();
 
   const hoveredPrimary = hoveredPrimaryId
     ? (primaryNavigation.find((item) => item.id === hoveredPrimaryId) ?? null)
@@ -54,46 +42,14 @@ export default function Header({ lang, headerText }: HeaderProps) {
   const shouldHideAiSearch = Boolean(hoveredPrimary?.children?.length);
 
   const isCurrentPath = (href: string) => {
-    const localizedHref = withLocale(lang, href);
-
-    if (localizedHref === `/${lang}`) {
-      return pathname === localizedHref;
+    if (href === "/") {
+      return pathname === href;
     }
 
-    return (
-      pathname === localizedHref || pathname.startsWith(`${localizedHref}/`)
-    );
+    return pathname === href || pathname.startsWith(`${href}/`);
   };
 
-  const currentLangIcon = {
-    ko: '/assets/common/header/gnb/lang-earth.svg',
-    en: '/assets/common/header/gnb/lang-en.svg',
-    ja: '/assets/common/header/gnb/lang-ja.svg',
-  }[lang];
-
-  const languageMenus = [
-    {
-      code: 'ko' as const,
-      label: '한국어',
-      icon: '/assets/common/header/gnb/lang-ko.svg',
-    },
-    {
-      code: 'en' as const,
-      label: 'English',
-      icon: '/assets/common/header/gnb/lang-en.svg',
-    },
-    {
-      code: 'ja' as const,
-      label: '日本語',
-      icon: '/assets/common/header/gnb/lang-ja.svg',
-    },
-  ];
-
-  const aiSearchPlaceholder = {
-    ko: '무엇이 궁금하신가요?',
-    en: 'Ask a question',
-    ja: '質問を入力してください',
-  }[lang];
+  const aiSearchPlaceholder = "무엇이 궁금하신가요?";
 
   const handleAiSearchOpen = () => {
     openMacGptSearch();
@@ -110,12 +66,6 @@ export default function Header({ lang, headerText }: HeaderProps) {
 
   const isHeaderVisible = isHamburgerOpen || scrollY <= 72 || isVisible;
 
-  useEffect(() => {
-    if (!isHeaderVisible) {
-      setHoveredPrimaryId(null);
-    }
-  }, [isHeaderVisible]);
-
   return (
     <>
       <header
@@ -123,16 +73,21 @@ export default function Header({ lang, headerText }: HeaderProps) {
           xl:border-b xl:border-b-[#CCCCCC]
           ${
             isHeaderVisible
-              ? 'translate-y-0 pointer-events-auto'
-              : '-translate-y-[calc(100%+72px)] pointer-events-none xl:-translate-y-[calc(100%+64px)]'
+              ? "translate-y-0 pointer-events-auto"
+              : "-translate-y-[calc(100%+72px)] pointer-events-none xl:-translate-y-[calc(100%+64px)]"
           }`}
         onMouseLeave={() => setHoveredPrimaryId(null)}
+        onTransitionEnd={() => {
+          if (!isHeaderVisible) {
+            setHoveredPrimaryId(null);
+          }
+        }}
       >
         {/* Common - GNB */}
-        <section className="relative z-30 bg-white">
+        <section className="relative z-50 bg-white">
           <div className="mx-auto max-w-420 px-5 w-full h-14 flex justify-between items-center xl:h-20">
             <Link
-              href={withLocale(lang, '/')}
+              href={"/"}
               onClick={() => {
                 closeMacGptSearch();
                 setHoveredPrimaryId(null);
@@ -143,7 +98,7 @@ export default function Header({ lang, headerText }: HeaderProps) {
               <Image
                 src={`/assets/common/brand/logo.svg`}
                 alt="logo"
-                style={{ objectFit: 'cover' }}
+                style={{ objectFit: "cover" }}
                 fill
               />
             </Link>
@@ -157,13 +112,13 @@ export default function Header({ lang, headerText }: HeaderProps) {
                 return (
                   <Link
                     key={item.id}
-                    href={withLocale(lang, item.href)}
+                    href={item.href}
                     onMouseEnter={() => setHoveredPrimaryId(item.id)}
                     onFocus={() => setHoveredPrimaryId(item.id)}
                     className={`relative px-7 flex items-center tracking-[-4%] font-medium text-lg cursor-pointer transition ${
                       isActive
-                        ? 'border-cm-orange text-cm-orange'
-                        : 'border-transparent text-gray-700 hover:font-bold hover:text-cm-orange'
+                        ? "border-cm-orange text-cm-orange"
+                        : "border-transparent text-gray-700 hover:font-bold hover:text-cm-orange"
                     }`}
                   >
                     {item.title}
@@ -174,54 +129,9 @@ export default function Header({ lang, headerText }: HeaderProps) {
 
             {/* Common - Buttons */}
             <div className="relative right-0 flex items-center gap-3 z-50 xl:gap-4">
-              {/* Common - Language */}
-              <div className="group relative flex justify-center">
-                <button
-                  type="button"
-                  className="relative w-7.5 h-7.5 xl:opacity-50"
-                >
-                  <Image
-                    src={currentLangIcon}
-                    alt={`current-lang-${lang}`}
-                    fill
-                  />
-                </button>
-
-                <div className="absolute left-1/2 top-full z-10 pt-1.5 -translate-x-1/2 opacity-0 invisible pointer-events-none transition-all duration-200 group-hover:opacity-100 group-hover:visible group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:visible group-focus-within:pointer-events-auto">
-                  <div className="w-max flex flex-col items-center gap-1.5">
-                    <Image
-                      src={`/assets/common/header/gnb/arrow-down.svg`}
-                      alt="arrow-down"
-                      width={14}
-                      height={8}
-                    />
-
-                    <div className="flex flex-col rounded-lg bg-white border border-[#DDDDDD] divide-y divide-[#DDDDDD] tracking-[-4%] font-medium text-sm text-[#666666] overflow-hidden">
-                      {languageMenus
-                        .filter((locale) => locale.code !== lang)
-                        .map((locale) => (
-                          <Link
-                            key={locale.code}
-                            href={getLocalePath(pathname, locale.code)}
-                            className="px-3 py-[14.5px] flex items-center gap-2 bg-white hover:bg-[#F8F8F8]"
-                          >
-                            <Image
-                              src={locale.icon}
-                              alt={`lang-${locale.code}`}
-                              width={20}
-                              height={20}
-                            />
-                            <span>{locale.label}</span>
-                          </Link>
-                        ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
               {/* Desktop - Login Button */}
               <Link
-                href={withLocale(lang, '/signin')}
+                href={"/signin"}
                 className="hidden xl:block shrink-0 px-3.5 py-[3.5px] rounded-lg border border-[#E8E9EA] tracking-[-5%] text-[15px] text-[#555555]"
               >
                 {headerText.button.signIn}
@@ -249,8 +159,8 @@ export default function Header({ lang, headerText }: HeaderProps) {
             xl:top-22
             ${
               shouldHideAiSearch
-                ? 'invisible -translate-y-2 opacity-0'
-                : 'visible translate-y-0 opacity-100'
+                ? "invisible -translate-y-2 opacity-0"
+                : "visible translate-y-0 opacity-100"
             }
             `}
         >
@@ -266,7 +176,7 @@ export default function Header({ lang, headerText }: HeaderProps) {
               }}
             >
               <Image
-                src={'/assets/common/effects/sparkle.gif'}
+                src={"/assets/common/effects/sparkle.gif"}
                 alt="sparkle"
                 width={32}
                 height={32}
@@ -308,8 +218,8 @@ export default function Header({ lang, headerText }: HeaderProps) {
                       key={item.id}
                       className={`col-start-1 row-start-1 flex ${
                         isActive
-                          ? 'visible opacity-100'
-                          : 'invisible opacity-0 pointer-events-none'
+                          ? "visible opacity-100"
+                          : "invisible opacity-0 pointer-events-none"
                       }`}
                     >
                       {/* Reservation */}
@@ -356,7 +266,7 @@ export default function Header({ lang, headerText }: HeaderProps) {
                           {item.children.map((group) => (
                             <div key={group.id} className="px-10 pt-12 pb-14">
                               <Link
-                                href={withLocale(lang, group.href)}
+                                href={group.href}
                                 className="tracking-[-6%] text-nowrap font-medium text-lg text-[#333333] hover:text-cm-orange"
                               >
                                 {group.title}
@@ -367,7 +277,7 @@ export default function Header({ lang, headerText }: HeaderProps) {
                                   {group.children.map((child) => (
                                     <li key={child.id} className="flex">
                                       <Link
-                                        href={withLocale(lang, child.href)}
+                                        href={child.href}
                                         className="tracking-[-6%] font-normal text-lg text-[#999999] hover:underline underline-offset-4 hover:text-cm-orange"
                                       >
                                         {`· ${child.title}`}
@@ -384,7 +294,7 @@ export default function Header({ lang, headerText }: HeaderProps) {
                           {item.children.map((group) => (
                             <Link
                               key={group.id}
-                              href={withLocale(lang, group.href)}
+                              href={group.href}
                               className="tracking-[-6%] font-medium text-lg text-[#333333] hover:text-cm-orange"
                             >
                               {group.title}
@@ -407,25 +317,17 @@ export default function Header({ lang, headerText }: HeaderProps) {
             <div className="fixed left-0 top-0 z-10 flex h-51 w-screen max-w-none flex-col border-b border-b-[#EEEEEE] bg-cm-orange px-5">
               {/* Header */}
               <section className="h-14 flex justify-between items-center">
-                <Link href={withLocale(lang, '/')} className="relative">
+                <Link href={"/"} className="relative">
                   <Image
                     src={`/assets/common/brand/logo-white.svg`}
                     alt="logo-white"
-                    style={{ objectFit: 'cover' }}
+                    style={{ objectFit: "cover" }}
                     width={132}
                     height={34}
                   />
                 </Link>
 
                 <div className="flex items-center gap-3">
-                  <button className="relative w-7.5 h-7.5">
-                    <Image
-                      src={`/assets/common/header/gnb/lang-ko-white.svg`}
-                      alt={`lang-ko-white`}
-                      fill
-                    />
-                  </button>
-
                   <button className="relative w-7.5 h-7.5">
                     <Image
                       src={`/assets/common/header/gnb/profile.svg`}
@@ -473,7 +375,7 @@ export default function Header({ lang, headerText }: HeaderProps) {
               {/* Quick Menus */}
               <section className="h-19.5 grid grid-cols-4 text-white tracking-[-4%] text-xs">
                 <Link
-                  href={withLocale(lang, '/')}
+                  href={"/"}
                   className="flex flex-col justify-center items-center gap-2"
                 >
                   <Image
@@ -486,7 +388,7 @@ export default function Header({ lang, headerText }: HeaderProps) {
                 </Link>
 
                 <Link
-                  href={withLocale(lang, '/')}
+                  href={"/"}
                   className="flex flex-col justify-center items-center gap-2"
                 >
                   <Image
@@ -499,7 +401,7 @@ export default function Header({ lang, headerText }: HeaderProps) {
                 </Link>
 
                 <Link
-                  href={withLocale(lang, '/')}
+                  href={"/"}
                   className="flex flex-col justify-center items-center gap-2"
                 >
                   <Image
@@ -512,7 +414,7 @@ export default function Header({ lang, headerText }: HeaderProps) {
                 </Link>
 
                 <Link
-                  href={withLocale(lang, '/')}
+                  href={"/"}
                   className="flex flex-col justify-center items-center gap-2"
                 >
                   <Image
@@ -552,14 +454,14 @@ export default function Header({ lang, headerText }: HeaderProps) {
                     >
                       <summary
                         className={`relative flex h-15 w-full list-none items-center gap-2 border-t border-t-[#EEEEEE] border-b border-b-[#EEEEEE] px-10 [&::-webkit-details-marker]:hidden ${
-                          isOpen ? 'bg-[#F7F7F7]' : ''
+                          isOpen ? "bg-[#F7F7F7]" : ""
                         }`}
                       >
                         <Image
                           src={`/assets/common/header/gnb/${
-                            isOpen ? 'minus' : 'plus'
+                            isOpen ? "minus" : "plus"
                           }.svg`}
-                          alt={isOpen ? 'minus' : 'plus'}
+                          alt={isOpen ? "minus" : "plus"}
                           width={30}
                           height={30}
                         />
@@ -583,7 +485,7 @@ export default function Header({ lang, headerText }: HeaderProps) {
                             {item.children.map((child) => (
                               <li key={child.id}>
                                 <Link
-                                  href={withLocale(lang, child.href)}
+                                  href={child.href}
                                   onClick={closeHamburgerMenu}
                                   className="h-11 flex items-center tracking-[-4%] text-xl text-[#555555]"
                                 >
