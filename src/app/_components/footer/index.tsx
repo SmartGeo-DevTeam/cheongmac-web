@@ -31,7 +31,7 @@ const footerNavs = [
   {
     id: '5',
     title: '이메일무단수집거부',
-    link: '/',
+    link: '/email-collection-refusal',
   },
 ];
 
