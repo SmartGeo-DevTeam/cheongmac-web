@@ -26,7 +26,7 @@ const footerNavs = [
   {
     id: '4',
     title: '환자권리장전',
-    link: '/',
+    link: '/patient-rights',
   },
   {
     id: '5',
