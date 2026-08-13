@@ -16,7 +16,7 @@ const footerNavs = [
   {
     id: '2',
     title: '비급여진료비',
-    link: '/',
+    link: '/non-covered-fees',
   },
   {
     id: '3',
