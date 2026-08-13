@@ -11,7 +11,7 @@ const footerNavs = [
   {
     id: '1',
     title: '개인정보처리방침',
-    link: '/',
+    link: '/privacy-policy',
   },
   {
     id: '2',
@@ -225,11 +225,7 @@ export default function Footer(): ReactElement {
                     className="flex items-center gap-1"
                   >
                     <div className="relative w-5 aspect-square rounded-sm overflow-clip xl:w-7.5">
-                      <Image
-                        src="/assets/icons/map-tmap.png"
-                        alt="tmap"
-                        fill
-                      />
+                      <Image src="/assets/icons/map-tmap.png" alt="tmap" fill />
                     </div>
                     <span>티맵</span>
                   </Link>
@@ -346,11 +342,7 @@ export default function Footer(): ReactElement {
               className="relative w-36.5 aspect-logo
               xl:w-48"
             >
-              <Image
-                src={`/assets/brand/logo-white.svg`}
-                alt="logo"
-                fill
-              />
+              <Image src={`/assets/brand/logo-white.svg`} alt="logo" fill />
             </div>
 
             <div

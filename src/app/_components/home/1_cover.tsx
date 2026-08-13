@@ -1,5 +1,6 @@
 'use client';
 
+// import { openMacGptSearch } from "@/app/_components/mac-gpt-search";
 import { openMacGptSearch } from '@/app/_components/mac-gpt-search';
 import { useViewport } from '@/app/_providers/viewport-provider';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -568,18 +569,8 @@ export default function HomeCover() {
   const swiperRef = useRef<SwiperType | null>(null);
   const [canStartSwiperAutoplay, setCanStartSwiperAutoplay] = useState(false);
 
-  const [initialCoverHeight, setInitialCoverHeight] = useState<number | null>(
-    null,
-  );
-
   const handleMobilePopupsClosed = useCallback(() => {
     setCanStartSwiperAutoplay(true);
-  }, []);
-
-  useLayoutEffect(() => {
-    const initialViewportHeight = window.innerHeight;
-
-    setInitialCoverHeight(Math.round(initialViewportHeight * 0.78));
   }, []);
 
   useEffect(() => {
@@ -605,13 +596,7 @@ export default function HomeCover() {
   }, [canStartSwiperAutoplay]);
 
   return (
-    <section
-      className="relative overflow-hidden px-2 xl:px-0"
-      style={{
-        height:
-          initialCoverHeight === null ? '78vh' : `${initialCoverHeight}px`,
-      }}
-    >
+    <section className="relative h-[960px] overflow-hidden px-2 xl:px-0">
       <Swiper
         modules={[Autoplay, Pagination]}
         spaceBetween={isMobile ? 8 : 0}
