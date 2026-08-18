@@ -106,6 +106,7 @@ function SpecialtiesItem({
     calc();
 
     const ro = new ResizeObserver(() => calc());
+
     ro.observe(contEl);
     ro.observe(itemEl);
 
@@ -127,11 +128,13 @@ function SpecialtiesItem({
   }, [index]);
 
   const opacity = useTransform(progress, [range.start, range.end], [0, 1]);
+
   const x = useTransform(
     progress,
     [range.start, range.end],
     [isLeft ? -50 : 50, 0],
   );
+
   const y = useTransform(progress, [range.start, range.end], [50, 0]);
 
   return (
@@ -157,7 +160,7 @@ export default function HomeSpecialties(): React.ReactNode {
 
   const { scrollYProgress } = useScroll({
     target: contRef,
-    offset: ['start center', 'end center'],
+    offset: ['start 70%', 'end center'],
   });
 
   const lineScaleY = useTransform(scrollYProgress, [0, 1], [0, 1]);
@@ -174,9 +177,19 @@ export default function HomeSpecialties(): React.ReactNode {
     <FadeInUp>
       <section className="bg-[linear-gradient(to_bottom,#FFFFFF_0%,#F6F2EF_100%)]">
         <div
-          className="px-5 pt-20 pb-15 text-[#262C35] overflow-x-hidden
-        xl:mx-auto xl:pt-32 xl:pb-20 xl:max-w-240 xl:w-full xl:overflow-visible
-      "
+          className="
+            overflow-x-hidden
+            px-5
+            pt-20
+            pb-15
+            text-[#262C35]
+            xl:mx-auto
+            xl:w-full
+            xl:max-w-240
+            xl:overflow-visible
+            xl:pt-32
+            xl:pb-20
+          "
         >
           <MainSectionHeader
             eyebrow="진료분야"
@@ -189,10 +202,11 @@ export default function HomeSpecialties(): React.ReactNode {
             description={
               <>
                 <p>
-                  우리 몸 구석구석 닿지 않는 곳 없는 혈관, {` `}
+                  우리 몸 구석구석 닿지 않는 곳 없는 혈관,{' '}
                   <br className="block xl:hidden" />
                   건강의 시작과 끝은 결국 혈관입니다.
                 </p>
+
                 <p>청맥은 숨은 근본 문제까지 찾아 해결해드립니다.</p>
               </>
             }
@@ -200,22 +214,38 @@ export default function HomeSpecialties(): React.ReactNode {
 
           <div
             ref={contRef}
-            className="relative mt-5
-          xl:mt-36
-          "
+            className="
+              relative
+              mt-5
+              xl:mt-36
+            "
           >
             <div className="absolute left-1/2 top-0 h-full w-0.75 -translate-x-1/2 overflow-visible">
               <motion.div
-                className="absolute left-0 top-0 h-full w-full origin-top bg-[linear-gradient(180deg,#D9D9D900_0%,#FD77404D_97%,#DECCC500_100%)] will-change-transform"
+                className="
+                  absolute
+                  left-0
+                  top-0
+                  h-full
+                  w-full
+                  origin-top
+                  bg-[linear-gradient(180deg,#D9D9D900_0%,#FD77404D_97%,#DECCC500_100%)]
+                  will-change-transform
+                "
                 style={{
                   scaleY: lineScaleY,
                 }}
               />
 
               <motion.div
-                className="absolute left-1/2 w-3 aspect-square will-change-transform
-            xl:w-6
-            "
+                className="
+                  absolute
+                  left-1/2
+                  w-3
+                  aspect-square
+                  will-change-transform
+                  xl:w-6
+                "
                 style={{
                   top: dotTop,
                   x: '-50%',
@@ -227,35 +257,45 @@ export default function HomeSpecialties(): React.ReactNode {
                   src="/assets/brand/symbol.svg"
                   alt=""
                   aria-hidden="true"
-                  className="size-3
-              xl:size-6"
+                  className="
+                    size-3
+                    xl:size-6
+                  "
                 />
               </motion.div>
             </div>
 
             <ul
-              className="pb-15 flex flex-wrap gap-x-5
-          xl:gap-x-21
-          [&>li]:relative
-          [&>li]:even:top-15
-          [&>li:nth-child(n+3)]:mt-4
-          [&>li]:w-[calc((100%-1.25rem)/2)]
-          xl:[&>li]:w-[calc((100%-5.25rem)/2)]
-          [&>li]:aspect-square
-          [&>li]:rounded-2xl
-          [&>li]:overflow-clip
-          [&>li>a>span]:absolute
-          [&>li>a>span]:left-4
-          [&>li>a>span]:bottom-2.5
-          [&>li>a>span]:font-extrabold
-          [&>li>a>span]:text-sm
-          [&>li>a>span]:text-white
-          [&>li>a>span]:z-10
-          [&>li>a>img]:object-cover
-          xl:[&>li>a>span]:left-10
-          xl:[&>li>a>span]:bottom-8
-          xl:[&>li>a>span]:text-3xl
-          "
+              className="
+                flex
+                flex-wrap
+                gap-x-5
+                pb-15
+
+                [&>li]:relative
+                [&>li]:aspect-square
+                [&>li]:w-[calc((100%-1.25rem)/2)]
+                [&>li]:overflow-clip
+                [&>li]:rounded-2xl
+                [&>li]:even:top-15
+                [&>li:nth-child(n+3)]:mt-4
+
+                [&>li>a>span]:absolute
+                [&>li>a>span]:bottom-2.5
+                [&>li>a>span]:left-4
+                [&>li>a>span]:z-10
+                [&>li>a>span]:text-sm
+                [&>li>a>span]:font-extrabold
+                [&>li>a>span]:text-white
+
+                [&>li>a>img]:object-cover
+
+                xl:gap-x-21
+                xl:[&>li]:w-[calc((100%-5.25rem)/2)]
+                xl:[&>li>a>span]:bottom-8
+                xl:[&>li>a>span]:left-10
+                xl:[&>li>a>span]:text-3xl
+              "
             >
               {specialties.map((item, index) => (
                 <SpecialtiesItem
@@ -266,6 +306,7 @@ export default function HomeSpecialties(): React.ReactNode {
                   progress={scrollYProgress}
                 >
                   <span>{item.title}</span>
+
                   <Image src={item.imageSrc} alt={item.alt} fill />
                 </SpecialtiesItem>
               ))}

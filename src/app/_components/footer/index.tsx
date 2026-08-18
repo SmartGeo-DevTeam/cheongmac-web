@@ -387,8 +387,8 @@ export default function Footer(): ReactElement {
 
           <div>
             <ul
-              className="mt-3 flex justify-end gap-1
-              xl:gap-2.5"
+              className="mt-3 flex gap-1
+              xl:justify-end xl:gap-2.5"
             >
               {footerSocials.map((social) => (
                 <li

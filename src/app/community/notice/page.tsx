@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function CommunityNoticePage() {
   return (
-    <div className="pt-12 xl:pt-5">
+    <div className="pt-22 xl:pt-5">
       <Inner usePaddingHorizontal>
         <section>
           <div className="flex items-center text-[11px] text-[#555B63] xl:text-sm">

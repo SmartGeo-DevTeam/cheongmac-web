@@ -609,17 +609,18 @@ export default function MacGptSearchLayer() {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.24, ease: 'easeOut' }}
           className="
-            fixed
-            inset-0
-            z-[60]
-            flex
-            flex-col
-            overflow-hidden
-            xl:bottom-0
-            xl:left-0
-            xl:right-0
-            xl:top-[68px]
-          "
+    pointer-events-none
+    fixed
+    inset-0
+    z-[60]
+    flex
+    flex-col
+    overflow-hidden
+    xl:bottom-0
+    xl:left-0
+    xl:right-0
+    xl:top-[68px]
+  "
         >
           {/* MOBILE HEADER OVERLAY */}
           <div
@@ -650,19 +651,20 @@ export default function MacGptSearchLayer() {
               onClick={handleClose}
               aria-label={SEARCH_TEXT.closeLabel}
               className="
-      absolute
-      right-3
-      top-1/2
-      z-10
-      flex
-      h-11
-      w-11
-      -translate-y-1/2
-      items-center
-      justify-center
-      bg-white
-      text-[#252A2E]
-    "
+    pointer-events-auto
+    absolute
+    right-3
+    top-1/2
+    z-10
+    flex
+    h-11
+    w-11
+    -translate-y-1/2
+    items-center
+    justify-center
+    bg-white
+    text-[#252A2E]
+  "
             >
               <X size={27} strokeWidth={1.8} />
             </button>
@@ -673,10 +675,10 @@ export default function MacGptSearchLayer() {
            * 모바일에서는 기존 Header가 그대로 보이면서 그 위에 X만 덮입니다.
            */}
           <div
-            className="relative min-h-0 flex-1 overflow-hidden"
+            className="pointer-events-auto relative min-h-0 flex-1 overflow-hidden"
             style={{
               background:
-                'radial-gradient(ellipse at 43% 38%, rgba(255, 218, 143, 0.34) 0%, rgba(255, 218, 143, 0) 35%), radial-gradient(ellipse at 63% 39%, rgba(255, 133, 93, 0.22) 0%, rgba(255, 133, 93, 0) 39%), linear-gradient(120deg, #EEF6FA 0%, #FFF8EA 39%, #FFF2EF 72%, #F5F8FA 100%)',
+                'radial-gradient(at 43% 38%, rgba(255, 218, 143, 0.34) 0%, rgba(255, 218, 143, 0) 35%), radial-gradient(at 63% 39%, rgba(255, 133, 93, 0.22) 0%, rgba(255, 133, 93, 0) 39%), linear-gradient(120deg, rgb(238, 246, 250) 0%, rgb(255, 248, 234) 39%, rgb(255, 242, 239) 72%, rgb(245, 248, 250) 100%)',
             }}
           >
             {mode === 'search' ? (
