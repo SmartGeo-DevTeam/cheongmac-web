@@ -145,7 +145,7 @@ export default async function NewsDetailPage({
 
       <div className="mt-10 hidden border-t border-[#E8EAED] xl:block" />
 
-      <article className="mx-auto mt-8 w-full max-w-420 px-5 xl:mt-14">
+      <article className="mx-auto mt-8 w-full max-w-7xl px-5 xl:mt-14">
         <header className="border-b border-[#E5E7EB] pb-5 xl:pb-6">
           <NewsClientBrand client={client} fallbackName={item.source} />
 
@@ -204,7 +204,7 @@ export default async function NewsDetailPage({
 
       <nav
         aria-label="이전글 다음글"
-        className="mx-auto mt-10 w-full max-w-420 border-y border-[#E5E7EB] px-5 xl:mt-14"
+        className="mx-auto mt-10 w-full max-w-7xl border-y border-[#E5E7EB] px-5 xl:mt-14"
       >
         <div className="divide-y divide-[#E5E7EB] xl:grid xl:grid-cols-2 xl:divide-x xl:divide-y-0">
           <NewsSiblingLink

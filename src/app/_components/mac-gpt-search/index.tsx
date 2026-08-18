@@ -733,7 +733,7 @@ export default function MacGptSearchLayer() {
                       showDescription={false}
                     />
 
-                    <div className="mt-[18px] flex max-w-[690px] flex-wrap items-center justify-center gap-x-[7px] gap-y-[7px]">
+                    <div className="mt-[18px] flex max-w-7xl flex-wrap items-center justify-center gap-x-[7px] gap-y-[7px]">
                       {SEARCH_TEXT.chips.map((chip) => (
                         <button
                           key={chip}

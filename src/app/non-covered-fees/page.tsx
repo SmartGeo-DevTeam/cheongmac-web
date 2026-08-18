@@ -16,7 +16,7 @@ export default function NonCoveredFeesPage() {
       articleClassName="pb-14 pt-8 xl:pb-24 xl:pt-12"
     >
       <div>
-        <div className="mx-auto max-w-420 break-keep text-center text-sm leading-[1.75] tracking-[-0.02em] text-[#555555]">
+        <div className="mx-auto max-w-7xl break-keep text-center text-sm leading-[1.75] tracking-[-0.02em] text-[#555555]">
           <p>
             의료법 제45조 및 같은 법 시행규칙 제42조의2에 의거하여
             비급여진료비용을 고지합니다.

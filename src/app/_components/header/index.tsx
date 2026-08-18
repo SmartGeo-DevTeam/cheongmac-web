@@ -57,7 +57,7 @@ export default function Header() {
 
   const [isHamburgerOpen, setIsHamburgerOpen] = useState<boolean>(false);
   const [mobileOpenIds, setMobileOpenIds] = useState<string[]>(() =>
-    primaryNavigation.slice(1, 3).map((item) => item.id),
+    primaryNavigation.slice(0, 3).map((item) => item.id),
   );
 
   const closeHamburgerMenu = () => {
@@ -85,7 +85,7 @@ export default function Header() {
       >
         {/* Common - GNB */}
         <section className="relative z-50 bg-white">
-          <div className="mx-auto max-w-420 px-5 w-full h-14 flex justify-between items-center xl:h-20">
+          <div className="mx-auto max-w-7xl px-5 w-full h-14 flex justify-between items-center xl:h-20">
             <Link
               href={'/'}
               onClick={() => {
@@ -168,7 +168,7 @@ export default function Header() {
             }
             `}
         >
-          <div className="relative px-4 mx-auto max-w-420 w-full flex justify-end">
+          <div className="relative px-4 mx-auto max-w-7xl w-full flex justify-end">
             <form
               className="px-3 py-1.75 w-full flex items-center gap-1 rounded-xl border border-black/5 bg-white shadow-[0_1px_0_0_rgb(55_55_55/0.2)]
               xl:px-4 xl:py-2.5 xl:w-auto xl:bg-[#333333]/50"
@@ -494,7 +494,11 @@ export default function Header() {
 
               <section className="w-full max-w-none bg-white px-5 pb-2">
                 <div className="relative w-full aspect-[3.98809524/1]">
-                  <Image src={`/assets/images/temp-banner.png`} alt="banner" fill />
+                  <Image
+                    src={`/assets/images/temp-banner.png`}
+                    alt="banner"
+                    fill
+                  />
                 </div>
                 ``~
               </section>

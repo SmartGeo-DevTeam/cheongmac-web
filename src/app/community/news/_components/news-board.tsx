@@ -409,7 +409,7 @@ export default function NewsBoard() {
   };
 
   return (
-    <section ref={sectionRef} className="mx-auto w-full max-w-420 px-5">
+    <section ref={sectionRef} className="mx-auto w-full max-w-7xl px-5">
       <div className="flex justify-center gap-2.5 xl:gap-3">
         {CATEGORY_TABS.map((tab) => {
           const isActive = category === tab.id;

@@ -103,7 +103,6 @@ function buildNoticeListUrl({
   return queryString ? `/community/notice?${queryString}` : '/community/notice';
 }
 
-
 function buildNoticeDetailHref(id: number, returnTo: string) {
   return {
     pathname: `/community/notice/${id}`,
@@ -165,13 +164,7 @@ function FeaturedNotice({ returnTo }: { returnTo: string }) {
   );
 }
 
-function HolidayAlert({
-  title,
-  date,
-}: {
-  title: string;
-  date: string;
-}) {
+function HolidayAlert({ title, date }: { title: string; date: string }) {
   return (
     <article className="flex min-h-[70px] flex-col justify-center rounded-[9px] bg-[#FFF5F5] px-4 xl:min-h-[116px] xl:items-center xl:px-3 xl:text-center">
       <p className="text-[12px] font-semibold tracking-[-0.035em] text-[#E74C4C] xl:text-[14px]">
@@ -346,7 +339,10 @@ function Pagination({
   const visiblePages = getVisiblePages(currentPage, totalPages);
 
   return (
-    <nav aria-label="공지사항 페이지" className="mt-8 flex justify-center xl:mt-12">
+    <nav
+      aria-label="공지사항 페이지"
+      className="mt-8 flex justify-center xl:mt-12"
+    >
       <div className="flex items-center gap-3 text-xs text-[#9AA1AA] xl:gap-4 xl:text-sm">
         {currentPage > 1 ? (
           <>
@@ -462,22 +458,29 @@ export default function NoticeBoard() {
     window.requestAnimationFrame(() => {
       if (!listRef.current) return;
 
-      const top = listRef.current.getBoundingClientRect().top + window.scrollY - 120;
+      const top =
+        listRef.current.getBoundingClientRect().top + window.scrollY - 120;
       window.scrollTo({ top: Math.max(top, 0), behavior: 'smooth' });
     });
   };
 
   const handleCategoryChange = (nextCategory: CategoryFilter) => {
-    router.push(buildNoticeListUrl({ category: nextCategory, page: 1, query }), {
-      scroll: false,
-    });
+    router.push(
+      buildNoticeListUrl({ category: nextCategory, page: 1, query }),
+      {
+        scroll: false,
+      },
+    );
   };
 
   const handleQueryChange = (nextQuery: string) => {
     setQuery(nextQuery);
-    router.replace(buildNoticeListUrl({ category, page: 1, query: nextQuery }), {
-      scroll: false,
-    });
+    router.replace(
+      buildNoticeListUrl({ category, page: 1, query: nextQuery }),
+      {
+        scroll: false,
+      },
+    );
   };
 
   const handlePageChange = (nextPage: number) => {
@@ -490,7 +493,7 @@ export default function NoticeBoard() {
   };
 
   return (
-    <section className="mx-auto w-full max-w-[1120px] px-5">
+    <section className="mx-auto w-full max-w-7xl px-5">
       <div className="xl:grid xl:grid-cols-[340px_minmax(0,1fr)] xl:gap-6">
         <FeaturedNotice returnTo={currentListUrl} />
 
@@ -502,7 +505,11 @@ export default function NoticeBoard() {
           <div className="hidden grid-cols-[1.65fr_0.8fr_0.8fr] gap-3 xl:grid">
             <div className="grid gap-3">
               {HOLIDAY_ALERTS.map((item) => (
-                <HolidayAlert key={item.id} title={item.title} date={item.date} />
+                <HolidayAlert
+                  key={item.id}
+                  title={item.title}
+                  date={item.date}
+                />
               ))}
             </div>
             <div className="grid gap-3">

@@ -92,7 +92,10 @@ export default async function NoticeDetailPage({
   params,
   searchParams,
 }: NoticeDetailPageProps) {
-  const [{ id }, detailSearchParams] = await Promise.all([params, searchParams]);
+  const [{ id }, detailSearchParams] = await Promise.all([
+    params,
+    searchParams,
+  ]);
   const noticeId = Number(id);
 
   if (!Number.isInteger(noticeId)) notFound();
@@ -155,7 +158,7 @@ export default async function NoticeDetailPage({
 
       <div className="mt-10 hidden border-t border-[#E8EAED] xl:block" />
 
-      <article className="mx-auto mt-8 w-full max-w-[920px] px-5 xl:mt-14">
+      <article className="mx-auto mt-8 w-full max-w-7xl px-5 xl:mt-14">
         <header className="border-b border-[#E5E7EB] pb-5 xl:pb-6">
           <NoticeCategoryBadge item={item} />
 
@@ -173,7 +176,7 @@ export default async function NoticeDetailPage({
           </div>
         </header>
 
-        <div className="mx-auto mt-6 max-w-[680px] xl:mt-8">
+        <div className="mx-auto mt-6 max-w-7xl xl:mt-8">
           {item.detailImageSrc ? (
             <div
               className={`relative mx-auto w-full overflow-hidden bg-[#F5F6F7] ${getDetailImageClassName(
@@ -220,7 +223,7 @@ export default async function NoticeDetailPage({
 
       <nav
         aria-label="이전글 다음글"
-        className="mx-auto mt-8 w-full max-w-[920px] border-y border-[#E5E7EB] px-5 xl:mt-9"
+        className="mx-auto mt-8 w-full max-w-7xl border-y border-[#E5E7EB] px-5 xl:mt-9"
       >
         <div className="divide-y divide-[#E5E7EB] xl:grid xl:grid-cols-2 xl:divide-x xl:divide-y-0">
           <NoticeSiblingLink

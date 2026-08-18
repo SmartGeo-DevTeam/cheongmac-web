@@ -47,6 +47,7 @@ export default function CommunityNewsPage() {
               >
                 <option>공지사항</option>
                 <option>청맥뉴스</option>
+                <option>의학상담</option>
               </select>
               <span className="pointer-events-none absolute right-1 top-1/2 size-1.5 -translate-y-[65%] rotate-45 border-b border-r border-[#777777]" />
             </label>
@@ -65,7 +66,7 @@ export default function CommunityNewsPage() {
       <div className="mt-8 xl:mt-14">
         <Suspense
           fallback={
-            <div className="mx-auto min-h-[520px] w-full max-w-420 px-5" />
+            <div className="mx-auto min-h-[520px] w-full max-w-7xl px-5" />
           }
         >
           <NewsBoard />

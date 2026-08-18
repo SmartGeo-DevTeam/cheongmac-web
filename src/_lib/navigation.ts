@@ -33,6 +33,11 @@ export const NAVIGATION: NavigationItem[] = [
         href: '/community/news',
         title: '청맥뉴스',
       },
+      {
+        id: 'community-consultation',
+        href: '/community/consultation',
+        title: '의학상담',
+      },
     ],
   },
 ];

@@ -149,10 +149,10 @@ export default function Footer(): ReactElement {
         className="relative pt-10 pb-28 bg-[#205145] text-white [overflow-anchor:none] overflow-hidden z-0
         xl:pt-15 xl:pb-40"
       >
-        <div className="relative mx-auto w-full max-w-420 px-5">
+        <div className="relative mx-auto w-full max-w-7xl px-5">
           <div
             className="grid grid-cols-1 gap-y-2
-            xl:grid-cols-3 xl:grid-rows-[auto_auto] xl:items-stretch xl:gap-x-5 xl:gap-y-0"
+            xl:grid-cols-3 xl:grid-rows-[auto_auto_auto] xl:items-stretch xl:gap-x-5 xl:gap-y-0"
           >
             {/* 지도 */}
             <section className="w-full aspect-video rounded-2xl overflow-clip">
@@ -258,7 +258,7 @@ export default function Footer(): ReactElement {
                 xl:px-10 xl:py-7 xl:gap-5"
               >
                 <span
-                  className="flex h-11 w-11 items-center justify-center rounded-[10px] bg-[#F1F5F2] leading-[110%] font-extrabold text-sm text-[#1B2C25]
+                  className="shrink-0 flex h-11 w-11 items-center justify-center rounded-[10px] bg-[#F1F5F2] leading-[110%] font-extrabold text-sm text-[#1B2C25]
                   xl:w-19.5 xl:h-19.5 xl:text-2xl"
                 >
                   대표
@@ -268,7 +268,7 @@ export default function Footer(): ReactElement {
 
                 <p
                   className="font-extrabold text-[28px] text-[#F1F5F2]
-                  xl:text-[40px]"
+                  xl:text-[clamp(28px,2.2vw,34px)]"
                 >
                   <Link target="_blank" href="tel:051-804-1119">
                     051·804·1119
@@ -312,7 +312,7 @@ export default function Footer(): ReactElement {
           className="mt-5 -mr-5
         xl:mt-10 xl:border-t-[0.5px] xl:border-b-[0.5px] border-white/30"
         >
-          <div className="relative mx-auto w-full max-w-420 px-5">
+          <div className="relative mx-auto w-full max-w-7xl px-5">
             <nav aria-label="푸터 메뉴">
               <ul
                 className="pr-5 flex flex-nowrap items-center gap-2 overflow-x-scroll
@@ -336,7 +336,7 @@ export default function Footer(): ReactElement {
         </div>
 
         <div
-          className="relative mx-auto w-full max-w-420 px-5
+          className="relative mx-auto w-full max-w-7xl px-5
           xl:mt-10 xl:flex xl:justify-between xl:items-center xl:opacity-50"
         >
           <div

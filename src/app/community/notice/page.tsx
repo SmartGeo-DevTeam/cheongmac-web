@@ -46,6 +46,7 @@ export default function CommunityNoticePage() {
               >
                 <option>공지사항</option>
                 <option>청맥뉴스</option>
+                <option>의학상담</option>
               </select>
               <span className="pointer-events-none absolute right-1 top-1/2 size-1.5 -translate-y-[65%] rotate-45 border-b border-r border-[#777777]" />
             </label>
@@ -64,7 +65,7 @@ export default function CommunityNoticePage() {
       <div className="mt-8 pb-14 xl:mt-14 xl:pb-24">
         <Suspense
           fallback={
-            <div className="mx-auto min-h-[760px] w-full max-w-[1120px] px-5" />
+            <div className="mx-auto min-h-[760px] w-full max-w-7xl px-5" />
           }
         >
           <NoticeBoard />
