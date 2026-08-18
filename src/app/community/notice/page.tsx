@@ -1,17 +1,16 @@
 import Inner from '@/app/_components/inner';
-import MoreSocials from '@/app/_components/more-socials';
-import NewsBoard from '@/app/community/news/_components/news-board';
+import NoticeBoard from '@/app/community/notice/_components/notice-board';
 import { Home } from 'lucide-react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Suspense } from 'react';
 
 export const metadata: Metadata = {
-  title: '청맥뉴스 | 청맥병원',
-  description: '청맥병원의 원내 소식과 언론보도를 확인해보세요.',
+  title: '공지사항 | 청맥병원',
+  description: '청맥병원의 주요 공지와 휴진 일정을 확인해보세요.',
 };
 
-export default function CommunityNewsPage() {
+export default function CommunityNoticePage() {
   return (
     <div className="pt-12 xl:pt-5">
       <Inner usePaddingHorizontal>
@@ -42,7 +41,7 @@ export default function CommunityNewsPage() {
               <span className="sr-only">2차 메뉴</span>
               <select
                 aria-label="2차 메뉴"
-                defaultValue="청맥뉴스"
+                defaultValue="공지사항"
                 className="appearance-none bg-transparent pr-1 outline-none"
               >
                 <option>공지사항</option>
@@ -54,7 +53,7 @@ export default function CommunityNewsPage() {
 
           <header className="mt-10 flex justify-center text-center xl:mt-10">
             <h1 className="text-[26px] font-bold tracking-[-0.04em] text-[#252B33] xl:text-[42px]">
-              청맥뉴스
+              공지사항
             </h1>
           </header>
         </section>
@@ -62,18 +61,14 @@ export default function CommunityNewsPage() {
 
       <div className="mt-10 hidden border-t border-[#E8EAED] xl:block" />
 
-      <div className="mt-8 xl:mt-14">
+      <div className="mt-8 pb-14 xl:mt-14 xl:pb-24">
         <Suspense
           fallback={
-            <div className="mx-auto min-h-[520px] w-full max-w-420 px-5" />
+            <div className="mx-auto min-h-[760px] w-full max-w-[1120px] px-5" />
           }
         >
-          <NewsBoard />
+          <NoticeBoard />
         </Suspense>
-      </div>
-
-      <div className="mt-14 mb-16 xl:mt-24 xl:mb-20">
-        <MoreSocials />
       </div>
     </div>
   );

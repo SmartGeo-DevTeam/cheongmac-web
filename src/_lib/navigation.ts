@@ -20,9 +20,14 @@ export const NAVIGATION: NavigationItem[] = [
   },
   {
     id: 'community',
-    href: '/community/news',
+    href: '/community/notice',
     title: '소통공간',
     children: [
+      {
+        id: 'community-notice',
+        href: '/community/notice',
+        title: '공지사항',
+      },
       {
         id: 'community-news',
         href: '/community/news',

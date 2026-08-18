@@ -107,7 +107,11 @@ export default function Header() {
             <nav className="hidden xl:flex justify-center items-center">
               {primaryNavigation.map((item) => {
                 const isHovered = hoveredPrimary?.id === item.id;
-                const isActive = isHovered || isCurrentPath(item.href);
+                const hasActiveChild = item.children?.some((child) =>
+                  isCurrentPath(child.href),
+                );
+                const isActive =
+                  isHovered || isCurrentPath(item.href) || hasActiveChild;
 
                 return (
                   <Link
