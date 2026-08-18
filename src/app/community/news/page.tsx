@@ -48,6 +48,7 @@ export default function CommunityNewsPage() {
                 <option>공지사항</option>
                 <option>청맥뉴스</option>
                 <option>의학상담</option>
+                <option>고객의 소리</option>
               </select>
               <span className="pointer-events-none absolute right-1 top-1/2 size-1.5 -translate-y-[65%] rotate-45 border-b border-r border-[#777777]" />
             </label>

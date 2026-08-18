@@ -38,6 +38,11 @@ export const NAVIGATION: NavigationItem[] = [
         href: '/community/consultation',
         title: '의학상담',
       },
+      {
+        id: 'community-customer-voice',
+        href: '/community/customer-voice',
+        title: '고객의 소리',
+      },
     ],
   },
 ];

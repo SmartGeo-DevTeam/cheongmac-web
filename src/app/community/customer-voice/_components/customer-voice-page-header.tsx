@@ -2,7 +2,7 @@ import Inner from '@/app/_components/inner';
 import { Home } from 'lucide-react';
 import Link from 'next/link';
 
-export default function ConsultationPageHeader() {
+export default function CustomerVoicePageHeader() {
   return (
     <>
       <div className="pt-22 xl:pt-5">
@@ -34,13 +34,13 @@ export default function ConsultationPageHeader() {
                 <span className="sr-only">2차 메뉴</span>
                 <select
                   aria-label="2차 메뉴"
-                  defaultValue="의학상담"
+                  defaultValue="고객의 소리"
                   className="appearance-none bg-transparent pr-1 outline-none"
                 >
                   <option>공지사항</option>
                   <option>청맥뉴스</option>
                   <option>의학상담</option>
-                <option>고객의 소리</option>
+                  <option>고객의 소리</option>
                 </select>
                 <span className="pointer-events-none absolute right-1 top-1/2 size-1.5 -translate-y-[65%] rotate-45 border-b border-r border-[#777777]" />
               </label>
@@ -48,12 +48,12 @@ export default function ConsultationPageHeader() {
 
             <header className="mt-10 text-center xl:mt-10">
               <h1 className="text-[26px] font-bold tracking-[-0.04em] text-[#252B33] xl:text-[42px]">
-                의학상담
+                고객의 소리
               </h1>
-              <p className="mx-auto mt-3 max-w-[520px] break-keep text-[12px] leading-[1.65] tracking-[-0.035em] text-[#7C828A] xl:mt-4 xl:text-[16px] xl:leading-[1.75]">
-                청맥병원은 환자분의 고민을 가볍게 넘기지 않습니다.
+              <p className="mx-auto mt-3 max-w-[560px] break-keep text-[12px] leading-[1.65] tracking-[-0.035em] text-[#7C828A] xl:mt-4 xl:text-[16px] xl:leading-[1.75]">
+                칭찬도 아쉬움도, 환자분의 모든 목소리에 귀 기울입니다.
                 <br />
-                올바른 의학 정보 제공을 위해 최선을 다해 답변해 드립니다.
+                보내주신 의견을 바탕으로 더 나은 청맥병원을 만들어갑니다.
               </p>
             </header>
           </section>
