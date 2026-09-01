@@ -25,7 +25,7 @@ export default function ConsultationPageHeader() {
                 >
                   <option>소통공간</option>
                 </select>
-                <span className="pointer-events-none absolute right-1 top-1/2 size-1.5 -translate-y-[65%] rotate-45 border-b border-r border-[#777777]" />
+                <span className="pointer-events-none absolute right-1 top-1/2 size-1.5 translate-y-[-65%] rotate-45 border-b border-r border-[#777777]" />
               </label>
 
               <div className="mx-2 h-3.5 w-px bg-[#DDDDDD]" />
@@ -40,9 +40,9 @@ export default function ConsultationPageHeader() {
                   <option>공지사항</option>
                   <option>청맥뉴스</option>
                   <option>의학상담</option>
-                <option>고객의 소리</option>
+                  <option>고객의 소리</option>
                 </select>
-                <span className="pointer-events-none absolute right-1 top-1/2 size-1.5 -translate-y-[65%] rotate-45 border-b border-r border-[#777777]" />
+                <span className="pointer-events-none absolute right-1 top-1/2 size-1.5 translate-y-[-65%] rotate-45 border-b border-r border-[#777777]" />
               </label>
             </div>
 
@@ -50,7 +50,7 @@ export default function ConsultationPageHeader() {
               <h1 className="text-[26px] font-bold tracking-[-0.04em] text-[#252B33] xl:text-[42px]">
                 의학상담
               </h1>
-              <p className="mx-auto mt-3 max-w-[520px] break-keep text-[12px] leading-[1.65] tracking-[-0.035em] text-[#7C828A] xl:mt-4 xl:text-[16px] xl:leading-[1.75]">
+              <p className="mx-auto mt-3 max-w-130 break-keep text-[12px] leading-[1.65] tracking-[-0.035em] text-[#7C828A] xl:mt-4 xl:text-[16px] xl:leading-[1.75]">
                 청맥병원은 환자분의 고민을 가볍게 넘기지 않습니다.
                 <br />
                 올바른 의학 정보 제공을 위해 최선을 다해 답변해 드립니다.

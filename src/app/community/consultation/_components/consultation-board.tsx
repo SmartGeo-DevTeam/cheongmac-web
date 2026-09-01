@@ -63,7 +63,7 @@ function SearchBox({ defaultValue }: { defaultValue: string }) {
 
   return (
     <form
-      className="flex h-10 w-[158px] items-center rounded-full border border-[#E0E4E8] bg-white px-4 xl:h-11 xl:w-[240px]"
+      className="flex h-10 w-39.5 items-center rounded-full border border-[#E0E4E8] bg-white px-4 xl:h-11 xl:w-60"
       onSubmit={(event) => {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
@@ -97,7 +97,7 @@ function SearchBox({ defaultValue }: { defaultValue: string }) {
 
 function NoticeBox() {
   return (
-    <section className="mx-auto max-w-7xl rounded-[12px] bg-[#E7F5F1] px-5 py-5 xl:rounded-[15px] xl:px-14 xl:py-8">
+    <section className="mx-auto max-w-7xl rounded-xl bg-[#E7F5F1] px-5 py-5 xl:rounded-[15px] xl:px-14 xl:py-8">
       <h2 className="flex items-center justify-center gap-2 text-[16px] font-bold tracking-[-0.04em] text-[#167963] xl:text-[20px]">
         <ShieldAlert className="size-5 xl:size-6" strokeWidth={2} />
         확인해 주세요
@@ -331,13 +331,13 @@ export default function ConsultationBoard() {
       <div className="mt-8 flex justify-center gap-3 xl:mt-9">
         <Link
           href="/community/consultation/write"
-          className="hidden h-11 min-w-[150px] items-center justify-center gap-2 rounded-full border border-[#1D4D42] px-5 text-[13px] font-semibold text-[#294D44] xl:inline-flex"
+          className="hidden h-11 min-w-37.5 items-center justify-center gap-2 rounded-full border border-[#1D4D42] px-5 text-[13px] font-semibold text-[#294D44] xl:inline-flex"
         >
           <PenLine className="size-4" strokeWidth={1.8} /> 문의글 작성하기
         </Link>
         <Link
           href="/community/consultation/write"
-          className="inline-flex h-11 min-w-[142px] items-center justify-center gap-2 rounded-full bg-[#064E40] px-5 text-[13px] font-semibold text-white xl:min-w-[160px]"
+          className="inline-flex h-11 min-w-35.5 items-center justify-center gap-2 rounded-full bg-[#064E40] px-5 text-[13px] font-semibold text-white xl:min-w-40"
         >
           <PenLine className="size-4" strokeWidth={1.8} /> 문의글 작성하기
         </Link>

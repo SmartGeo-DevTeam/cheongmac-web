@@ -45,7 +45,7 @@ export default function ConsultationSidebar() {
         </h3>
         <Link
           href="/"
-          className="relative block min-h-[118px] rounded-[8px] bg-[#F5F6F7] p-4 pr-12 xl:min-h-[132px] xl:p-5"
+          className="relative block min-h-29.5 rounded-lg bg-[#F5F6F7] p-4 pr-12 xl:min-h-33 xl:p-5"
         >
           <p className="text-[10px] font-semibold tracking-[-0.03em] text-[#626971] xl:text-[12px]">
             혈관외과 박용범 원장
@@ -65,12 +65,12 @@ export default function ConsultationSidebar() {
         <button
           type="button"
           onClick={() => openMacGptSearch('다리 부종과 하지정맥류가 궁금해요')}
-          className="relative block min-h-[148px] w-full overflow-hidden rounded-[8px] bg-[#DFF5EF] p-4 text-left xl:min-h-[168px] xl:p-5"
+          className="relative block min-h-37 w-full overflow-hidden rounded-lg bg-[#DFF5EF] p-4 text-left xl:min-h-42 xl:p-5"
         >
           <h3 className="text-[17px] font-bold tracking-[-0.04em] text-[#28323A] xl:text-[20px]">
             맥GPT에게 물어보기
           </h3>
-          <p className="mt-1 max-w-[155px] break-keep text-[11px] leading-[1.55] tracking-[-0.03em] text-[#55616A] xl:max-w-[175px] xl:text-[13px]">
+          <p className="mt-1 max-w-38.75 break-keep text-[11px] leading-[1.55] tracking-[-0.03em] text-[#55616A] xl:max-w-43.75 xl:text-[13px]">
             AI에게 질환 관련 문의하고 실시간으로 답변을 받아보세요.
           </p>
 
@@ -79,7 +79,7 @@ export default function ConsultationSidebar() {
             alt="맥GPT"
             width={105}
             height={72}
-            className="bottom-0 left-3 h-auto w-[105px] xl:left-4 xl:w-[120px]"
+            className="bottom-0 left-3 h-auto w-26.25 xl:left-4 xl:w-30"
           />
 
           <span className="absolute bottom-4 right-4 flex size-8 items-center justify-center rounded-full bg-white xl:size-9">
