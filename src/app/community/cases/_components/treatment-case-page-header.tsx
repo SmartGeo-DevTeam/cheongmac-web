@@ -1,10 +1,12 @@
 import Inner from '@/app/_components/inner';
+import TreatmentCaseToaster from './treatment-case-toaster';
 import { ChevronDown, Home } from 'lucide-react';
 import Link from 'next/link';
 
 export default function TreatmentCasePageHeader() {
   return (
     <>
+      <TreatmentCaseToaster />
       <Inner usePaddingHorizontal>
         <div className="pt-5 xl:pt-5">
           <div className="flex items-center gap-2 text-xs text-[#666666] xl:text-sm">
