@@ -200,11 +200,11 @@ export const NAVIGATION: NavigationItem[] = [
         href: '/education-research/exchange',
         title: '학술교류',
       },
-      // {
-      //   id: 'education-research-society',
-      //   href: '/education-research/society',
-      //   title: '학회 활동',
-      // },
+      {
+        id: 'education-research-society',
+        href: '/education-research/society',
+        title: '학회활동',
+      },
     ],
   },
 
