@@ -215,14 +215,14 @@ export const NAVIGATION: NavigationItem[] = [
 
   {
     id: 'communication',
-    href: '/community/consultation',
+    href: '/community/cases',
     title: '소통공간',
     children: [
-      // {
-      //   id: 'communication-cases',
-      //   href: '/community/cases',
-      //   title: '치료사례',
-      // },
+      {
+        id: 'communication-cases',
+        href: '/community/cases',
+        title: '치료사례',
+      },
       {
         id: 'communication-consultation',
         href: '/community/consultation',
