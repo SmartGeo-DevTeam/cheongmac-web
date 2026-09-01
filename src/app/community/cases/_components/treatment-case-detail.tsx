@@ -1,8 +1,14 @@
+import { TREATMENT_CASE_IS_AUTHENTICATED } from '../_auth';
 import type {
   TreatmentCase,
   TreatmentCaseDetailMedia,
 } from '../_data';
 import TreatmentCaseShareButton from './treatment-case-share-button';
+import {
+  TreatmentCaseBlurredText,
+  TreatmentCaseContentLock,
+  TreatmentCaseImageLock,
+} from './treatment-case-access';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -62,9 +68,11 @@ function getYoutubeEmbedUrl(youtubeUrl: string) {
 function TreatmentCaseMedia({
   media,
   title,
+  isAuthenticated,
 }: {
   media: TreatmentCaseDetailMedia;
   title: string;
+  isAuthenticated: boolean;
 }) {
   if (media.type === 'youtube') {
     const embedUrl = getYoutubeEmbedUrl(media.youtubeUrl);
@@ -106,7 +114,7 @@ function TreatmentCaseMedia({
 
   return (
     <div className="space-y-7 xl:space-y-10">
-      <div className="overflow-hidden rounded-xl bg-[#F2F3F4] shadow-[0_1px_4px_rgba(0,0,0,0.08)]">
+      <div className="relative overflow-hidden rounded-xl bg-[#F2F3F4] shadow-[0_1px_4px_rgba(0,0,0,0.08)]">
         <Image
           src={media.comparisonImage}
           alt={`${title} 치료 전후`}
@@ -115,10 +123,11 @@ function TreatmentCaseMedia({
           className="h-auto w-full"
           priority
         />
+        {!isAuthenticated ? <TreatmentCaseImageLock /> : null}
       </div>
 
       {media.diagnosticComparisonImage ? (
-        <div className="overflow-hidden rounded-xl border border-[#E1E3E5] bg-white shadow-[0_1px_5px_rgba(0,0,0,0.06)]">
+        <div className="relative overflow-hidden rounded-xl border border-[#E1E3E5] bg-white shadow-[0_1px_5px_rgba(0,0,0,0.06)]">
           <Image
             src={media.diagnosticComparisonImage}
             alt={`${title} CT 치료 전후`}
@@ -126,6 +135,7 @@ function TreatmentCaseMedia({
             height={610}
             className="h-auto w-full"
           />
+          {!isAuthenticated ? <TreatmentCaseImageLock /> : null}
         </div>
       ) : null}
     </div>
@@ -168,12 +178,30 @@ export default function TreatmentCaseDetail({
         </header>
 
         <div className="mx-auto mt-7 max-w-4xl xl:mt-10">
-          <TreatmentCaseMedia media={item.detailMedia} title={item.title} />
+          <TreatmentCaseMedia
+            media={item.detailMedia}
+            title={item.title}
+            isAuthenticated={TREATMENT_CASE_IS_AUTHENTICATED}
+          />
         </div>
 
         <dl className="mt-7 space-y-4 xl:mt-12 xl:space-y-6">
           {INFO_ROWS.map(([label, key]) => {
             const isLong = key === 'before' || key === 'after';
+            const isProtectedTreatment =
+              item.detailMedia.type === 'before-after' &&
+              !TREATMENT_CASE_IS_AUTHENTICATED;
+            const shouldBlur =
+              isProtectedTreatment &&
+              (key === 'treatment' || key === 'before');
+
+            if (isProtectedTreatment && key === 'after') {
+              return (
+                <div key={key}>
+                  <TreatmentCaseContentLock />
+                </div>
+              );
+            }
 
             return (
               <div
@@ -186,7 +214,13 @@ export default function TreatmentCaseDetail({
                   {label}
                 </dt>
                 <dd className="break-keep pt-1 text-base leading-[1.8] text-[#42474C] xl:pt-1.5 xl:text-xl xl:leading-[1.85]">
-                  {values[key]}
+                  {shouldBlur ? (
+                    <TreatmentCaseBlurredText>
+                      {values[key]}
+                    </TreatmentCaseBlurredText>
+                  ) : (
+                    values[key]
+                  )}
                 </dd>
               </div>
             );

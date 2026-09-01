@@ -1,11 +1,13 @@
 'use client';
 
+import { TREATMENT_CASE_IS_AUTHENTICATED } from '../_auth';
 import {
   TREATMENT_CASE_COUNT,
   TREATMENT_CASES,
   type TreatmentCaseKind,
 } from '../_data';
 import { ChevronLeft, ChevronRight, ChevronsRight, Search } from 'lucide-react';
+import { TreatmentCaseImageLock } from './treatment-case-access';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
@@ -98,12 +100,21 @@ export default function TreatmentCaseList() {
               >
                 <div className="relative aspect-[202/115] w-full overflow-hidden bg-[#F1F2F3]">
                   <Image
-                    src={item.thumbnail}
+                    src={
+                      item.kind === 'treatment'
+                        ? '/assets/images/treatment-cases/case-before-after.jpg'
+                        : item.thumbnail
+                    }
                     alt={`${item.title} 치료사례`}
                     fill
                     className="object-cover transition duration-300 group-hover:scale-[1.01]"
                     sizes="(min-width: 1280px) 400px, 100vw"
                   />
+
+                  {item.kind === 'treatment' &&
+                  !TREATMENT_CASE_IS_AUTHENTICATED ? (
+                    <TreatmentCaseImageLock compact />
+                  ) : null}
                 </div>
 
                 <div className="p-4 xl:p-5">
