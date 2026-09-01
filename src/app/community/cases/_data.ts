@@ -1,5 +1,17 @@
 export type TreatmentCaseKind = 'treatment' | 'review' | 'video';
 
+export type TreatmentCaseDetailMedia =
+  | {
+      type: 'before-after';
+      comparisonImage: string;
+      diagnosticComparisonImage?: string;
+    }
+  | {
+      type: 'youtube';
+      youtubeUrl: string;
+      fallbackImage?: string;
+    };
+
 export type TreatmentCase = {
   id: number;
   kind: TreatmentCaseKind;
@@ -15,7 +27,7 @@ export type TreatmentCase = {
   treatment: string;
   before: string;
   after: string;
-  mediaType: 'before-after' | 'video';
+  detailMedia: TreatmentCaseDetailMedia;
 };
 
 const COMMON_BEFORE =
@@ -23,6 +35,24 @@ const COMMON_BEFORE =
 
 const COMMON_AFTER =
   '퇴원 이후에도 꾸준한 외래 치료를 이어가면서 하루 약 6km 보행 운동 등 생활 습관 교정을 병행하였고, 치료 약 8개월 후 시행한 추적 MRI 검사에서 튀어나왔던 병변이 크게 감소한 것을 확인하였습니다. 최근 발가락 쪽으로 일시적인 잔여 증상이 나타나긴 했으나 구조적인 문제는 이미 호전된 상태로, 앞으로도 꾸준한 관리와 좋은 경과가 기대됩니다.';
+
+const BEFORE_AFTER_MEDIA: TreatmentCaseDetailMedia = {
+  type: 'before-after',
+  comparisonImage: '/assets/images/treatment-cases/case-before-after.jpg',
+  diagnosticComparisonImage:
+    '/assets/images/treatment-cases/case-ct-before-after.jpg',
+};
+
+/*
+ * YouTube 더미 연결값입니다.
+ * 실제 게시물 데이터 연동 시 해당 치료사례의 YouTube URL만 넣으면 됩니다.
+ * watch / youtu.be / embed 형식을 모두 상세 컴포넌트에서 처리합니다.
+ */
+const YOUTUBE_MEDIA: TreatmentCaseDetailMedia = {
+  type: 'youtube',
+  youtubeUrl: 'https://www.youtube.com/watch?v=M7lc1UVf-VE',
+  fallbackImage: '/assets/images/treatment-cases/case-video.jpg',
+};
 
 export const TREATMENT_CASES: TreatmentCase[] = [
   {
@@ -41,7 +71,7 @@ export const TREATMENT_CASES: TreatmentCase[] = [
     treatment: '레이저',
     before: COMMON_BEFORE,
     after: COMMON_AFTER,
-    mediaType: 'before-after',
+    detailMedia: BEFORE_AFTER_MEDIA,
   },
   {
     id: 2,
@@ -59,7 +89,7 @@ export const TREATMENT_CASES: TreatmentCase[] = [
     treatment: '레이저',
     before: COMMON_BEFORE,
     after: COMMON_AFTER,
-    mediaType: 'before-after',
+    detailMedia: BEFORE_AFTER_MEDIA,
   },
   {
     id: 3,
@@ -77,7 +107,7 @@ export const TREATMENT_CASES: TreatmentCase[] = [
     treatment: '스텐트삽입술',
     before: COMMON_BEFORE,
     after: COMMON_AFTER,
-    mediaType: 'before-after',
+    detailMedia: BEFORE_AFTER_MEDIA,
   },
   {
     id: 4,
@@ -95,7 +125,7 @@ export const TREATMENT_CASES: TreatmentCase[] = [
     treatment: '혈관내 치료',
     before: COMMON_BEFORE,
     after: COMMON_AFTER,
-    mediaType: 'before-after',
+    detailMedia: BEFORE_AFTER_MEDIA,
   },
   {
     id: 5,
@@ -113,7 +143,7 @@ export const TREATMENT_CASES: TreatmentCase[] = [
     treatment: '풍선성형술 (2024.05.14 시행)',
     before: COMMON_BEFORE,
     after: COMMON_AFTER,
-    mediaType: 'video',
+    detailMedia: YOUTUBE_MEDIA,
   },
   {
     id: 6,
@@ -131,7 +161,7 @@ export const TREATMENT_CASES: TreatmentCase[] = [
     treatment: '레이저',
     before: COMMON_BEFORE,
     after: COMMON_AFTER,
-    mediaType: 'before-after',
+    detailMedia: BEFORE_AFTER_MEDIA,
   },
   {
     id: 7,
@@ -149,7 +179,7 @@ export const TREATMENT_CASES: TreatmentCase[] = [
     treatment: '스텐트삽입술',
     before: COMMON_BEFORE,
     after: COMMON_AFTER,
-    mediaType: 'before-after',
+    detailMedia: BEFORE_AFTER_MEDIA,
   },
   {
     id: 8,
@@ -167,7 +197,7 @@ export const TREATMENT_CASES: TreatmentCase[] = [
     treatment: '혈관내 치료',
     before: COMMON_BEFORE,
     after: COMMON_AFTER,
-    mediaType: 'before-after',
+    detailMedia: BEFORE_AFTER_MEDIA,
   },
   {
     id: 9,
@@ -185,7 +215,7 @@ export const TREATMENT_CASES: TreatmentCase[] = [
     treatment: '풍선성형술',
     before: COMMON_BEFORE,
     after: COMMON_AFTER,
-    mediaType: 'video',
+    detailMedia: YOUTUBE_MEDIA,
   },
 ];
 

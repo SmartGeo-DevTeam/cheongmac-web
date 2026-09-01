@@ -1,4 +1,7 @@
-import type { TreatmentCase } from '../_data';
+import type {
+  TreatmentCase,
+  TreatmentCaseDetailMedia,
+} from '../_data';
 import TreatmentCaseShareButton from './treatment-case-share-button';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import Image from 'next/image';
@@ -17,6 +20,117 @@ const INFO_ROWS = [
   ['치료 전', 'before'],
   ['치료 후', 'after'],
 ] as const;
+
+function getYoutubeEmbedUrl(youtubeUrl: string) {
+  try {
+    const parsed = new URL(youtubeUrl);
+
+    if (parsed.hostname === 'youtu.be') {
+      const id = parsed.pathname.replace('/', '');
+
+      return id
+        ? `https://www.youtube-nocookie.com/embed/${id}`
+        : null;
+    }
+
+    if (
+      parsed.hostname === 'www.youtube.com' ||
+      parsed.hostname === 'youtube.com' ||
+      parsed.hostname === 'm.youtube.com'
+    ) {
+      if (parsed.pathname.startsWith('/embed/')) {
+        const id = parsed.pathname.split('/embed/')[1]?.split('/')[0];
+
+        return id
+          ? `https://www.youtube-nocookie.com/embed/${id}`
+          : null;
+      }
+
+      const id = parsed.searchParams.get('v');
+
+      return id
+        ? `https://www.youtube-nocookie.com/embed/${id}`
+        : null;
+    }
+
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+function TreatmentCaseMedia({
+  media,
+  title,
+}: {
+  media: TreatmentCaseDetailMedia;
+  title: string;
+}) {
+  if (media.type === 'youtube') {
+    const embedUrl = getYoutubeEmbedUrl(media.youtubeUrl);
+
+    if (embedUrl) {
+      return (
+        <div className="overflow-hidden rounded-xl bg-black shadow-[0_1px_4px_rgba(0,0,0,0.08)]">
+          <div className="relative aspect-video w-full">
+            <iframe
+              src={embedUrl}
+              title={`${title} 영상`}
+              className="absolute inset-0 size-full border-0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen
+            />
+          </div>
+        </div>
+      );
+    }
+
+    if (media.fallbackImage) {
+      return (
+        <div className="relative aspect-video overflow-hidden rounded-xl bg-black">
+          <Image
+            src={media.fallbackImage}
+            alt={`${title} 영상 썸네일`}
+            fill
+            className="object-cover"
+            sizes="(min-width: 1280px) 900px, 100vw"
+            priority
+          />
+        </div>
+      );
+    }
+
+    return null;
+  }
+
+  return (
+    <div className="space-y-7 xl:space-y-10">
+      <div className="overflow-hidden rounded-xl bg-[#F2F3F4] shadow-[0_1px_4px_rgba(0,0,0,0.08)]">
+        <Image
+          src={media.comparisonImage}
+          alt={`${title} 치료 전후`}
+          width={1040}
+          height={650}
+          className="h-auto w-full"
+          priority
+        />
+      </div>
+
+      {media.diagnosticComparisonImage ? (
+        <div className="overflow-hidden rounded-xl border border-[#E1E3E5] bg-white shadow-[0_1px_5px_rgba(0,0,0,0.06)]">
+          <Image
+            src={media.diagnosticComparisonImage}
+            alt={`${title} CT 치료 전후`}
+            width={1040}
+            height={610}
+            className="h-auto w-full"
+          />
+        </div>
+      ) : null}
+    </div>
+  );
+}
 
 export default function TreatmentCaseDetail({
   item,
@@ -53,30 +167,8 @@ export default function TreatmentCaseDetail({
           <TreatmentCaseShareButton />
         </header>
 
-        <div className="mt-7 xl:mt-10">
-          {item.mediaType === 'video' ? (
-            <div className="relative aspect-[268/151] overflow-hidden rounded-xl bg-black xl:mx-auto xl:max-w-4xl">
-              <Image
-                src="/assets/images/treatment-cases/case-video.jpg"
-                alt={`${item.title} 영상 인터뷰 썸네일`}
-                fill
-                className="object-cover"
-                sizes="(min-width: 1280px) 900px, 100vw"
-                priority
-              />
-            </div>
-          ) : (
-            <div className="relative aspect-[257/193] overflow-hidden rounded-xl bg-[#F2F3F4] xl:mx-auto xl:max-w-4xl">
-              <Image
-                src="/assets/images/treatment-cases/case-before-after.jpg"
-                alt={`${item.title} 치료 전후`}
-                fill
-                className="object-cover"
-                sizes="(min-width: 1280px) 900px, 100vw"
-                priority
-              />
-            </div>
-          )}
+        <div className="mx-auto mt-7 max-w-4xl xl:mt-10">
+          <TreatmentCaseMedia media={item.detailMedia} title={item.title} />
         </div>
 
         <dl className="mt-7 space-y-4 xl:mt-12 xl:space-y-6">
