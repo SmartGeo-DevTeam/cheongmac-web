@@ -326,12 +326,12 @@ function DesktopCategoryDetail({
 
 function MobileCategoryDetail({
   category,
-  selected,
-  onSelect,
+  openId,
+  onToggle,
 }: {
   category: Exclude<EquipmentCategory, 'all'>;
-  selected: MedicalEquipment;
-  onSelect: (item: MedicalEquipment) => void;
+  openId: string | null;
+  onToggle: (item: MedicalEquipment) => void;
 }) {
   const items = MEDICAL_EQUIPMENT.filter((item) => item.category === category);
 
@@ -339,14 +339,17 @@ function MobileCategoryDetail({
     <div className="mt-6 xl:hidden">
       <div className="border-y border-[#2C3137]">
         {items.map((item) => {
-          const active = selected.id === item.id;
+          const active = openId === item.id;
+          const panelId = `mobile-equipment-panel-${item.id}`;
 
           return (
             <div key={item.id}>
               <button
                 type="button"
-                onClick={() => onSelect(item)}
-                className={`flex w-full items-center justify-between gap-3 border-b border-[#E1E4E6] px-3 py-4 text-left ${
+                onClick={() => onToggle(item)}
+                aria-expanded={active}
+                aria-controls={panelId}
+                className={`flex w-full items-center justify-between gap-3 border-b border-[#E1E4E6] px-3 py-4 text-left transition ${
                   active ? 'bg-[#FFF7F3]' : 'bg-white'
                 }`}
               >
@@ -366,7 +369,7 @@ function MobileCategoryDetail({
               </button>
 
               {active ? (
-                <div className="px-1 pb-8 pt-5">
+                <div id={panelId} className="px-1 pb-8 pt-5">
                   <EquipmentDetail item={item} />
                 </div>
               ) : null}
@@ -381,6 +384,7 @@ function MobileCategoryDetail({
 export default function MedicalEquipmentContent() {
   const [category, setCategory] = useState<EquipmentCategory>('all');
   const [selectedId, setSelectedId] = useState('ct');
+  const [mobileOpenId, setMobileOpenId] = useState<string | null>(null);
   const contentTopRef = useRef<HTMLDivElement>(null);
 
   const selected = useMemo(() => {
@@ -399,11 +403,16 @@ export default function MedicalEquipmentContent() {
   const changeCategory = (next: EquipmentCategory) => {
     setCategory(next);
 
-    if (next !== 'all') {
-      const first = MEDICAL_EQUIPMENT.find((item) => item.category === next);
-      if (first) {
-        setSelectedId(first.id);
-      }
+    if (next === 'all') {
+      setMobileOpenId(null);
+      return;
+    }
+
+    const first = MEDICAL_EQUIPMENT.find((item) => item.category === next);
+
+    if (first) {
+      setSelectedId(first.id);
+      setMobileOpenId(first.id);
     }
   };
 
@@ -412,6 +421,8 @@ export default function MedicalEquipmentContent() {
 
     if (category === 'all') {
       setCategory(item.category);
+      setMobileOpenId(item.id);
+
       requestAnimationFrame(() => {
         contentTopRef.current?.scrollIntoView({
           behavior: 'smooth',
@@ -419,6 +430,16 @@ export default function MedicalEquipmentContent() {
         });
       });
     }
+  };
+
+  const toggleMobileEquipment = (item: MedicalEquipment) => {
+    if (mobileOpenId === item.id) {
+      setMobileOpenId(null);
+      return;
+    }
+
+    setSelectedId(item.id);
+    setMobileOpenId(item.id);
   };
 
   return (
@@ -439,8 +460,8 @@ export default function MedicalEquipmentContent() {
           />
           <MobileCategoryDetail
             category={category}
-            selected={selected}
-            onSelect={selectEquipment}
+            openId={mobileOpenId}
+            onToggle={toggleMobileEquipment}
           />
         </>
       )}
