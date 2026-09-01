@@ -30,49 +30,49 @@ export const PARTNER_INSTITUTION_LOGOS: PartnerInstitutionLogo[] = [
     id: 'pusan-national-university-hospital',
     name: '부산대학교병원',
     image:
-      '/assets/images/partner-hospital/logo-pusan-national-university-hospital.jpg',
+      '/assets/images/partner-hospital/logo-pusan-national-university-hospital.png',
   },
   {
     id: 'donga-university-hospital',
     name: '동아대학교병원',
     image:
-      '/assets/images/partner-hospital/logo-donga-university-hospital.jpg',
+      '/assets/images/partner-hospital/logo-donga-university-hospital.png',
   },
   {
     id: 'inje-busan-paik-hospital',
     name: '인제대학교 부산백병원',
     image:
-      '/assets/images/partner-hospital/logo-inje-busan-paik-hospital.jpg',
+      '/assets/images/partner-hospital/logo-inje-busan-paik-hospital.png',
   },
   {
     id: 'ministry-patriots-veterans',
     name: '국가보훈부',
     image:
-      '/assets/images/partner-hospital/logo-ministry-patriots-veterans.jpg',
+      '/assets/images/partner-hospital/logo-ministry-patriots-veterans.png',
   },
   {
     id: 'daegu-cheongmac-clinic',
     name: '대구청맥의원',
     image:
-      '/assets/images/partner-hospital/logo-daegu-cheongmac-clinic.jpg',
+      '/assets/images/partner-hospital/logo-daegu-cheongmac-clinic.png',
   },
   {
     id: 'ulsan-cheongmac-surgery',
     name: '울산청맥외과의원',
     image:
-      '/assets/images/partner-hospital/logo-ulsan-cheongmac-surgery.jpg',
+      '/assets/images/partner-hospital/logo-ulsan-cheongmac-surgery.png',
   },
   {
     id: 'kyungnam-college',
     name: '경남정보대학교',
     image:
-      '/assets/images/partner-hospital/logo-kyungnam-college.jpg',
+      '/assets/images/partner-hospital/logo-kyungnam-college.png',
   },
   {
     id: 'nambuk-hana',
     name: '남북하나개발원',
     image:
-      '/assets/images/partner-hospital/logo-nambuk-hana.jpg',
+      '/assets/images/partner-hospital/logo-nambuk-hana.png',
   },
 ];
 
@@ -82,7 +82,7 @@ export const PARTNER_HOSPITALS: PartnerHospital[] = [
     category: 'care',
     name: '부산대학교병원',
     image:
-      '/assets/images/partner-hospital/pusan-national-university-hospital.jpg',
+      '/assets/images/partner-hospital/pusan-national-university-hospital.png',
     agreement:
       '의료진 간 의학정보 교류의 활성화를 통해 바람직한 의료전달체계를 구축하여 진료의 연속성 보장, 국민보건향상을 주 목적으로 상호협약 체결',
     phone: '051-240-7000',
@@ -93,7 +93,7 @@ export const PARTNER_HOSPITALS: PartnerHospital[] = [
     category: 'care',
     name: '동아대학교병원',
     image:
-      '/assets/images/partner-hospital/donga-university-hospital.jpg',
+      '/assets/images/partner-hospital/donga-university-hospital.png',
     agreement:
       '의료진 간 의학정보 교류의 활성화를 통해 바람직한 의료전달체계를 구축하여 진료의 연속성 보장, 국민보건향상을 주 목적으로 상호협약 체결',
     phone: '051-240-7000',
@@ -104,7 +104,7 @@ export const PARTNER_HOSPITALS: PartnerHospital[] = [
     category: 'care',
     name: '인제대학교부산백병원',
     image:
-      '/assets/images/partner-hospital/inje-busan-paik-hospital.jpg',
+      '/assets/images/partner-hospital/inje-busan-paik-hospital.png',
     agreement:
       '의료진 간 의학정보 교류의 활성화를 통해 바람직한 의료전달체계를 구축하여 진료의 연속성 보장, 국민보건향상을 주 목적으로 상호협약 체결',
     phone: '051-240-7000',
@@ -114,7 +114,7 @@ export const PARTNER_HOSPITALS: PartnerHospital[] = [
     id: 'kyungnam-college',
     category: 'support',
     name: '경남정보대학교',
-    image: '/assets/images/partner-hospital/kyungnam-college.jpg',
+    image: '/assets/images/partner-hospital/kyungnam-college.png',
     agreement:
       '산학협력을 통한 기술 정보 및 학술 교류, 인적 물적 교류 지원, 간호학과 재학 우수 인재를 대상으로 현장 실습·견학·산학연계 교육 참여 기회 제공',
     phone: '051-324-5555',
@@ -124,7 +124,7 @@ export const PARTNER_HOSPITALS: PartnerHospital[] = [
     id: 'nambuk-hana',
     category: 'support',
     name: '(사)남북하나개발원',
-    image: '/assets/images/partner-hospital/nambuk-hana.jpg',
+    image: '/assets/images/partner-hospital/nambuk-hana.png',
     agreement: '새터민 대상 의료 지원 서비스 제공',
     phone: '051-240-7000',
     tags: ['의료지원', '의료전달체계', '주요키워드 3개 정도'],

@@ -10,7 +10,6 @@ import {
 import {
   ChevronRight,
   ChevronsRight,
-  Home,
   Search,
 } from 'lucide-react';
 import Image from 'next/image';
@@ -57,7 +56,7 @@ function PartnershipOverview() {
               src={institution.image}
               alt={institution.name}
               fill
-              className="object-cover"
+              className="object-contain"
               sizes="(min-width: 1280px) 25vw, 50vw"
             />
           </div>
@@ -126,9 +125,13 @@ function PartnerCard({
       <div className="pt-4 xl:pt-5">
         <h3 className="flex items-center gap-2 break-keep text-[19px] font-bold tracking-[-0.035em] text-[#262C35] xl:text-[24px]">
           <span>{name}</span>
-          <Home
-            className="size-4 shrink-0 fill-[#8E949A] text-[#8E949A] xl:size-5"
-            strokeWidth={1.7}
+          <Image
+            src="/assets/icons/partner-home.svg"
+            alt=""
+            width={20}
+            height={20}
+            aria-hidden="true"
+            className="size-4 shrink-0 xl:size-5"
           />
         </h3>
 
