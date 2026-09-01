@@ -180,38 +180,33 @@ export const NAVIGATION: NavigationItem[] = [
   //   ],
   // },
 
-  /*
-   * 교육·연구
-   *
-   * 현재 구현된 연결 페이지가 없어 GNB/LNB 모두 비노출합니다.
-   */
-  // {
-  //   id: 'education-research',
-  //   href: '/education-research/institute',
-  //   title: '교육·연구',
-  //   children: [
-  //     {
-  //       id: 'education-research-institute',
-  //       href: '/education-research/institute',
-  //       title: '맑은혈관연구소',
-  //     },
-  //     {
-  //       id: 'education-research-medical-education',
-  //       href: '/education-research/medical-education',
-  //       title: '의학교육',
-  //     },
-  //     {
-  //       id: 'education-research-exchange',
-  //       href: '/education-research/exchange',
-  //       title: '학술교류',
-  //     },
-  //     {
-  //       id: 'education-research-society',
-  //       href: '/education-research/society',
-  //       title: '학회 활동',
-  //     },
-  //   ],
-  // },
+  {
+    id: 'education-research',
+    href: '/education-research/exchange',
+    title: '교육·연구',
+    children: [
+      // {
+      //   id: 'education-research-institute',
+      //   href: '/education-research/institute',
+      //   title: '맑은혈관연구소',
+      // },
+      // {
+      //   id: 'education-research-medical-education',
+      //   href: '/education-research/medical-education',
+      //   title: '의학교육',
+      // },
+      {
+        id: 'education-research-exchange',
+        href: '/education-research/exchange',
+        title: '학술교류',
+      },
+      // {
+      //   id: 'education-research-society',
+      //   href: '/education-research/society',
+      //   title: '학회 활동',
+      // },
+    ],
+  },
 
   {
     id: 'communication',
