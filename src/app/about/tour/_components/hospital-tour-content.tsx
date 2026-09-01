@@ -88,20 +88,23 @@ function FloorCard({ floor, title, details }: (typeof FLOOR_GUIDES)[number]) {
 
 function FloorGuideSection() {
   return (
-    <section className="mt-8 xl:mt-16">
-      <div className="grid items-end gap-8 xl:grid-cols-[minmax(0,1fr)_minmax(620px,0.96fr)] xl:gap-16">
-        <div className="relative hidden min-h-[720px] overflow-hidden bg-[linear-gradient(180deg,#FFFFFF_0%,#EEF6FF_100%)] xl:block">
-          <Image
-            src="/assets/images/hospital-tour/building.jpg"
-            alt="청맥병원 건물 전경"
-            fill
-            className="object-contain object-bottom"
-            sizes="48vw"
-            priority
-          />
-        </div>
+    <section className="relative left-1/2 mt-8 w-screen -translate-x-1/2 bg-[linear-gradient(180deg,#FFFFFF_0%,#EAF2FD_100%)] xl:mt-16">
+      <div className="mx-auto grid w-full max-w-7xl grid-cols-1 px-5 pb-10 xl:grid-cols-2 xl:gap-14 xl:px-0 xl:pb-0">
+        {/*
+          데스크탑에서는 우측 층별 카드 컬럼의 실제 높이에 맞춰 이 컬럼이
+          자동으로 stretch 됩니다. 건물은 투명 PNG를 배경으로 사용하므로
+          별도의 고정 height 없이 항상 하단에 맞춰 자연스럽게 배치됩니다.
+        */}
+        <div
+          aria-hidden="true"
+          className="hidden self-stretch bg-contain bg-bottom bg-no-repeat xl:block"
+          style={{
+            backgroundImage:
+              "url('/assets/images/hospital-tour/building.png')",
+          }}
+        />
 
-        <div className="space-y-3 xl:pb-12">
+        <div className="space-y-3 py-0 xl:py-12">
           {FLOOR_GUIDES.map((guide) => (
             <FloorCard key={guide.floor} {...guide} />
           ))}
