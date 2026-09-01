@@ -64,6 +64,10 @@ export default function Header() {
     setIsHamburgerOpen(false);
   };
 
+  const closeDesktopLnb = () => {
+    setHoveredPrimaryId(null);
+  };
+
   const isHeaderVisible = isHamburgerOpen || scrollY <= 72 || isVisible;
 
   return (
@@ -272,6 +276,7 @@ export default function Header() {
                             <div key={group.id} className="px-10 pt-12 pb-14">
                               <Link
                                 href={group.href}
+                                onClick={closeDesktopLnb}
                                 className="tracking-[-6%] text-nowrap font-medium text-lg text-[#333333] hover:text-cm-orange"
                               >
                                 {group.title}
@@ -283,6 +288,7 @@ export default function Header() {
                                     <li key={child.id} className="flex">
                                       <Link
                                         href={child.href}
+                                        onClick={closeDesktopLnb}
                                         className="tracking-[-6%] font-normal text-lg text-[#999999] hover:underline underline-offset-4 hover:text-cm-orange"
                                       >
                                         {`· ${child.title}`}
@@ -300,6 +306,7 @@ export default function Header() {
                             <Link
                               key={group.id}
                               href={group.href}
+                              onClick={closeDesktopLnb}
                               className="tracking-[-6%] font-medium text-lg text-[#333333] hover:text-cm-orange"
                             >
                               {group.title}
