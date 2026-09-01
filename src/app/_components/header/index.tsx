@@ -184,7 +184,8 @@ export default function Header() {
                 alt="sparkle"
                 width={32}
                 height={32}
-              />
+        unoptimized
+      />
               <input
                 type="search"
                 placeholder={aiSearchPlaceholder}
