@@ -33,11 +33,11 @@ export const NAVIGATION: NavigationItem[] = [
         href: '/about/tour',
         title: '병원 둘러보기',
       },
-      // {
-      //   id: 'about-equipment',
-      //   href: '/about/equipment',
-      //   title: '첨단의료장비',
-      // },
+      {
+        id: 'about-equipment',
+        href: '/about/equipment',
+        title: '첨단의료장비',
+      },
     ],
   },
 
