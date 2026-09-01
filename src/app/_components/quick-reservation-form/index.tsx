@@ -64,7 +64,8 @@ export default function QuickReservationForm() {
             alt="speech-bubble"
             width={18}
             height={18}
-          />
+        unoptimized
+      />
         </button>
 
         <form

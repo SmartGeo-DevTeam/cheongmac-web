@@ -92,54 +92,65 @@ export default function TreatmentCaseList() {
 
         {visibleCases.length ? (
           <div className="mt-5 grid grid-cols-1 gap-5 xl:mt-6 xl:grid-cols-3 xl:gap-7">
-            {visibleCases.map((item) => (
-              <Link
-                key={item.id}
-                href={`/community/cases/${item.id}`}
-                className="group overflow-hidden rounded-xl border border-[#E0E3E5] bg-white transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(0,0,0,0.07)]"
-              >
-                <div className="relative aspect-[202/115] w-full overflow-hidden bg-[#F1F2F3]">
-                  <Image
-                    src={
-                      item.kind === 'treatment'
-                        ? '/assets/images/treatment-cases/case-before-after.jpg'
-                        : item.thumbnail
-                    }
-                    alt={`${item.title} 치료사례`}
-                    fill
-                    className="object-cover transition duration-300 group-hover:scale-[1.01]"
-                    sizes="(min-width: 1280px) 400px, 100vw"
-                  />
+            {visibleCases.map((item) => {
+              const detailHref = `/community/cases/${item.id}`;
 
-                  {item.kind === 'treatment' &&
-                  !TREATMENT_CASE_IS_AUTHENTICATED ? (
-                    <TreatmentCaseImageLock compact />
-                  ) : null}
-                </div>
+              return (
+                <article
+                  key={item.id}
+                  className="group overflow-hidden rounded-xl border border-[#E0E3E5] bg-white transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(0,0,0,0.07)]"
+                >
+                  <div className="relative aspect-[202/115] w-full overflow-hidden bg-[#F1F2F3]">
+                    <Image
+                      src={
+                        item.kind === 'treatment'
+                          ? '/assets/images/treatment-cases/case-before-after.jpg'
+                          : item.thumbnail
+                      }
+                      alt={`${item.title} 치료사례`}
+                      fill
+                      className="object-cover transition duration-300 group-hover:scale-[1.01]"
+                      sizes="(min-width: 1280px) 400px, 100vw"
+                    />
 
-                <div className="p-4 xl:p-5">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="inline-flex min-h-8 items-center rounded-md bg-[#E5F6F1] px-2.5 text-base font-semibold text-[#2C8A75] xl:min-h-9 xl:px-3 xl:text-xl">
-                      {item.category}
-                    </span>
-                    <strong className="text-lg font-bold tracking-[-0.03em] text-[#252A30] xl:text-2xl">
-                      {item.title}
-                    </strong>
+                    <Link
+                      href={detailHref}
+                      aria-label={`${item.title} 상세 보기`}
+                      className="absolute inset-0 z-10"
+                    >
+                      <span className="sr-only">{item.title} 상세 보기</span>
+                    </Link>
+
+                    {item.kind === 'treatment' &&
+                    !TREATMENT_CASE_IS_AUTHENTICATED ? (
+                      <TreatmentCaseImageLock compact />
+                    ) : null}
                   </div>
 
-                  <p className="mt-3 line-clamp-2 text-base leading-[1.55] text-[#73787D] xl:min-h-[62px] xl:text-xl">
-                    {item.description}
-                  </p>
+                  <Link href={detailHref} className="block p-4 xl:p-5">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="inline-flex min-h-8 items-center rounded-md bg-[#E5F6F1] px-2.5 text-base font-semibold text-[#2C8A75] xl:min-h-9 xl:px-3 xl:text-xl">
+                        {item.category}
+                      </span>
+                      <strong className="text-lg font-bold tracking-[-0.03em] text-[#252A30] xl:text-2xl">
+                        {item.title}
+                      </strong>
+                    </div>
 
-                  <div className="mt-4 flex items-center justify-between gap-3 text-sm text-[#9A9FA4] xl:text-xl">
-                    <span>
-                      한 ♡ {item.patientName} · {item.age}세 · {item.sex}
-                    </span>
-                    <time dateTime={item.date}>{item.date}</time>
-                  </div>
-                </div>
-              </Link>
-            ))}
+                    <p className="mt-3 line-clamp-2 text-base leading-[1.55] text-[#73787D] xl:min-h-[62px] xl:text-xl">
+                      {item.description}
+                    </p>
+
+                    <div className="mt-4 flex items-center justify-between gap-3 text-sm text-[#9A9FA4] xl:text-xl">
+                      <span>
+                        한 ♡ {item.patientName} · {item.age}세 · {item.sex}
+                      </span>
+                      <time dateTime={item.date}>{item.date}</time>
+                    </div>
+                  </Link>
+                </article>
+              );
+            })}
           </div>
         ) : (
           <div className="mt-12 flex min-h-[240px] items-center justify-center rounded-xl border border-[#E4E6E8] text-base text-[#999999] xl:text-xl">

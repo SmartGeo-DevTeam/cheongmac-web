@@ -682,7 +682,8 @@ export default function HomeCover() {
                 alt="sparkle"
                 width={22}
                 height={22}
-              />
+        unoptimized
+      />
               <span>맥GPT에게 물어보기→</span>
             </button>
           </div>
