@@ -66,7 +66,7 @@ function EquipmentCard({
             src={item.image}
             alt={`${item.categoryLabel} ${item.model}`}
             fill
-            className="object-cover transition duration-300 group-hover:scale-[1.015]"
+            className="object-contain transition duration-300 group-hover:scale-[1.015]"
             sizes="(min-width: 1280px) 360px, 50vw"
           />
         </div>
@@ -81,7 +81,7 @@ function EquipmentCard({
             </h3>
           </div>
 
-          <span className="hidden shrink-0 rounded-md border border-[#252B33] px-3 py-1.5 text-sm font-medium text-[#252B33] xl:inline-flex">
+          <span className="hidden shrink-0 items-center justify-center rounded-md border border-[#B8BEC4] px-3 py-1.5 text-sm font-medium text-[#8B9299] transition hover:border-[#929AA2] hover:text-[#666E76] xl:inline-flex">
             자세히보기
           </span>
         </div>
@@ -120,8 +120,8 @@ function EquipmentDetail({
           src={item.image}
           alt={`${item.categoryLabel} ${item.model}`}
           fill
-          className="object-cover"
-          sizes="(min-width: 1280px) 720px, 100vw"
+          className="object-contain"
+          sizes="(min-width: 1280px) 760px, 100vw"
           priority={item.id === 'ct'}
         />
 
@@ -137,23 +137,25 @@ function EquipmentDetail({
         <p className="text-base font-semibold text-[#FF6B3D] xl:text-xl">
           {item.categoryLabel}
         </p>
-        <h2 className="mt-1 break-keep text-2xl font-bold tracking-[-0.035em] text-[#252B33] xl:text-[34px]">
+        <h2 className="mt-1 break-keep text-2xl font-bold tracking-[-0.035em] text-[#252B33] xl:text-[32px]">
           {item.model}
         </h2>
 
         {item.subtitle ? (
-          <p className="mt-2 text-base font-medium text-[#A0A5AA] xl:text-xl">
+          <p className="mt-3 border-b border-[#BFC4C8] pb-5 text-base font-semibold text-[#565D64] xl:mt-4 xl:pb-6 xl:text-xl">
             {item.subtitle}
           </p>
-        ) : null}
+        ) : (
+          <div className="mt-4 border-b border-[#BFC4C8]" />
+        )}
       </div>
 
       {item.description ? (
-        <p className="mt-5 border-t border-[#DDE1E4] pt-5 break-keep text-base leading-[1.75] text-[#464C52] xl:mt-7 xl:pt-7 xl:text-xl xl:leading-[1.8]">
+        <p className="mt-5 break-keep text-base leading-[1.75] text-[#52585E] xl:mt-6 xl:text-xl xl:leading-[1.8]">
           {item.description}
         </p>
       ) : (
-        <p className="mt-5 border-t border-[#DDE1E4] pt-5 text-base leading-[1.7] text-[#92979C] xl:mt-7 xl:pt-7 xl:text-xl">
+        <p className="mt-5 text-base leading-[1.7] text-[#92979C] xl:mt-6 xl:text-xl">
           장비별 상세 설명은 실제 콘텐츠 연동 시 입력됩니다.
         </p>
       )}
@@ -175,11 +177,11 @@ function EquipmentDetail({
       ) : null}
 
       {item.diseases ? (
-        <section className="mt-12 xl:mt-16">
-          <p className="text-sm font-medium text-[#9DA2A7] xl:text-xl">
+        <section className="mt-12 xl:mt-20">
+          <p className="text-sm font-semibold text-[#A2A7AC] xl:text-xl">
             진단 가능 질환
           </p>
-          <h3 className="mt-1 text-2xl font-bold tracking-[-0.035em] text-[#252B33] xl:text-[32px]">
+          <h3 className="mt-1 text-2xl font-bold tracking-[-0.04em] text-[#252B33] xl:text-[32px]">
             어떤 질환을 알 수 있나요?
           </h3>
 
@@ -198,10 +200,10 @@ function EquipmentDetail({
 
       {item.cases ? (
         <section className="mt-12 xl:mt-20">
-          <p className="text-sm font-medium text-[#9DA2A7] xl:text-xl">
+          <p className="text-sm font-semibold text-[#A2A7AC] xl:text-xl">
             실제 진단 사례
           </p>
-          <h3 className="mt-1 text-2xl font-bold tracking-[-0.035em] text-[#252B33] xl:text-[32px]">
+          <h3 className="mt-1 text-2xl font-bold tracking-[-0.04em] text-[#252B33] xl:text-[32px]">
             검사 결과, 이렇게 확인해요
           </h3>
 
@@ -284,15 +286,15 @@ function DesktopCategoryDetail({
   const items = MEDICAL_EQUIPMENT.filter((item) => item.category === category);
 
   return (
-    <div className="mt-12 hidden grid-cols-[250px_minmax(0,1fr)] gap-12 xl:grid">
-      <aside className="self-start">
-        <p className="mb-4 text-xl font-semibold text-[#08715F]">
+    <div className="mx-auto mt-14 hidden w-full max-w-[1120px] grid-cols-[220px_minmax(0,1fr)] gap-16 xl:grid">
+      <aside className="sticky top-32 self-start pt-1">
+        <p className="mb-5 text-xl font-semibold tracking-[-0.025em] text-[#08715F]">
           {EQUIPMENT_CATEGORY_OPTIONS.find((option) => option.value === category)
             ?.label}
           장비
         </p>
 
-        <div className="border-y border-[#2C3137]">
+        <nav aria-label="첨단의료장비 목록" className="flex flex-col gap-3">
           {items.map((item) => {
             const active = selected.id === item.id;
 
@@ -301,31 +303,18 @@ function DesktopCategoryDetail({
                 key={item.id}
                 type="button"
                 onClick={() => onSelect(item)}
-                className={`flex w-full items-center justify-between gap-4 border-b border-[#E2E4E6] px-0 py-4 text-left last:border-b-0 ${
-                  active ? 'bg-[#FFF7F3] px-3' : ''
+                aria-current={active ? 'true' : undefined}
+                className={`w-full break-keep text-left text-[26px] tracking-[-0.045em] transition ${
+                  active
+                    ? 'font-bold text-[#252B33]'
+                    : 'font-semibold text-[#9AA0A6] hover:text-[#646B72]'
                 }`}
               >
-                <div className="min-w-0">
-                  <p
-                    className={`text-base font-semibold ${
-                      active ? 'text-[#FF6B3D]' : 'text-[#FF6B3D]'
-                    }`}
-                  >
-                    {item.categoryLabel}
-                  </p>
-                  <p className="mt-1 truncate text-xl font-medium text-[#252B33]">
-                    {item.model}
-                  </p>
-                </div>
-                {active ? (
-                  <Minus className="size-5 shrink-0 text-[#B9BEC3]" />
-                ) : (
-                  <Plus className="size-5 shrink-0 text-[#B9BEC3]" />
-                )}
+                {item.title}
               </button>
             );
           })}
-        </div>
+        </nav>
       </aside>
 
       <div className="min-w-0">
