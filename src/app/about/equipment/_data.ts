@@ -44,7 +44,7 @@ export const MEDICAL_EQUIPMENT: MedicalEquipment[] = [
     categoryLabel: '전신용 CT',
     title: '전신용 CT',
     model: 'PHILIPS Ingenuity Elite 128',
-    image: '/assets/images/medical-equipment/ct.jpg',
+    image: '/assets/images/medical-equipment/ct.png',
     subtitle: '전산화단층촬영 (Computed Tomography)',
     description:
       '인체 단면을 3차원 입체 영상으로 정밀하게 구현하는 첨단 장비로, 미세한 혈관 구조와 장기 병변을 빠르고 정확하게 진단합니다.',
@@ -91,7 +91,7 @@ export const MEDICAL_EQUIPMENT: MedicalEquipment[] = [
     categoryLabel: '진단전용 초음파',
     title: '진단전용 초음파',
     model: 'LOGIQ P9 Pro',
-    image: '/assets/images/medical-equipment/logiq-p9-pro.jpg',
+    image: '/assets/images/medical-equipment/logiq-p9-pro.png',
   },
   {
     id: 'epiq-7g',
@@ -99,7 +99,7 @@ export const MEDICAL_EQUIPMENT: MedicalEquipment[] = [
     categoryLabel: '전신 초음파',
     title: '전신 초음파',
     model: 'PHILIPS EPIQ 7G',
-    image: '/assets/images/medical-equipment/epiq-7g.jpg',
+    image: '/assets/images/medical-equipment/epiq-7g.png',
   },
   {
     id: 'infinix-core',
@@ -107,7 +107,7 @@ export const MEDICAL_EQUIPMENT: MedicalEquipment[] = [
     categoryLabel: '혈관조영장비',
     title: '혈관조영장비',
     model: 'Canon Infinix-i Core +',
-    image: '/assets/images/medical-equipment/infinix-core.jpg',
+    image: '/assets/images/medical-equipment/infinix-core.png',
   },
   {
     id: 'vp-1000',
@@ -115,7 +115,7 @@ export const MEDICAL_EQUIPMENT: MedicalEquipment[] = [
     categoryLabel: '동맥경화 진단장비',
     title: '동맥경화 진단장비',
     model: 'Omron VP-1000 plus',
-    image: '/assets/images/medical-equipment/vp-1000.jpg',
+    image: '/assets/images/medical-equipment/vp-1000.png',
   },
   {
     id: 'cobas-e411',
@@ -123,7 +123,7 @@ export const MEDICAL_EQUIPMENT: MedicalEquipment[] = [
     categoryLabel: '생화학 면역검사장비',
     title: '생화학 면역검사장비',
     model: 'Roche Cobas e411',
-    image: '/assets/images/medical-equipment/cobas-e411.jpg',
+    image: '/assets/images/medical-equipment/cobas-e411.png',
   },
   {
     id: 'venue-50',
@@ -131,7 +131,7 @@ export const MEDICAL_EQUIPMENT: MedicalEquipment[] = [
     categoryLabel: '시술전용 초음파',
     title: '시술전용 초음파',
     model: 'GE Venue 50',
-    image: '/assets/images/medical-equipment/venue-50.jpg',
+    image: '/assets/images/medical-equipment/venue-50.png',
   },
   {
     id: 'venaseal',
@@ -139,7 +139,7 @@ export const MEDICAL_EQUIPMENT: MedicalEquipment[] = [
     categoryLabel: '하지정맥류 치료 의료기기',
     title: '하지정맥류 치료 의료기기',
     model: '베나실 VenaSeal™',
-    image: '/assets/images/medical-equipment/venaseal.jpg',
+    image: '/assets/images/medical-equipment/venaseal.png',
   },
   {
     id: 'clarivein',
@@ -147,7 +147,7 @@ export const MEDICAL_EQUIPMENT: MedicalEquipment[] = [
     categoryLabel: '하지정맥류 치료 의료기기',
     title: '하지정맥류 치료 의료기기',
     model: '클라리베인 ClariVein®',
-    image: '/assets/images/medical-equipment/clarivein.jpg',
+    image: '/assets/images/medical-equipment/clarivein.png',
   },
   {
     id: 'flebogrif',
@@ -155,7 +155,7 @@ export const MEDICAL_EQUIPMENT: MedicalEquipment[] = [
     categoryLabel: '하지정맥류 치료 의료기기',
     title: '하지정맥류 치료 의료기기',
     model: '플레보그립 Flebogrif®',
-    image: '/assets/images/medical-equipment/flebogrif.jpg',
+    image: '/assets/images/medical-equipment/flebogrif.png',
   },
   {
     id: 'diode-1940',
@@ -163,7 +163,7 @@ export const MEDICAL_EQUIPMENT: MedicalEquipment[] = [
     categoryLabel: '레이저 장비',
     title: '레이저 장비',
     model: 'Diode 1940nm Laser',
-    image: '/assets/images/medical-equipment/diode-1940.jpg',
+    image: '/assets/images/medical-equipment/diode-1940.png',
   },
   {
     id: 'closure-rfg',
@@ -171,7 +171,7 @@ export const MEDICAL_EQUIPMENT: MedicalEquipment[] = [
     categoryLabel: '고주파 치료기',
     title: '고주파 치료기',
     model: 'Covidien ClosureRFG™',
-    image: '/assets/images/medical-equipment/closure-rfg.jpg',
+    image: '/assets/images/medical-equipment/closure-rfg.png',
   },
   {
     id: 'ds-3000',
@@ -179,7 +179,7 @@ export const MEDICAL_EQUIPMENT: MedicalEquipment[] = [
     categoryLabel: '의약품주입펌프',
     title: '의약품주입펌프',
     model: 'DAIWHA DS-3000',
-    image: '/assets/images/medical-equipment/ds-3000.jpg',
+    image: '/assets/images/medical-equipment/ds-3000.png',
   },
   {
     id: 'bm3',
@@ -187,7 +187,7 @@ export const MEDICAL_EQUIPMENT: MedicalEquipment[] = [
     categoryLabel: '환자케어 모니터',
     title: '환자케어 모니터',
     model: 'BioNet BM3',
-    image: '/assets/images/medical-equipment/bm3.jpg',
+    image: '/assets/images/medical-equipment/bm3.png',
   },
   {
     id: 'o2-fresh',
@@ -195,7 +195,7 @@ export const MEDICAL_EQUIPMENT: MedicalEquipment[] = [
     categoryLabel: '고압산소치료기',
     title: '고압산소치료기',
     model: 'HBOT O2 Fresh M50',
-    image: '/assets/images/medical-equipment/o2-fresh.jpg',
+    image: '/assets/images/medical-equipment/o2-fresh.png',
   },
 ];
 
