@@ -28,11 +28,11 @@ export const NAVIGATION: NavigationItem[] = [
         href: '/about/doctors',
         title: '의료진/진료과',
       },
-      // {
-      //   id: 'about-tour',
-      //   href: '/about/tour',
-      //   title: '병원 둘러보기',
-      // },
+      {
+        id: 'about-tour',
+        href: '/about/tour',
+        title: '병원 둘러보기',
+      },
       // {
       //   id: 'about-equipment',
       //   href: '/about/equipment',
