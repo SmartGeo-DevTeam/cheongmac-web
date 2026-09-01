@@ -106,8 +106,12 @@ function AllEquipmentGrid({
 
 function EquipmentDetail({
   item,
+  onPrevious,
+  onNext,
 }: {
   item: MedicalEquipment;
+  onPrevious?: () => void;
+  onNext?: () => void;
 }) {
   const hasRichDetail = Boolean(
     item.description || item.highlights || item.diseases || item.cases,
@@ -125,12 +129,27 @@ function EquipmentDetail({
           priority={item.id === 'ct'}
         />
 
-        <span className="absolute left-4 top-1/2 hidden -translate-y-1/2 text-[#C9CED3] xl:block">
-          <ChevronLeft className="size-8" strokeWidth={1.5} />
-        </span>
-        <span className="absolute right-4 top-1/2 hidden -translate-y-1/2 text-[#C9CED3] xl:block">
-          <ChevronRight className="size-8" strokeWidth={1.5} />
-        </span>
+        {onPrevious ? (
+          <button
+            type="button"
+            onClick={onPrevious}
+            className="absolute left-4 top-1/2 z-10 hidden size-12 -translate-y-1/2 place-items-center rounded-full text-[#B7BDC3] transition hover:bg-white/80 hover:text-[#727A82] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08715F]/35 xl:grid"
+            aria-label="이전 장비 보기"
+          >
+            <ChevronLeft className="size-8" strokeWidth={1.5} />
+          </button>
+        ) : null}
+
+        {onNext ? (
+          <button
+            type="button"
+            onClick={onNext}
+            className="absolute right-4 top-1/2 z-10 hidden size-12 -translate-y-1/2 place-items-center rounded-full text-[#B7BDC3] transition hover:bg-white/80 hover:text-[#727A82] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08715F]/35 xl:grid"
+            aria-label="다음 장비 보기"
+          >
+            <ChevronRight className="size-8" strokeWidth={1.5} />
+          </button>
+        ) : null}
       </div>
 
       <div className="mt-5 xl:mt-7">
@@ -284,6 +303,20 @@ function DesktopCategoryDetail({
   onSelect: (item: MedicalEquipment) => void;
 }) {
   const items = MEDICAL_EQUIPMENT.filter((item) => item.category === category);
+  const selectedIndex = items.findIndex((item) => item.id === selected.id);
+  const canCycle = items.length > 1;
+
+  const moveSelection = (direction: -1 | 1) => {
+    if (!canCycle) {
+      return;
+    }
+
+    const safeIndex = selectedIndex >= 0 ? selectedIndex : 0;
+    const nextIndex =
+      (safeIndex + direction + items.length) % items.length;
+
+    onSelect(items[nextIndex]);
+  };
 
   return (
     <div className="mx-auto mt-14 hidden w-full max-w-[1120px] grid-cols-[220px_minmax(0,1fr)] gap-16 xl:grid">
@@ -318,7 +351,11 @@ function DesktopCategoryDetail({
       </aside>
 
       <div className="min-w-0">
-        <EquipmentDetail item={selected} />
+        <EquipmentDetail
+          item={selected}
+          onPrevious={canCycle ? () => moveSelection(-1) : undefined}
+          onNext={canCycle ? () => moveSelection(1) : undefined}
+        />
       </div>
     </div>
   );
