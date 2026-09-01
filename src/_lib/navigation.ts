@@ -269,44 +269,38 @@ export const NAVIGATION: NavigationItem[] = [
     ],
   },
 
-  /*
-   * 이용안내
-   *
-   * 현재 새 LNB 시안에 해당하는 연결 페이지가 구현되어 있지 않아
-   * GNB/LNB 모두 비노출합니다.
-   */
-  // {
-  //   id: 'guide',
-  //   href: '/guide/reservation',
-  //   title: '이용안내',
-  //   children: [
-  //     {
-  //       id: 'guide-reservation',
-  //       href: '/guide/reservation',
-  //       title: '진료예약',
-  //     },
-  //     {
-  //       id: 'guide-outpatient',
-  //       href: '/guide/outpatient',
-  //       title: '외래진료안내',
-  //     },
-  //     {
-  //       id: 'guide-admission',
-  //       href: '/guide/admission',
-  //       title: '입·퇴원안내',
-  //     },
-  //     {
-  //       id: 'guide-partner-hospital',
-  //       href: '/guide/partner-hospital',
-  //       title: '의료협약병원',
-  //     },
-  //     {
-  //       id: 'guide-medical-support',
-  //       href: '/guide/medical-support',
-  //       title: '의료비지원안내',
-  //     },
-  //   ],
-  // },
+  {
+    id: 'guide',
+    href: '/guide/partner-hospital',
+    title: '이용안내',
+    children: [
+      // {
+      //   id: 'guide-reservation',
+      //   href: '/guide/reservation',
+      //   title: '진료예약',
+      // },
+      // {
+      //   id: 'guide-outpatient',
+      //   href: '/guide/outpatient',
+      //   title: '외래진료안내',
+      // },
+      // {
+      //   id: 'guide-admission',
+      //   href: '/guide/admission',
+      //   title: '입·퇴원안내',
+      // },
+      {
+        id: 'guide-partner-hospital',
+        href: '/guide/partner-hospital',
+        title: '의료협약병원',
+      },
+      // {
+      //   id: 'guide-medical-support',
+      //   href: '/guide/medical-support',
+      //   title: '의료비지원안내',
+      // },
+    ],
+  },
 
   /*
    * 첨부된 'LNB_종합진료' 시안은 현재 최종 Header GNB 시안에는
