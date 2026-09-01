@@ -18,15 +18,16 @@ import {
   useState,
   type ChangeEvent,
 } from 'react';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import { Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
 const PAGE_NUMBERS = [1, 2, 3, 4, 5] as const;
 
 function AcademicExchangeIntro() {
-  const [activeHeroIndex, setActiveHeroIndex] = useState(0);
-  const activeHero = ACADEMIC_EXCHANGE_HERO_IMAGES[activeHeroIndex];
-
   return (
-    <section className="bg-[#F4F5F5]">
+    <section className="overflow-hidden bg-[#F4F5F5]">
       <div className="mx-auto grid w-full max-w-7xl gap-8 px-5 py-10 xl:grid-cols-[minmax(0,1fr)_430px] xl:items-center xl:gap-20 xl:px-0 xl:py-24">
         <div>
           <p className="text-sm font-semibold tracking-[-0.015em] text-[#2B9B82] xl:text-base">
@@ -34,11 +35,17 @@ function AcademicExchangeIntro() {
           </p>
 
           <h2 className="mt-4 break-keep text-[24px] font-bold leading-[1.45] tracking-[-0.045em] text-[#262C35] xl:mt-5 xl:text-[34px] xl:leading-[1.5]">
-            혈관 치료의 올바른 기준을 세우기 위해
-            <br className="hidden xl:block" />
-            <span className="xl:ml-0">
-              청맥병원은 끊임없이 연구하고 소통합니다.
+            혈관 치료의{' '}
+            <span className="relative inline-block whitespace-nowrap">
+              <span className="relative z-10">올바른 기준</span>
+              <span
+                aria-hidden="true"
+                className="absolute inset-x-0 bottom-[0.08em] h-[0.34em] bg-[#91CDBF]"
+              />
             </span>
+            을 세우기 위해
+            <br className="hidden xl:block" />
+            청맥병원은 끊임없이 연구하고 소통합니다.
           </h2>
 
           <p className="mt-7 break-keep text-base leading-[1.8] text-[#4F565D] xl:mt-9 xl:max-w-[680px] xl:text-xl">
@@ -49,59 +56,53 @@ function AcademicExchangeIntro() {
           </p>
         </div>
 
-        <div className="hidden xl:block">
-          <div className="relative aspect-[666/453] overflow-hidden rounded-[18px] bg-[#E9EBEC]">
-            <Image
-              key={activeHero.id}
-              src={activeHero.src}
-              alt={activeHero.alt}
-              fill
-              priority
-              className="object-cover"
-              sizes="430px"
-            />
-          </div>
-
-          <div
-            className="mt-5 flex justify-center gap-3"
-            aria-label="학술교류 대표 이미지 선택"
+        <div className="hidden min-w-0 xl:block">
+          <Swiper
+            modules={[Pagination]}
+            slidesPerView={1}
+            spaceBetween={16}
+            grabCursor
+            pagination={{ clickable: true }}
+            className="!pb-10 [&_.swiper-pagination]:!bottom-0 [&_.swiper-pagination-bullet]:!mx-1.5 [&_.swiper-pagination-bullet]:!size-3 [&_.swiper-pagination-bullet]:!bg-[#DDE1E3] [&_.swiper-pagination-bullet]:!opacity-100 [&_.swiper-pagination-bullet-active]:!bg-[#88D4C5]"
           >
-            {ACADEMIC_EXCHANGE_HERO_IMAGES.map((image, index) => {
-              const active = activeHeroIndex === index;
-
-              return (
-                <button
-                  key={image.id}
-                  type="button"
-                  onClick={() => setActiveHeroIndex(index)}
-                  aria-label={`${index + 1}번째 학술교류 이미지 보기`}
-                  aria-current={active ? 'true' : undefined}
-                  className={`size-3 rounded-full transition ${
-                    active
-                      ? 'bg-[#88D4C5]'
-                      : 'bg-[#E3E5E7] hover:bg-[#C7CCCF]'
-                  }`}
-                />
-              );
-            })}
-          </div>
+            {ACADEMIC_EXCHANGE_HERO_IMAGES.map((image) => (
+              <SwiperSlide key={image.id}>
+                <div className="relative aspect-[666/453] overflow-hidden rounded-[18px] bg-[#E9EBEC]">
+                  <Image
+                    src={image.src}
+                    alt={image.alt}
+                    fill
+                    priority={image.id === 'japan-exchange'}
+                    className="object-cover"
+                    sizes="430px"
+                  />
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </div>
 
-        <div className="grid grid-cols-3 gap-2 xl:hidden">
-          {ACADEMIC_EXCHANGE_HERO_IMAGES.map((image) => (
-            <div
-              key={image.id}
-              className="relative aspect-[1.47/1] overflow-hidden rounded-lg bg-[#E6E8E9]"
-            >
-              <Image
-                src={image.src}
-                alt={image.alt}
-                fill
-                className="object-cover"
-                sizes="33vw"
-              />
-            </div>
-          ))}
+        <div className="-mr-5 min-w-0 xl:hidden">
+          <Swiper
+            slidesPerView={1.48}
+            spaceBetween={12}
+            grabCursor
+            className="!overflow-visible pr-5"
+          >
+            {ACADEMIC_EXCHANGE_HERO_IMAGES.map((image) => (
+              <SwiperSlide key={image.id}>
+                <div className="relative aspect-[1.47/1] overflow-hidden rounded-xl bg-[#E6E8E9]">
+                  <Image
+                    src={image.src}
+                    alt={image.alt}
+                    fill
+                    className="object-cover"
+                    sizes="68vw"
+                  />
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </div>
       </div>
     </section>
