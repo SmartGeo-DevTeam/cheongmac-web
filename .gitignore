@@ -25,9 +25,13 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
+# environment / secrets
+.env
+.env.*
+!.env.example
 
-# local env files
-.env*.local
+# prisma generated client
+/src/generated/prisma/
 
 # vercel
 .vercel

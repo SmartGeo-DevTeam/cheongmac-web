@@ -1,0 +1,84 @@
+'use client';
+
+import { completeMembership, type JoinState } from './actions';
+import Link from 'next/link';
+import { useActionState } from 'react';
+
+const initialState: JoinState = {};
+
+type Props = {
+  callbackURL: string;
+  defaultName: string;
+  email: string;
+};
+
+export default function MembershipForm({ callbackURL, defaultName, email }: Props) {
+  const [state, formAction, pending] = useActionState(completeMembership, initialState);
+
+  return (
+    <form action={formAction} className="mt-8 space-y-5">
+      <input type="hidden" name="callbackURL" value={callbackURL} />
+
+      <label className="block">
+        <span className="mb-2 block text-sm font-semibold text-[#444444]">본명</span>
+        <input
+          name="name"
+          type="text"
+          defaultValue={defaultName}
+          autoComplete="name"
+          required
+          className="h-13 w-full rounded-xl border border-[#DEDFE1] px-4 text-[15px] focus:border-cm-orange"
+        />
+      </label>
+
+      <label className="block">
+        <span className="mb-2 block text-sm font-semibold text-[#444444]">이메일</span>
+        <input
+          type="email"
+          value={email}
+          readOnly
+          className="h-13 w-full rounded-xl border border-[#E7E8E9] bg-[#F7F7F7] px-4 text-[15px] text-[#777777]"
+        />
+        <span className="mt-1.5 block text-xs text-[#999999]">소셜 로그인 계정에서 확인된 이메일입니다.</span>
+      </label>
+
+      <label className="block">
+        <span className="mb-2 block text-sm font-semibold text-[#444444]">연락처</span>
+        <input
+          name="phone"
+          type="tel"
+          inputMode="numeric"
+          autoComplete="tel"
+          placeholder="01012345678"
+          required
+          className="h-13 w-full rounded-xl border border-[#DEDFE1] px-4 text-[15px] focus:border-cm-orange"
+        />
+      </label>
+
+      <div className="space-y-3 rounded-2xl bg-[#F8F8F8] p-4 text-sm text-[#555555]">
+        <label className="flex items-start gap-3">
+          <input name="termsAccepted" type="checkbox" required className="mt-1 size-4 accent-[#FA6805]" />
+          <span className="flex-1">[필수] 홈페이지 이용약관에 동의합니다.</span>
+          <Link href="/terms" target="_blank" className="text-xs underline underline-offset-2">보기</Link>
+        </label>
+        <label className="flex items-start gap-3">
+          <input name="privacyAccepted" type="checkbox" required className="mt-1 size-4 accent-[#FA6805]" />
+          <span className="flex-1">[필수] 개인정보 수집·이용에 동의합니다.</span>
+          <Link href="/privacy-policy" target="_blank" className="text-xs underline underline-offset-2">보기</Link>
+        </label>
+      </div>
+
+      {state.error ? (
+        <p className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-600">{state.error}</p>
+      ) : null}
+
+      <button
+        type="submit"
+        disabled={pending}
+        className="h-14 w-full rounded-xl bg-cm-orange text-base font-bold text-white transition hover:brightness-95 disabled:cursor-wait disabled:opacity-60"
+      >
+        {pending ? '회원 전환 중...' : '청맥병원 회원가입 완료'}
+      </button>
+    </form>
+  );
+}

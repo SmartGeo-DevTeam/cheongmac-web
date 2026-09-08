@@ -1,6 +1,7 @@
 'use client';
 
 import { LockKeyhole } from 'lucide-react';
+import { usePathname, useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
 type ImageLockProps = {
@@ -10,14 +11,22 @@ type ImageLockProps = {
 
 const LOGIN_REQUIRED_MESSAGE = '로그인 후 확인 가능합니다.';
 
-function showLoginRequiredToast() {
-  toast.info(LOGIN_REQUIRED_MESSAGE);
+function useLoginRequired() {
+  const pathname = usePathname();
+  const router = useRouter();
+
+  return () => {
+    toast.info(LOGIN_REQUIRED_MESSAGE);
+    router.push(`/signin?callbackURL=${encodeURIComponent(pathname)}`);
+  };
 }
 
 export function TreatmentCaseImageLock({
   compact = false,
   message = '로그인 후 자세한 내용을 확인하세요',
 }: ImageLockProps) {
+  const goToSignIn = useLoginRequired();
+
   if (compact) {
     return (
       <button
@@ -25,7 +34,7 @@ export function TreatmentCaseImageLock({
         onClick={(event) => {
           event.preventDefault();
           event.stopPropagation();
-          showLoginRequiredToast();
+          goToSignIn();
         }}
         className="absolute inset-y-0 right-0 z-20 flex w-1/2 cursor-pointer items-center justify-center overflow-hidden text-left"
         aria-label={LOGIN_REQUIRED_MESSAGE}
@@ -44,7 +53,7 @@ export function TreatmentCaseImageLock({
       onClick={(event) => {
         event.preventDefault();
         event.stopPropagation();
-        showLoginRequiredToast();
+        goToSignIn();
       }}
       className="absolute inset-y-0 right-0 z-20 flex w-1/2 cursor-pointer items-center justify-center overflow-hidden"
       aria-label={LOGIN_REQUIRED_MESSAGE}
@@ -64,6 +73,8 @@ export function TreatmentCaseImageLock({
 }
 
 export function TreatmentCaseContentLock() {
+  const goToSignIn = useLoginRequired();
+
   return (
     <div className="mt-5 flex min-h-[150px] flex-col items-center justify-center rounded-xl bg-[#369D88] px-5 py-7 text-center text-white xl:mt-7 xl:min-h-[190px]">
       <LockKeyhole
@@ -75,7 +86,7 @@ export function TreatmentCaseContentLock() {
       </p>
       <button
         type="button"
-        onClick={showLoginRequiredToast}
+        onClick={goToSignIn}
         className="mt-4 inline-flex h-10 min-w-[92px] items-center justify-center rounded-full bg-white px-5 text-sm font-semibold text-[#33383D] transition hover:bg-[#F4F6F5] xl:h-11 xl:min-w-[108px] xl:text-base"
       >
         로그인하기

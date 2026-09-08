@@ -1,3 +1,4 @@
+import { getCurrentSession, isActiveMember } from '@/_lib/auth-session';
 import {
   TREATMENT_CASES,
   getTreatmentCase,
@@ -10,12 +11,6 @@ import { notFound } from 'next/navigation';
 type PageProps = {
   params: Promise<{ id: string }>;
 };
-
-export function generateStaticParams() {
-  return TREATMENT_CASES.map((item) => ({
-    id: String(item.id),
-  }));
-}
 
 export async function generateMetadata({
   params,
@@ -43,6 +38,9 @@ export default async function TreatmentCaseDetailPage({ params }: PageProps) {
     notFound();
   }
 
+  const session = await getCurrentSession();
+  const isAuthenticated = isActiveMember(session);
+
   const currentIndex = TREATMENT_CASES.findIndex(
     (candidate) => candidate.id === item.id,
   );
@@ -56,6 +54,7 @@ export default async function TreatmentCaseDetailPage({ params }: PageProps) {
         item={item}
         previousId={previous?.id}
         nextId={next?.id}
+        isAuthenticated={isAuthenticated}
       />
     </main>
   );

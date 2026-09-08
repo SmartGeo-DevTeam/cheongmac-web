@@ -1,0 +1,4 @@
+export const MEMBERSHIP_CONSENT_VERSIONS = {
+  TERMS: '2026-09-08',
+  PRIVACY: '2026-09-08',
+} as const;

@@ -1,4 +1,5 @@
 import { suit } from "@/_lib/fonts";
+import AccountDock from "@/app/_components/account-dock";
 import Footer from "@/app/_components/footer";
 import Header from "@/app/_components/header";
 import MacGptSearchLayer from "@/app/_components/mac-gpt-search";
@@ -39,6 +40,7 @@ export default function RootLayout({
 
           <main>{children}</main>
           <Footer />
+          <AccountDock />
         </ViewportProvider>
       </body>
     </html>
