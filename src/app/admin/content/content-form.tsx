@@ -1,16 +1,16 @@
 'use client';
 
 import { saveContent, type ContentActionState } from './actions';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/_shadcn/ui/button';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
+} from '@/_shadcn/ui/card';
+import { Input } from '@/_shadcn/ui/input';
+import { Textarea } from '@/_shadcn/ui/textarea';
 import { useActionState } from 'react';
 
 const initialState: ContentActionState = {};

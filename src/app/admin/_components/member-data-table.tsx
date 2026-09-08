@@ -1,9 +1,10 @@
 'use client';
 
 import { updateMemberRole } from '@/app/admin/_actions/member-role';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import AddAdminDialog from '@/app/admin/_components/add-admin-dialog';
+import { Badge } from '@/_shadcn/ui/badge';
+import { Button } from '@/_shadcn/ui/button';
+import { Input } from '@/_shadcn/ui/input';
 import {
   Table,
   TableBody,
@@ -11,7 +12,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
+} from '@/_shadcn/ui/table';
 import { ROLE_LABELS, normalizeRole, type UserRole } from '@/_lib/roles';
 import {
   type ColumnDef,
@@ -54,6 +55,38 @@ const PROVIDER_LABELS: Record<string, string> = {
 };
 
 const assignableRoles: UserRole[] = ['MEMBER', 'EDITOR', 'ADMIN'];
+
+function formatPhoneNumber(value: string | null) {
+  if (!value) return '-';
+
+  const digits = value.replace(/\D/g, '');
+
+  if (digits.length === 11) {
+    return `${digits.slice(0, 3)}-${digits.slice(3, 7)}-${digits.slice(7)}`;
+  }
+
+  if (digits.length === 10) {
+    return `${digits.slice(0, 3)}-${digits.slice(3, 6)}-${digits.slice(6)}`;
+  }
+
+  return value;
+}
+
+function providerBadgeClass(provider: string) {
+  if (provider === 'kakao') {
+    return 'border-transparent bg-[#f6de05] text-[#191919]';
+  }
+
+  if (provider === 'naver') {
+    return 'border-transparent bg-[#02c158] text-white';
+  }
+
+  if (provider === 'google') {
+    return 'border-transparent bg-[#4285F4] text-white';
+  }
+
+  return 'border-[#E4E4E7] bg-white text-[#52525B]';
+}
 
 function roleBadgeClass(role: UserRole) {
   if (role === 'SUPER_ADMIN') {
@@ -106,7 +139,7 @@ function RoleControl({
   }
 
   if (currentRole === 'SUPER_ADMIN') {
-    return <span className="text-xs text-[#A1A1AA]">최고 관리자</span>;
+    return <span className="text-xs text-[#A1A1AA]">변경할 수 없음</span>;
   }
 
   const handleChange = () => {
@@ -130,7 +163,6 @@ function RoleControl({
         return;
       }
 
-      setMessage('변경 완료');
       router.refresh();
     });
   };
@@ -160,13 +192,7 @@ function RoleControl({
           {isPending ? '변경 중' : '적용'}
         </Button>
       </div>
-      {message ? (
-        <span
-          className={`text-[11px] ${message === '변경 완료' ? 'text-[#15803D]' : 'text-red-600'}`}
-        >
-          {message}
-        </span>
-      ) : null}
+      {message ? <span className="text-[11px] text-red-600">{message}</span> : null}
     </div>
   );
 }
@@ -194,7 +220,7 @@ export default function MemberDataTable({
     const searchable = [
       user.name,
       user.email,
-      user.phone ?? '',
+      formatPhoneNumber(user.phone),
       ...(mode === 'roles' ? [ROLE_LABELS[normalizeRole(user.role)]] : []),
       ...(mode === 'members'
         ? user.providers.map((provider) => PROVIDER_LABELS[provider] ?? provider)
@@ -228,7 +254,7 @@ export default function MemberDataTable({
         header: '휴대전화',
         cell: ({ row }) => (
           <span className="whitespace-nowrap text-sm">
-            {row.original.phone || '-'}
+            {formatPhoneNumber(row.original.phone)}
           </span>
         ),
       },
@@ -245,7 +271,11 @@ export default function MemberDataTable({
           <div className="flex min-w-[120px] flex-wrap gap-1">
             {row.original.providers.length ? (
               row.original.providers.map((provider) => (
-                <Badge key={provider} variant="outline">
+                <Badge
+                  key={provider}
+                  variant="outline"
+                  className={providerBadgeClass(provider)}
+                >
                   {PROVIDER_LABELS[provider] ?? provider}
                 </Badge>
               ))
@@ -340,9 +370,7 @@ export default function MemberDataTable({
 
   const applyProviderFilter = (value: string) => {
     setProviderFilter(value);
-    table
-      .getColumn('providers')
-      ?.setFilterValue(value === 'ALL' ? undefined : value);
+    table.getColumn('providers')?.setFilterValue(value === 'ALL' ? undefined : value);
     table.setPageIndex(0);
   };
 
@@ -381,18 +409,20 @@ export default function MemberDataTable({
           ) : null}
 
           {mode === 'roles' ? (
-            <select
-              value={roleFilter}
-              onChange={(event) => applyRoleFilter(event.target.value)}
-              className="h-10 rounded-md border border-[#D4D4D8] bg-white px-3 text-sm text-[#3F3F46]"
-              aria-label="회원 권한 선택"
-            >
-              <option value="ALL">모든 권한</option>
-              <option value="MEMBER">일반 회원</option>
-              <option value="EDITOR">콘텐츠 관리자</option>
-              <option value="ADMIN">전체 관리자</option>
-              <option value="SUPER_ADMIN">최고 관리자</option>
-            </select>
+            <>
+              <select
+                value={roleFilter}
+                onChange={(event) => applyRoleFilter(event.target.value)}
+                className="h-10 rounded-md border border-[#D4D4D8] bg-white px-3 text-sm text-[#3F3F46]"
+                aria-label="관리자 권한 선택"
+              >
+                <option value="ALL">모든 권한</option>
+                <option value="EDITOR">콘텐츠 관리자</option>
+                <option value="ADMIN">전체 관리자</option>
+                <option value="SUPER_ADMIN">최고 관리자</option>
+              </select>
+              {canManageRoles ? <AddAdminDialog /> : null}
+            </>
           ) : null}
         </div>
       </div>
@@ -401,18 +431,12 @@ export default function MemberDataTable({
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow
-                key={headerGroup.id}
-                className="bg-[#FAFAFA] hover:bg-[#FAFAFA]"
-              >
+              <TableRow key={headerGroup.id} className="bg-[#FAFAFA] hover:bg-[#FAFAFA]">
                 {headerGroup.headers.map((header) => (
                   <TableHead key={header.id}>
                     {header.isPlaceholder
                       ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
+                      : flexRender(header.column.columnDef.header, header.getContext())}
                   </TableHead>
                 ))}
               </TableRow>

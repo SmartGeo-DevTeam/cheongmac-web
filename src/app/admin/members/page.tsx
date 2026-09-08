@@ -10,7 +10,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+} from '@/_shadcn/ui/card';
 import { redirect } from 'next/navigation';
 
 export default async function AdminMembersPage() {

@@ -2,7 +2,7 @@
 
 import { completeMembership, type JoinState } from './actions';
 import Link from 'next/link';
-import { useActionState } from 'react';
+import { useActionState, useState } from 'react';
 
 const initialState: JoinState = {};
 
@@ -12,8 +12,22 @@ type Props = {
   email: string;
 };
 
+function formatPhoneNumber(value: string) {
+  const digits = value.replace(/\D/g, '').slice(0, 11);
+
+  if (digits.length <= 3) return digits;
+  if (digits.length <= 7) return `${digits.slice(0, 3)}-${digits.slice(3)}`;
+
+  if (digits.length === 10) {
+    return `${digits.slice(0, 3)}-${digits.slice(3, 6)}-${digits.slice(6)}`;
+  }
+
+  return `${digits.slice(0, 3)}-${digits.slice(3, 7)}-${digits.slice(7)}`;
+}
+
 export default function MembershipForm({ callbackURL, defaultName, email }: Props) {
   const [state, formAction, pending] = useActionState(completeMembership, initialState);
+  const [phone, setPhone] = useState('');
 
   return (
     <form action={formAction} className="mt-8 space-y-5">
@@ -51,7 +65,10 @@ export default function MembershipForm({ callbackURL, defaultName, email }: Prop
           type="tel"
           inputMode="numeric"
           autoComplete="tel"
-          placeholder="01012345678"
+          placeholder="010-1234-5678"
+          value={phone}
+          onChange={(event) => setPhone(formatPhoneNumber(event.target.value))}
+          maxLength={13}
           required
           className="h-13 w-full rounded-xl border border-[#DEDFE1] px-4 text-[15px] focus:border-cm-orange"
         />

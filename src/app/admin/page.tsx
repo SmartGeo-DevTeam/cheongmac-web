@@ -1,7 +1,7 @@
 import { getCurrentSession } from '@/_lib/auth-session';
 import { prisma } from '@/_lib/prisma';
 import { canAccessAdmin } from '@/_lib/roles';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/_shadcn/ui/card';
 import { FileText, History, ShieldCheck, Users } from 'lucide-react';
 import { redirect } from 'next/navigation';
 

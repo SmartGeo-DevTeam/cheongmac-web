@@ -14,7 +14,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+} from '@/_shadcn/ui/card';
 import { redirect } from 'next/navigation';
 
 export default async function AdminRolesPage() {
@@ -26,7 +26,12 @@ export default async function AdminRolesPage() {
 
   const role = normalizeRole(session.user.role);
   const users = await prisma.user.findMany({
-    where: { membershipStatus: 'ACTIVE' },
+    where: {
+      membershipStatus: 'ACTIVE',
+      role: {
+        in: ['EDITOR', 'ADMIN', 'SUPER_ADMIN'],
+      },
+    },
     orderBy: { createdAt: 'desc' },
     include: {
       accounts: {
@@ -61,7 +66,7 @@ export default async function AdminRolesPage() {
           회원 권한 관리
         </h1>
         <p className="mt-2 max-w-3xl text-sm leading-6 text-[#71717A]">
-          가입한 회원에게 콘텐츠 관리 권한이나 전체 관리자 권한을 줄 수 있습니다. 최고 관리자 권한은 안전을 위해 이 화면에서 바꿀 수 없습니다.
+          현재 관리자 권한이 있는 회원만 확인합니다. 새로운 관리자는 오른쪽의 관리자 추가 버튼에서 회원 이메일을 검색해 등록할 수 있습니다.
         </p>
       </div>
 
@@ -90,16 +95,16 @@ export default async function AdminRolesPage() {
             <CardTitle className="text-2xl">{superAdminCount.toLocaleString()}</CardTitle>
           </CardHeader>
           <CardContent className="pt-0 text-xs leading-5 text-[#71717A]">
-            관리자 페이지에서 가장 높은 권한을 가진 계정입니다.
+            가장 높은 권한을 가진 계정이며 이 화면에서는 새로 추가할 수 없습니다.
           </CardContent>
         </Card>
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle>회원별 권한</CardTitle>
+          <CardTitle>관리자 목록</CardTitle>
           <CardDescription>
-            이름으로 회원을 찾은 뒤 원하는 권한을 선택하고 적용 버튼을 누르세요. 일반 회원으로 되돌리면 관리자 권한이 해제됩니다.
+            현재 권한을 가진 관리자만 표시됩니다. 권한을 일반 회원으로 변경하면 이 목록에서 빠집니다.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -108,7 +113,7 @@ export default async function AdminRolesPage() {
             mode="roles"
             currentUserId={session.user.id}
             canManageRoles={canManageMemberRoles(role)}
-            emptyMessage="찾으시는 회원이 없습니다."
+            emptyMessage="등록된 관리자가 없습니다."
           />
         </CardContent>
       </Card>

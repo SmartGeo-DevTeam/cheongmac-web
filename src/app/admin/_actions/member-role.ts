@@ -23,14 +23,17 @@ export type UpdateMemberRoleResult = {
   role?: UserRole;
 };
 
-export async function updateMemberRole(
-  input: UpdateMemberRoleInput,
-): Promise<UpdateMemberRoleResult> {
+export type MemberRoleSearchResult = {
+  id: string;
+  name: string;
+  email: string;
+  phone: string | null;
+};
+
+async function getRoleManager() {
   const session = await getCurrentSession();
 
-  if (!session) {
-    return { ok: false, error: '로그인이 필요합니다.' };
-  }
+  if (!session) return null;
 
   const actor = await prisma.user.findUnique({
     where: { id: session.user.id },
@@ -46,6 +49,63 @@ export async function updateMemberRole(
     actor.membershipStatus !== 'ACTIVE' ||
     !canManageMemberRoles(actor.role)
   ) {
+    return null;
+  }
+
+  return actor;
+}
+
+export async function searchMembersForRole(
+  emailQuery: string,
+): Promise<{ ok: boolean; users: MemberRoleSearchResult[]; error?: string }> {
+  const actor = await getRoleManager();
+
+  if (!actor) {
+    return {
+      ok: false,
+      users: [],
+      error: '회원을 검색할 권한이 없습니다.',
+    };
+  }
+
+  const query = emailQuery.trim();
+
+  if (query.length < 3) {
+    return {
+      ok: false,
+      users: [],
+      error: '이메일을 3자 이상 입력해주세요.',
+    };
+  }
+
+  const users = await prisma.user.findMany({
+    where: {
+      membershipStatus: 'ACTIVE',
+      role: 'MEMBER',
+      email: {
+        contains: query,
+        mode: 'insensitive',
+      },
+    },
+    orderBy: { createdAt: 'desc' },
+    take: 8,
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      phone: true,
+    },
+  });
+
+  return { ok: true, users };
+}
+
+export async function updateMemberRole(
+  input: UpdateMemberRoleInput,
+): Promise<UpdateMemberRoleResult> {
+  const actor = await getRoleManager();
+
+  if (!actor) {
     return { ok: false, error: '회원 권한을 변경할 권한이 없습니다.' };
   }
 
@@ -78,7 +138,7 @@ export async function updateMemberRole(
   if (target.membershipStatus !== 'ACTIVE') {
     return {
       ok: false,
-      error: '홈페이지 회원 전환을 완료한 회원에게만 권한을 부여할 수 있습니다.',
+      error: '홈페이지 회원가입을 완료한 회원에게만 권한을 부여할 수 있습니다.',
     };
   }
 

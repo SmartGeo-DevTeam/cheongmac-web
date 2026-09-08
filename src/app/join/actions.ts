@@ -14,6 +14,14 @@ function normalizePhone(value: string) {
   return value.replace(/[^0-9]/g, '');
 }
 
+function formatPhone(value: string) {
+  if (value.length === 10) {
+    return `${value.slice(0, 3)}-${value.slice(3, 6)}-${value.slice(6)}`;
+  }
+
+  return `${value.slice(0, 3)}-${value.slice(3, 7)}-${value.slice(7)}`;
+}
+
 export async function completeMembership(
   _previousState: JoinState,
   formData: FormData,
@@ -25,7 +33,7 @@ export async function completeMembership(
   }
 
   const name = String(formData.get('name') ?? '').trim();
-  const phone = normalizePhone(String(formData.get('phone') ?? ''));
+  const phoneDigits = normalizePhone(String(formData.get('phone') ?? ''));
   const callbackURL = safeCallbackPath(String(formData.get('callbackURL') ?? '/'));
   const termsAccepted = formData.get('termsAccepted') === 'on';
   const privacyAccepted = formData.get('privacyAccepted') === 'on';
@@ -34,7 +42,7 @@ export async function completeMembership(
     return { error: '본명을 2자 이상 50자 이하로 입력해주세요.' };
   }
 
-  if (!/^01[016789][0-9]{7,8}$/.test(phone)) {
+  if (!/^01[016789][0-9]{7,8}$/.test(phoneDigits)) {
     return { error: '연락처를 휴대폰 번호 형식으로 입력해주세요.' };
   }
 
@@ -43,6 +51,7 @@ export async function completeMembership(
   }
 
   const completedAt = new Date();
+  const phone = formatPhone(phoneDigits);
 
   await prisma.$transaction(async (tx) => {
     await tx.user.update({

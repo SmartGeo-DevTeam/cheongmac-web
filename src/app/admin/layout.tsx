@@ -5,8 +5,8 @@ import {
   getRoleLabel,
   normalizeRole,
 } from '@/_lib/roles';
-import { Badge } from '@/components/ui/badge';
-import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
+import { Badge } from '@/_shadcn/ui/badge';
+import { SidebarInset, SidebarProvider } from '@/_shadcn/ui/sidebar';
 import AdminSidebar from './_components/admin-sidebar';
 import {
   ExternalLink,
