@@ -1,5 +1,9 @@
 import { getCurrentSession, isActiveMember } from '@/_lib/auth-session';
-import { canAccessAdmin, canEditContent } from '@/_lib/roles';
+import { canAccessAdmin, canEditContent, normalizeRole } from '@/_lib/roles';
+import { Badge } from '@/components/ui/badge';
+import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
+import AdminSidebar from './_components/admin-sidebar';
+import { ExternalLink, FileText, LayoutDashboard } from 'lucide-react';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 
@@ -10,28 +14,70 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     redirect('/signin?callbackURL=/admin');
   }
 
-  if (!canEditContent(session.user.role)) {
+  const role = normalizeRole(session.user.role);
+
+  if (!canEditContent(role)) {
     redirect('/');
   }
 
+  const canAccessDashboard = canAccessAdmin(role);
+
   return (
-    <div className="min-h-[calc(100dvh-80px)] bg-[#F6F7F8] px-5 py-10 xl:py-14">
-      <div className="mx-auto w-full max-w-7xl">
-        <header className="mb-8 flex flex-wrap items-center justify-between gap-4 rounded-2xl bg-white px-5 py-4 shadow-sm">
-          <div>
-            <p className="text-sm font-semibold text-cm-orange">CHEONGMAC ADMIN</p>
-            <p className="mt-1 text-sm text-[#777777]">{session.user.name} · {session.user.role}</p>
-          </div>
-          <nav className="flex items-center gap-2 text-sm">
-            {canAccessAdmin(session.user.role) ? (
-              <Link href="/admin" className="rounded-lg px-3 py-2 hover:bg-[#F4F4F4]">대시보드</Link>
-            ) : null}
-            <Link href="/admin/content" className="rounded-lg px-3 py-2 hover:bg-[#F4F4F4]">콘텐츠</Link>
-            <Link href="/" className="rounded-lg border border-[#E3E3E3] px-3 py-2">사이트 보기</Link>
-          </nav>
-        </header>
-        {children}
-      </div>
+    <div className="fixed inset-0 z-[100] overflow-hidden bg-[#FAFAFA]">
+      <SidebarProvider>
+        <AdminSidebar
+          name={session.user.name}
+          email={session.user.email}
+          role={role}
+          canAccessDashboard={canAccessDashboard}
+        />
+
+        <SidebarInset>
+          <header className="flex h-16 shrink-0 items-center justify-between gap-4 border-b border-[#E4E4E7] bg-white px-4 md:px-6">
+            <div className="min-w-0">
+              <p className="truncate text-sm font-semibold text-[#18181B]">청맥병원 관리자</p>
+              <p className="mt-0.5 truncate text-xs text-[#A1A1AA] md:hidden">
+                {session.user.name} · {role}
+              </p>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <nav className="flex items-center gap-1 md:hidden">
+                {canAccessDashboard ? (
+                  <Link
+                    href="/admin"
+                    className="inline-flex size-9 items-center justify-center rounded-md text-[#52525B] hover:bg-[#F4F4F5]"
+                    aria-label="대시보드"
+                  >
+                    <LayoutDashboard className="size-4" />
+                  </Link>
+                ) : null}
+                <Link
+                  href="/admin/content"
+                  className="inline-flex size-9 items-center justify-center rounded-md text-[#52525B] hover:bg-[#F4F4F5]"
+                  aria-label="콘텐츠 관리"
+                >
+                  <FileText className="size-4" />
+                </Link>
+                <Link
+                  href="/"
+                  className="inline-flex size-9 items-center justify-center rounded-md text-[#52525B] hover:bg-[#F4F4F5]"
+                  aria-label="홈페이지 보기"
+                >
+                  <ExternalLink className="size-4" />
+                </Link>
+              </nav>
+              <Badge variant="outline" className="hidden md:inline-flex">
+                {role}
+              </Badge>
+            </div>
+          </header>
+
+          <main className="min-h-0 flex-1 overflow-y-auto">
+            <div className="mx-auto w-full max-w-[1440px] p-4 md:p-6 lg:p-8">{children}</div>
+          </main>
+        </SidebarInset>
+      </SidebarProvider>
     </div>
   );
 }

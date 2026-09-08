@@ -83,8 +83,8 @@ export default function PrivacyPolicyPage() {
 
         <PolicyList>
           <li>
-            <b>홈페이지 회원 가입 및 관리</b>: 회원제 서비스 이용에 따른 본인
-            식별·인증, 회원자격 유지·관리, 서비스 부정이용 방지
+            <b>홈페이지 회원 가입 및 관리</b>: Google·NAVER·Kakao 소셜 계정을 통한
+            회원 식별·인증, 홈페이지 회원 전환, 회원자격 유지·관리, 서비스 부정이용 방지
           </li>
           <li>
             <b>진료 예약 및 상담</b>: 진료 예약 접수·확인, 온라인
@@ -215,7 +215,7 @@ export default function PrivacyPolicyPage() {
                 홈페이지 회원가입 (필수)
               </td>
               <td className="border-t border-r border-[#E9EAEC] px-1.5 py-2 align-middle last:border-r-0 xl:px-3 xl:py-3">
-                성명, 아이디, 비밀번호, 휴대전화번호, 이메일, 성별, 생년월일
+                본명, 이메일, 휴대전화번호
               </td>
               <td className="border-t border-r border-[#E9EAEC] px-1.5 py-2 align-middle last:border-r-0 xl:px-3 xl:py-3">
                 회원 탈퇴 시까지
@@ -223,10 +223,10 @@ export default function PrivacyPolicyPage() {
             </tr>
             <tr>
               <td className="border-t border-r border-[#E9EAEC] px-1.5 py-2 align-middle last:border-r-0 xl:px-3 xl:py-3">
-                홈페이지 회원가입 (선택)
+                회원가입·동의 이력
               </td>
               <td className="border-t border-r border-[#E9EAEC] px-1.5 py-2 align-middle last:border-r-0 xl:px-3 xl:py-3">
-                관심분야, 이메일·SMS 수신 여부
+                회원가입일, 이용약관 동의 버전·동의일시, 개인정보 수집·이용 동의 버전·동의일시
               </td>
               <td className="border-t border-r border-[#E9EAEC] px-1.5 py-2 align-middle last:border-r-0 xl:px-3 xl:py-3">
                 회원 탈퇴 또는 동의 철회 시까지
@@ -237,22 +237,10 @@ export default function PrivacyPolicyPage() {
                 소셜 로그인(간편가입) 연동
               </td>
               <td className="border-t border-r border-[#E9EAEC] px-1.5 py-2 align-middle last:border-r-0 xl:px-3 xl:py-3">
-                소셜 계정 식별자(연동번호), 이메일, 프로필 이름 등
+                소셜 로그인 제공자(Google·NAVER·Kakao), 소셜 계정 식별자(연동번호), 이메일, 프로필 이름·이미지(제공 및 동의 시)
               </td>
               <td className="border-t border-r border-[#E9EAEC] px-1.5 py-2 align-middle last:border-r-0 xl:px-3 xl:py-3">
                 회원 탈퇴 시까지
-              </td>
-            </tr>
-            <tr>
-              <td className="border-t border-r border-[#E9EAEC] px-1.5 py-2 align-middle last:border-r-0 xl:px-3 xl:py-3">
-                본인확인 (휴대폰 인증 등)
-              </td>
-              <td className="border-t border-r border-[#E9EAEC] px-1.5 py-2 align-middle last:border-r-0 xl:px-3 xl:py-3">
-                성명, 생년월일, 성별, 내/외국인 정보, 통신사, 휴대전화번호,
-                연계정보(CI), 중복가입확인정보(DI)
-              </td>
-              <td className="border-t border-r border-[#E9EAEC] px-1.5 py-2 align-middle last:border-r-0 xl:px-3 xl:py-3">
-                6개월
               </td>
             </tr>
             <tr>
@@ -283,7 +271,7 @@ export default function PrivacyPolicyPage() {
           <li>
             홈페이지 회원가입 및 서비스 이용 과정에서 정보주체가 직접 입력
           </li>
-          <li>본인확인 및 진료 서비스 연동을 통한 수집</li>
+          <li>Google·NAVER·Kakao 소셜 로그인 연동을 통한 수집</li>
           <li>진료 예약·상담·민원 접수 과정에서의 수집</li>
           <li>생성정보 수집 도구를 통한 자동 수집</li>
         </PolicyList>
@@ -369,7 +357,9 @@ export default function PrivacyPolicyPage() {
       <LegalSection title="5. 개인정보의 파기 절차 및 방법">
         <p>
           청맥병원은 개인정보 보유 기간의 경과, 처리 목적 달성 등 개인정보가
-          불필요하게 되었을 때에는 지체 없이 해당 개인정보를 파기합니다.
+          불필요하게 되었을 때에는 지체 없이 해당 개인정보를 파기합니다. 홈페이지 회원이
+          탈퇴를 요청한 경우 회원정보와 소셜 로그인 연동정보도 관계 법령상 보존 의무가 있는
+          경우를 제외하고 지체 없이 파기합니다.
         </p>
         <PolicyList>
           <li>
@@ -386,8 +376,9 @@ export default function PrivacyPolicyPage() {
 
       <LegalSection title="6. 정보주체와 법정대리인의 권리·의무 및 행사 방법">
         <p>
-          정보주체는 청맥병원에 대해 언제든지 개인정보 열람·정정·삭제·처리정지
-          및 동의 철회를 요구할 수 있습니다.
+          정보주체는 청맥병원에 대해 언제든지 개인정보 열람·정정·삭제·처리정지,
+          동의 철회 및 홈페이지 회원 탈퇴를 요구할 수 있습니다. 별도의 온라인 탈퇴 기능이
+          제공되지 않는 기간에는 개인정보 보호 담당부서를 통해 회원 탈퇴를 요청할 수 있습니다.
         </p>
         <PolicyList>
           <li>
@@ -605,8 +596,8 @@ export default function PrivacyPolicyPage() {
           홈페이지를 통해 변경 이유 및 내용을 공지합니다.
         </p>
         <PolicyList>
-          <li>공고일자: [YYYY년 MM월 DD일]</li>
-          <li>시행일자: [YYYY년 MM월 DD일]</li>
+          <li>공고일자: 2026년 9월 8일</li>
+          <li>시행일자: 2026년 9월 8일</li>
         </PolicyList>
       </LegalSection>
     </LegalPageLayout>
