@@ -12,6 +12,7 @@ import {
   ExternalLink,
   FileText,
   LayoutDashboard,
+  ListTree,
   ShieldCheck,
   Users,
 } from 'lucide-react';
@@ -82,6 +83,13 @@ export default async function AdminLayout({
                       aria-label="회원 권한 관리"
                     >
                       <ShieldCheck className="size-4" />
+                    </Link>
+                    <Link
+                      href="/admin/common/navigation"
+                      className="inline-flex size-9 items-center justify-center rounded-md text-[#52525B] hover:bg-[#F4F4F5]"
+                      aria-label="LNB 메뉴 관리"
+                    >
+                      <ListTree className="size-4" />
                     </Link>
                   </>
                 ) : null}

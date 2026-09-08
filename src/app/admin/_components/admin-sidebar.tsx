@@ -16,6 +16,7 @@ import {
   ExternalLink,
   FileText,
   LayoutDashboard,
+  ListTree,
   ShieldCheck,
   Users,
 } from 'lucide-react';
@@ -87,6 +88,26 @@ export default function AdminSidebar({
                 >
                   <ShieldCheck className="size-4" />
                   회원 권한 관리
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroup>
+        ) : null}
+
+        {canAccessDashboard ? (
+          <SidebarGroup>
+            <SidebarGroupLabel>공통</SidebarGroupLabel>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  href="/admin/common/navigation"
+                  active={
+                    pathname === '/admin/common/navigation' ||
+                    pathname.startsWith('/admin/common/navigation/')
+                  }
+                >
+                  <ListTree className="size-4" />
+                  LNB 메뉴 관리
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>

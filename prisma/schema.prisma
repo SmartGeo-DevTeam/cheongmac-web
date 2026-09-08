@@ -137,3 +137,20 @@ model AdminAuditLog {
   @@index([targetType, targetId])
   @@map("admin_audit_log")
 }
+
+model NavigationMenu {
+  id        String   @id
+  parentId  String?
+  title     String
+  href      String
+  sortOrder Int      @default(0)
+  isVisible Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  parent   NavigationMenu?  @relation("NavigationTree", fields: [parentId], references: [id], onDelete: Cascade)
+  children NavigationMenu[] @relation("NavigationTree")
+
+  @@index([parentId, sortOrder])
+  @@map("navigation_menu")
+}

@@ -1,3 +1,5 @@
+import { prisma } from '@/_lib/prisma';
+
 export type NavigationItem = {
   id: string;
   href: string;
@@ -304,6 +306,67 @@ export const NAVIGATION: NavigationItem[] = [
    */
 ];
 
-export function getPrimaryNavigation(): NavigationItem[] {
-  return NAVIGATION;
+type NavigationRow = {
+  id: string;
+  parentId: string | null;
+  title: string;
+  href: string;
+  sortOrder: number;
+  isVisible: boolean;
+};
+
+function buildNavigationTree(rows: NavigationRow[]): NavigationItem[] {
+  const visibleRows = rows.filter((row) => row.isVisible);
+  const items = new Map<string, NavigationItem>();
+
+  for (const row of visibleRows) {
+    items.set(row.id, {
+      id: row.id,
+      href: row.href,
+      title: row.title,
+      children: [],
+    });
+  }
+
+  const roots: NavigationItem[] = [];
+
+  for (const row of visibleRows) {
+    const item = items.get(row.id);
+    if (!item) continue;
+
+    if (!row.parentId) {
+      roots.push(item);
+      continue;
+    }
+
+    const parent = items.get(row.parentId);
+    if (parent) parent.children?.push(item);
+  }
+
+  return roots;
+}
+
+export async function getPrimaryNavigation(): Promise<NavigationItem[]> {
+  try {
+    const rows = await prisma.navigationMenu.findMany({
+      orderBy: [{ sortOrder: 'asc' }, { createdAt: 'asc' }],
+      select: {
+        id: true,
+        parentId: true,
+        title: true,
+        href: true,
+        sortOrder: true,
+        isVisible: true,
+      },
+    });
+
+    if (!rows.length) return NAVIGATION;
+    return buildNavigationTree(rows);
+  } catch (error) {
+    if (process.env.NODE_ENV !== 'production') {
+      console.warn('LNB 메뉴 DB를 읽지 못해 기본 메뉴를 사용합니다.', error);
+    }
+
+    return NAVIGATION;
+  }
 }
