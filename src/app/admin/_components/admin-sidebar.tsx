@@ -1,5 +1,6 @@
 'use client';
 
+import { getRoleLabel } from '@/_lib/roles';
 import {
   Sidebar,
   SidebarContent,
@@ -11,7 +12,13 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { LayoutDashboard, FileText, ExternalLink, ShieldCheck } from 'lucide-react';
+import {
+  ExternalLink,
+  FileText,
+  LayoutDashboard,
+  ShieldCheck,
+  Users,
+} from 'lucide-react';
 import { usePathname } from 'next/navigation';
 
 export default function AdminSidebar({
@@ -51,10 +58,51 @@ export default function AdminSidebar({
                 </SidebarMenuButton>
               </SidebarMenuItem>
             ) : null}
+          </SidebarMenu>
+        </SidebarGroup>
+
+        {canAccessDashboard ? (
+          <SidebarGroup>
+            <SidebarGroupLabel>회원</SidebarGroupLabel>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  href="/admin/members"
+                  active={
+                    pathname === '/admin/members' ||
+                    pathname.startsWith('/admin/members/')
+                  }
+                >
+                  <Users className="size-4" />
+                  전체 회원
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  href="/admin/roles"
+                  active={
+                    pathname === '/admin/roles' ||
+                    pathname.startsWith('/admin/roles/')
+                  }
+                >
+                  <ShieldCheck className="size-4" />
+                  회원 권한 관리
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroup>
+        ) : null}
+
+        <SidebarGroup>
+          <SidebarGroupLabel>콘텐츠</SidebarGroupLabel>
+          <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton
                 href="/admin/content"
-                active={pathname === '/admin/content' || pathname.startsWith('/admin/content/')}
+                active={
+                  pathname === '/admin/content' ||
+                  pathname.startsWith('/admin/content/')
+                }
               >
                 <FileText className="size-4" />
                 콘텐츠 관리
@@ -78,7 +126,7 @@ export default function AdminSidebar({
 
       <SidebarFooter>
         <p className="truncate text-sm font-semibold text-[#27272A]">{name}</p>
-        <p className="mt-1 text-xs text-[#A1A1AA]">{role}</p>
+        <p className="mt-1 text-xs text-[#A1A1AA]">{getRoleLabel(role)}</p>
       </SidebarFooter>
     </Sidebar>
   );

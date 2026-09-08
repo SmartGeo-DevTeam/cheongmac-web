@@ -14,14 +14,17 @@ export async function saveContent(
   const session = await getCurrentSession();
 
   if (!session || !isActiveMember(session) || !canEditContent(session.user.role)) {
-    return { error: '콘텐츠 수정 권한이 없습니다.' };
+    return { error: '콘텐츠를 수정할 권한이 없습니다.' };
   }
 
   const key = String(formData.get('key') ?? '').trim();
   const value = String(formData.get('value') ?? '').trim();
 
   if (!/^[a-z0-9][a-z0-9._-]{2,119}$/i.test(key)) {
-    return { error: '키는 영문/숫자/점/하이픈/언더스코어 3~120자로 입력해주세요.' };
+    return {
+      error:
+        '관리 항목 이름은 영문, 숫자, 점(.), 하이픈(-), 밑줄(_)을 사용해 3~120자로 입력해주세요.',
+    };
   }
 
   if (!value || value.length > 10000) {
@@ -82,5 +85,5 @@ export async function saveContent(
   });
 
   revalidatePath('/admin/content');
-  return { success: '저장했습니다. 수정 이력이 함께 기록되었습니다.' };
+  return { success: '저장했습니다. 변경 기록도 함께 남았습니다.' };
 }
