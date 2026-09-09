@@ -14,7 +14,8 @@
     "db:studio": "prisma studio",
     "auth:set-role": "tsx scripts/set-user-role.ts",
     "check:semantics": "node scripts/check-semantic-structure.mjs",
-    "check:ui-system": "node scripts/check-common-ui-system.mjs"
+    "check:ui-system": "node scripts/check-common-ui-system.mjs",
+    "check:doctor-db": "node scripts/check-doctor-database.mjs"
   },
   "dependencies": {
     "@better-auth/prisma-adapter": "1.7.3",

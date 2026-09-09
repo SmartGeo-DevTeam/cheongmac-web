@@ -14,6 +14,7 @@ import {
   ListTree,
   PanelBottom,
   ShieldCheck,
+  Stethoscope,
   Users,
 } from 'lucide-react';
 import Link from 'next/link';
@@ -106,6 +107,13 @@ export default async function AdminLayout({
                   aria-label="콘텐츠 관리"
                 >
                   <FileText className="size-4" />
+                </Link>
+                <Link
+                  href="/admin/doctors"
+                  className="inline-flex size-9 items-center justify-center rounded-md text-[#52525B] hover:bg-[#F4F4F5]"
+                  aria-label="의료진 관리"
+                >
+                  <Stethoscope className="size-4" />
                 </Link>
               </nav>
 

@@ -2,10 +2,7 @@ import { buttonClassName } from '@/app/_components/ui/button';
 import UiPagination from '@/app/_components/ui/pagination';
 import ConsultationPageHeader from '@/app/community/consultation/_components/consultation-page-header';
 import ConsultationSidebar from '@/app/community/consultation/_components/consultation-sidebar';
-import {
-  CONSULTATION_ITEMS,
-  getConsultationItemById,
-} from '@/app/community/consultation/_data/consultations';
+import { getPublicConsultationById } from '@/_lib/consultations';
 import { Link2, LockKeyhole } from 'lucide-react';
 import type { Metadata } from 'next';
 import Image from 'next/image';
@@ -41,15 +38,12 @@ function categoryText(primary: string, secondary: string) {
   return secondary ? `${primary} | ${secondary}` : primary;
 }
 
-export function generateStaticParams() {
-  return CONSULTATION_ITEMS.map((item) => ({ id: String(item.id) }));
-}
-
 export async function generateMetadata({
   params,
 }: ConsultationDetailPageProps): Promise<Metadata> {
   const { id } = await params;
-  const item = getConsultationItemById(Number(id));
+  const item = await getPublicConsultationById(Number(id));
+
   return item
     ? {
         title: `${item.title} | 의학상담 | 청맥병원`,
@@ -98,7 +92,7 @@ export default async function ConsultationDetailPage({
     params,
     searchParams,
   ]);
-  const item = getConsultationItemById(Number(id));
+  const item = await getPublicConsultationById(Number(id));
   if (!item) notFound();
 
   const returnTo = getSafeListUrl(detailSearchParams.from);
@@ -122,6 +116,7 @@ export default async function ConsultationDetailPage({
                   이용일 · {item.date}
                 </time>
               </div>
+
               <h1
                 id="consultation-question-title"
                 className="mt-2 flex items-center gap-1.5 break-keep text-[17px] font-semibold leading-[1.4] tracking-[-0.04em] text-[#242A31] xl:text-[20px]"
@@ -159,21 +154,25 @@ export default async function ConsultationDetailPage({
           {item.answered && item.doctor && item.answer ? (
             <section
               aria-labelledby="consultation-answer-heading"
-              className="mt-5 rounded-[10px] border border-[#E0E4E7] px-4 py-5 xl:mt-5 xl:rounded-[14px] xl:px-8 xl:py-8"
+              className="mt-5 rounded-[10px] border border-[#E0E4E7] px-4 py-5 xl:rounded-[14px] xl:px-8 xl:py-8"
             >
               <h2 id="consultation-answer-heading" className="sr-only">
                 의료진 답변
               </h2>
+
               <div className="flex items-center gap-3 border-b border-[#E4E7EA] pb-4">
                 <div className="relative size-12 shrink-0 overflow-hidden rounded-full bg-[#F2F3F4] xl:size-14">
-                  <Image
-                    src={item.doctor.imageSrc}
-                    alt={item.doctor.name}
-                    fill
-                    sizes="56px"
-                    className="object-cover"
-                  />
+                  {item.doctor.imageSrc ? (
+                    <Image
+                      src={item.doctor.imageSrc}
+                      alt={item.doctor.name}
+                      fill
+                      sizes="56px"
+                      className="object-cover"
+                    />
+                  ) : null}
                 </div>
+
                 <div>
                   <p className="text-[13px] font-semibold text-[#FF6B3C] xl:text-[15px]">
                     {item.doctor.department} {item.doctor.name}
@@ -192,9 +191,11 @@ export default async function ConsultationDetailPage({
                   * 본 답변은 일반적인 의학 정보를 위한 것으로, 의료진의 직접
                   진료를 대신하지 않습니다.
                 </p>
-                <p className="text-right text-[9px] text-[#9AA0A7] xl:text-[10px]">
-                  답변작성일&nbsp;&nbsp;{item.answerDate}
-                </p>
+                {item.answerDate ? (
+                  <p className="text-right text-[9px] text-[#9AA0A7] xl:text-[10px]">
+                    답변작성일&nbsp;&nbsp;{item.answerDate}
+                  </p>
+                ) : null}
               </div>
             </section>
           ) : (

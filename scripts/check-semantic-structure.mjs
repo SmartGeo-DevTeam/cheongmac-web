@@ -100,7 +100,8 @@ for (const file of publicPages) {
 const detailRules = [
   {
     page: 'src/app/about/doctors/[doctorSlug]/page.tsx',
-    component: 'src/app/about/doctors/[doctorSlug]/page.tsx',
+    component:
+      'src/app/about/doctors/[doctorSlug]/_components/doctor-sections.tsx',
   },
   {
     page: 'src/app/community/news/[id]/page.tsx',
@@ -134,7 +135,10 @@ for (const rule of detailRules) {
 }
 
 const hierarchyRules = [
-  ['src/app/about/doctors/page.tsx', 'doctor-list-heading'],
+  [
+    'src/app/about/doctors/_components/doctor-list-client.tsx',
+    'doctor-list-heading',
+  ],
   [
     'src/app/about/equipment/_components/medical-equipment-content.tsx',
     'medical-equipment-list-heading',

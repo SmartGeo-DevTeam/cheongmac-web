@@ -257,3 +257,187 @@ model PageBottomBanner {
   @@index([sortOrder])
   @@map("page_bottom_banner")
 }
+
+model Doctor {
+  id              String   @id @default(cuid())
+  legacyId        Int?     @unique
+  slug            String   @unique
+  name            String
+  position        String
+  department      String
+  bio             String?  @db.Text
+  reservationHref String   @default("/")
+  displayOrder    Int      @default(0)
+  isVisible       Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  images        DoctorImage[]
+  specialties   DoctorSpecialty[]
+  careers       DoctorCareer[]
+  schedules     DoctorSchedule[]
+  presentations DoctorPresentation[]
+  reviews       DoctorReview[]
+  media         DoctorMedia[]
+  consultations MedicalConsultation[]
+
+  @@index([displayOrder])
+  @@index([isVisible, displayOrder])
+  @@map("doctor")
+}
+
+model DoctorImage {
+  id        String   @id @default(cuid())
+  doctorId  String
+  kind      String
+  url       String
+  alt       String?
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  doctor Doctor @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+
+  @@unique([doctorId, kind])
+  @@index([doctorId, sortOrder])
+  @@map("doctor_image")
+}
+
+model DoctorSpecialty {
+  id          String   @id @default(cuid())
+  doctorId    String
+  name        String
+  description String?  @db.Text
+  sortOrder   Int      @default(0)
+  isVisible   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  doctor Doctor @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+
+  @@index([doctorId, sortOrder])
+  @@map("doctor_specialty")
+}
+
+model DoctorCareer {
+  id        String   @id @default(cuid())
+  doctorId  String
+  kind      String   @default("CAREER")
+  content   String   @db.Text
+  sortOrder Int      @default(0)
+  isVisible Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  doctor Doctor @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+
+  @@index([doctorId, sortOrder])
+  @@map("doctor_career")
+}
+
+model DoctorSchedule {
+  id        String   @id @default(cuid())
+  doctorId  String
+  label     String
+  mon       String
+  tue       String
+  wed       String
+  thu       String
+  fri       String
+  sat       String
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  doctor Doctor @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+
+  @@index([doctorId, sortOrder])
+  @@map("doctor_schedule")
+}
+
+model DoctorPresentation {
+  id           String    @id @default(cuid())
+  doctorId     String
+  title        String
+  organization String?
+  description  String?   @db.Text
+  imageUrl     String?
+  linkUrl      String?
+  presentedAt  DateTime?
+  sortOrder    Int       @default(0)
+  isVisible    Boolean   @default(true)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  doctor Doctor @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+
+  @@index([doctorId, sortOrder])
+  @@map("doctor_presentation")
+}
+
+model DoctorReview {
+  id          String    @id @default(cuid())
+  doctorId    String
+  patientName String
+  age         Int?
+  gender      String?
+  treatment   String?
+  content     String?   @db.Text
+  imageUrl    String?
+  reviewedAt  DateTime?
+  sortOrder   Int       @default(0)
+  isVisible   Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  doctor Doctor @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+
+  @@index([doctorId, sortOrder])
+  @@map("doctor_review")
+}
+
+model DoctorMedia {
+  id           String    @id @default(cuid())
+  doctorId     String
+  kind         String    @default("VIDEO")
+  title        String
+  source       String?
+  thumbnailUrl String?
+  linkUrl      String
+  publishedAt  DateTime?
+  isFeatured   Boolean   @default(false)
+  sortOrder    Int       @default(0)
+  isVisible    Boolean   @default(true)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  doctor Doctor @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+
+  @@index([doctorId, sortOrder])
+  @@map("doctor_media")
+}
+
+model MedicalConsultation {
+  id                Int       @id @default(autoincrement())
+  doctorId          String?
+  categoryPrimary   String
+  categorySecondary String    @default("")
+  title             String
+  question          Json
+  imageUrl          String?
+  isPrivate         Boolean   @default(false)
+  hasLinkIcon       Boolean   @default(false)
+  answer            Json?
+  answerDate        DateTime?
+  publishedAt       DateTime  @default(now())
+  isVisible         Boolean   @default(true)
+  sortOrder         Int       @default(0)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  doctor Doctor? @relation(fields: [doctorId], references: [id], onDelete: SetNull)
+
+  @@index([doctorId, publishedAt])
+  @@index([isVisible, publishedAt])
+  @@map("medical_consultation")
+}

@@ -3,10 +3,9 @@
 import { buttonClassName } from '@/app/_components/ui/button';
 import UiPagination from '@/app/_components/ui/pagination';
 
-import {
-  CONSULTATION_ITEMS,
-  type ConsultationItem,
-} from '@/app/community/consultation/_data/consultations';
+import type {
+  PublicConsultationItem as ConsultationItem,
+} from '@/_lib/consultations';
 import {
   ArrowDownLeft,
   Link2,
@@ -180,15 +179,19 @@ function ConsultationCard({
   );
 }
 
-export default function ConsultationBoard() {
+export default function ConsultationBoard({
+  items,
+}: {
+  items: ConsultationItem[];
+}) {
   const searchParams = useSearchParams();
   const currentPage = parsePage(searchParams.get('page'));
   const query = searchParams.get('q')?.trim() ?? '';
 
   const filteredItems = useMemo(() => {
-    if (!query) return CONSULTATION_ITEMS;
+    if (!query) return items;
     const keyword = query.toLocaleLowerCase('ko-KR');
-    return CONSULTATION_ITEMS.filter((item) =>
+    return items.filter((item) =>
       [
         item.title,
         item.category.primary,
@@ -199,7 +202,7 @@ export default function ConsultationBoard() {
         .toLocaleLowerCase('ko-KR')
         .includes(keyword),
     );
-  }, [query]);
+  }, [items, query]);
 
   const desktopTotalPages = Math.max(
     1,

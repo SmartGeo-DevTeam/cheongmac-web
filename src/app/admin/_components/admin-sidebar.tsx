@@ -18,6 +18,7 @@ import {
   ListTree,
   PanelBottom,
   ShieldCheck,
+  Stethoscope,
   Users,
 } from 'lucide-react';
 import { usePathname } from 'next/navigation';
@@ -139,6 +140,18 @@ export default function AdminSidebar({
               >
                 <FileText className="size-4" />
                 콘텐츠 관리
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                href="/admin/doctors"
+                active={
+                  pathname === '/admin/doctors' ||
+                  pathname.startsWith('/admin/doctors/')
+                }
+              >
+                <Stethoscope className="size-4" />
+                의료진 관리
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>

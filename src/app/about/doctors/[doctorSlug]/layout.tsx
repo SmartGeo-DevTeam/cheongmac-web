@@ -1,4 +1,4 @@
-import { DOCTORS, getDoctorBySlug } from '../data';
+import { getDoctorBaseBySlug, getDoctorProfileBundle } from '@/_lib/doctors';
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 
@@ -7,17 +7,11 @@ type LayoutProps = {
   params: Promise<{ doctorSlug: string }>;
 };
 
-export function generateStaticParams() {
-  return DOCTORS.map((doctor) => ({
-    doctorSlug: doctor.slug,
-  }));
-}
-
 export async function generateMetadata({
   params,
 }: LayoutProps): Promise<Metadata> {
   const { doctorSlug } = await params;
-  const doctor = getDoctorBySlug(doctorSlug);
+  const doctor = await getDoctorBaseBySlug(doctorSlug);
 
   if (!doctor) {
     return {
@@ -25,11 +19,15 @@ export async function generateMetadata({
     };
   }
 
-  const specialties = Array.from(new Set(doctor.detailSpecialties)).join(', ');
+  const bundle = await getDoctorProfileBundle(doctor.id);
+  const specialties =
+    bundle?.specialties.map((item) => item.name).join(', ') ?? '';
 
   return {
     title: `${doctor.name} ${doctor.position} | ${doctor.department} | 청맥병원`,
-    description: `${doctor.name} ${doctor.position}의 전문진료분야는 ${specialties}입니다. 청맥병원 의료진의 진료분야, 약력과 진료일정을 확인해보세요.`,
+    description: specialties
+      ? `${doctor.name} ${doctor.position}의 전문진료분야는 ${specialties}입니다. 진료분야, 학력·약력, 발표 이력, 환자 후기, 미디어와 의학상담을 확인해보세요.`
+      : `${doctor.name} ${doctor.position}의 청맥병원 의료진 상세 정보입니다.`,
   };
 }
 
