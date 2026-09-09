@@ -1,4 +1,5 @@
 import Inner from '@/app/_components/inner';
+import { buttonClassName } from '@/app/_components/ui/button';
 import ShareButton from '@/app/community/news/[id]/_components/share-button';
 import {
   getNewsClientById,
@@ -219,7 +220,7 @@ export default async function NewsDetailPage({
       <div className="mt-7 mb-12 flex justify-center xl:mt-8 xl:mb-20">
         <Link
           href={returnTo}
-          className="inline-flex h-10 min-w-[96px] items-center justify-center rounded-full border border-[#006553] px-6 text-xs font-semibold text-[#315A50] transition hover:bg-[#006553] hover:text-white xl:h-11 xl:min-w-[110px] xl:text-sm"
+          className={buttonClassName({ variant: 'outline', size: 'md' })}
         >
           목록보기
         </Link>

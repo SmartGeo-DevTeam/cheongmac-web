@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function NoticePage() {
   return (
-    <div className="pt-20 xl:pt-5">
+    <div>
       <NoticePageHeader />
       <Inner usePaddingHorizontal>
         <NoticeList />

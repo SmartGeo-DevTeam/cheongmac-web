@@ -1,12 +1,11 @@
 'use client';
 
-import {
-  ChevronLeft,
-  ChevronRight,
-  ChevronsLeft,
-  ChevronsRight,
-  Search,
-} from 'lucide-react';
+import Badge from '@/app/_components/ui/badge';
+import BoardToolbar from '@/app/_components/ui/board-toolbar';
+import FilterTabs from '@/app/_components/ui/filter-tabs';
+import Pagination from '@/app/_components/ui/pagination';
+import SearchField from '@/app/_components/ui/search-field';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -17,25 +16,25 @@ type FilterValue = 'all' | NoticeKind;
 
 const PAGE_SIZE = 10;
 
-function Badge({ kind, pinned = false }: { kind: NoticeKind; pinned?: boolean }) {
+function NoticeBadge({
+  kind,
+  pinned = false,
+}: {
+  kind: NoticeKind;
+  pinned?: boolean;
+}) {
   if (kind === 'holiday') {
     return (
-      <span className="inline-flex h-8 items-center rounded-[4px] bg-[#FFF0F0] px-2.5 text-base font-semibold text-[#FF625E] xl:h-9 xl:px-3 xl:text-xl">
+      <Badge variant="red" size="lg">
         휴진
-      </span>
+      </Badge>
     );
   }
 
   return (
-    <span
-      className={`inline-flex h-8 items-center rounded-[4px] px-2.5 text-base font-semibold xl:h-9 xl:px-3 xl:text-xl ${
-        pinned
-          ? 'bg-[#FF7048] text-white'
-          : 'bg-[#F0F7F5] text-[#317C6A]'
-      }`}
-    >
+    <Badge variant={pinned ? 'orange' : 'green'} size="lg">
       공지
-    </span>
+    </Badge>
   );
 }
 
@@ -305,48 +304,35 @@ export default function NoticeList() {
       </section>
 
       <section className="mt-4 xl:mt-14">
-        <div className="flex justify-center gap-2">
-          {([
-            ['all', '전체'],
-            ['notice', '공지사항'],
-            ['holiday', '휴진안내'],
-          ] as const).map(([value, label]) => {
-            const active = filter === value;
-            return (
-              <button
-                key={value}
-                type="button"
-                onClick={() => changeFilter(value)}
-                className={`h-11 min-w-[76px] rounded-full border px-4 text-base font-medium transition xl:h-[52px] xl:min-w-[104px] xl:px-6 xl:text-xl ${
-                  active
-                    ? 'border-[#006651] bg-[#006651] text-white'
-                    : 'border-[#E4E6E8] bg-white text-[#6A7076]'
-                }`}
-              >
-                {label}
-              </button>
-            );
-          })}
-        </div>
+        <FilterTabs
+          items={[
+            { value: 'all' as const, label: '전체' },
+            { value: 'notice' as const, label: '공지사항' },
+            { value: 'holiday' as const, label: '휴진안내' },
+          ]}
+          value={filter}
+          onValueChange={changeFilter}
+          ariaLabel="공지사항 분류"
+          size="md"
+        />
 
-        <div className="mt-4 flex items-center justify-between xl:mt-7">
-          <p className="text-base text-[#A2A7AC] xl:text-xl">
-            총 <span className="text-[#FF7048]">{filtered.length}</span> 건
-          </p>
-
-          <label className="flex h-11 w-[220px] items-center rounded-full border border-[#E0E3E5] bg-white px-3 xl:h-[52px] xl:w-[320px]">
-            <input
-              value={query}
-              onChange={(event) => {
-                setQuery(event.target.value);
-                setPage(1);
-              }}
-              placeholder="검색어를 입력하세요"
-              className="min-w-0 flex-1 bg-transparent text-base text-[#454A4F] outline-none placeholder:text-[#B5B8BC] xl:text-xl"
-            />
-            <Search size={13} strokeWidth={1.6} className="size-5 shrink-0 text-[#5E646B] xl:size-6" />
-          </label>
-        </div>
+        <BoardToolbar
+          count={filtered.length}
+          size="lg"
+          className="mt-4 xl:mt-7"
+        >
+          <SearchField
+            ariaLabel="공지사항 검색"
+            size="lg"
+            value={query}
+            onChange={(event) => {
+              setQuery(event.target.value);
+              setPage(1);
+            }}
+            placeholder="검색어를 입력하세요"
+            className="max-w-[220px] xl:max-w-[320px]"
+          />
+        </BoardToolbar>
 
         <div className="mt-2 hidden bg-[#F5F6F7] text-xl font-semibold text-[#4A4F55] xl:grid xl:grid-cols-[1fr_180px]">
           <div className="px-6 py-3.5 text-center">제목</div>
@@ -361,7 +347,7 @@ export default function NoticeList() {
               className="grid min-h-[72px] border-t border-[#ECEEF0] py-2.5 transition hover:bg-[#FAFAFA] xl:min-h-[80px] xl:grid-cols-[1fr_180px] xl:items-center xl:px-6 xl:py-0"
             >
               <div className="flex min-w-0 flex-col items-start gap-1 xl:flex-row xl:items-center xl:gap-3">
-                <Badge kind={notice.kind} pinned={notice.pinned} />
+                <NoticeBadge kind={notice.kind} pinned={notice.pinned} />
                 <span
                   className={`truncate text-base font-medium tracking-[-0.02em] xl:text-xl ${
                     notice.pinned ? 'text-[#FF7048]' : 'text-[#34393E]'
@@ -379,56 +365,14 @@ export default function NoticeList() {
           ))}
         </div>
 
-        <div className="mt-7 flex items-center justify-center gap-1.5 xl:mt-8 xl:gap-2">
-          <button
-            type="button"
-            aria-label="첫 페이지"
-            onClick={() => setPage(1)}
-            className="grid h-10 w-10 place-items-center text-[#959AA0]"
-          >
-            <ChevronsLeft className="size-5 xl:size-6" />
-          </button>
-          <button
-            type="button"
-            aria-label="이전 페이지"
-            onClick={() => setPage((value) => Math.max(1, value - 1))}
-            className="grid h-10 w-10 place-items-center text-[#959AA0]"
-          >
-            <ChevronLeft className="size-5 xl:size-6" />
-          </button>
-
-          {Array.from({ length: pageCount }, (_, index) => index + 1).map((number) => (
-            <button
-              key={number}
-              type="button"
-              onClick={() => setPage(number)}
-              className={`grid h-10 min-w-10 place-items-center rounded-[5px] px-1 text-base font-medium xl:text-xl ${
-                currentPage === number
-                  ? 'bg-[#535761] text-white'
-                  : 'text-[#90959A]'
-              }`}
-            >
-              {number}
-            </button>
-          ))}
-
-          <button
-            type="button"
-            aria-label="다음 페이지"
-            onClick={() => setPage((value) => Math.min(pageCount, value + 1))}
-            className="grid h-10 w-10 place-items-center text-[#959AA0]"
-          >
-            <ChevronRight className="size-5 xl:size-6" />
-          </button>
-          <button
-            type="button"
-            aria-label="마지막 페이지"
-            onClick={() => setPage(pageCount)}
-            className="grid h-10 w-10 place-items-center text-[#959AA0]"
-          >
-            <ChevronsRight className="size-5 xl:size-6" />
-          </button>
-        </div>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={pageCount}
+          onPageChange={setPage}
+          ariaLabel="공지사항 페이지"
+          size="lg"
+          className="mt-7 xl:mt-8"
+        />
       </section>
     </div>
   );

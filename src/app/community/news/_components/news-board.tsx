@@ -1,15 +1,13 @@
 'use client';
 
+import BoardToolbar from '@/app/_components/ui/board-toolbar';
+import EmptyState from '@/app/_components/ui/empty-state';
+import FilterTabs from '@/app/_components/ui/filter-tabs';
+import Pagination from '@/app/_components/ui/pagination';
+import SearchField from '@/app/_components/ui/search-field';
 import { useViewport } from '@/app/_providers/viewport-provider';
 import type { NewsItem } from '@/app/community/news/_data/news';
 import { NEWS_ITEMS } from '@/app/community/news/_data/news';
-import {
-  ChevronLeft,
-  ChevronRight,
-  ChevronsLeft,
-  ChevronsRight,
-  Search,
-} from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -67,28 +65,6 @@ function buildNewsDetailHref(id: number, returnTo: string) {
     pathname: `/community/news/${id}`,
     query: { from: returnTo },
   };
-}
-
-function SearchBox({
-  value,
-  onChange,
-}: {
-  value: string;
-  onChange: (value: string) => void;
-}) {
-  return (
-    <label className="flex h-10 w-[160px] items-center gap-2 rounded-full border border-[#E1E4E8] bg-white px-4 xl:h-11 xl:w-[220px]">
-      <span className="sr-only">청맥뉴스 검색</span>
-      <input
-        type="search"
-        value={value}
-        onChange={(event) => onChange(event.target.value)}
-        placeholder="검색어를 입력하세요."
-        className="min-w-0 flex-1 bg-transparent text-xs text-[#333333] placeholder:text-[#A7ADB5] xl:text-sm"
-      />
-      <Search className="size-5 shrink-0 text-[#313843]" strokeWidth={1.7} />
-    </label>
-  );
 }
 
 function DesktopCard({ item, returnTo }: { item: NewsItem; returnTo: string }) {
@@ -227,103 +203,6 @@ function MobilePressCard({
   );
 }
 
-function getVisiblePages(currentPage: number, totalPages: number) {
-  const maxVisiblePages = 5;
-
-  if (totalPages <= maxVisiblePages) {
-    return Array.from({ length: totalPages }, (_, index) => index + 1);
-  }
-
-  const half = Math.floor(maxVisiblePages / 2);
-  const start = Math.min(
-    Math.max(currentPage - half, 1),
-    totalPages - maxVisiblePages + 1,
-  );
-
-  return Array.from({ length: maxVisiblePages }, (_, index) => start + index);
-}
-
-function Pagination({
-  currentPage,
-  totalPages,
-  onPageChange,
-}: {
-  currentPage: number;
-  totalPages: number;
-  onPageChange: (page: number) => void;
-}) {
-  if (totalPages <= 1) return null;
-
-  const visiblePages = getVisiblePages(currentPage, totalPages);
-
-  return (
-    <nav
-      aria-label="청맥뉴스 페이지"
-      className="mt-9 flex justify-center xl:mt-12"
-    >
-      <div className="flex items-center gap-3 text-xs text-[#9AA1AA] xl:gap-4 xl:text-sm">
-        {currentPage > 1 ? (
-          <>
-            <button
-              type="button"
-              aria-label="첫 페이지"
-              onClick={() => onPageChange(1)}
-              className="flex size-6 items-center justify-center"
-            >
-              <ChevronsLeft className="size-4" strokeWidth={1.5} />
-            </button>
-            <button
-              type="button"
-              aria-label="이전 페이지"
-              onClick={() => onPageChange(currentPage - 1)}
-              className="flex size-6 items-center justify-center"
-            >
-              <ChevronLeft className="size-4" strokeWidth={1.5} />
-            </button>
-          </>
-        ) : null}
-
-        {visiblePages.map((page) => (
-          <button
-            key={page}
-            type="button"
-            aria-current={page === currentPage ? 'page' : undefined}
-            onClick={() => onPageChange(page)}
-            className={
-              page === currentPage
-                ? 'flex size-7 items-center justify-center rounded-md bg-[#5B616C] font-semibold text-white'
-                : 'flex size-7 items-center justify-center text-[#9AA1AA]'
-            }
-          >
-            {page}
-          </button>
-        ))}
-
-        {currentPage < totalPages ? (
-          <>
-            <button
-              type="button"
-              aria-label="다음 페이지"
-              onClick={() => onPageChange(currentPage + 1)}
-              className="flex size-6 items-center justify-center"
-            >
-              <ChevronRight className="size-4" strokeWidth={1.5} />
-            </button>
-            <button
-              type="button"
-              aria-label="마지막 페이지"
-              onClick={() => onPageChange(totalPages)}
-              className="flex size-6 items-center justify-center"
-            >
-              <ChevronsRight className="size-4" strokeWidth={1.5} />
-            </button>
-          </>
-        ) : null}
-      </div>
-    </nav>
-  );
-}
-
 export default function NewsBoard() {
   const { isDesktop } = useViewport();
   const router = useRouter();
@@ -410,37 +289,30 @@ export default function NewsBoard() {
 
   return (
     <section ref={sectionRef} className="mx-auto w-full max-w-7xl px-5">
-      <div className="flex justify-center gap-2.5 xl:gap-3">
-        {CATEGORY_TABS.map((tab) => {
-          const isActive = category === tab.id;
+      <FilterTabs
+        items={CATEGORY_TABS.map((tab) => ({
+          value: tab.id,
+          label: tab.label,
+        }))}
+        value={category}
+        onValueChange={handleCategoryChange}
+        ariaLabel="청맥뉴스 분류"
+        size="sm"
+        className="gap-2.5 xl:gap-3"
+      />
 
-          return (
-            <button
-              key={tab.id}
-              type="button"
-              onClick={() => handleCategoryChange(tab.id)}
-              className={`min-w-[68px] rounded-full border px-4 py-2 text-xs transition xl:min-w-[86px] xl:px-5 xl:py-2.5 xl:text-sm ${
-                isActive
-                  ? 'border-[#006553] bg-[#006553] font-semibold text-white'
-                  : 'border-[#E1E4E8] bg-white text-[#60666F] hover:border-[#AEB4BC]'
-              }`}
-            >
-              {tab.label}
-            </button>
-          );
-        })}
-      </div>
-
-      <div className="mt-8 flex items-center justify-between xl:mt-10">
-        <p className="text-[11px] text-[#8D939C] xl:text-sm">
-          총{' '}
-          <strong className="font-medium text-[#FA6805]">
-            {filteredItems.length.toLocaleString('ko-KR')}
-          </strong>{' '}
-          건
-        </p>
-        <SearchBox value={query} onChange={handleQueryChange} />
-      </div>
+      <BoardToolbar
+        count={filteredItems.length}
+        className="mt-8 xl:mt-10"
+      >
+        <SearchField
+          ariaLabel="청맥뉴스 검색"
+          value={query}
+          onChange={(event) => handleQueryChange(event.target.value)}
+          placeholder="검색어를 입력하세요."
+          className="max-w-[160px] xl:max-w-[220px]"
+        />
+      </BoardToolbar>
 
       {visibleItems.length ? (
         <>
@@ -492,12 +364,13 @@ export default function NewsBoard() {
             currentPage={safeCurrentPage}
             totalPages={totalPages}
             onPageChange={handlePageChange}
+            ariaLabel="청맥뉴스 페이지"
+            size="sm"
+            className="mt-9 xl:mt-12"
           />
         </>
       ) : (
-        <div className="mt-12 rounded-2xl border border-[#E8EAED] py-20 text-center text-sm text-[#8A9098]">
-          검색 결과가 없습니다.
-        </div>
+        <EmptyState className="mt-12 min-h-[208px]" />
       )}
     </section>
   );

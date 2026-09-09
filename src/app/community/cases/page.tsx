@@ -14,7 +14,7 @@ export default async function TreatmentCasesPage() {
   const isAuthenticated = isActiveMember(session);
 
   return (
-    <main className="pt-20 xl:pt-5">
+    <main>
       <TreatmentCasePageHeader />
       <TreatmentCaseList isAuthenticated={isAuthenticated} />
     </main>

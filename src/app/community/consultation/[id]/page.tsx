@@ -1,3 +1,4 @@
+import { buttonClassName } from '@/app/_components/ui/button';
 import ConsultationPageHeader from '@/app/community/consultation/_components/consultation-page-header';
 import ConsultationSidebar from '@/app/community/consultation/_components/consultation-sidebar';
 import {
@@ -207,7 +208,7 @@ export default async function ConsultationDetailPage({
           <div className="mt-7 flex justify-center xl:mt-10">
             <Link
               href={returnTo}
-              className="inline-flex h-10 min-w-[92px] items-center justify-center rounded-full border border-[#1A5A4B] px-5 text-[11px] font-semibold text-[#315A50] transition hover:bg-[#1A5A4B] hover:text-white xl:h-11 xl:min-w-[108px] xl:text-[12px]"
+              className={buttonClassName({ variant: 'outline', size: 'md' })}
             >
               목록보기
             </Link>

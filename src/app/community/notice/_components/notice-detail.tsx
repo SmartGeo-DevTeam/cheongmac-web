@@ -1,5 +1,6 @@
 'use client';
 
+import { buttonClassName } from '@/app/_components/ui/button';
 import {
   ChevronDown,
   ChevronLeft,
@@ -158,7 +159,7 @@ export default function NoticeDetail({ id }: { id: string }) {
       <div className="mt-6 flex justify-center xl:mt-8">
         <Link
           href={parentPath}
-          className="inline-flex h-11 min-w-[104px] items-center justify-center rounded-full border border-[#164E44] px-6 text-base font-semibold text-[#164E44] xl:h-[52px] xl:min-w-[132px] xl:text-xl"
+          className={buttonClassName({ variant: 'outline', size: 'lg' })}
         >
           목록보기
         </Link>

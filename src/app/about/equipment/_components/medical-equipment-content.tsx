@@ -1,5 +1,7 @@
 'use client';
 
+import FilterTabs from '@/app/_components/ui/filter-tabs';
+
 import {
   EQUIPMENT_CATEGORY_OPTIONS,
   MEDICAL_EQUIPMENT,
@@ -24,26 +26,18 @@ function CategoryTabs({
   onChange: (category: EquipmentCategory) => void;
 }) {
   return (
-    <div className="no-scrollbar flex w-full gap-2 overflow-x-auto pb-1 xl:justify-center xl:gap-3">
-      {EQUIPMENT_CATEGORY_OPTIONS.map((option) => {
-        const active = option.value === value;
-
-        return (
-          <button
-            key={option.value}
-            type="button"
-            onClick={() => onChange(option.value)}
-            className={`h-11 shrink-0 rounded-full border px-5 text-base font-medium transition xl:h-12 xl:px-7 xl:text-xl ${
-              active
-                ? 'border-[#08715F] bg-[#08715F] text-white'
-                : 'border-[#E0E3E5] bg-white text-[#81878D] hover:border-[#B9CFC9] hover:text-[#3D454B]'
-            }`}
-          >
-            {option.label}
-          </button>
-        );
-      })}
-    </div>
+    <FilterTabs
+      items={EQUIPMENT_CATEGORY_OPTIONS.map((option) => ({
+        value: option.value,
+        label: option.label,
+      }))}
+      value={value}
+      onValueChange={onChange}
+      ariaLabel="첨단의료장비 분류"
+      size="category"
+      scrollable
+      className="pb-1 xl:justify-center xl:gap-3"
+    />
   );
 }
 

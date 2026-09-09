@@ -1,29 +1,26 @@
 'use client';
 
+import BoardToolbar from '@/app/_components/ui/board-toolbar';
+import EmptyState from '@/app/_components/ui/empty-state';
+import UiPagination from '@/app/_components/ui/pagination';
+import SearchField from '@/app/_components/ui/search-field';
+
 import {
   ACADEMIC_EXCHANGE_HERO_IMAGES,
   ACADEMIC_EXCHANGE_POSTS,
   ACADEMIC_EXCHANGE_TOTAL_COUNT,
   type AcademicExchangePost,
 } from '../_data';
-import {
-  ChevronRight,
-  ChevronsRight,
-  Search,
-} from 'lucide-react';
 import Image from 'next/image';
 import {
   useMemo,
   useRef,
   useState,
-  type ChangeEvent,
 } from 'react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-
-const PAGE_NUMBERS = [1, 2, 3, 4, 5] as const;
 
 function AcademicExchangeIntro() {
   return (
@@ -219,8 +216,8 @@ export default function AcademicExchangeContent() {
       ? ACADEMIC_EXCHANGE_TOTAL_COUNT
       : filteredPosts.length;
 
-  const updateQuery = (event: ChangeEvent<HTMLInputElement>) => {
-    setQuery(event.target.value);
+  const updateQuery = (value: string) => {
+    setQuery(value);
     setActivePage(1);
   };
 
@@ -241,30 +238,16 @@ export default function AcademicExchangeContent() {
           ref={listTopRef}
           className="scroll-mt-28"
         >
-          <div className="flex items-center justify-between gap-4">
-            <p className="shrink-0 text-sm text-[#A0A5AA] xl:text-base">
-              총{' '}
-              <strong className="font-semibold text-[#FF6B3D]">
-                {resultCount.toLocaleString()}
-              </strong>{' '}
-              건
-            </p>
-
-            <label className="relative block w-[190px] xl:w-[260px]">
-              <span className="sr-only">학술교류 검색</span>
-              <input
-                type="search"
-                value={query}
-                onChange={updateQuery}
-                placeholder="검색어를 입력하세요"
-                className="h-11 w-full rounded-full border border-[#E1E4E6] bg-white pl-4 pr-11 text-sm text-[#30373D] outline-none placeholder:text-[#A5AAAF] focus:border-[#A9C9C1] xl:h-12 xl:text-base"
-              />
-              <Search
-                className="pointer-events-none absolute right-4 top-1/2 size-5 -translate-y-1/2 text-[#545B62]"
-                strokeWidth={1.7}
-              />
-            </label>
-          </div>
+          <BoardToolbar count={resultCount} size="md">
+            <SearchField
+              ariaLabel="학술교류 검색"
+              size="md"
+              value={query}
+              onChange={(event) => updateQuery(event.target.value)}
+              placeholder="검색어를 입력하세요"
+              className="max-w-[190px] xl:max-w-[260px]"
+            />
+          </BoardToolbar>
 
           {filteredPosts.length > 0 ? (
             <div className="mt-6 grid grid-cols-1 gap-y-14 xl:mt-7 xl:grid-cols-3 xl:gap-x-6 xl:gap-y-10">
@@ -276,55 +259,20 @@ export default function AcademicExchangeContent() {
               ))}
             </div>
           ) : (
-            <div className="mt-8 flex min-h-48 items-center justify-center rounded-2xl bg-[#F6F7F7] px-5 text-center text-base text-[#8D9399] xl:text-xl">
+            <EmptyState variant="soft" className="mt-8 xl:text-xl">
               검색 조건에 맞는 학술교류 게시물이 없습니다.
-            </div>
+            </EmptyState>
           )}
 
-          <nav
-            aria-label="학술교류 페이지"
-            className="mt-14 flex items-center justify-center gap-5 text-sm text-[#7E848A] xl:mt-20 xl:text-base"
-          >
-            {PAGE_NUMBERS.map((page) => (
-              <button
-                key={page}
-                type="button"
-                onClick={() => changePage(page)}
-                aria-current={activePage === page ? 'page' : undefined}
-                className={`grid size-8 place-items-center rounded-md transition ${
-                  activePage === page
-                    ? 'bg-[#5A616A] font-semibold text-white'
-                    : 'hover:bg-[#F1F2F3] hover:text-[#333A40]'
-                }`}
-              >
-                {page}
-              </button>
-            ))}
-
-            <button
-              type="button"
-              onClick={() => changePage(Math.min(5, activePage + 1))}
-              className="grid size-8 place-items-center rounded-md transition hover:bg-[#F1F2F3]"
-              aria-label="다음 페이지"
-            >
-              <ChevronRight
-                className="size-4"
-                strokeWidth={1.7}
-              />
-            </button>
-
-            <button
-              type="button"
-              onClick={() => changePage(5)}
-              className="grid size-8 place-items-center rounded-md transition hover:bg-[#F1F2F3]"
-              aria-label="마지막 페이지"
-            >
-              <ChevronsRight
-                className="size-4"
-                strokeWidth={1.7}
-              />
-            </button>
-          </nav>
+          <UiPagination
+            currentPage={activePage}
+            totalPages={5}
+            onPageChange={changePage}
+            ariaLabel="학술교류 페이지"
+            size="md"
+            showFirst={false}
+            className="mt-14 xl:mt-20"
+          />
         </div>
       </section>
     </>

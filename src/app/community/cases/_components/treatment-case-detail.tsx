@@ -1,3 +1,4 @@
+import { buttonClassName } from '@/app/_components/ui/button';
 import type { TreatmentCase, TreatmentCaseDetailMedia } from '../_data';
 import TreatmentCaseShareButton from './treatment-case-share-button';
 import { TreatmentCaseBlurredText, TreatmentCaseContentLock, TreatmentCaseImageLock } from './treatment-case-access';
@@ -92,7 +93,7 @@ export default function TreatmentCaseDetail({ item, previousId, nextId, isAuthen
           <div className="flex min-h-14 items-center gap-3 border-b border-[#E3E5E7] px-3 xl:min-h-16 xl:border-b-0 xl:border-r xl:px-5"><ChevronUp className="size-5 shrink-0" /><span className="shrink-0">이전글</span>{previousId ? <Link href={`/community/cases/${previousId}`} className="truncate text-[#4C5156] hover:text-cm-green">이전글 제목입니다.</Link> : <span className="truncate text-[#B2B6BA]">이전글이 없습니다.</span>}</div>
           <div className="flex min-h-14 items-center gap-3 px-3 xl:min-h-16 xl:px-5"><ChevronDown className="size-5 shrink-0" /><span className="shrink-0">다음글</span>{nextId ? <Link href={`/community/cases/${nextId}`} className="truncate text-[#4C5156] hover:text-cm-green">다음글 제목입니다.</Link> : <span className="truncate text-[#B2B6BA]">다음글이 없습니다.</span>}</div>
         </div>
-        <div className="mt-8 flex justify-center xl:mt-10"><Link href="/community/cases" className="inline-flex h-12 min-w-[112px] items-center justify-center rounded-full border border-cm-green px-6 text-base font-semibold text-cm-green transition hover:bg-cm-green hover:text-white xl:h-14 xl:min-w-[136px] xl:text-xl">목록보기</Link></div>
+        <div className="mt-8 flex justify-center xl:mt-10"><Link href="/community/cases" className={buttonClassName({ variant: 'outline', size: 'lg' })}>목록보기</Link></div>
       </div>
     </article>
   );

@@ -11,7 +11,7 @@ export default function NoticeDetailPage() {
   const id = Array.isArray(rawId) ? rawId[0] : rawId;
 
   return (
-    <div className="pt-20 xl:pt-5">
+    <div>
       <NoticePageHeader />
       <Inner usePaddingHorizontal>
         <NoticeDetail id={id ?? 'naver-reservation-open'} />

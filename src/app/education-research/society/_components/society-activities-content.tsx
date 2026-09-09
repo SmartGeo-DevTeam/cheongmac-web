@@ -1,5 +1,7 @@
 'use client';
 
+import FilterTabs from '@/app/_components/ui/filter-tabs';
+
 import {
   SOCIETY_ACTIVITIES,
   SOCIETY_FEATURED,
@@ -125,28 +127,18 @@ function YearTabs({
   onChange: (year: SocietyYear) => void;
 }) {
   return (
-    <div className="-mx-5 overflow-x-auto px-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden xl:mx-0 xl:px-0">
-      <div className="flex min-w-max items-center gap-2 xl:gap-4">
-        {SOCIETY_YEARS.map((year) => {
-          const active = activeYear === year;
-
-          return (
-            <button
-              key={year}
-              type="button"
-              onClick={() => onChange(year)}
-              className={`h-10 min-w-[74px] rounded-full px-5 text-sm font-medium transition xl:h-11 xl:min-w-[82px] xl:text-base ${
-                active
-                  ? 'bg-[#006656] text-white'
-                  : 'bg-white text-[#6F767C] hover:bg-[#F1F3F3]'
-              }`}
-            >
-              {year}
-            </button>
-          );
-        })}
-      </div>
-    </div>
+    <FilterTabs
+      items={SOCIETY_YEARS.map((year) => ({
+        value: year,
+        label: year,
+      }))}
+      value={activeYear}
+      onValueChange={onChange}
+      ariaLabel="학회활동 연도"
+      size="year"
+      scrollable
+      className="-mx-5 px-5 xl:mx-0 xl:justify-start xl:gap-4 xl:px-0"
+    />
   );
 }
 

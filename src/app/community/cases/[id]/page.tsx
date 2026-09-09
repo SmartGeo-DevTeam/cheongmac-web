@@ -48,7 +48,7 @@ export default async function TreatmentCaseDetailPage({ params }: PageProps) {
   const next = TREATMENT_CASES[currentIndex + 1];
 
   return (
-    <main className="pt-20 xl:pt-5">
+    <main>
       <TreatmentCasePageHeader />
       <TreatmentCaseDetail
         item={item}
