@@ -1,5 +1,7 @@
 'use client';
 
+import FilterTabs from '@/app/_components/ui/filter-tabs';
+
 import {
   FACILITY_CATEGORY_OPTIONS,
   FACILITY_ITEMS,
@@ -27,35 +29,18 @@ function HospitalTourTabs({
   onChange: (tab: HospitalTourTab) => void;
 }) {
   return (
-    <div
-      className="mx-auto grid w-full max-w-[520px] grid-cols-2 rounded-full bg-[#F4F5F6] p-2 xl:max-w-[600px]"
-      role="tablist"
-      aria-label="병원 둘러보기 보기 방식"
-    >
-      {[
-        ['floor', '층별안내'],
-        ['facility', '시설안내'],
-      ].map(([value, label]) => {
-        const isActive = activeTab === value;
-
-        return (
-          <button
-            key={value}
-            type="button"
-            role="tab"
-            aria-selected={isActive}
-            onClick={() => onChange(value as HospitalTourTab)}
-            className={`h-12 rounded-full text-base font-semibold transition xl:h-14 xl:text-xl ${
-              isActive
-                ? 'bg-white text-[#FF6B3D] shadow-[0_2px_12px_rgba(0,0,0,0.04)]'
-                : 'text-[#A7ACB3] hover:text-[#6F757C]'
-            }`}
-          >
-            {label}
-          </button>
-        );
-      })}
-    </div>
+    <FilterTabs
+      id="hospital-tour-view-tabs"
+      items={[
+        { value: 'floor' as const, label: '층별안내' },
+        { value: 'facility' as const, label: '시설안내' },
+      ]}
+      value={activeTab}
+      onValueChange={onChange}
+      ariaLabel="병원 둘러보기 보기 방식"
+      variant="segmented"
+      semantic="tabs"
+    />
   );
 }
 

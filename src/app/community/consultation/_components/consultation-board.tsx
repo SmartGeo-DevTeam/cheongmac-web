@@ -1,15 +1,14 @@
 'use client';
 
+import { buttonClassName } from '@/app/_components/ui/button';
+import UiPagination from '@/app/_components/ui/pagination';
+
 import {
   CONSULTATION_ITEMS,
   type ConsultationItem,
 } from '@/app/community/consultation/_data/consultations';
 import {
   ArrowDownLeft,
-  ChevronLeft,
-  ChevronRight,
-  ChevronsLeft,
-  ChevronsRight,
   Link2,
   LockKeyhole,
   PenLine,
@@ -46,15 +45,6 @@ function buildDetailHref(id: number, returnTo: string) {
     pathname: `/community/consultation/${id}`,
     query: { from: returnTo },
   };
-}
-
-function getVisiblePages(currentPage: number, totalPages: number) {
-  const count = Math.min(5, totalPages);
-  const start = Math.min(
-    Math.max(currentPage - 2, 1),
-    Math.max(totalPages - count + 1, 1),
-  );
-  return Array.from({ length: count }, (_, index) => start + index);
 }
 
 function SearchBox({ defaultValue }: { defaultValue: string }) {
@@ -190,76 +180,6 @@ function ConsultationCard({
   );
 }
 
-function Pagination({
-  currentPage,
-  totalPages,
-  query,
-}: {
-  currentPage: number;
-  totalPages: number;
-  query: string;
-}) {
-  const pages = getVisiblePages(currentPage, totalPages);
-
-  return (
-    <nav
-      aria-label="의학상담 페이지"
-      className="mt-8 flex justify-center xl:mt-12"
-    >
-      <div className="flex items-center gap-3 text-[11px] text-[#9299A2] xl:gap-4 xl:text-[13px]">
-        {currentPage > 1 ? (
-          <>
-            <Link
-              href={buildListUrl(1, query)}
-              aria-label="첫 페이지"
-              className="flex size-6 items-center justify-center"
-            >
-              <ChevronsLeft className="size-4" strokeWidth={1.4} />
-            </Link>
-            <Link
-              href={buildListUrl(currentPage - 1, query)}
-              aria-label="이전 페이지"
-              className="flex size-6 items-center justify-center"
-            >
-              <ChevronLeft className="size-4" strokeWidth={1.4} />
-            </Link>
-          </>
-        ) : null}
-
-        {pages.map((page) => (
-          <Link
-            key={page}
-            href={buildListUrl(page, query)}
-            aria-current={page === currentPage ? 'page' : undefined}
-            className={`flex size-7 items-center justify-center rounded-[5px] ${page === currentPage ? 'bg-[#505661] font-semibold text-white' : ''}`}
-          >
-            {page}
-          </Link>
-        ))}
-
-        {currentPage < totalPages ? (
-          <>
-            <Link
-              href={buildListUrl(currentPage + 1, query)}
-              aria-label="다음 페이지"
-              className="flex size-6 items-center justify-center"
-            >
-              <ChevronRight className="size-4" strokeWidth={1.4} />
-            </Link>
-            <Link
-              href={buildListUrl(totalPages, query)}
-              aria-label="마지막 페이지"
-              className="flex size-6 items-center justify-center"
-            >
-              <ChevronsRight className="size-4" strokeWidth={1.4} />
-            </Link>
-          </>
-        ) : null}
-      </div>
-    </nav>
-  );
-}
-
 export default function ConsultationBoard() {
   const searchParams = useSearchParams();
   const currentPage = parsePage(searchParams.get('page'));
@@ -334,31 +254,49 @@ export default function ConsultationBoard() {
 
       <div className="mt-8 flex justify-center gap-3 xl:mt-9">
         <Link
+          id="consultation-write-outline-button"
           href="/community/consultation/write"
-          className="hidden h-11 min-w-37.5 items-center justify-center gap-2 rounded-full border border-[#1D4D42] px-5 text-[13px] font-semibold text-[#294D44] xl:inline-flex"
+          className={buttonClassName({
+            variant: 'outline',
+            size: 'md',
+            className: 'hidden min-w-37.5 text-[13px] xl:inline-flex',
+          })}
         >
           <PenLine className="size-4" strokeWidth={1.8} /> 문의글 작성하기
         </Link>
         <Link
+          id="consultation-write-primary-button"
           href="/community/consultation/write"
-          className="inline-flex h-11 min-w-35.5 items-center justify-center gap-2 rounded-full bg-[#064E40] px-5 text-[13px] font-semibold text-white xl:min-w-40"
+          className={buttonClassName({
+            variant: 'primary',
+            size: 'md',
+            className: 'min-w-35.5 text-[13px] xl:min-w-40',
+          })}
         >
           <PenLine className="size-4" strokeWidth={1.8} /> 문의글 작성하기
         </Link>
       </div>
 
       <div className="xl:hidden">
-        <Pagination
+        <UiPagination
+          id="consultation-pagination-mobile"
           currentPage={mobilePage}
           totalPages={mobileTotalPages}
-          query={query}
+          getPageHref={(page) => buildListUrl(page, query)}
+          ariaLabel="의학상담 모바일 페이지"
+          variant="compact"
+          className="mt-8"
         />
       </div>
       <div className="hidden xl:block">
-        <Pagination
+        <UiPagination
+          id="consultation-pagination-desktop"
           currentPage={desktopPage}
           totalPages={desktopTotalPages}
-          query={query}
+          getPageHref={(page) => buildListUrl(page, query)}
+          ariaLabel="의학상담 페이지"
+          variant="default"
+          className="mt-12"
         />
       </div>
     </div>

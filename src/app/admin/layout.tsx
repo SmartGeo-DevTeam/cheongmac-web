@@ -12,6 +12,7 @@ import {
   FileText,
   LayoutDashboard,
   ListTree,
+  PanelBottom,
   ShieldCheck,
   Users,
 } from 'lucide-react';
@@ -75,6 +76,13 @@ export default async function AdminLayout({
                       aria-label="LNB 메뉴 관리"
                     >
                       <ListTree className="size-4" />
+                    </Link>
+                    <Link
+                      href="/admin/common/bottom-banners"
+                      className="inline-flex size-9 items-center justify-center rounded-md text-[#52525B] hover:bg-[#F4F4F5]"
+                      aria-label="공통 페이지 하단 배너"
+                    >
+                      <PanelBottom className="size-4" />
                     </Link>
                     <Link
                       href="/admin/members"

@@ -1,6 +1,14 @@
 'use client';
 
 import BoardToolbar from '@/app/_components/ui/board-toolbar';
+import {
+  ContentCard,
+  ContentCardBody,
+  ContentCardDescription,
+  ContentCardMedia,
+  ContentCardMeta,
+  ContentCardTitle,
+} from '@/app/_components/ui/content-card';
 import EmptyState from '@/app/_components/ui/empty-state';
 import FilterTabs from '@/app/_components/ui/filter-tabs';
 import Pagination from '@/app/_components/ui/pagination';
@@ -69,12 +77,12 @@ function buildNewsDetailHref(id: number, returnTo: string) {
 
 function DesktopCard({ item, returnTo }: { item: NewsItem; returnTo: string }) {
   return (
-    <article className="min-w-0">
+    <ContentCard id={`news-card-desktop-${item.id}`} variant="news">
       <Link
         href={buildNewsDetailHref(item.id, returnTo)}
         className="group block outline-none focus-visible:ring-2 focus-visible:ring-[#006553] focus-visible:ring-offset-4"
       >
-        <div className="relative aspect-square overflow-hidden rounded-[10px] bg-[#F3F4F6]">
+        <ContentCardMedia variant="news">
           <Image
             src={item.imageSrc}
             alt=""
@@ -82,13 +90,15 @@ function DesktopCard({ item, returnTo }: { item: NewsItem; returnTo: string }) {
             sizes="(min-width: 1280px) 215px, 50vw"
             className="object-cover transition duration-300 group-hover:scale-[1.02]"
           />
-        </div>
-        <h3 className="mt-3 line-clamp-2 min-h-[2.75em] break-keep text-[15px] font-medium leading-[1.4] tracking-[-0.04em] text-[#252B33] transition group-hover:text-[#006553]">
+        </ContentCardMedia>
+        <ContentCardTitle variant="news">
           {item.title}
-        </h3>
-        <p className="mt-1 text-xs text-[#B4BAC2]">{item.date}</p>
+        </ContentCardTitle>
+        <ContentCardMeta as="p" variant="news">
+          {item.date}
+        </ContentCardMeta>
       </Link>
-    </article>
+    </ContentCard>
   );
 }
 
@@ -100,12 +110,15 @@ function MobileAllCard({
   returnTo: string;
 }) {
   return (
-    <article className="min-w-0">
+    <ContentCard id={`news-card-mobile-all-${item.id}`} variant="news">
       <Link
         href={buildNewsDetailHref(item.id, returnTo)}
         className="block outline-none focus-visible:ring-2 focus-visible:ring-[#006553] focus-visible:ring-offset-4"
       >
-        <div className="relative aspect-square overflow-hidden rounded-[8px] bg-[#F3F4F6]">
+        <ContentCardMedia
+          variant="news"
+          className="rounded-[8px]"
+        >
           <Image
             src={item.imageSrc}
             alt=""
@@ -113,13 +126,22 @@ function MobileAllCard({
             sizes="50vw"
             className="object-cover"
           />
-        </div>
-        <h3 className="mt-2 line-clamp-2 min-h-[2.7em] break-keep text-[13px] font-medium leading-[1.35] tracking-[-0.04em] text-[#252B33]">
+        </ContentCardMedia>
+        <ContentCardTitle
+          variant="news"
+          className="mt-2 min-h-[2.7em] text-[13px] leading-[1.35]"
+        >
           {item.title}
-        </h3>
-        <p className="mt-1 text-[10px] text-[#B4BAC2]">{item.date}</p>
+        </ContentCardTitle>
+        <ContentCardMeta
+          as="p"
+          variant="news"
+          className="text-[10px]"
+        >
+          {item.date}
+        </ContentCardMeta>
       </Link>
-    </article>
+    </ContentCard>
   );
 }
 
@@ -131,12 +153,12 @@ function MobileInsideCard({
   returnTo: string;
 }) {
   return (
-    <article>
+    <ContentCard id={`news-card-mobile-inside-${item.id}`} variant="news-wide">
       <Link
         href={buildNewsDetailHref(item.id, returnTo)}
         className="block outline-none focus-visible:ring-2 focus-visible:ring-[#006553] focus-visible:ring-offset-4"
       >
-        <div className="relative aspect-[2.12/1] overflow-hidden rounded-[8px] bg-[#F3F4F6]">
+        <ContentCardMedia variant="news-wide">
           <Image
             src={item.imageSrc}
             alt=""
@@ -144,16 +166,18 @@ function MobileInsideCard({
             sizes="100vw"
             className="object-cover"
           />
-        </div>
-        <h3 className="mt-2 break-keep text-[13px] font-medium leading-[1.4] tracking-[-0.04em] text-[#252B33]">
+        </ContentCardMedia>
+        <ContentCardTitle variant="news-wide">
           {item.title}
-        </h3>
-        <p className="mt-1 line-clamp-2 break-keep text-[11px] leading-[1.45] tracking-[-0.03em] text-[#6F7680]">
+        </ContentCardTitle>
+        <ContentCardDescription variant="news-wide">
           {item.excerpt}
-        </p>
-        <p className="mt-1 text-[10px] text-[#B4BAC2]">{item.date}</p>
+        </ContentCardDescription>
+        <ContentCardMeta as="p" variant="news-wide">
+          {item.date}
+        </ContentCardMeta>
       </Link>
-    </article>
+    </ContentCard>
   );
 }
 
@@ -165,12 +189,15 @@ function MobilePressCard({
   returnTo: string;
 }) {
   return (
-    <article>
+    <ContentCard
+      id={`news-card-mobile-press-${item.id}`}
+      variant="news-horizontal"
+    >
       <Link
         href={buildNewsDetailHref(item.id, returnTo)}
         className="grid grid-cols-[96px_minmax(0,1fr)] gap-3 outline-none focus-visible:ring-2 focus-visible:ring-[#006553] focus-visible:ring-offset-4"
       >
-        <div className="relative aspect-square overflow-hidden rounded-[8px] bg-[#F1F3F5]">
+        <ContentCardMedia variant="news-horizontal">
           <Image
             src={item.imageSrc}
             alt=""
@@ -178,16 +205,16 @@ function MobilePressCard({
             sizes="96px"
             className="object-cover"
           />
-        </div>
+        </ContentCardMedia>
 
-        <div className="min-w-0 py-0.5">
-          <h3 className="line-clamp-2 break-keep text-[13px] font-medium leading-[1.35] tracking-[-0.04em] text-[#252B33]">
+        <ContentCardBody variant="news-horizontal">
+          <ContentCardTitle variant="news-horizontal">
             {item.title}
-          </h3>
-          <p className="mt-1 line-clamp-2 break-keep text-[11px] leading-[1.45] tracking-[-0.03em] text-[#7B818A]">
+          </ContentCardTitle>
+          <ContentCardDescription variant="news-horizontal">
             {item.excerpt}
-          </p>
-          <div className="mt-2 flex items-end justify-between gap-2">
+          </ContentCardDescription>
+          <ContentCardMeta variant="news-horizontal">
             <span
               className={`text-[10px] ${item.sourceClassName ?? 'text-[#4B5563]'}`}
             >
@@ -196,10 +223,10 @@ function MobilePressCard({
             <span className="shrink-0 text-[9px] text-[#B4BAC2]">
               {item.date}
             </span>
-          </div>
-        </div>
+          </ContentCardMeta>
+        </ContentCardBody>
       </Link>
-    </article>
+    </ContentCard>
   );
 }
 
@@ -297,6 +324,7 @@ export default function NewsBoard() {
         청맥뉴스 목록
       </h2>
       <FilterTabs
+        id="news-filter-tabs"
         items={CATEGORY_TABS.map((tab) => ({
           value: tab.id,
           label: tab.label,
@@ -304,8 +332,7 @@ export default function NewsBoard() {
         value={category}
         onValueChange={handleCategoryChange}
         ariaLabel="청맥뉴스 분류"
-        size="sm"
-        className="gap-2.5 xl:gap-3"
+        variant="news"
       />
 
       <BoardToolbar
@@ -368,11 +395,12 @@ export default function NewsBoard() {
           </div>
 
           <Pagination
+            id="news-pagination"
             currentPage={safeCurrentPage}
             totalPages={totalPages}
             onPageChange={handlePageChange}
             ariaLabel="청맥뉴스 페이지"
-            size="sm"
+            variant="compact"
             className="mt-9 xl:mt-12"
           />
         </>

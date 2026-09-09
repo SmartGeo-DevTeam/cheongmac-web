@@ -1,6 +1,14 @@
 'use client';
 
 import BoardToolbar from '@/app/_components/ui/board-toolbar';
+import {
+  ContentCard,
+  ContentCardBody,
+  ContentCardDescription,
+  ContentCardMedia,
+  ContentCardMeta,
+  ContentCardTitle,
+} from '@/app/_components/ui/content-card';
 import EmptyState from '@/app/_components/ui/empty-state';
 import UiPagination from '@/app/_components/ui/pagination';
 import SearchField from '@/app/_components/ui/search-field';
@@ -156,8 +164,11 @@ function AcademicExchangeCard({
   post: AcademicExchangePost;
 }) {
   return (
-    <article className="min-w-0 xl:overflow-hidden xl:rounded-[18px] xl:border xl:border-[#E0E3E5] xl:bg-white">
-      <div className="relative hidden aspect-[16/9] overflow-hidden bg-[#F1F2F3] xl:block">
+    <ContentCard
+      id={`academic-exchange-card-${post.id}`}
+      variant="academic"
+    >
+      <ContentCardMedia variant="academic">
         <Image
           src={post.images[0]}
           alt={post.title}
@@ -165,24 +176,24 @@ function AcademicExchangeCard({
           className="object-cover"
           sizes="33vw"
         />
-      </div>
+      </ContentCardMedia>
 
       <MobileCardGallery post={post} />
 
-      <div className="pt-5 xl:px-5 xl:pb-6 xl:pt-5">
-        <p className="text-sm text-[#A0A5AA] xl:text-base">
+      <ContentCardBody variant="academic">
+        <ContentCardMeta as="p" variant="academic">
           {post.date}(일시) · {post.place}(장소)
-        </p>
+        </ContentCardMeta>
 
-        <h3 className="mt-3 break-keep text-xl font-bold tracking-[-0.035em] text-[#262C35] xl:text-[24px]">
+        <ContentCardTitle variant="academic">
           {post.title}
-        </h3>
+        </ContentCardTitle>
 
-        <p className="mt-3 line-clamp-2 break-keep text-base leading-[1.7] text-[#656C73] xl:text-xl xl:leading-[1.65]">
+        <ContentCardDescription variant="academic">
           {post.description}
-        </p>
-      </div>
-    </article>
+        </ContentCardDescription>
+      </ContentCardBody>
+    </ContentCard>
   );
 }
 
@@ -265,11 +276,12 @@ export default function AcademicExchangeContent() {
           )}
 
           <UiPagination
+            id="academic-exchange-pagination"
             currentPage={activePage}
             totalPages={5}
             onPageChange={changePage}
             ariaLabel="학술교류 페이지"
-            size="md"
+            variant="default"
             showFirst={false}
             className="mt-14 xl:mt-20"
           />

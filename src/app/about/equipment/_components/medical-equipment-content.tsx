@@ -1,5 +1,11 @@
 'use client';
 
+import {
+  ContentCard,
+  ContentCardBody,
+  ContentCardMedia,
+  ContentCardTitle,
+} from '@/app/_components/ui/content-card';
 import FilterTabs from '@/app/_components/ui/filter-tabs';
 
 import {
@@ -27,6 +33,7 @@ function CategoryTabs({
 }) {
   return (
     <FilterTabs
+      id="medical-equipment-category-tabs"
       items={EQUIPMENT_CATEGORY_OPTIONS.map((option) => ({
         value: option.value,
         label: option.label,
@@ -34,9 +41,7 @@ function CategoryTabs({
       value={value}
       onValueChange={onChange}
       ariaLabel="첨단의료장비 분류"
-      size="category"
-      scrollable
-      className="pb-1 xl:justify-center xl:gap-3"
+      variant="equipment"
     />
   );
 }
@@ -49,13 +54,16 @@ function EquipmentCard({
   onSelect: (item: MedicalEquipment) => void;
 }) {
   return (
-    <article className="group">
+    <ContentCard
+      id={`medical-equipment-card-${item.id}`}
+      variant="equipment"
+    >
       <button
         type="button"
         onClick={() => onSelect(item)}
         className="block w-full text-left"
       >
-        <div className="relative aspect-[1.95/1] overflow-hidden rounded-xl bg-[#F3F4F5]">
+        <ContentCardMedia variant="equipment">
           <Image
             src={item.image}
             alt={`${item.categoryLabel} ${item.model}`}
@@ -63,24 +71,24 @@ function EquipmentCard({
             className="object-contain transition duration-300 group-hover:scale-[1.015]"
             sizes="(min-width: 1280px) 360px, 50vw"
           />
-        </div>
+        </ContentCardMedia>
 
-        <div className="mt-3 flex items-start justify-between gap-3">
+        <ContentCardBody variant="equipment">
           <div className="min-w-0">
             <p className="text-sm font-semibold text-[#FF6B3D] xl:text-base">
               {item.categoryLabel}
             </p>
-            <h3 className="mt-1 line-clamp-2 break-keep text-base font-medium text-[#252B33] xl:text-xl">
+            <ContentCardTitle variant="equipment">
               {item.model}
-            </h3>
+            </ContentCardTitle>
           </div>
 
           <span className="hidden shrink-0 items-center justify-center rounded-md border border-[#B8BEC4] px-3 py-1.5 text-sm font-medium text-[#8B9299] transition hover:border-[#929AA2] hover:text-[#666E76] xl:inline-flex">
             자세히보기
           </span>
-        </div>
+        </ContentCardBody>
       </button>
-    </article>
+    </ContentCard>
   );
 }
 

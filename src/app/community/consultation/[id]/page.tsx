@@ -1,4 +1,5 @@
 import { buttonClassName } from '@/app/_components/ui/button';
+import UiPagination from '@/app/_components/ui/pagination';
 import ConsultationPageHeader from '@/app/community/consultation/_components/consultation-page-header';
 import ConsultationSidebar from '@/app/community/consultation/_components/consultation-sidebar';
 import {
@@ -70,37 +71,22 @@ function MobileListPagination({ returnTo }: { returnTo: string }) {
     if (page > 1) params.set('page', String(page));
     if (query) params.set('q', query);
     const search = params.toString();
+
     return search
       ? `/community/consultation?${search}`
       : '/community/consultation';
   };
 
   return (
-    <nav
-      aria-label="목록 페이지 바로가기"
-      className="mt-3 flex justify-center xl:hidden"
-    >
-      <div className="flex items-center gap-3 text-[10px] text-[#9AA0A7]">
-        {[1, 2, 3, 4, 5].map((page) => (
-          <Link
-            key={page}
-            href={hrefForPage(page)}
-            className={`flex size-6 items-center justify-center rounded-[4px] ${page === currentPage ? 'bg-[#505661] text-white' : ''}`}
-          >
-            {page}
-          </Link>
-        ))}
-        <Link
-          href={hrefForPage(Math.min(currentPage + 1, 7))}
-          aria-label="다음 페이지"
-        >
-          ›
-        </Link>
-        <Link href={hrefForPage(7)} aria-label="마지막 페이지">
-          »
-        </Link>
-      </div>
-    </nav>
+    <UiPagination
+      id="consultation-detail-pagination"
+      currentPage={currentPage}
+      totalPages={7}
+      getPageHref={hrefForPage}
+      ariaLabel="의학상담 목록 페이지 바로가기"
+      variant="compact"
+      className="mt-3 xl:hidden"
+    />
   );
 }
 

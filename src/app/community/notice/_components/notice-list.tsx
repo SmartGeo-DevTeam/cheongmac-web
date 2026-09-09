@@ -1,6 +1,12 @@
 'use client';
 
 import Badge from '@/app/_components/ui/badge';
+import {
+  ContentCard,
+  ContentCardBody,
+  ContentCardMedia,
+  ContentCardTitle,
+} from '@/app/_components/ui/content-card';
 import BoardToolbar from '@/app/_components/ui/board-toolbar';
 import FilterTabs from '@/app/_components/ui/filter-tabs';
 import Pagination from '@/app/_components/ui/pagination';
@@ -71,22 +77,27 @@ function DesktopBannerCard({
   image: string;
   title: string;
 }) {
+  const cardId = `notice-feature-card-${href.split('/').filter(Boolean).at(-1) ?? 'item'}`;
+
   return (
-    <Link
-      href={href}
-      className="w-[280px] overflow-hidden rounded-[8px] border border-[#E6E7E9] bg-white transition hover:-translate-y-0.5 hover:shadow-md"
-    >
-      <Image
-        src={image}
-        alt=""
-        width={280}
-        height={168}
-        className="block h-[168px] w-full object-cover"
-      />
-      <div className="flex min-h-[58px] items-center px-4 py-3 text-base font-medium xl:text-xl text-[#3B3F44]">
-        <span className="truncate">{title}</span>
-      </div>
-    </Link>
+    <ContentCard id={cardId} variant="notice">
+      <Link href={href} className="block">
+        <ContentCardMedia variant="notice">
+          <Image
+            src={image}
+            alt=""
+            fill
+            sizes="280px"
+            className="object-cover"
+          />
+        </ContentCardMedia>
+        <ContentCardBody variant="notice">
+          <ContentCardTitle as="span" variant="notice">
+            {title}
+          </ContentCardTitle>
+        </ContentCardBody>
+      </Link>
+    </ContentCard>
   );
 }
 
@@ -305,6 +316,7 @@ export default function NoticeList() {
 
       <section className="mt-4 xl:mt-14">
         <FilterTabs
+          id="notice-filter-tabs"
           items={[
             { value: 'all' as const, label: '전체' },
             { value: 'notice' as const, label: '공지사항' },
@@ -313,7 +325,7 @@ export default function NoticeList() {
           value={filter}
           onValueChange={changeFilter}
           ariaLabel="공지사항 분류"
-          size="md"
+          variant="notice"
         />
 
         <BoardToolbar
@@ -366,11 +378,12 @@ export default function NoticeList() {
         </div>
 
         <Pagination
+          id="notice-pagination"
           currentPage={currentPage}
           totalPages={pageCount}
           onPageChange={setPage}
           ariaLabel="공지사항 페이지"
-          size="lg"
+          variant="large"
           className="mt-7 xl:mt-8"
         />
       </section>

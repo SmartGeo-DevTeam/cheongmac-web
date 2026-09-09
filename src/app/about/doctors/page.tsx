@@ -1,5 +1,5 @@
-import BottomBanner from "@/app/_components/bottom-banners";
 import Inner from "@/app/_components/inner";
+import DoctorDepartmentTabs from "@/app/about/doctors/_components/doctor-department-tabs";
 import PageHeader from "@/app/_components/ui/page-header";
 import { HeartIcon, Search } from "lucide-react";
 import Image from "next/image";
@@ -199,34 +199,7 @@ export default function AboutDoctors(): React.ReactNode {
               </button>
             </div>
 
-            <div
-              className="mt-3 grid grid-cols-3 gap-x-2 justify-items-center
-              xl:mx-auto xl:mt-5 xl:w-4/5 xl:gap-x-6"
-            >
-              <button
-                type="button"
-                className="py-2 w-full rounded-lg bg-[#045545] font-bold text-white
-                xl:py-3 xl:text-xl"
-              >
-                혈관외과
-              </button>
-
-              <button
-                type="button"
-                className="py-2 w-full rounded-lg bg-white text-[#767C88] font-bold
-                xl:py-3 xl:text-xl xl:border xl:border-[#E5E7EB] xl:bg-transparent"
-              >
-                영상의학과
-              </button>
-
-              <button
-                type="button"
-                className="py-2 w-full rounded-lg bg-white text-[#767C88] font-bold
-                xl:py-3 xl:text-xl xl:border xl:border-[#E5E7EB] xl:bg-transparent"
-              >
-                마취통증의학과
-              </button>
-            </div>
+            <DoctorDepartmentTabs />
           </div>
         </Inner>
 
@@ -289,7 +262,6 @@ export default function AboutDoctors(): React.ReactNode {
           </Link>
         </Inner>
 
-        <BottomBanner />
       </section>
     </div>
   );

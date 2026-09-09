@@ -1,6 +1,14 @@
 'use client';
 
 import Badge from '@/app/_components/ui/badge';
+import {
+  ContentCard,
+  ContentCardBody,
+  ContentCardDescription,
+  ContentCardMedia,
+  ContentCardMeta,
+  ContentCardTitle,
+} from '@/app/_components/ui/content-card';
 import BoardToolbar from '@/app/_components/ui/board-toolbar';
 import EmptyState from '@/app/_components/ui/empty-state';
 import FilterTabs from '@/app/_components/ui/filter-tabs';
@@ -26,6 +34,71 @@ const FILTERS: Array<{ value: TreatmentCaseKind; label: string }> = [
 type Props = {
   isAuthenticated: boolean;
 };
+
+function TreatmentCaseCard({
+  item,
+  isAuthenticated,
+}: {
+  item: (typeof TREATMENT_CASES)[number];
+  isAuthenticated: boolean;
+}) {
+  const detailHref = `/community/cases/${item.id}`;
+
+  return (
+    <ContentCard
+      id={`treatment-case-card-${item.id}`}
+      variant="treatment"
+    >
+      <ContentCardMedia variant="treatment">
+        <Image
+          src={
+            item.kind === 'treatment'
+              ? '/assets/images/treatment-cases/case-before-after.jpg'
+              : item.thumbnail
+          }
+          alt={`${item.title} 치료사례`}
+          fill
+          className="object-cover transition duration-300 group-hover:scale-[1.01]"
+          sizes="(min-width: 1280px) 400px, 100vw"
+        />
+        <Link
+          href={detailHref}
+          aria-label={`${item.title} 상세 보기`}
+          className="absolute inset-0 z-10"
+        >
+          <span className="sr-only">{item.title} 상세 보기</span>
+        </Link>
+        {item.kind === 'treatment' && !isAuthenticated ? (
+          <TreatmentCaseImageLock compact />
+        ) : null}
+      </ContentCardMedia>
+
+      <Link href={detailHref} className="block">
+        <ContentCardBody variant="treatment">
+          <div className="flex flex-wrap items-center gap-2">
+            <Badge variant="green" size="lg">
+              {item.category}
+            </Badge>
+            <ContentCardTitle variant="treatment">
+              {item.title}
+            </ContentCardTitle>
+          </div>
+
+          <ContentCardDescription variant="treatment">
+            {item.description}
+          </ContentCardDescription>
+
+          <ContentCardMeta variant="treatment">
+            <span>
+              한 ♡ {item.patientName} · {item.age}세 · {item.sex}
+            </span>
+            <time dateTime={item.date}>{item.date}</time>
+          </ContentCardMeta>
+        </ContentCardBody>
+      </Link>
+    </ContentCard>
+  );
+}
 
 export default function TreatmentCaseList({ isAuthenticated }: Props) {
   const [activeFilter, setActiveFilter] =
@@ -64,12 +137,12 @@ export default function TreatmentCaseList({ isAuthenticated }: Props) {
           치료사례 목록
         </h2>
         <FilterTabs
+          id="treatment-case-filter-tabs"
           items={FILTERS}
           value={activeFilter}
           onValueChange={changeFilter}
           ariaLabel="치료사례 종류"
-          size="lg"
-          className="xl:gap-4"
+          variant="treatment"
         />
 
         <BoardToolbar
@@ -90,71 +163,25 @@ export default function TreatmentCaseList({ isAuthenticated }: Props) {
 
         {visibleCases.length ? (
           <div className="mt-5 grid grid-cols-1 gap-5 xl:mt-6 xl:grid-cols-3 xl:gap-7">
-            {visibleCases.map((item) => {
-              const detailHref = `/community/cases/${item.id}`;
-
-              return (
-                <article
-                  key={item.id}
-                  className="group overflow-hidden rounded-xl border border-[#E0E3E5] bg-white transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(0,0,0,0.07)]"
-                >
-                  <div className="relative aspect-[202/115] w-full overflow-hidden bg-[#F1F2F3]">
-                    <Image
-                      src={
-                        item.kind === 'treatment'
-                          ? '/assets/images/treatment-cases/case-before-after.jpg'
-                          : item.thumbnail
-                      }
-                      alt={`${item.title} 치료사례`}
-                      fill
-                      className="object-cover transition duration-300 group-hover:scale-[1.01]"
-                      sizes="(min-width: 1280px) 400px, 100vw"
-                    />
-                    <Link
-                      href={detailHref}
-                      aria-label={`${item.title} 상세 보기`}
-                      className="absolute inset-0 z-10"
-                    >
-                      <span className="sr-only">{item.title} 상세 보기</span>
-                    </Link>
-                    {item.kind === 'treatment' && !isAuthenticated ? (
-                      <TreatmentCaseImageLock compact />
-                    ) : null}
-                  </div>
-
-                  <Link href={detailHref} className="block p-4 xl:p-5">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <Badge variant="green" size="lg">
-                        {item.category}
-                      </Badge>
-                      <h3 className="text-lg font-bold tracking-[-0.03em] text-[#252A30] xl:text-2xl">
-                        {item.title}
-                      </h3>
-                    </div>
-                    <p className="mt-3 line-clamp-2 text-base leading-[1.55] text-[#73787D] xl:min-h-[62px] xl:text-xl">
-                      {item.description}
-                    </p>
-                    <div className="mt-4 flex items-center justify-between gap-3 text-sm text-[#9A9FA4] xl:text-xl">
-                      <span>
-                        한 ♡ {item.patientName} · {item.age}세 · {item.sex}
-                      </span>
-                      <time dateTime={item.date}>{item.date}</time>
-                    </div>
-                  </Link>
-                </article>
-              );
-            })}
+            {visibleCases.map((item) => (
+              <TreatmentCaseCard
+                key={item.id}
+                item={item}
+                isAuthenticated={isAuthenticated}
+              />
+            ))}
           </div>
         ) : (
           <EmptyState className="mt-12 min-h-[240px] xl:text-xl" />
         )}
 
         <Pagination
+          id="treatment-case-pagination"
           currentPage={1}
           totalPages={5}
           onPageChange={() => undefined}
           ariaLabel="치료사례 페이지"
-          size="lg"
+          variant="large"
           showFirst={false}
           className="mt-10 xl:mt-12"
         />

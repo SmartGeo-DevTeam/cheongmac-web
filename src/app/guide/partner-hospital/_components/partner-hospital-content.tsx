@@ -1,17 +1,22 @@
 'use client';
 
 import {
+  ContentCard,
+  ContentCardBody,
+  ContentCardMedia,
+  ContentCardTitle,
+} from '@/app/_components/ui/content-card';
+import FilterTabs from '@/app/_components/ui/filter-tabs';
+import Pagination from '@/app/_components/ui/pagination';
+
+import {
   PARTNER_CATEGORY_OPTIONS,
   PARTNER_HOSPITALS,
   PARTNER_INSTITUTION_LOGOS,
   PARTNER_TOTAL_COUNT,
   type PartnerCategory,
 } from '../_data';
-import {
-  ChevronRight,
-  ChevronsRight,
-  Search,
-} from 'lucide-react';
+import { Search } from 'lucide-react';
 import Image from 'next/image';
 import {
   useMemo,
@@ -19,8 +24,6 @@ import {
   useState,
   type ChangeEvent,
 } from 'react';
-
-const PAGE_NUMBERS = [1, 2, 3, 4, 5] as const;
 
 function PartnershipOverview() {
   return (
@@ -74,36 +77,26 @@ function PartnerFilters({
   onCategoryChange: (category: PartnerCategory) => void;
 }) {
   return (
-    <div className="hidden justify-center gap-3 xl:flex">
-      {PARTNER_CATEGORY_OPTIONS.map((option) => {
-        const active = option.value === category;
-
-        return (
-          <button
-            key={option.value}
-            type="button"
-            onClick={() => onCategoryChange(option.value)}
-            className={`h-12 min-w-[118px] rounded-full border px-7 text-lg font-medium transition ${
-              active
-                ? 'border-[#08715F] bg-[#08715F] text-white'
-                : 'border-[#E0E3E5] bg-white text-[#9BA0A6] hover:border-[#BACCC7] hover:text-[#5B6269]'
-            }`}
-          >
-            {option.label}
-          </button>
-        );
-      })}
-    </div>
+    <FilterTabs
+      id="partner-hospital-filter-tabs"
+      items={PARTNER_CATEGORY_OPTIONS}
+      value={category}
+      onValueChange={onCategoryChange}
+      ariaLabel="의료협약기관 분류"
+      variant="partner"
+    />
   );
 }
 
 function PartnerCard({
+  id,
   name,
   image,
   agreement,
   phone,
   tags,
 }: {
+  id: string | number;
   name: string;
   image: string;
   agreement: string;
@@ -111,8 +104,11 @@ function PartnerCard({
   tags: string[];
 }) {
   return (
-    <article className="min-w-0">
-      <div className="relative aspect-[264/166] overflow-hidden rounded-xl bg-[#F3F4F5]">
+    <ContentCard
+      id={`partner-hospital-card-${id}`}
+      variant="partner"
+    >
+      <ContentCardMedia variant="partner">
         <Image
           src={image}
           alt={name}
@@ -120,10 +116,10 @@ function PartnerCard({
           className="object-cover"
           sizes="(min-width: 1280px) 33vw, 100vw"
         />
-      </div>
+      </ContentCardMedia>
 
-      <div className="pt-4 xl:pt-5">
-        <h3 className="flex items-center gap-2 break-keep text-[19px] font-bold tracking-[-0.035em] text-[#262C35] xl:text-[24px]">
+      <ContentCardBody variant="partner">
+        <ContentCardTitle variant="partner">
           <span>{name}</span>
           <Image
             src="/assets/icons/partner-home.svg"
@@ -133,7 +129,7 @@ function PartnerCard({
             aria-hidden="true"
             className="size-4 shrink-0 xl:size-5"
           />
-        </h3>
+        </ContentCardTitle>
 
         <dl className="mt-4 space-y-3">
           <div className="grid grid-cols-[64px_1fr] gap-3 xl:grid-cols-[78px_1fr] xl:gap-4">
@@ -163,8 +159,8 @@ function PartnerCard({
             </span>
           ))}
         </div>
-      </div>
-    </article>
+      </ContentCardBody>
+    </ContentCard>
   );
 }
 
@@ -265,44 +261,17 @@ export default function PartnerHospitalContent() {
             </div>
           )}
 
-          <nav
-            aria-label="의료협약기관 페이지"
-            className="mt-14 flex items-center justify-center gap-5 text-sm text-[#7E848A] xl:mt-20 xl:text-base"
-          >
-            {PAGE_NUMBERS.map((page) => (
-              <button
-                key={page}
-                type="button"
-                onClick={() => changePage(page)}
-                aria-current={activePage === page ? 'page' : undefined}
-                className={`grid size-8 place-items-center rounded-md transition ${
-                  activePage === page
-                    ? 'bg-[#5A616A] font-semibold text-white'
-                    : 'hover:bg-[#F1F2F3] hover:text-[#333A40]'
-                }`}
-              >
-                {page}
-              </button>
-            ))}
-
-            <button
-              type="button"
-              onClick={() => changePage(Math.min(5, activePage + 1))}
-              className="grid size-8 place-items-center rounded-md transition hover:bg-[#F1F2F3]"
-              aria-label="다음 페이지"
-            >
-              <ChevronRight className="size-4" strokeWidth={1.7} />
-            </button>
-
-            <button
-              type="button"
-              onClick={() => changePage(5)}
-              className="grid size-8 place-items-center rounded-md transition hover:bg-[#F1F2F3]"
-              aria-label="마지막 페이지"
-            >
-              <ChevronsRight className="size-4" strokeWidth={1.7} />
-            </button>
-          </nav>
+          <Pagination
+            id="partner-hospital-pagination"
+            currentPage={activePage}
+            totalPages={5}
+            onPageChange={changePage}
+            ariaLabel="의료협약기관 페이지"
+            variant="partner"
+            showFirst={false}
+            showPrevious={false}
+            className="mt-14 xl:mt-20"
+          />
         </div>
       </div>
     </div>

@@ -16,6 +16,7 @@ import {
   FileText,
   LayoutDashboard,
   ListTree,
+  PanelBottom,
   ShieldCheck,
   Users,
 } from 'lucide-react';
@@ -75,6 +76,18 @@ export default function AdminSidebar({
                 >
                   <ListTree className="size-4" />
                   LNB 메뉴 관리
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  href="/admin/common/bottom-banners"
+                  active={
+                    pathname === '/admin/common/bottom-banners' ||
+                    pathname.startsWith('/admin/common/bottom-banners/')
+                  }
+                >
+                  <PanelBottom className="size-4" />
+                  공통 페이지 하단 배너
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>

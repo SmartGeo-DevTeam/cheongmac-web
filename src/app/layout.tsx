@@ -1,6 +1,8 @@
 import { suit } from "@/_lib/fonts";
 import { getPrimaryNavigation } from "@/_lib/navigation";
+import { getPageBottomBanners } from "@/_lib/page-bottom-banners";
 import AccountDock from "@/app/_components/account-dock";
+import PageBottomBanners from "@/app/_components/bottom-banners";
 import Footer from "@/app/_components/footer";
 import Header from "@/app/_components/header";
 import MacGptSearchLayer from "@/app/_components/mac-gpt-search";
@@ -25,7 +27,10 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const primaryNavigation = await getPrimaryNavigation();
+  const [primaryNavigation, pageBottomBanners] = await Promise.all([
+    getPrimaryNavigation(),
+    getPageBottomBanners(),
+  ]);
 
   return (
     <html
@@ -46,7 +51,10 @@ export default async function RootLayout({
 
             <MacGptSearchLayer />
 
-            <main>{children}</main>
+            <main>
+              {children}
+              <PageBottomBanners items={pageBottomBanners} />
+            </main>
             <Footer />
             <AccountDock />
           </ViewportProvider>

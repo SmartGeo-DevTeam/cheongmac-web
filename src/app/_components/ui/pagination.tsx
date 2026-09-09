@@ -7,22 +7,72 @@ import {
   ChevronsLeft,
   ChevronsRight,
 } from 'lucide-react';
-import Button from './button';
+import Link from 'next/link';
+import type { ReactNode } from 'react';
 import { useComponentId } from './component-id';
 
-type PaginationSize = 'sm' | 'md' | 'lg';
+export type PaginationVariant =
+  | 'compact'
+  | 'default'
+  | 'large'
+  | 'partner';
 
-const pageClasses: Record<PaginationSize, string> = {
-  sm: 'size-7 text-xs xl:text-sm',
-  md: 'size-8 text-sm xl:text-base',
-  lg: 'size-10 text-base xl:size-11 xl:text-xl',
+type LegacySize = 'sm' | 'md' | 'lg';
+
+type VariantStyle = {
+  root: string;
+  page: string;
+  control: string;
+  icon: string;
+  active: string;
+  inactive: string;
 };
 
-const iconClasses: Record<PaginationSize, string> = {
-  sm: 'size-4',
-  md: 'size-4',
-  lg: 'size-5 xl:size-6',
+const variants: Record<PaginationVariant, VariantStyle> = {
+  compact: {
+    root: 'flex items-center justify-center gap-1.5 xl:gap-2',
+    page: 'size-7 text-xs xl:text-sm',
+    control: 'size-8',
+    icon: 'size-4',
+    active: 'bg-[#555B66] text-white',
+    inactive: 'text-[#8D9298] hover:bg-[#F5F6F7]',
+  },
+  default: {
+    root: 'flex items-center justify-center gap-2 xl:gap-2.5',
+    page: 'size-8 text-sm xl:text-base',
+    control: 'size-8',
+    icon: 'size-4',
+    active: 'bg-[#555B66] text-white',
+    inactive: 'text-[#8D9298] hover:bg-[#F5F6F7]',
+  },
+  large: {
+    root: 'flex items-center justify-center gap-2 xl:gap-2.5',
+    page: 'size-10 text-base xl:size-11 xl:text-xl',
+    control: 'size-10 xl:size-11',
+    icon: 'size-5 xl:size-6',
+    active: 'bg-[#555B66] text-white',
+    inactive: 'text-[#8D9298] hover:bg-[#F5F6F7]',
+  },
+  partner: {
+    root:
+      'flex items-center justify-center gap-5 text-sm text-[#7E848A] xl:text-base',
+    page: 'size-8 text-sm xl:text-base',
+    control: 'size-8',
+    icon: 'size-4',
+    active: 'bg-[#5A616A] font-semibold text-white',
+    inactive: 'hover:bg-[#F1F2F3] hover:text-[#333A40]',
+  },
 };
+
+function resolveVariant(
+  variant: PaginationVariant | undefined,
+  size: LegacySize | undefined,
+): PaginationVariant {
+  if (variant) return variant;
+  if (size === 'lg') return 'large';
+  if (size === 'md') return 'default';
+  return 'compact';
+}
 
 function visiblePages(currentPage: number, totalPages: number, maxVisible: number) {
   const count = Math.min(maxVisible, totalPages);
@@ -34,112 +84,215 @@ function visiblePages(currentPage: number, totalPages: number, maxVisible: numbe
   return Array.from({ length: count }, (_, index) => start + index);
 }
 
+function PageControl({
+  id,
+  href,
+  disabled,
+  label,
+  className,
+  children,
+  onClick,
+}: {
+  id: string;
+  href?: string;
+  disabled: boolean;
+  label: string;
+  className: string;
+  children: ReactNode;
+  onClick?: () => void;
+}) {
+  if (disabled) {
+    return (
+      <span
+        id={id}
+        aria-disabled="true"
+        aria-label={label}
+        className={cn(
+          'grid place-items-center rounded-md opacity-30',
+          className,
+        )}
+      >
+        {children}
+      </span>
+    );
+  }
+
+  if (href) {
+    return (
+      <Link
+        id={id}
+        href={href}
+        aria-label={label}
+        className={cn(
+          'grid place-items-center rounded-md transition hover:bg-[#F1F2F3]',
+          className,
+        )}
+      >
+        {children}
+      </Link>
+    );
+  }
+
+  return (
+    <button
+      id={id}
+      type="button"
+      aria-label={label}
+      onClick={onClick}
+      className={cn(
+        'grid place-items-center rounded-md transition hover:bg-[#F1F2F3]',
+        className,
+      )}
+    >
+      {children}
+    </button>
+  );
+}
+
 export default function Pagination({
   id,
   currentPage,
   totalPages,
   onPageChange,
+  getPageHref,
   ariaLabel = '페이지 이동',
-  size = 'sm',
+  variant,
+  size,
   maxVisible = 5,
   showFirst = true,
   showLast = true,
+  showPrevious = true,
+  showNext = true,
   className,
 }: {
   id?: string;
   currentPage: number;
   totalPages: number;
-  onPageChange: (page: number) => void;
+  onPageChange?: (page: number) => void;
+  getPageHref?: (page: number) => string;
   ariaLabel?: string;
-  size?: PaginationSize;
+  variant?: PaginationVariant;
+  size?: LegacySize;
   maxVisible?: number;
   showFirst?: boolean;
   showLast?: boolean;
+  showPrevious?: boolean;
+  showNext?: boolean;
   className?: string;
 }) {
   const componentId = useComponentId('cm-pagination', id);
 
   if (totalPages <= 1) return null;
 
-  const pages = visiblePages(currentPage, totalPages, maxVisible);
-  const move = (next: number) =>
-    onPageChange(Math.min(Math.max(next, 1), totalPages));
+  const resolvedVariant = resolveVariant(variant, size);
+  const styles = variants[resolvedVariant];
+  const safeCurrentPage = Math.min(Math.max(currentPage, 1), totalPages);
+  const pages = visiblePages(safeCurrentPage, totalPages, maxVisible);
+
+  const move = (page: number) => {
+    const next = Math.min(Math.max(page, 1), totalPages);
+    onPageChange?.(next);
+  };
+
+  const hrefFor = (page: number) => getPageHref?.(
+    Math.min(Math.max(page, 1), totalPages),
+  );
 
   return (
     <nav
       id={componentId}
       aria-label={ariaLabel}
-      className={cn('flex items-center justify-center gap-1.5 xl:gap-2', className)}
+      className={cn(styles.root, className)}
     >
       {showFirst ? (
-        <Button
+        <PageControl
           id={`${componentId}-first`}
-          variant="ghost"
-          size="icon"
+          href={hrefFor(1)}
+          disabled={safeCurrentPage === 1}
+          label="첫 페이지"
+          className={styles.control}
           onClick={() => move(1)}
-          disabled={currentPage === 1}
-          aria-label="첫 페이지"
-          className={size === 'lg' ? 'size-10 xl:size-11' : 'size-8 xl:size-8'}
         >
-          <ChevronsLeft className={iconClasses[size]} />
-        </Button>
+          <ChevronsLeft className={styles.icon} />
+        </PageControl>
       ) : null}
 
-      <Button
-        id={`${componentId}-previous`}
-        variant="ghost"
-        size="icon"
-        onClick={() => move(currentPage - 1)}
-        disabled={currentPage === 1}
-        aria-label="이전 페이지"
-        className={size === 'lg' ? 'size-10 xl:size-11' : 'size-8 xl:size-8'}
-      >
-        <ChevronLeft className={iconClasses[size]} />
-      </Button>
-
-      {pages.map((page) => (
-        <button
-          id={`${componentId}-page-${page}`}
-          key={page}
-          type="button"
-          aria-current={page === currentPage ? 'page' : undefined}
-          onClick={() => move(page)}
-          className={cn(
-            'grid place-items-center rounded-md font-medium transition',
-            pageClasses[size],
-            page === currentPage
-              ? 'bg-[#555B66] text-white'
-              : 'text-[#8D9298] hover:bg-[#F5F6F7]',
-          )}
+      {showPrevious ? (
+        <PageControl
+          id={`${componentId}-previous`}
+          href={hrefFor(safeCurrentPage - 1)}
+          disabled={safeCurrentPage === 1}
+          label="이전 페이지"
+          className={styles.control}
+          onClick={() => move(safeCurrentPage - 1)}
         >
-          {page}
-        </button>
-      ))}
+          <ChevronLeft className={styles.icon} />
+        </PageControl>
+      ) : null}
 
-      <Button
-        id={`${componentId}-next`}
-        variant="ghost"
-        size="icon"
-        onClick={() => move(currentPage + 1)}
-        disabled={currentPage === totalPages}
-        aria-label="다음 페이지"
-        className={size === 'lg' ? 'size-10 xl:size-11' : 'size-8 xl:size-8'}
-      >
-        <ChevronRight className={iconClasses[size]} />
-      </Button>
+      {pages.map((page) => {
+        const active = page === safeCurrentPage;
+        const href = hrefFor(page);
+
+        if (href && !active) {
+          return (
+            <Link
+              id={`${componentId}-page-${page}`}
+              key={page}
+              href={href}
+              className={cn(
+                'grid place-items-center rounded-md font-medium transition',
+                styles.page,
+                styles.inactive,
+              )}
+            >
+              {page}
+            </Link>
+          );
+        }
+
+        return (
+          <button
+            id={`${componentId}-page-${page}`}
+            key={page}
+            type="button"
+            aria-current={active ? 'page' : undefined}
+            onClick={() => move(page)}
+            className={cn(
+              'grid place-items-center rounded-md font-medium transition',
+              styles.page,
+              active ? styles.active : styles.inactive,
+            )}
+          >
+            {page}
+          </button>
+        );
+      })}
+
+      {showNext ? (
+        <PageControl
+          id={`${componentId}-next`}
+          href={hrefFor(safeCurrentPage + 1)}
+          disabled={safeCurrentPage === totalPages}
+          label="다음 페이지"
+          className={styles.control}
+          onClick={() => move(safeCurrentPage + 1)}
+        >
+          <ChevronRight className={styles.icon} />
+        </PageControl>
+      ) : null}
 
       {showLast ? (
-        <Button
+        <PageControl
           id={`${componentId}-last`}
-          variant="ghost"
-          size="icon"
+          href={hrefFor(totalPages)}
+          disabled={safeCurrentPage === totalPages}
+          label="마지막 페이지"
+          className={styles.control}
           onClick={() => move(totalPages)}
-          disabled={currentPage === totalPages}
-          aria-label="마지막 페이지"
-          className={size === 'lg' ? 'size-10 xl:size-11' : 'size-8 xl:size-8'}
         >
-          <ChevronsRight className={iconClasses[size]} />
-        </Button>
+          <ChevronsRight className={styles.icon} />
+        </PageControl>
       ) : null}
     </nav>
   );

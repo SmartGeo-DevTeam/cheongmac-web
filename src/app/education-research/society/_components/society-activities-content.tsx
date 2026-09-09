@@ -128,6 +128,7 @@ function YearTabs({
 }) {
   return (
     <FilterTabs
+      id="society-year-tabs"
       items={SOCIETY_YEARS.map((year) => ({
         value: year,
         label: year,
@@ -135,9 +136,7 @@ function YearTabs({
       value={activeYear}
       onValueChange={onChange}
       ariaLabel="학회활동 연도"
-      size="year"
-      scrollable
-      className="-mx-5 px-5 xl:mx-0 xl:justify-start xl:gap-4 xl:px-0"
+      variant="year"
     />
   );
 }

@@ -240,3 +240,20 @@ model NavigationMenu {
   @@index([parentId, sortOrder])
   @@map("navigation_menu")
 }
+
+model PageBottomBanner {
+  id           String   @id
+  emoji        String
+  iconColor    String   @default("#006651")
+  title        String
+  linkTitle    String
+  href         String
+  sortOrder    Int      @default(0)
+  isVisible    Boolean  @default(true)
+  visiblePaths String[] @default([])
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([sortOrder])
+  @@map("page_bottom_banner")
+}
