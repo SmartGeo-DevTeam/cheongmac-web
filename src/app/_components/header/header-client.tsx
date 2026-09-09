@@ -1,6 +1,6 @@
 'use client';
 
-import type { NavigationItem } from '@/_lib/navigation';
+import type { NavigationItem } from '@/_lib/navigation-shared';
 import {
   closeMacGptSearch,
   openMacGptSearch,

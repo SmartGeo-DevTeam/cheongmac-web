@@ -1,6 +1,6 @@
-import PageHeader from '@/app/_components/ui/page-header';
-import AcademicExchangeContent from './_components/academic-exchange-content';
+import NavigationPageHeader from '@/app/_components/ui/navigation-page-header';
 import type { Metadata } from 'next';
+import AcademicExchangeContent from './_components/academic-exchange-content';
 
 export const metadata: Metadata = {
   title: '학술교류 | 청맥병원',
@@ -11,12 +11,9 @@ export const metadata: Metadata = {
 export default function AcademicExchangePage() {
   return (
     <div>
-      <PageHeader
-        breadcrumbs={[
-          { label: '교육·연구', href: '/education-research/exchange' },
-          { label: '학술교류' },
-        ]}
-        title="학술교류"
+      <NavigationPageHeader
+        id="academic-exchange-page-header"
+        navigationPath="/education-research/exchange"
         description={
           <>
             국내외 활발한 학술 교류를 통해 축적된 임상 노하우를 공유하며

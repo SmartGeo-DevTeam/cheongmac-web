@@ -1,6 +1,6 @@
-import PageHeader from '@/app/_components/ui/page-header';
-import SocietyActivitiesContent from './_components/society-activities-content';
+import NavigationPageHeader from '@/app/_components/ui/navigation-page-header';
 import type { Metadata } from 'next';
+import SocietyActivitiesContent from './_components/society-activities-content';
 
 export const metadata: Metadata = {
   title: '학회활동 | 청맥병원',
@@ -11,12 +11,9 @@ export const metadata: Metadata = {
 export default function SocietyActivitiesPage() {
   return (
     <div>
-      <PageHeader
-        breadcrumbs={[
-          { label: '교육·연구', href: '/education-research/exchange' },
-          { label: '학회활동' },
-        ]}
-        title="학회활동"
+      <NavigationPageHeader
+        id="society-activities-page-header"
+        navigationPath="/education-research/society"
         description={
           <>
             국내외 주요 학회에서 꾸준히 활동하며

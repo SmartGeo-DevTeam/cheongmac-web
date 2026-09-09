@@ -20,6 +20,7 @@ export default async function AdminDoctorsPage() {
         select: {
           specialties: true,
           careers: true,
+          schedules: true,
           presentations: true,
           reviews: true,
           media: true,
@@ -36,8 +37,9 @@ export default async function AdminDoctorsPage() {
           의료진 관리
         </h1>
         <p className="mt-2 max-w-3xl text-sm leading-6 text-[#71717A]">
-          의료진 기본정보와 이미지, 전문진료분야, 학력·약력, 발표 이력,
-          환자 후기, 미디어, 의학상담을 관계형 데이터로 관리합니다.
+          의료진 고유정보와 이미지는 의료진 DB에서 관리하고, 진료분야·진료시간표·발표
+          이력·환자 후기·미디어·의학상담은 각각의 콘텐츠 DB에서 관련 의료진으로
+          연결합니다.
         </p>
       </div>
 
@@ -45,8 +47,8 @@ export default async function AdminDoctorsPage() {
         <CardHeader>
           <CardTitle>의료진 추가</CardTitle>
           <CardDescription>
-            새 의료진은 처음에는 비노출 상태로 생성됩니다. 상세정보와 이미지를
-            입력한 뒤 공개할 수 있습니다.
+            새 의료진은 처음에는 비노출 상태로 생성됩니다. 기본정보와 이미지를 입력한
+            뒤 각 관계형 콘텐츠 DB에서 연결할 수 있습니다.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -58,8 +60,7 @@ export default async function AdminDoctorsPage() {
         <CardHeader>
           <CardTitle>의료진 목록</CardTitle>
           <CardDescription>
-            관계 데이터 개수를 함께 확인하고 각 의료진의 상세 관리 화면으로
-            이동할 수 있습니다.
+            각 의료진과 연결된 관계형 데이터 개수를 확인할 수 있습니다.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -88,15 +89,13 @@ export default async function AdminDoctorsPage() {
                     </span>
                   </div>
 
-                  <p className="mt-1 text-sm text-[#71717A]">
-                    {doctor.department}
-                  </p>
+                  <p className="mt-1 text-sm text-[#71717A]">{doctor.department}</p>
 
                   <p className="mt-2 text-xs leading-5 text-[#A1A1AA]">
-                    전문분야 {doctor._count.specialties} · 학력/약력{' '}
-                    {doctor._count.careers} · 발표 {doctor._count.presentations} ·
-                    후기 {doctor._count.reviews} · 미디어 {doctor._count.media} ·
-                    상담 {doctor._count.consultations}
+                    진료분야 {doctor._count.specialties} · 학력/약력{' '}
+                    {doctor._count.careers} · 시간표 {doctor._count.schedules} · 발표{' '}
+                    {doctor._count.presentations} · 후기 {doctor._count.reviews} · 미디어{' '}
+                    {doctor._count.media} · 상담 {doctor._count.consultations}
                   </p>
                 </div>
 

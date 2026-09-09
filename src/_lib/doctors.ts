@@ -42,9 +42,15 @@ export async function getVisibleDoctorSummaries(): Promise<DoctorSummary[]> {
         select: { kind: true, url: true },
       },
       specialties: {
-        where: { isVisible: true },
         orderBy: { sortOrder: 'asc' },
-        select: { name: true },
+        where: {
+          specialty: { isVisible: true },
+        },
+        include: {
+          specialty: {
+            select: { name: true },
+          },
+        },
       },
     },
   });
@@ -56,7 +62,9 @@ export async function getVisibleDoctorSummaries(): Promise<DoctorSummary[]> {
     position: doctor.position,
     department: doctor.department,
     reservationHref: doctor.reservationHref,
-    specialties: doctor.specialties.map((item) => item.name),
+    specialties: doctor.specialties.map(
+      (link) => link.specialty.name,
+    ),
     profileImageUrl: imageUrl(doctor.images, 'PROFILE'),
     coverImageUrl: imageUrl(doctor.images, 'COVER'),
   }));
@@ -79,7 +87,6 @@ export async function getDoctorBaseBySlug(slug: string) {
     },
   });
 }
-
 
 export async function getDoctorProfileCore(doctorId: string) {
   const [doctor, images] = await Promise.all([
@@ -117,9 +124,18 @@ export async function getDoctorProfileCore(doctorId: string) {
 
 export async function getDoctorSpecialties(doctorId: string) {
   return prisma.doctorSpecialty.findMany({
-    where: { doctorId, isVisible: true },
-    orderBy: { sortOrder: 'asc' },
-    select: { id: true, name: true, description: true },
+    where: {
+      isVisible: true,
+      doctors: {
+        some: { doctorId },
+      },
+    },
+    orderBy: [{ sortOrder: 'asc' }, { name: 'asc' }],
+    select: {
+      id: true,
+      name: true,
+      description: true,
+    },
   });
 }
 
@@ -150,16 +166,8 @@ export async function getDoctorProfileBundle(doctorId: string) {
       orderBy: { sortOrder: 'asc' },
       select: { id: true, kind: true, url: true, alt: true },
     }),
-    prisma.doctorSpecialty.findMany({
-      where: { doctorId, isVisible: true },
-      orderBy: { sortOrder: 'asc' },
-      select: { id: true, name: true, description: true },
-    }),
-    prisma.doctorCareer.findMany({
-      where: { doctorId, isVisible: true },
-      orderBy: { sortOrder: 'asc' },
-      select: { id: true, kind: true, content: true },
-    }),
+    getDoctorSpecialties(doctorId),
+    getDoctorCareers(doctorId),
   ]);
 
   if (!doctor) return null;
@@ -179,39 +187,72 @@ export async function getDoctorProfileBundle(doctorId: string) {
 
 export async function getDoctorSchedule(doctorId: string) {
   return prisma.doctorSchedule.findMany({
-    where: { doctorId },
-    orderBy: { sortOrder: 'asc' },
+    where: {
+      isVisible: true,
+      doctors: {
+        some: { doctorId },
+      },
+    },
+    orderBy: [{ sortOrder: 'asc' }, { label: 'asc' }],
   });
 }
 
 export async function getDoctorReviews(doctorId: string) {
   return prisma.doctorReview.findMany({
-    where: { doctorId, isVisible: true },
+    where: {
+      isVisible: true,
+      doctors: {
+        some: { doctorId },
+      },
+    },
     orderBy: [{ sortOrder: 'asc' }, { reviewedAt: 'desc' }],
   });
 }
 
 export async function getDoctorMedia(doctorId: string) {
   return prisma.doctorMedia.findMany({
-    where: { doctorId, isVisible: true },
-    orderBy: [{ isFeatured: 'desc' }, { sortOrder: 'asc' }, { publishedAt: 'desc' }],
+    where: {
+      isVisible: true,
+      doctors: {
+        some: { doctorId },
+      },
+    },
+    orderBy: [
+      { isFeatured: 'desc' },
+      { sortOrder: 'asc' },
+      { publishedAt: 'desc' },
+    ],
   });
 }
 
 export async function getDoctorPresentations(doctorId: string) {
   return prisma.doctorPresentation.findMany({
-    where: { doctorId, isVisible: true },
+    where: {
+      isVisible: true,
+      doctors: {
+        some: { doctorId },
+      },
+    },
     orderBy: [{ sortOrder: 'asc' }, { presentedAt: 'desc' }],
   });
 }
 
-export async function getDoctorConsultations(doctorId: string, take = 6) {
+export async function getDoctorConsultations(
+  doctorId: string,
+  take = 6,
+) {
   return prisma.medicalConsultation.findMany({
     where: {
-      doctorId,
       isVisible: true,
+      doctors: {
+        some: { doctorId },
+      },
     },
-    orderBy: [{ publishedAt: 'desc' }, { id: 'desc' }],
+    orderBy: [
+      { publishedAt: 'desc' },
+      { sortOrder: 'asc' },
+      { id: 'desc' },
+    ],
     take,
     select: {
       id: true,

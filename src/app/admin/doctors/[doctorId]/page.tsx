@@ -6,11 +6,6 @@ import DoctorEditor from './doctor-editor';
 
 export const dynamic = 'force-dynamic';
 
-function dateInput(value: Date | null) {
-  if (!value) return '';
-  return value.toISOString().slice(0, 10);
-}
-
 export default async function AdminDoctorDetailPage({
   params,
 }: {
@@ -21,15 +16,21 @@ export default async function AdminDoctorDetailPage({
   const doctor = await prisma.doctor.findUnique({
     where: { id: doctorId },
     include: {
-      images: { orderBy: { sortOrder: 'asc' } },
-      specialties: { orderBy: { sortOrder: 'asc' } },
-      careers: { orderBy: { sortOrder: 'asc' } },
-      schedules: { orderBy: { sortOrder: 'asc' } },
-      presentations: { orderBy: { sortOrder: 'asc' } },
-      reviews: { orderBy: { sortOrder: 'asc' } },
-      media: { orderBy: { sortOrder: 'asc' } },
-      consultations: {
-        orderBy: [{ publishedAt: 'desc' }, { id: 'desc' }],
+      images: {
+        orderBy: { sortOrder: 'asc' },
+      },
+      careers: {
+        orderBy: { sortOrder: 'asc' },
+      },
+      _count: {
+        select: {
+          specialties: true,
+          schedules: true,
+          presentations: true,
+          reviews: true,
+          media: true,
+          consultations: true,
+        },
       },
     },
   });
@@ -47,80 +48,63 @@ export default async function AdminDoctorDetailPage({
     displayOrder: doctor.displayOrder,
     isVisible: doctor.isVisible,
     images: DOCTOR_IMAGE_KINDS.map((kind) => {
-      const image = doctor.images.find((item) => item.kind === kind);
+      const image = doctor.images.find(
+        (item) => item.kind === kind,
+      );
+
       return {
         kind,
         url: image?.url ?? '',
         alt: image?.alt ?? `${doctor.name} ${kind}`,
       };
     }),
-    specialties: doctor.specialties.map((item) => ({
-      name: item.name,
-      description: item.description ?? '',
-      isVisible: item.isVisible,
-    })),
     careers: doctor.careers.map((item) => ({
-      kind: item.kind === 'EDUCATION' ? 'EDUCATION' : 'CAREER',
+      kind:
+        item.kind === 'EDUCATION'
+          ? 'EDUCATION'
+          : 'CAREER',
       content: item.content,
-      isVisible: item.isVisible,
-    })),
-    schedules: doctor.schedules.map((item) => ({
-      label: item.label,
-      mon: item.mon,
-      tue: item.tue,
-      wed: item.wed,
-      thu: item.thu,
-      fri: item.fri,
-      sat: item.sat,
-    })),
-    presentations: doctor.presentations.map((item) => ({
-      title: item.title,
-      organization: item.organization ?? '',
-      description: item.description ?? '',
-      imageUrl: item.imageUrl ?? '',
-      linkUrl: item.linkUrl ?? '',
-      presentedAt: dateInput(item.presentedAt),
-      isVisible: item.isVisible,
-    })),
-    reviews: doctor.reviews.map((item) => ({
-      patientName: item.patientName,
-      age: item.age?.toString() ?? '',
-      gender: item.gender ?? '',
-      treatment: item.treatment ?? '',
-      content: item.content ?? '',
-      imageUrl: item.imageUrl ?? '',
-      reviewedAt: dateInput(item.reviewedAt),
-      isVisible: item.isVisible,
-    })),
-    media: doctor.media.map((item) => ({
-      kind: item.kind,
-      title: item.title,
-      source: item.source ?? '',
-      thumbnailUrl: item.thumbnailUrl ?? '',
-      linkUrl: item.linkUrl,
-      publishedAt: dateInput(item.publishedAt),
-      isFeatured: item.isFeatured,
-      isVisible: item.isVisible,
-    })),
-    consultations: doctor.consultations.map((item) => ({
-      id: item.id,
-      categoryPrimary: item.categoryPrimary,
-      categorySecondary: item.categorySecondary,
-      title: item.title,
-      questionText: Array.isArray(item.question)
-        ? item.question.filter((v): v is string => typeof v === 'string').join('\n')
-        : '',
-      imageUrl: item.imageUrl ?? '',
-      isPrivate: item.isPrivate,
-      hasLinkIcon: item.hasLinkIcon,
-      answerText: Array.isArray(item.answer)
-        ? item.answer.filter((v): v is string => typeof v === 'string').join('\n')
-        : '',
-      answerDate: dateInput(item.answerDate),
-      publishedAt: dateInput(item.publishedAt),
       isVisible: item.isVisible,
     })),
   };
 
-  return <DoctorEditor initial={initial} />;
+  const relationCounts = [
+    {
+      label: '진료분야',
+      count: doctor._count.specialties,
+      href: `/admin/content-relations/specialties?doctorId=${doctor.id}`,
+    },
+    {
+      label: '진료시간표',
+      count: doctor._count.schedules,
+      href: `/admin/content-relations/schedules?doctorId=${doctor.id}`,
+    },
+    {
+      label: '발표 이력',
+      count: doctor._count.presentations,
+      href: `/admin/content-relations/presentations?doctorId=${doctor.id}`,
+    },
+    {
+      label: '환자 후기',
+      count: doctor._count.reviews,
+      href: `/admin/content-relations/reviews?doctorId=${doctor.id}`,
+    },
+    {
+      label: '미디어',
+      count: doctor._count.media,
+      href: `/admin/content-relations/media?doctorId=${doctor.id}`,
+    },
+    {
+      label: '의학상담',
+      count: doctor._count.consultations,
+      href: `/admin/content-relations/consultations?doctorId=${doctor.id}`,
+    },
+  ];
+
+  return (
+    <DoctorEditor
+      initial={initial}
+      relationCounts={relationCounts}
+    />
+  );
 }

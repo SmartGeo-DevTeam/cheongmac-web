@@ -1,6 +1,6 @@
-import PageHeader from '@/app/_components/ui/page-header';
-import HospitalTourContent from './_components/hospital-tour-content';
+import NavigationPageHeader from '@/app/_components/ui/navigation-page-header';
 import type { Metadata } from 'next';
+import HospitalTourContent from './_components/hospital-tour-content';
 
 export const metadata: Metadata = {
   title: '병원 둘러보기 | 청맥병원',
@@ -11,12 +11,9 @@ export const metadata: Metadata = {
 export default function HospitalTourPage() {
   return (
     <div>
-      <PageHeader
-        breadcrumbs={[
-          { label: '병원 소개', href: '/about/doctors' },
-          { label: '병원 둘러보기' },
-        ]}
-        title="병원 둘러보기"
+      <NavigationPageHeader
+        id="hospital-tour-page-header"
+        navigationPath="/about/tour"
         description={
           <>
             좋은 의료는 편안하고 쾌적한 공간에서 시작됩니다.

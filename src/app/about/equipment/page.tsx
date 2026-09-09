@@ -1,6 +1,6 @@
-import PageHeader from '@/app/_components/ui/page-header';
-import MedicalEquipmentContent from './_components/medical-equipment-content';
+import NavigationPageHeader from '@/app/_components/ui/navigation-page-header';
 import type { Metadata } from 'next';
+import MedicalEquipmentContent from './_components/medical-equipment-content';
 
 export const metadata: Metadata = {
   title: '첨단의료장비 | 청맥병원',
@@ -11,12 +11,9 @@ export const metadata: Metadata = {
 export default function MedicalEquipmentPage() {
   return (
     <div>
-      <PageHeader
-        breadcrumbs={[
-          { label: '병원 소개', href: '/about/doctors' },
-          { label: '첨단의료장비' },
-        ]}
-        title="첨단의료장비"
+      <NavigationPageHeader
+        id="medical-equipment-page-header"
+        navigationPath="/about/equipment"
         description={
           <>
             대학병원급 고해상도 진단 장비와 첨단 치료 시스템을 통해

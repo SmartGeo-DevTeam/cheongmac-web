@@ -1,6 +1,5 @@
-import PageHeader, {
-  type PageHeaderTitleAs,
-} from '@/app/_components/ui/page-header';
+import NavigationPageHeader from '@/app/_components/ui/navigation-page-header';
+import type { PageHeaderTitleAs } from '@/app/_components/ui/page-header';
 
 export default function ConsultationPageHeader({
   titleAs = 'h1',
@@ -8,12 +7,9 @@ export default function ConsultationPageHeader({
   titleAs?: PageHeaderTitleAs;
 }) {
   return (
-    <PageHeader
-      breadcrumbs={[
-        { label: '소통공간', href: '/community/cases' },
-        { label: '의학상담' },
-      ]}
-      title="의학상담"
+    <NavigationPageHeader
+      id="consultation-page-header"
+      navigationPath="/community/consultation"
       titleAs={titleAs}
       description={
         <>

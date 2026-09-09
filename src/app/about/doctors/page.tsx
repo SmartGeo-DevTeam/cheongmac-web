@@ -1,4 +1,4 @@
-import PageHeader from '@/app/_components/ui/page-header';
+import NavigationPageHeader from '@/app/_components/ui/navigation-page-header';
 import { getVisibleDoctorSummaries } from '@/_lib/doctors';
 import type { Metadata } from 'next';
 import DoctorListClient from './_components/doctor-list-client';
@@ -16,13 +16,9 @@ export default async function AboutDoctors() {
 
   return (
     <div>
-      <PageHeader
+      <NavigationPageHeader
         id="about-doctors-page-header"
-        breadcrumbs={[
-          { label: '병원 소개', href: '/about/doctors' },
-          { label: '의료진/진료과' },
-        ]}
-        title="의료진/진료과"
+        navigationPath="/about/doctors"
         description={
           <>
             환자의 삶에 흐르는 건강을 최고의 전문성으로 지켜내며

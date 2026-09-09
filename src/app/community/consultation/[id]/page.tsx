@@ -151,7 +151,7 @@ export default async function ConsultationDetailPage({
             </div>
           </article>
 
-          {item.answered && item.doctor && item.answer ? (
+          {item.answered && item.doctors.length && item.answer ? (
             <section
               aria-labelledby="consultation-answer-heading"
               className="mt-5 rounded-[10px] border border-[#E0E4E7] px-4 py-5 xl:rounded-[14px] xl:px-8 xl:py-8"
@@ -160,26 +160,33 @@ export default async function ConsultationDetailPage({
                 의료진 답변
               </h2>
 
-              <div className="flex items-center gap-3 border-b border-[#E4E7EA] pb-4">
-                <div className="relative size-12 shrink-0 overflow-hidden rounded-full bg-[#F2F3F4] xl:size-14">
-                  {item.doctor.imageSrc ? (
-                    <Image
-                      src={item.doctor.imageSrc}
-                      alt={item.doctor.name}
-                      fill
-                      sizes="56px"
-                      className="object-cover"
-                    />
-                  ) : null}
-                </div>
+              <div className="border-b border-[#E4E7EA] pb-4">
+                <p className="mb-3 text-[10px] font-medium text-[#9298A0] xl:text-[11px]">
+                  관련 의료진
+                </p>
+                <div className="flex flex-wrap gap-4">
+                  {item.doctors.map((doctor) => (
+                    <div key={doctor.id} className="flex items-center gap-3">
+                      <div className="relative size-12 shrink-0 overflow-hidden rounded-full bg-[#F2F3F4] xl:size-14">
+                        <Image
+                          src={doctor.imageSrc}
+                          alt={doctor.name}
+                          fill
+                          sizes="56px"
+                          className="object-cover"
+                        />
+                      </div>
 
-                <div>
-                  <p className="text-[13px] font-semibold text-[#FF6B3C] xl:text-[15px]">
-                    {item.doctor.department} {item.doctor.name}
-                  </p>
-                  <p className="mt-1 text-[9px] text-[#9298A0] xl:text-[11px]">
-                    전문분야 | {item.doctor.specialties.join(', ')}
-                  </p>
+                      <div>
+                        <p className="text-[13px] font-semibold text-[#FF6B3C] xl:text-[15px]">
+                          {doctor.department} {doctor.name}
+                        </p>
+                        <p className="mt-1 text-[9px] text-[#9298A0] xl:text-[11px]">
+                          전문분야 | {doctor.specialties.join(', ')}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
 

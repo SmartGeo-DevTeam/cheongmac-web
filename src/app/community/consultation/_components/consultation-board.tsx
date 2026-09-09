@@ -171,6 +171,11 @@ function ConsultationCard({
             <strong className="font-semibold text-[#FF6F3D]">
               {item.doctor.department} {item.doctor.name}
             </strong>
+            {item.doctors.length > 1 ? (
+              <span className="text-[#8E959D]">
+                외 {item.doctors.length - 1}명
+              </span>
+            ) : null}
             <span className="text-[#9AA0A7]">이 답변했어요</span>
           </div>
         ) : null}
@@ -196,7 +201,7 @@ export default function ConsultationBoard({
         item.title,
         item.category.primary,
         item.category.secondary,
-        item.doctor?.name ?? '',
+        ...item.doctors.map((doctor) => doctor.name),
       ]
         .join(' ')
         .toLocaleLowerCase('ko-KR')

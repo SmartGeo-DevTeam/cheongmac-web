@@ -1,6 +1,5 @@
-import PageHeader, {
-  type PageHeaderTitleAs,
-} from '@/app/_components/ui/page-header';
+import NavigationPageHeader from '@/app/_components/ui/navigation-page-header';
+import type { PageHeaderTitleAs } from '@/app/_components/ui/page-header';
 
 export default function NoticePageHeader({
   titleAs = 'h1',
@@ -8,12 +7,9 @@ export default function NoticePageHeader({
   titleAs?: PageHeaderTitleAs;
 }) {
   return (
-    <PageHeader
-      breadcrumbs={[
-        { label: '소통공간', href: '/community/cases' },
-        { label: '공지사항' },
-      ]}
-      title="공지사항"
+    <NavigationPageHeader
+      id="notice-page-header"
+      navigationPath="/community/notice"
       titleAs={titleAs}
     />
   );

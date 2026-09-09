@@ -1,13 +1,10 @@
-import PageHeader from '@/app/_components/ui/page-header';
+import NavigationPageHeader from '@/app/_components/ui/navigation-page-header';
 
 export default function CustomerVoicePageHeader() {
   return (
-    <PageHeader
-      breadcrumbs={[
-        { label: '소통공간', href: '/community/cases' },
-        { label: '고객의 소리' },
-      ]}
-      title="고객의 소리"
+    <NavigationPageHeader
+      id="customer-voice-page-header"
+      navigationPath="/community/customer-voice"
       description={
         <>
           칭찬도 아쉬움도, 환자분의 모든 목소리에 귀 기울입니다.

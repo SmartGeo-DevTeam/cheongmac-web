@@ -8,6 +8,7 @@ import {
 import { SidebarInset, SidebarProvider } from '@/_shadcn/ui/sidebar';
 import AdminSidebar from './_components/admin-sidebar';
 import {
+  Database,
   ExternalLink,
   FileText,
   LayoutDashboard,
@@ -114,6 +115,13 @@ export default async function AdminLayout({
                   aria-label="의료진 관리"
                 >
                   <Stethoscope className="size-4" />
+                </Link>
+                <Link
+                  href="/admin/content-relations"
+                  className="inline-flex size-9 items-center justify-center rounded-md text-[#52525B] hover:bg-[#F4F4F5]"
+                  aria-label="관계형 콘텐츠 DB"
+                >
+                  <Database className="size-4" />
                 </Link>
               </nav>
 

@@ -1,6 +1,9 @@
 'use client';
 
-import type { NavigationItem } from '@/_lib/navigation';
+import {
+  resolveNavigationLevels,
+  type NavigationItem,
+} from '@/_lib/navigation-shared';
 import { cn } from '@/_lib/utils';
 import { usePrimaryNavigation } from '@/app/_providers/navigation-provider';
 import { ChevronDown, Home } from 'lucide-react';
@@ -19,89 +22,6 @@ export type BreadcrumbItem = {
   href?: string;
   showChevron?: boolean;
 };
-
-type BreadcrumbLevel = {
-  current: NavigationItem;
-  options: NavigationItem[];
-};
-
-function isInternalHref(href: string) {
-  return href.startsWith('/');
-}
-
-function matchesPath(pathname: string, href: string) {
-  if (!isInternalHref(href)) return false;
-  if (href === '/') return pathname === '/';
-
-  return pathname === href || pathname.startsWith(`${href}/`);
-}
-
-function resolveNavigationLevels(
-  navigation: NavigationItem[],
-  pathname: string,
-): BreadcrumbLevel[] {
-  /*
-   * 상위 메뉴와 첫 번째 하위 메뉴가 같은 href를 사용하는 경우가 있습니다.
-   *
-   * 예)
-   * 교육·연구  /education-research/exchange
-   * └ 학술교류 /education-research/exchange
-   *
-   * 따라서 parent를 먼저 확정하면 child가 누락될 수 있습니다.
-   * 하위 메뉴를 우선 탐색하고, 가장 구체적인 child match가 있으면
-   * 반드시 parent + child 두 단계를 모두 반환합니다.
-   */
-  let matchedParent: NavigationItem | null = null;
-  let matchedChild: NavigationItem | null = null;
-  let bestChildLength = -1;
-
-  for (const parent of navigation) {
-    for (const child of parent.children ?? []) {
-      if (!matchesPath(pathname, child.href)) continue;
-
-      if (child.href.length > bestChildLength) {
-        matchedParent = parent;
-        matchedChild = child;
-        bestChildLength = child.href.length;
-      }
-    }
-  }
-
-  if (matchedParent && matchedChild) {
-    return [
-      {
-        current: matchedParent,
-        options: navigation,
-      },
-      {
-        current: matchedChild,
-        options: matchedParent.children ?? [],
-      },
-    ];
-  }
-
-  let parentOnly: NavigationItem | null = null;
-  let bestParentLength = -1;
-
-  for (const parent of navigation) {
-    if (
-      matchesPath(pathname, parent.href) &&
-      parent.href.length > bestParentLength
-    ) {
-      parentOnly = parent;
-      bestParentLength = parent.href.length;
-    }
-  }
-
-  if (!parentOnly) return [];
-
-  return [
-    {
-      current: parentOnly,
-      options: navigation,
-    },
-  ];
-}
 
 function FallbackBreadcrumb({
   componentId,
@@ -130,18 +50,26 @@ function FallbackBreadcrumb({
               >
                 <span className="truncate">{item.label}</span>
                 {item.showChevron !== false ? (
-                  <ChevronDown className="size-3.5 shrink-0" strokeWidth={1.6} />
+                  <ChevronDown
+                    className="size-3.5 shrink-0"
+                    strokeWidth={1.6}
+                  />
                 ) : null}
               </Link>
             ) : (
               <span
                 id={itemId}
-                aria-current={index === items.length - 1 ? 'page' : undefined}
+                aria-current={
+                  index === items.length - 1 ? 'page' : undefined
+                }
                 className="flex min-w-0 items-center gap-2"
               >
                 <span className="truncate">{item.label}</span>
                 {item.showChevron !== false ? (
-                  <ChevronDown className="size-3.5 shrink-0" strokeWidth={1.6} />
+                  <ChevronDown
+                    className="size-3.5 shrink-0"
+                    strokeWidth={1.6}
+                  />
                 ) : null}
               </span>
             )}
@@ -190,7 +118,11 @@ export default function Breadcrumb({
     };
 
     document.addEventListener('mousedown', closeOnOutsideClick);
-    return () => document.removeEventListener('mousedown', closeOnOutsideClick);
+    return () =>
+      document.removeEventListener(
+        'mousedown',
+        closeOnOutsideClick,
+      );
   }, []);
 
   return (
@@ -200,7 +132,9 @@ export default function Breadcrumb({
       aria-label="현재 위치"
       className={cn(
         'relative z-30 flex min-w-0 items-center text-[#555B63]',
-        variant === 'compact' ? 'text-[11px] xl:text-sm' : 'text-xs xl:text-sm',
+        variant === 'compact'
+          ? 'text-[11px] xl:text-sm'
+          : 'text-xs xl:text-sm',
         className,
       )}
     >
@@ -209,7 +143,10 @@ export default function Breadcrumb({
         href="/"
         className="flex shrink-0 items-center gap-1 transition hover:text-[#006651]"
       >
-        <Home className="size-3.5 xl:size-4" strokeWidth={1.8} />
+        <Home
+          className="size-3.5 xl:size-4"
+          strokeWidth={1.8}
+        />
         <span>홈</span>
       </Link>
 
@@ -233,11 +170,15 @@ export default function Breadcrumb({
                   aria-haspopup="menu"
                   aria-expanded={isOpen}
                   onClick={() =>
-                    setOpenLevel((current) => (current === index ? null : index))
+                    setOpenLevel((current) =>
+                      current === index ? null : index,
+                    )
                   }
                   className="flex min-w-0 items-center gap-2 text-left transition hover:text-[#006651]"
                 >
-                  <span className="truncate">{level.current.title}</span>
+                  <span className="truncate">
+                    {level.current.title}
+                  </span>
                   <ChevronDown
                     className={cn(
                       'size-3.5 shrink-0 transition-transform',
@@ -254,7 +195,8 @@ export default function Breadcrumb({
                     className="absolute left-0 top-[calc(100%+10px)] min-w-[170px] overflow-hidden rounded-xl border border-[#E5E7EB] bg-white py-1.5 shadow-[0_12px_30px_rgba(0,0,0,0.12)]"
                   >
                     {level.options.map((option) => {
-                      const active = option.id === level.current.id;
+                      const active =
+                        option.id === level.current.id;
 
                       return (
                         <Link
@@ -262,7 +204,9 @@ export default function Breadcrumb({
                           key={option.id}
                           href={option.href}
                           role="menuitem"
-                          aria-current={active ? 'page' : undefined}
+                          aria-current={
+                            active ? 'page' : undefined
+                          }
                           onClick={() => setOpenLevel(null)}
                           className={cn(
                             'block whitespace-nowrap px-4 py-2.5 text-sm transition',
@@ -282,7 +226,10 @@ export default function Breadcrumb({
           );
         })
       ) : (
-        <FallbackBreadcrumb componentId={componentId} items={items} />
+        <FallbackBreadcrumb
+          componentId={componentId}
+          items={items}
+        />
       )}
     </nav>
   );

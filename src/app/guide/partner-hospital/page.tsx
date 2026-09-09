@@ -1,6 +1,6 @@
-import PageHeader from '@/app/_components/ui/page-header';
-import PartnerHospitalContent from './_components/partner-hospital-content';
+import NavigationPageHeader from '@/app/_components/ui/navigation-page-header';
 import type { Metadata } from 'next';
+import PartnerHospitalContent from './_components/partner-hospital-content';
 
 export const metadata: Metadata = {
   title: '의료협약병원 | 청맥병원',
@@ -11,12 +11,9 @@ export const metadata: Metadata = {
 export default function PartnerHospitalPage() {
   return (
     <div>
-      <PageHeader
-        breadcrumbs={[
-          { label: '이용안내', href: '/guide/partner-hospital' },
-          { label: '의료협약병원' },
-        ]}
-        title="의료협약병원"
+      <NavigationPageHeader
+        id="partner-hospital-page-header"
+        navigationPath="/guide/partner-hospital"
         description={
           <>
             우수 의료기관 및 다양한 기관과의 긴밀한 협력으로

@@ -1,6 +1,8 @@
+import { Prisma } from '@/generated/prisma/client';
 import { prisma } from '@/_lib/prisma';
 
 export type PublicConsultationDoctor = {
+  id: string;
   name: string;
   department: string;
   specialties: string[];
@@ -19,6 +21,7 @@ export type PublicConsultationItem = {
   hasLinkIcon: boolean;
   answered: boolean;
   doctor?: PublicConsultationDoctor;
+  doctors: PublicConsultationDoctor[];
   question: string[];
   imageSrc?: string;
   answer?: string[];
@@ -33,6 +36,7 @@ function textArray(value: unknown): string[] {
 
 function dateText(value: Date | null | undefined) {
   if (!value) return undefined;
+
   return new Intl.DateTimeFormat('ko-KR', {
     timeZone: 'Asia/Seoul',
     year: 'numeric',
@@ -49,36 +53,78 @@ function doctorImage(
 ) {
   return (
     images.find(
-      (image) => image.kind === 'PROFILE' && image.url.trim().length > 0,
+      (image) =>
+        image.kind === 'PROFILE' &&
+        image.url.trim().length > 0,
     )?.url ??
     images.find(
-      (image) => image.kind === 'CUTOUT' && image.url.trim().length > 0,
+      (image) =>
+        image.kind === 'CUTOUT' &&
+        image.url.trim().length > 0,
     )?.url ??
     '/assets/brand/symbol.svg'
   );
 }
 
-function mapConsultation(row: {
-  id: number;
-  categoryPrimary: string;
-  categorySecondary: string;
-  title: string;
-  question: unknown;
-  imageUrl: string | null;
-  isPrivate: boolean;
-  hasLinkIcon: boolean;
-  answer: unknown;
-  answerDate: Date | null;
-  publishedAt: Date;
-  doctor: null | {
-    name: string;
-    position: string;
-    department: string;
-    images: { kind: string; url: string }[];
-    specialties: { name: string }[];
+const consultationInclude = {
+  doctors: {
+    orderBy: { sortOrder: 'asc' as const },
+    include: {
+      doctor: {
+        select: {
+          id: true,
+          name: true,
+          position: true,
+          department: true,
+          images: {
+            orderBy: { sortOrder: 'asc' as const },
+            select: { kind: true, url: true },
+          },
+          specialties: {
+            orderBy: { sortOrder: 'asc' as const },
+            where: {
+              specialty: {
+                isVisible: true,
+              },
+            },
+            include: {
+              specialty: {
+                select: {
+                  name: true,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+} satisfies Prisma.MedicalConsultationInclude;
+
+type ConsultationRow =
+  Prisma.MedicalConsultationGetPayload<{
+    include: typeof consultationInclude;
+  }>;
+
+function mapDoctor(
+  link: ConsultationRow['doctors'][number],
+): PublicConsultationDoctor {
+  return {
+    id: link.doctor.id,
+    name: `${link.doctor.name} ${link.doctor.position}`,
+    department: link.doctor.department.replace(' 전문의', ''),
+    specialties: link.doctor.specialties.map(
+      (specialtyLink) => specialtyLink.specialty.name,
+    ),
+    imageSrc: doctorImage(link.doctor.images),
   };
-}): PublicConsultationItem {
+}
+
+function mapConsultation(
+  row: ConsultationRow,
+): PublicConsultationItem {
   const answer = textArray(row.answer);
+  const doctors = row.doctors.map(mapDoctor);
 
   return {
     id: row.id,
@@ -90,15 +136,9 @@ function mapConsultation(row: {
     date: dateText(row.publishedAt) ?? '',
     isPrivate: row.isPrivate,
     hasLinkIcon: row.hasLinkIcon,
-    answered: Boolean(row.doctor && answer.length),
-    doctor: row.doctor
-      ? {
-          name: `${row.doctor.name} ${row.doctor.position}`,
-          department: row.doctor.department.replace(' 전문의', ''),
-          specialties: row.doctor.specialties.map((item) => item.name),
-          imageSrc: doctorImage(row.doctor.images),
-        }
-      : undefined,
+    answered: Boolean(doctors.length && answer.length),
+    doctor: doctors[0],
+    doctors,
     question: textArray(row.question),
     imageSrc: row.imageUrl ?? undefined,
     answer: answer.length ? answer : undefined,
@@ -106,30 +146,17 @@ function mapConsultation(row: {
   };
 }
 
-const includeDoctor = {
-  doctor: {
-    select: {
-      name: true,
-      position: true,
-      department: true,
-      images: {
-        orderBy: { sortOrder: 'asc' as const },
-        select: { kind: true, url: true },
-      },
-      specialties: {
-        where: { isVisible: true },
-        orderBy: { sortOrder: 'asc' as const },
-        select: { name: true },
-      },
-    },
-  },
-};
-
-export async function getPublicConsultations(): Promise<PublicConsultationItem[]> {
+export async function getPublicConsultations(): Promise<
+  PublicConsultationItem[]
+> {
   const rows = await prisma.medicalConsultation.findMany({
     where: { isVisible: true },
-    orderBy: [{ publishedAt: 'desc' }, { sortOrder: 'asc' }, { id: 'desc' }],
-    include: includeDoctor,
+    orderBy: [
+      { publishedAt: 'desc' },
+      { sortOrder: 'asc' },
+      { id: 'desc' },
+    ],
+    include: consultationInclude,
   });
 
   return rows.map(mapConsultation);
@@ -138,7 +165,7 @@ export async function getPublicConsultations(): Promise<PublicConsultationItem[]
 export async function getPublicConsultationById(id: number) {
   const row = await prisma.medicalConsultation.findFirst({
     where: { id, isVisible: true },
-    include: includeDoctor,
+    include: consultationInclude,
   });
 
   return row ? mapConsultation(row) : null;

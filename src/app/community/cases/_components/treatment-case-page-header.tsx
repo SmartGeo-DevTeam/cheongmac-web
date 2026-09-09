@@ -1,6 +1,5 @@
-import PageHeader, {
-  type PageHeaderTitleAs,
-} from '@/app/_components/ui/page-header';
+import NavigationPageHeader from '@/app/_components/ui/navigation-page-header';
+import type { PageHeaderTitleAs } from '@/app/_components/ui/page-header';
 import TreatmentCaseToaster from './treatment-case-toaster';
 
 export default function TreatmentCasePageHeader({
@@ -11,12 +10,9 @@ export default function TreatmentCasePageHeader({
   return (
     <>
       <TreatmentCaseToaster />
-      <PageHeader
-        breadcrumbs={[
-          { label: '소통공간', href: '/community/cases' },
-          { label: '치료사례' },
-        ]}
-        title="치료 사례"
+      <NavigationPageHeader
+        id="treatment-case-page-header"
+        navigationPath="/community/cases"
         titleAs={titleAs}
         description={
           <>

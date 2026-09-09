@@ -1,7 +1,5 @@
-import {
-  getPrimaryNavigation,
-  type NavigationItem,
-} from '@/_lib/navigation';
+import { getPrimaryNavigation } from '@/_lib/navigation';
+import type { NavigationItem } from '@/_lib/navigation-shared';
 import HeaderClient from './header-client';
 
 export default async function Header({

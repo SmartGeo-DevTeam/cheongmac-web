@@ -1,4 +1,4 @@
-import PageHeader from '@/app/_components/ui/page-header';
+import NavigationPageHeader from '@/app/_components/ui/navigation-page-header';
 import { getDoctorBaseBySlug } from '@/_lib/doctors';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
@@ -31,13 +31,9 @@ export default async function DoctorDetailPage({
 
   return (
     <div>
-      <PageHeader
+      <NavigationPageHeader
         id="doctor-detail-page-header"
-        breadcrumbs={[
-          { label: '병원 소개', href: '/about/doctors' },
-          { label: '의료진/진료과', href: '/about/doctors' },
-        ]}
-        title="의료진 상세보기"
+        navigationPath="/about/doctors"
         titleAs="div"
       />
 

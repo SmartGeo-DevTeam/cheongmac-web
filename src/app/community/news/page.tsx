@@ -1,5 +1,5 @@
 import MoreSocials from '@/app/_components/more-socials';
-import PageHeader from '@/app/_components/ui/page-header';
+import NavigationPageHeader from '@/app/_components/ui/navigation-page-header';
 import NewsBoard from '@/app/community/news/_components/news-board';
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
@@ -12,12 +12,9 @@ export const metadata: Metadata = {
 export default function CommunityNewsPage() {
   return (
     <div>
-      <PageHeader
-        breadcrumbs={[
-          { label: '소통공간', href: '/community/cases' },
-          { label: '청맥뉴스' },
-        ]}
-        title="청맥뉴스"
+      <NavigationPageHeader
+        id="community-news-page-header"
+        navigationPath="/community/news"
       />
 
       <div className="mt-8 xl:mt-14">
@@ -30,7 +27,7 @@ export default function CommunityNewsPage() {
         </Suspense>
       </div>
 
-      <div className="mt-14 mb-16 xl:mt-24 xl:mb-20">
+      <div className="mb-16 mt-14 xl:mb-20 xl:mt-24">
         <MoreSocials />
       </div>
     </div>

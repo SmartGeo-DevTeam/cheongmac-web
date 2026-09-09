@@ -1,5 +1,5 @@
 import { buttonClassName } from '@/app/_components/ui/button';
-import PageHeader from '@/app/_components/ui/page-header';
+import NavigationPageHeader from '@/app/_components/ui/navigation-page-header';
 import ShareButton from '@/app/community/news/[id]/_components/share-button';
 import {
   getNewsClientById,
@@ -99,13 +99,9 @@ export default async function NewsDetailPage({
 
   return (
     <div>
-      <PageHeader
+      <NavigationPageHeader
         id="news-detail-page-header"
-        breadcrumbs={[
-          { label: '병원소식', href: '/community/notice' },
-          { label: '청맥뉴스' },
-        ]}
-        title="청맥뉴스"
+        navigationPath="/community/news"
         titleAs="div"
       />
 
