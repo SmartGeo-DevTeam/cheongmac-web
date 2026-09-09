@@ -1,5 +1,6 @@
 import { cn } from '@/_lib/utils';
 import type { ButtonHTMLAttributes } from 'react';
+import { useComponentId } from './component-id';
 
 export type ButtonVariant =
   | 'primary'
@@ -46,6 +47,7 @@ export function buttonClassName({
 }
 
 export default function Button({
+  id,
   variant = 'primary',
   size = 'md',
   className,
@@ -55,8 +57,11 @@ export default function Button({
   variant?: ButtonVariant;
   size?: ButtonSize;
 }) {
+  const componentId = useComponentId('cm-button', id);
+
   return (
     <button
+      id={componentId}
       type={type}
       className={buttonClassName({ variant, size, className })}
       {...props}

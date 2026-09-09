@@ -3,6 +3,7 @@
 import { cn } from '@/_lib/utils';
 import { Search } from 'lucide-react';
 import type { InputHTMLAttributes } from 'react';
+import { useComponentId } from './component-id';
 import Input from './input';
 
 type SearchFieldSize = 'sm' | 'md' | 'lg';
@@ -26,33 +27,46 @@ const iconClasses: Record<SearchFieldSize, string> = {
 };
 
 export default function SearchField({
+  componentId: requestedComponentId,
   ariaLabel,
   size = 'sm',
   className,
   inputClassName,
+  id: inputId,
   ...props
 }: Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'size'> & {
+  componentId?: string;
   ariaLabel: string;
   size?: SearchFieldSize;
   className?: string;
   inputClassName?: string;
 }) {
+  const componentId = useComponentId('cm-search-field', requestedComponentId);
+  const resolvedInputId = inputId ?? `${componentId}-input`;
+
   return (
     <label
+      id={componentId}
+      htmlFor={resolvedInputId}
       className={cn(
         'flex w-full items-center gap-2 rounded-full border border-[#E1E4E8] bg-white transition focus-within:border-[#A9C9C1]',
         wrapperClasses[size],
         className,
       )}
     >
-      <span className="sr-only">{ariaLabel}</span>
+      <span id={`${componentId}-label`} className="sr-only">
+        {ariaLabel}
+      </span>
       <Input
         {...props}
+        id={resolvedInputId}
         type="search"
         variant="bare"
+        aria-label={ariaLabel}
         className={cn(inputClasses[size], inputClassName)}
       />
       <Search
+        id={`${componentId}-icon`}
         className={cn('shrink-0 text-[#545B62]', iconClasses[size])}
         strokeWidth={1.7}
       />

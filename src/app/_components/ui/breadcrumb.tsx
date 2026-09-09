@@ -1,6 +1,7 @@
 import { cn } from '@/_lib/utils';
 import { ChevronDown, Home } from 'lucide-react';
 import Link from 'next/link';
+import { useComponentId } from './component-id';
 
 export type BreadcrumbItem = {
   label: string;
@@ -9,16 +10,21 @@ export type BreadcrumbItem = {
 };
 
 export default function Breadcrumb({
+  id,
   items,
   variant = 'default',
   className,
 }: {
+  id?: string;
   items: BreadcrumbItem[];
   variant?: 'default' | 'compact';
   className?: string;
 }) {
+  const componentId = useComponentId('cm-breadcrumb', id);
+
   return (
     <nav
+      id={componentId}
       aria-label="현재 위치"
       className={cn(
         'flex min-w-0 items-center text-[#555B63]',
@@ -27,6 +33,7 @@ export default function Breadcrumb({
       )}
     >
       <Link
+        id={`${componentId}-home`}
         href="/"
         className="flex shrink-0 items-center gap-1 transition hover:text-[#006651]"
       >
@@ -35,6 +42,7 @@ export default function Breadcrumb({
       </Link>
 
       {items.map((item, index) => {
+        const itemId = `${componentId}-item-${index}`;
         const content = (
           <>
             <span className="truncate">{item.label}</span>
@@ -47,11 +55,13 @@ export default function Breadcrumb({
         return (
           <div key={`${item.label}-${index}`} className="contents">
             <span
+              id={`${itemId}-divider`}
               aria-hidden="true"
               className="mx-2 h-3.5 w-px shrink-0 bg-[#DDDDDD]"
             />
             {item.href ? (
               <Link
+                id={itemId}
                 href={item.href}
                 className="flex min-w-0 items-center gap-2 transition hover:text-[#006651]"
               >
@@ -59,6 +69,7 @@ export default function Breadcrumb({
               </Link>
             ) : (
               <span
+                id={itemId}
                 aria-current={index === items.length - 1 ? 'page' : undefined}
                 className="flex min-w-0 items-center gap-2"
               >

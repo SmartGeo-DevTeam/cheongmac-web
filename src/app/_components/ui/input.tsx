@@ -1,5 +1,6 @@
 import { cn } from '@/_lib/utils';
 import type { InputHTMLAttributes } from 'react';
+import { useComponentId } from './component-id';
 
 export type InputVariant = 'default' | 'form' | 'bare';
 
@@ -12,14 +13,18 @@ const variantClasses: Record<InputVariant, string> = {
 };
 
 export default function Input({
+  id,
   variant = 'default',
   className,
   ...props
 }: InputHTMLAttributes<HTMLInputElement> & {
   variant?: InputVariant;
 }) {
+  const componentId = useComponentId('cm-input', id);
+
   return (
     <input
+      id={componentId}
       className={cn(
         'w-full outline-none transition disabled:cursor-not-allowed disabled:opacity-50',
         variantClasses[variant],

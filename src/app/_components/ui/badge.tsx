@@ -1,5 +1,6 @@
 import { cn } from '@/_lib/utils';
 import type { HTMLAttributes } from 'react';
+import { useComponentId } from './component-id';
 
 export type BadgeVariant =
   | 'green'
@@ -25,6 +26,7 @@ const sizeClasses: Record<BadgeSize, string> = {
 };
 
 export default function Badge({
+  id,
   variant = 'gray',
   size = 'md',
   className,
@@ -33,8 +35,11 @@ export default function Badge({
   variant?: BadgeVariant;
   size?: BadgeSize;
 }) {
+  const componentId = useComponentId('cm-badge', id);
+
   return (
     <span
+      id={componentId}
       className={cn(
         'inline-flex shrink-0 items-center rounded-md font-semibold',
         variantClasses[variant],

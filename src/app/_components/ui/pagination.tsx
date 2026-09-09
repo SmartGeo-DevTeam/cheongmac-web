@@ -8,6 +8,7 @@ import {
   ChevronsRight,
 } from 'lucide-react';
 import Button from './button';
+import { useComponentId } from './component-id';
 
 type PaginationSize = 'sm' | 'md' | 'lg';
 
@@ -34,6 +35,7 @@ function visiblePages(currentPage: number, totalPages: number, maxVisible: numbe
 }
 
 export default function Pagination({
+  id,
   currentPage,
   totalPages,
   onPageChange,
@@ -44,6 +46,7 @@ export default function Pagination({
   showLast = true,
   className,
 }: {
+  id?: string;
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
@@ -54,6 +57,8 @@ export default function Pagination({
   showLast?: boolean;
   className?: string;
 }) {
+  const componentId = useComponentId('cm-pagination', id);
+
   if (totalPages <= 1) return null;
 
   const pages = visiblePages(currentPage, totalPages, maxVisible);
@@ -62,11 +67,13 @@ export default function Pagination({
 
   return (
     <nav
+      id={componentId}
       aria-label={ariaLabel}
       className={cn('flex items-center justify-center gap-1.5 xl:gap-2', className)}
     >
       {showFirst ? (
         <Button
+          id={`${componentId}-first`}
           variant="ghost"
           size="icon"
           onClick={() => move(1)}
@@ -79,6 +86,7 @@ export default function Pagination({
       ) : null}
 
       <Button
+        id={`${componentId}-previous`}
         variant="ghost"
         size="icon"
         onClick={() => move(currentPage - 1)}
@@ -91,6 +99,7 @@ export default function Pagination({
 
       {pages.map((page) => (
         <button
+          id={`${componentId}-page-${page}`}
           key={page}
           type="button"
           aria-current={page === currentPage ? 'page' : undefined}
@@ -108,6 +117,7 @@ export default function Pagination({
       ))}
 
       <Button
+        id={`${componentId}-next`}
         variant="ghost"
         size="icon"
         onClick={() => move(currentPage + 1)}
@@ -120,6 +130,7 @@ export default function Pagination({
 
       {showLast ? (
         <Button
+          id={`${componentId}-last`}
           variant="ghost"
           size="icon"
           onClick={() => move(totalPages)}

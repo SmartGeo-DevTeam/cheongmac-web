@@ -2,6 +2,7 @@
 
 import { cn } from '@/_lib/utils';
 import type { ReactNode } from 'react';
+import { useComponentId } from './component-id';
 
 export type FilterTabItem<T extends string | number> = {
   value: T;
@@ -33,6 +34,7 @@ const inactiveClasses: Record<FilterTabsTone, string> = {
 };
 
 export default function FilterTabs<T extends string | number>({
+  id,
   items,
   value,
   onValueChange,
@@ -42,6 +44,7 @@ export default function FilterTabs<T extends string | number>({
   scrollable = false,
   className,
 }: {
+  id?: string;
   items: readonly FilterTabItem<T>[];
   value: T;
   onValueChange: (value: T) => void;
@@ -51,8 +54,11 @@ export default function FilterTabs<T extends string | number>({
   scrollable?: boolean;
   className?: string;
 }) {
+  const componentId = useComponentId('cm-filter-tabs', id);
+
   return (
     <div
+      id={componentId}
       role="tablist"
       aria-label={ariaLabel}
       className={cn(
@@ -63,11 +69,12 @@ export default function FilterTabs<T extends string | number>({
         className,
       )}
     >
-      {items.map((item) => {
+      {items.map((item, index) => {
         const active = item.value === value;
 
         return (
           <button
+            id={`${componentId}-item-${index}`}
             key={String(item.value)}
             type="button"
             role="tab"

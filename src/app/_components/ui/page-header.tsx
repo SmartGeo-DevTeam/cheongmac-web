@@ -1,6 +1,7 @@
 import { cn } from '@/_lib/utils';
 import type { ReactNode } from 'react';
 import Breadcrumb, { type BreadcrumbItem } from './breadcrumb';
+import { useComponentId } from './component-id';
 import PageContainer from './page-container';
 
 type PageHeaderVariant = 'standard' | 'compact';
@@ -21,6 +22,7 @@ const descriptionClasses: Record<PageHeaderVariant, string> = {
 };
 
 export default function PageHeader({
+  id,
   breadcrumbs,
   title,
   description,
@@ -31,6 +33,7 @@ export default function PageHeader({
   descriptionClassName,
   dividerClassName,
 }: {
+  id?: string;
   breadcrumbs: BreadcrumbItem[];
   title: ReactNode;
   description?: ReactNode;
@@ -41,30 +44,41 @@ export default function PageHeader({
   descriptionClassName?: string;
   dividerClassName?: string;
 }) {
+  const componentId = useComponentId('cm-page-header', id);
+
   return (
     <>
       <div
+        id={componentId}
         className={cn(
           variant === 'compact' ? 'pt-22 xl:pt-5' : 'pt-20 xl:pt-5',
           className,
         )}
       >
-        <PageContainer gutter="always">
+        <PageContainer id={`${componentId}-container`} gutter="always">
           <Breadcrumb
+            id={`${componentId}-breadcrumb`}
             items={breadcrumbs}
             variant={variant === 'compact' ? 'compact' : 'default'}
           />
 
           <header
+            id={`${componentId}-content`}
             className={cn(
               'flex flex-col items-center text-center',
               variant === 'compact' ? 'mt-10 xl:mt-10' : 'mt-10 xl:mt-11',
             )}
           >
-            <h1 className={cn(titleClasses[variant], titleClassName)}>{title}</h1>
+            <h1
+              id={`${componentId}-title`}
+              className={cn(titleClasses[variant], titleClassName)}
+            >
+              {title}
+            </h1>
 
             {description ? (
               <div
+                id={`${componentId}-description`}
                 className={cn(
                   descriptionClasses[variant],
                   descriptionClassName,
@@ -79,6 +93,7 @@ export default function PageHeader({
 
       {divider !== 'none' ? (
         <div
+          id={`${componentId}-divider`}
           className={cn(
             'mt-8 border-t border-[#EEEEEE] xl:mt-12',
             divider === 'desktop' && 'hidden xl:block',
