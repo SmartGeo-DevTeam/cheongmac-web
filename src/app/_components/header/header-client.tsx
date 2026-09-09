@@ -168,7 +168,8 @@ export default function HeaderClient({
 
         {/* Common - AI Search */}
         <section
-          className={`absolute left-0 top-16.5 w-full transition-all duration-200 ease-out z-30
+          id="header-ai-search-layer"
+          className={`pointer-events-none absolute left-0 top-16.5 w-full transition-all duration-200 ease-out z-30
             xl:top-22
             ${
               shouldHideAiSearch
@@ -177,9 +178,13 @@ export default function HeaderClient({
             }
             `}
         >
-          <div className="relative px-4 mx-auto max-w-7xl w-full flex justify-end">
+          <div
+            id="header-ai-search-container"
+            className="relative px-4 mx-auto max-w-7xl w-full flex justify-end"
+          >
             <form
-              className="px-3 py-1.75 w-full flex items-center gap-1 rounded-xl border border-black/5 bg-white shadow-[0_1px_0_0_rgb(55_55_55/0.2)]
+              id="header-ai-search-form"
+              className="pointer-events-auto px-3 py-1.75 w-full flex items-center gap-1 rounded-xl border border-black/5 bg-white shadow-[0_1px_0_0_rgb(55_55_55/0.2)]
               xl:px-4 xl:py-2.5 xl:w-auto xl:bg-[#333333]/50"
               onClick={handleAiSearchOpen}
               onFocusCapture={handleAiSearchOpen}
