@@ -1,7 +1,8 @@
 "use client";
 
 import Inner from "@/app/_components/inner";
-import { ArrowRight, HeartIcon, Home } from "lucide-react";
+import Breadcrumb from "@/app/_components/ui/breadcrumb";
+import { ArrowRight, HeartIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -125,27 +126,7 @@ export default function DoctorDetailPage(): React.ReactElement {
     >
       <Inner usePaddingHorizontal>
         <section>
-          <div
-            className="flex items-center text-xs
-          xl:text-base"
-          >
-            <Link href="/" className="flex items-center gap-1">
-              <Home size={16} />
-              <span>홈</span>
-            </Link>
-
-            <div className="mx-1.5 w-px h-4 bg-[#DDDDDD]" />
-
-            <select defaultValue="병원소개">
-              <option>병원소개</option>
-            </select>
-
-            <div className="mx-1.5 w-px h-4 bg-[#DDDDDD]" />
-
-            <select defaultValue="의료진/진료과">
-              <option>의료진/진료과</option>
-            </select>
-          </div>
+          <Breadcrumb id="doctor-detail-breadcrumb" />
 
           <div
             className="mt-10 mb-5 flex flex-col items-center justify-center

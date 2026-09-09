@@ -1,6 +1,7 @@
 import BottomBanner from "@/app/_components/bottom-banners";
 import Inner from "@/app/_components/inner";
-import { HeartIcon, Home, Search } from "lucide-react";
+import Breadcrumb from "@/app/_components/ui/breadcrumb";
+import { HeartIcon, Search } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -112,27 +113,7 @@ export default function AboutDoctors(): React.ReactNode {
     >
       <Inner usePaddingHorizontal>
         <section>
-          <div
-            className="flex items-center text-xs
-            xl:text-base"
-          >
-            <Link href="/" className="flex items-center gap-1">
-              <Home size={16} />
-              <span>홈</span>
-            </Link>
-
-            <div className="mx-1.5 w-px h-4 bg-[#DDDDDD]" />
-
-            <select defaultValue="병원소개">
-              <option>병원소개</option>
-            </select>
-
-            <div className="mx-1.5 w-px h-4 bg-[#DDDDDD]" />
-
-            <select defaultValue="의료진/진료과">
-              <option>의료진/진료과</option>
-            </select>
-          </div>
+          <Breadcrumb id="about-doctors-breadcrumb" />
 
           <div
             className="mt-10 mb-5 flex flex-col items-center justify-center
@@ -198,6 +179,10 @@ export default function AboutDoctors(): React.ReactNode {
               </span>
 
               <input
+                id="doctor-search-input"
+                name="doctorSearch"
+                type="search"
+                autoComplete="off"
                 placeholder="의료진 성명 및 전문분야로 검색해보세요."
                 className="pl-5 w-full h-10.5 rounded-lg border border-[#CCCCCC] font-medium text-sm
                 xl:h-15 xl:px-5 xl:w-3/5 xl:text-lg"

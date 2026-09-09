@@ -40,43 +40,67 @@ function resolveNavigationLevels(
   navigation: NavigationItem[],
   pathname: string,
 ): BreadcrumbLevel[] {
+  /*
+   * 상위 메뉴와 첫 번째 하위 메뉴가 같은 href를 사용하는 경우가 있습니다.
+   *
+   * 예)
+   * 교육·연구  /education-research/exchange
+   * └ 학술교류 /education-research/exchange
+   *
+   * 따라서 parent를 먼저 확정하면 child가 누락될 수 있습니다.
+   * 하위 메뉴를 우선 탐색하고, 가장 구체적인 child match가 있으면
+   * 반드시 parent + child 두 단계를 모두 반환합니다.
+   */
   let matchedParent: NavigationItem | null = null;
   let matchedChild: NavigationItem | null = null;
-  let bestLength = -1;
+  let bestChildLength = -1;
 
   for (const parent of navigation) {
-    if (matchesPath(pathname, parent.href) && parent.href.length > bestLength) {
-      matchedParent = parent;
-      matchedChild = null;
-      bestLength = parent.href.length;
-    }
-
     for (const child of parent.children ?? []) {
-      if (matchesPath(pathname, child.href) && child.href.length > bestLength) {
+      if (!matchesPath(pathname, child.href)) continue;
+
+      if (child.href.length > bestChildLength) {
         matchedParent = parent;
         matchedChild = child;
-        bestLength = child.href.length;
+        bestChildLength = child.href.length;
       }
     }
   }
 
-  if (!matchedParent) return [];
+  if (matchedParent && matchedChild) {
+    return [
+      {
+        current: matchedParent,
+        options: navigation,
+      },
+      {
+        current: matchedChild,
+        options: matchedParent.children ?? [],
+      },
+    ];
+  }
 
-  const levels: BreadcrumbLevel[] = [
+  let parentOnly: NavigationItem | null = null;
+  let bestParentLength = -1;
+
+  for (const parent of navigation) {
+    if (
+      matchesPath(pathname, parent.href) &&
+      parent.href.length > bestParentLength
+    ) {
+      parentOnly = parent;
+      bestParentLength = parent.href.length;
+    }
+  }
+
+  if (!parentOnly) return [];
+
+  return [
     {
-      current: matchedParent,
+      current: parentOnly,
       options: navigation,
     },
   ];
-
-  if (matchedChild) {
-    levels.push({
-      current: matchedChild,
-      options: matchedParent.children ?? [],
-    });
-  }
-
-  return levels;
 }
 
 function FallbackBreadcrumb({
