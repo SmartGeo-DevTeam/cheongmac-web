@@ -620,7 +620,7 @@ export default function MacGptSearchLayer() {
     xl:bottom-0
     xl:left-0
     xl:right-0
-    xl:top-[148px]
+    xl:top-[68px]
   "
         >
           {/* MOBILE HEADER OVERLAY */}
@@ -677,7 +677,7 @@ export default function MacGptSearchLayer() {
            */}
           <div
             id="mac-gpt-search-content"
-            className="pointer-events-auto relative mt-[60px] min-h-0 flex-1 overflow-hidden xl:mt-0"
+            className="pointer-events-auto relative min-h-0 flex-1 overflow-hidden"
             style={{
               background:
                 'radial-gradient(at 43% 38%, rgba(255, 218, 143, 0.34) 0%, rgba(255, 218, 143, 0) 35%), radial-gradient(at 63% 39%, rgba(255, 133, 93, 0.22) 0%, rgba(255, 133, 93, 0) 39%), linear-gradient(120deg, rgb(238, 246, 250) 0%, rgb(255, 248, 234) 39%, rgb(255, 242, 239) 72%, rgb(245, 248, 250) 100%)',
