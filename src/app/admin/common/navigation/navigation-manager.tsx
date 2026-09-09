@@ -55,9 +55,17 @@ function MenuEditorRow({
     setTitle(item.title);
     setHref(item.href);
     setIsVisible(item.isVisible);
+    setMessage('');
   }, [item.href, item.isVisible, item.title]);
 
+  const isDirty =
+    title !== item.title ||
+    href !== item.href ||
+    isVisible !== item.isVisible;
+
   const save = () => {
+    if (!isDirty || isPending) return;
+
     setMessage('');
 
     startTransition(async () => {
@@ -93,6 +101,21 @@ function MenuEditorRow({
     });
   };
 
+  const updateTitle = (value: string) => {
+    setTitle(value);
+    setMessage('');
+  };
+
+  const updateHref = (value: string) => {
+    setHref(value);
+    setMessage('');
+  };
+
+  const updateVisibility = (value: boolean) => {
+    setIsVisible(value);
+    setMessage('');
+  };
+
   return (
     <div
       className={
@@ -108,7 +131,7 @@ function MenuEditorRow({
           ) : null}
           <Input
             value={title}
-            onChange={(event) => setTitle(event.target.value)}
+            onChange={(event) => updateTitle(event.target.value)}
             aria-label={`${item.title} 메뉴 이름`}
             className="min-w-0 xl:max-w-[220px]"
           />
@@ -122,7 +145,7 @@ function MenuEditorRow({
         <div className="flex min-w-0 flex-1 items-center gap-2">
           <Input
             value={href}
-            onChange={(event) => setHref(event.target.value)}
+            onChange={(event) => updateHref(event.target.value)}
             aria-label={`${item.title} 연결 주소`}
             className="min-w-0"
           />
@@ -142,7 +165,7 @@ function MenuEditorRow({
             <input
               type="checkbox"
               checked={isVisible}
-              onChange={(event) => setIsVisible(event.target.checked)}
+              onChange={(event) => updateVisibility(event.target.checked)}
               className="size-4 accent-[#18181B]"
             />
             홈페이지에 보이기
@@ -171,7 +194,7 @@ function MenuEditorRow({
             </Button>
           </div>
 
-          <Button disabled={isPending} onClick={save}>
+          <Button disabled={isPending || !isDirty} onClick={save}>
             {isPending ? '처리 중...' : '저장'}
           </Button>
         </div>

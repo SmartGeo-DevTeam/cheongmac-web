@@ -5,7 +5,6 @@ import {
   getRoleLabel,
   normalizeRole,
 } from '@/_lib/roles';
-import { Badge } from '@/_shadcn/ui/badge';
 import { SidebarInset, SidebarProvider } from '@/_shadcn/ui/sidebar';
 import AdminSidebar from './_components/admin-sidebar';
 import {
@@ -71,6 +70,13 @@ export default async function AdminLayout({
                       <LayoutDashboard className="size-4" />
                     </Link>
                     <Link
+                      href="/admin/common/navigation"
+                      className="inline-flex size-9 items-center justify-center rounded-md text-[#52525B] hover:bg-[#F4F4F5]"
+                      aria-label="LNB 메뉴 관리"
+                    >
+                      <ListTree className="size-4" />
+                    </Link>
+                    <Link
                       href="/admin/members"
                       className="inline-flex size-9 items-center justify-center rounded-md text-[#52525B] hover:bg-[#F4F4F5]"
                       aria-label="전체 회원"
@@ -80,16 +86,9 @@ export default async function AdminLayout({
                     <Link
                       href="/admin/roles"
                       className="inline-flex size-9 items-center justify-center rounded-md text-[#52525B] hover:bg-[#F4F4F5]"
-                      aria-label="회원 권한 관리"
+                      aria-label="권한 관리"
                     >
                       <ShieldCheck className="size-4" />
-                    </Link>
-                    <Link
-                      href="/admin/common/navigation"
-                      className="inline-flex size-9 items-center justify-center rounded-md text-[#52525B] hover:bg-[#F4F4F5]"
-                      aria-label="LNB 메뉴 관리"
-                    >
-                      <ListTree className="size-4" />
                     </Link>
                   </>
                 ) : null}
@@ -100,17 +99,15 @@ export default async function AdminLayout({
                 >
                   <FileText className="size-4" />
                 </Link>
-                <Link
-                  href="/"
-                  className="inline-flex size-9 items-center justify-center rounded-md text-[#52525B] hover:bg-[#F4F4F5]"
-                  aria-label="홈페이지 보기"
-                >
-                  <ExternalLink className="size-4" />
-                </Link>
               </nav>
-              <Badge variant="outline" className="hidden md:inline-flex">
-                {getRoleLabel(role)}
-              </Badge>
+
+              <Link
+                href="/"
+                className="hidden h-9 items-center gap-2 rounded-md border border-[#E4E4E7] bg-white px-3 text-sm font-medium text-[#52525B] transition-colors hover:bg-[#F4F4F5] hover:text-[#18181B] md:inline-flex"
+              >
+                <ExternalLink className="size-4" />
+                홈페이지 보기
+              </Link>
             </div>
           </header>
 

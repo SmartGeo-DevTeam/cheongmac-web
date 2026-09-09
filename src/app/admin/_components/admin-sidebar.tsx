@@ -13,7 +13,6 @@ import {
   SidebarMenuItem,
 } from '@/_shadcn/ui/sidebar';
 import {
-  ExternalLink,
   FileText,
   LayoutDashboard,
   ListTree,
@@ -64,6 +63,26 @@ export default function AdminSidebar({
 
         {canAccessDashboard ? (
           <SidebarGroup>
+            <SidebarGroupLabel>공통</SidebarGroupLabel>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  href="/admin/common/navigation"
+                  active={
+                    pathname === '/admin/common/navigation' ||
+                    pathname.startsWith('/admin/common/navigation/')
+                  }
+                >
+                  <ListTree className="size-4" />
+                  LNB 메뉴 관리
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroup>
+        ) : null}
+
+        {canAccessDashboard ? (
+          <SidebarGroup>
             <SidebarGroupLabel>회원</SidebarGroupLabel>
             <SidebarMenu>
               <SidebarMenuItem>
@@ -87,27 +106,7 @@ export default function AdminSidebar({
                   }
                 >
                   <ShieldCheck className="size-4" />
-                  회원 권한 관리
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroup>
-        ) : null}
-
-        {canAccessDashboard ? (
-          <SidebarGroup>
-            <SidebarGroupLabel>공통</SidebarGroupLabel>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  href="/admin/common/navigation"
-                  active={
-                    pathname === '/admin/common/navigation' ||
-                    pathname.startsWith('/admin/common/navigation/')
-                  }
-                >
-                  <ListTree className="size-4" />
-                  LNB 메뉴 관리
+                  권한 관리
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
@@ -127,18 +126,6 @@ export default function AdminSidebar({
               >
                 <FileText className="size-4" />
                 콘텐츠 관리
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarGroup>
-
-        <SidebarGroup>
-          <SidebarGroupLabel>바로가기</SidebarGroupLabel>
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton href="/">
-                <ExternalLink className="size-4" />
-                홈페이지 보기
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
