@@ -620,7 +620,7 @@ export default function MacGptSearchLayer() {
     xl:bottom-0
     xl:left-0
     xl:right-0
-    xl:top-[68px]
+    xl:top-20
   "
         >
           {/* MOBILE HEADER OVERLAY */}
