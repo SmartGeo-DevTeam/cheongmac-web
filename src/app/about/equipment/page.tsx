@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function MedicalEquipmentPage() {
   return (
-    <main>
+    <div>
       <PageHeader
         breadcrumbs={[
           { label: '병원 소개', href: '/about/doctors' },
@@ -27,6 +27,6 @@ export default function MedicalEquipmentPage() {
       />
 
       <MedicalEquipmentContent />
-    </main>
+    </div>
   );
 }

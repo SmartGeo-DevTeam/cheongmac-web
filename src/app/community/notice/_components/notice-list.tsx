@@ -184,7 +184,7 @@ export default function NoticeList() {
   const noticeHref = (id: string) => `${pathname.replace(/\/$/, '')}/${id}`;
 
   return (
-    <div className="mx-auto w-full max-w-7xl pb-20 pt-4 xl:pb-28 xl:pt-11">
+    <div className="mx-auto w-full max-w-7xl pb-20 xl:pb-28">
       <section>
         <h2 className="text-base font-bold tracking-[-0.035em] text-[#272C31] xl:text-2xl">
           휴진 및 주요 공지

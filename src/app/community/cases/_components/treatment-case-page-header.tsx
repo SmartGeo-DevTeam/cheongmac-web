@@ -1,7 +1,13 @@
-import PageHeader from '@/app/_components/ui/page-header';
+import PageHeader, {
+  type PageHeaderTitleAs,
+} from '@/app/_components/ui/page-header';
 import TreatmentCaseToaster from './treatment-case-toaster';
 
-export default function TreatmentCasePageHeader() {
+export default function TreatmentCasePageHeader({
+  titleAs = 'h1',
+}: {
+  titleAs?: PageHeaderTitleAs;
+}) {
   return (
     <>
       <TreatmentCaseToaster />
@@ -11,6 +17,7 @@ export default function TreatmentCasePageHeader() {
           { label: '치료사례' },
         ]}
         title="치료 사례"
+        titleAs={titleAs}
         description={
           <>
             수만 건의 데이터가 증명하는 것은 단순한 숫자가 아닌,

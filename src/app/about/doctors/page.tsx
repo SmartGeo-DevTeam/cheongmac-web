@@ -4,8 +4,15 @@ import PageHeader from "@/app/_components/ui/page-header";
 import { HeartIcon, Search } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import type { Metadata } from "next";
 
 import { DOCTORS, type Doctor } from "./data";
+
+export const metadata: Metadata = {
+  title: "의료진/진료과 | 청맥병원",
+  description:
+    "청맥병원 의료진의 진료과, 전문분야와 의료진별 상세 정보를 확인해보세요.",
+};
 
 function DoctorCard({ doctor }: { doctor: Doctor }): React.ReactNode {
   return (
@@ -124,11 +131,15 @@ export default function AboutDoctors(): React.ReactNode {
         }
       />
 
-      <section>
+      <section aria-labelledby="doctor-list-heading">
+        <h2 id="doctor-list-heading" className="sr-only">
+          청맥병원 의료진 목록
+        </h2>
+
         <Inner usePaddingHorizontal>
           <div
             className="grid grid-cols-2 font-semibold text-[15px]
-            xl:mt-15 xl:text-[23px]"
+            xl:text-[23px]"
           >
             <button
               type="button"

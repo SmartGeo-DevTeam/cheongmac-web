@@ -215,7 +215,7 @@ export default function PartnerHospitalContent() {
   };
 
   return (
-    <div className="mx-auto w-full max-w-7xl px-5 pb-20 pt-8 xl:px-0 xl:pb-28 xl:pt-14">
+    <div className="mx-auto w-full max-w-7xl px-5 pb-20 xl:px-0 xl:pb-28">
       <PartnershipOverview />
 
       <div className="mt-14 xl:mt-20">

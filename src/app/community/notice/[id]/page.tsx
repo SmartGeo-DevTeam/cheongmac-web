@@ -12,7 +12,7 @@ export default function NoticeDetailPage() {
 
   return (
     <div>
-      <NoticePageHeader />
+      <NoticePageHeader titleAs="div" />
       <Inner usePaddingHorizontal>
         <NoticeDetail id={id ?? 'naver-reservation-open'} />
       </Inner>

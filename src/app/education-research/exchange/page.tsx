@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function AcademicExchangePage() {
   return (
-    <main>
+    <div>
       <PageHeader
         breadcrumbs={[
           { label: '교육·연구', href: '/education-research/exchange' },
@@ -27,6 +27,6 @@ export default function AcademicExchangePage() {
       />
 
       <AcademicExchangeContent />
-    </main>
+    </div>
   );
 }

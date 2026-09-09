@@ -119,11 +119,14 @@ export default async function ConsultationDetailPage({
 
   return (
     <div>
-      <ConsultationPageHeader />
+      <ConsultationPageHeader titleAs="div" />
 
-      <div className="mx-auto mt-7 grid w-full max-w-7xl gap-5 px-4 pb-14 xl:mt-9 xl:grid-cols-[1fr_235px] xl:px-0 xl:pb-24">
-        <main className="min-w-0">
-          <section className="xl:rounded-[14px] xl:border xl:border-[#E0E4E7] xl:px-8 xl:py-8">
+      <div className="mx-auto grid w-full max-w-7xl gap-5 px-4 pb-14 xl:grid-cols-[1fr_235px] xl:px-0 xl:pb-24">
+        <div className="min-w-0">
+          <article
+            aria-labelledby="consultation-question-title"
+            className="xl:rounded-[14px] xl:border xl:border-[#E0E4E7] xl:px-8 xl:py-8"
+          >
             <header className="border-b border-[#E3E6E9] pb-4">
               <div className="flex items-center justify-between gap-3">
                 <span className="inline-flex h-6 items-center rounded-full bg-[#F3F4F5] px-2.5 text-[10px] font-medium text-[#555C64] xl:h-7 xl:px-3 xl:text-[11px]">
@@ -133,7 +136,10 @@ export default async function ConsultationDetailPage({
                   이용일 · {item.date}
                 </time>
               </div>
-              <h2 className="mt-2 flex items-center gap-1.5 break-keep text-[17px] font-semibold leading-[1.4] tracking-[-0.04em] text-[#242A31] xl:text-[20px]">
+              <h1
+                id="consultation-question-title"
+                className="mt-2 flex items-center gap-1.5 break-keep text-[17px] font-semibold leading-[1.4] tracking-[-0.04em] text-[#242A31] xl:text-[20px]"
+              >
                 {item.isPrivate ? (
                   <LockKeyhole className="size-4 shrink-0" strokeWidth={2.1} />
                 ) : null}
@@ -141,7 +147,7 @@ export default async function ConsultationDetailPage({
                 {item.hasLinkIcon ? (
                   <Link2 className="size-4 shrink-0" strokeWidth={1.7} />
                 ) : null}
-              </h2>
+              </h1>
             </header>
 
             {item.imageSrc ? (
@@ -162,10 +168,16 @@ export default async function ConsultationDetailPage({
                 <p key={index}>{paragraph}</p>
               ))}
             </div>
-          </section>
+          </article>
 
           {item.answered && item.doctor && item.answer ? (
-            <section className="mt-5 rounded-[10px] border border-[#E0E4E7] px-4 py-5 xl:mt-5 xl:rounded-[14px] xl:px-8 xl:py-8">
+            <section
+              aria-labelledby="consultation-answer-heading"
+              className="mt-5 rounded-[10px] border border-[#E0E4E7] px-4 py-5 xl:mt-5 xl:rounded-[14px] xl:px-8 xl:py-8"
+            >
+              <h2 id="consultation-answer-heading" className="sr-only">
+                의료진 답변
+              </h2>
               <div className="flex items-center gap-3 border-b border-[#E4E7EA] pb-4">
                 <div className="relative size-12 shrink-0 overflow-hidden rounded-full bg-[#F2F3F4] xl:size-14">
                   <Image
@@ -219,7 +231,7 @@ export default async function ConsultationDetailPage({
           <div className="mt-8 xl:hidden">
             <ConsultationSidebar />
           </div>
-        </main>
+        </div>
 
         <div className="hidden rounded-[14px] border border-[#E0E4E7] px-5 py-8 xl:block">
           <ConsultationSidebar />

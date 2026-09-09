@@ -1,6 +1,12 @@
-import PageHeader from '@/app/_components/ui/page-header';
+import PageHeader, {
+  type PageHeaderTitleAs,
+} from '@/app/_components/ui/page-header';
 
-export default function NoticePageHeader() {
+export default function NoticePageHeader({
+  titleAs = 'h1',
+}: {
+  titleAs?: PageHeaderTitleAs;
+}) {
   return (
     <PageHeader
       breadcrumbs={[
@@ -8,6 +14,7 @@ export default function NoticePageHeader() {
         { label: '공지사항' },
       ]}
       title="공지사항"
+      titleAs={titleAs}
     />
   );
 }

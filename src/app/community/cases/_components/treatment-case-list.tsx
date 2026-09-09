@@ -58,8 +58,11 @@ export default function TreatmentCaseList({ isAuthenticated }: Props) {
   };
 
   return (
-    <PageContainer className="pb-20 pt-10 xl:pb-28 xl:pt-20">
+    <PageContainer className="pb-20 xl:pb-28">
       <div className="flex flex-col">
+        <h2 id="treatment-case-list-heading" className="sr-only">
+          치료사례 목록
+        </h2>
         <FilterTabs
           items={FILTERS}
           value={activeFilter}
@@ -124,9 +127,9 @@ export default function TreatmentCaseList({ isAuthenticated }: Props) {
                       <Badge variant="green" size="lg">
                         {item.category}
                       </Badge>
-                      <strong className="text-lg font-bold tracking-[-0.03em] text-[#252A30] xl:text-2xl">
+                      <h3 className="text-lg font-bold tracking-[-0.03em] text-[#252A30] xl:text-2xl">
                         {item.title}
-                      </strong>
+                      </h3>
                     </div>
                     <p className="mt-3 line-clamp-2 text-base leading-[1.55] text-[#73787D] xl:min-h-[62px] xl:text-xl">
                       {item.description}

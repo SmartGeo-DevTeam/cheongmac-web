@@ -655,13 +655,14 @@ export default function HomeCover() {
             className="relative px-5 pb-[5%] w-full h-full flex flex-col justify-center items-center rounded-[20px] bg-[url('/assets/images/home-cover-mobile-1.png')] bg-cover bg-center bg-no-repeat
             xl:pb-[6%] xl:rounded-none xl:bg-[url('/assets/images/home-cover-desktop-1.png')]"
           >
-            <div
+            <h1
+              id="home-primary-heading"
               className="order-1 flex flex-col items-center text-4xl leading-[125%] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)]
               xl:order-2 xl:mt-14 xl:flex-row xl:gap-1.75 xl:text-6xl"
             >
-              <p>혈관의 모든 정답,</p>
-              <p className="font-extrabold">청맥에 있습니다</p>
-            </div>
+              <span>혈관의 모든 정답,</span>
+              <span className="font-extrabold">청맥에 있습니다</span>
+            </h1>
 
             <div
               className="order-2 mt-5 flex flex-col items-center leading-[150%] break-keep text-center text-[15px] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)]
@@ -694,10 +695,10 @@ export default function HomeCover() {
             className="relative px-5 pb-[5%] flex h-full w-full flex-col items-center justify-center rounded-[20px] bg-[url('/assets/images/home-cover-mobile-1.png')] bg-cover bg-center bg-no-repeat
             xl:pb-[3%] xl:rounded-none xl:bg-[url('/assets/images/home-cover-desktop-2.png')]"
           >
-            <div className="flex flex-col items-center text-4xl leading-[125%] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)] xl:flex-row xl:gap-1.75 xl:text-6xl">
-              <p>혈관을 잘 아는 의사,</p>
-              <p className="font-extrabold">청맥에 있습니다</p>
-            </div>
+            <h2 className="flex flex-col items-center text-4xl leading-[125%] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)] xl:flex-row xl:gap-1.75 xl:text-6xl">
+              <span>혈관을 잘 아는 의사,</span>
+              <span className="font-extrabold">청맥에 있습니다</span>
+            </h2>
 
             <div
               className="mt-5 flex flex-col items-center leading-[150%] break-keep text-center text-[15px] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)]
@@ -722,10 +723,10 @@ export default function HomeCover() {
             className="relative px-5 pb-[5%] flex h-full w-full flex-col items-center justify-center rounded-[20px] bg-[url('/assets/images/home-cover-mobile-1.png')] bg-cover bg-center bg-no-repeat
             xl:pb-[3%] xl:rounded-none xl:bg-[url('/assets/images/home-cover-desktop-3.png')]"
           >
-            <div className="flex flex-col items-center text-4xl leading-[125%] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)] xl:flex-row xl:gap-1.75 xl:text-6xl">
-              <p>대한정맥학회도</p>
-              <p className="font-extrabold">인정한 청맥의 전문성</p>
-            </div>
+            <h2 className="flex flex-col items-center text-4xl leading-[125%] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)] xl:flex-row xl:gap-1.75 xl:text-6xl">
+              <span>대한정맥학회도</span>
+              <span className="font-extrabold">인정한 청맥의 전문성</span>
+            </h2>
 
             <div
               className="mt-5 flex flex-col items-center leading-[150%] break-keep text-center text-[15px] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)]

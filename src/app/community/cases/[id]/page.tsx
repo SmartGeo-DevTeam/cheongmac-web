@@ -48,14 +48,14 @@ export default async function TreatmentCaseDetailPage({ params }: PageProps) {
   const next = TREATMENT_CASES[currentIndex + 1];
 
   return (
-    <main>
-      <TreatmentCasePageHeader />
+    <div>
+      <TreatmentCasePageHeader titleAs="div" />
       <TreatmentCaseDetail
         item={item}
         previousId={previous?.id}
         nextId={next?.id}
         isAuthenticated={isAuthenticated}
       />
-    </main>
+    </div>
   );
 }

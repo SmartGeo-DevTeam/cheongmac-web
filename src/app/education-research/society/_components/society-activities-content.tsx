@@ -16,7 +16,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 function SocietyIntro() {
   return (
-    <section className="mx-auto w-full max-w-7xl px-5 py-12 xl:px-0 xl:py-20">
+    <section className="mx-auto w-full max-w-7xl px-5 pb-12 xl:px-0 xl:pb-20">
       <p className="text-sm font-semibold tracking-[-0.015em] text-[#279A82] xl:text-base">
         SOCIETY ACTIVITIES
       </p>

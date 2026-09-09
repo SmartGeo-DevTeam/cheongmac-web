@@ -128,6 +128,7 @@ export default function DoctorDetailPage(): React.ReactElement {
           { label: '의료진/진료과', href: '/about/doctors' },
         ]}
         title="의료진 상세보기"
+        titleAs="div"
       />
 
       <DoctorHero doctor={doctor} />
@@ -194,12 +195,13 @@ function DoctorHero({ doctor }: { doctor: Doctor }): React.ReactElement {
               >
                 {doctor.department}
               </span>
-              <h3
+              <h1
+                id="doctor-profile-title"
                 className="font-bold text-lg text-[#262C35]
                 xl:text-[34px]"
               >
                 {doctor.name} {doctor.position}
-              </h3>
+              </h1>
             </div>
 
             <div
@@ -262,14 +264,14 @@ function DetailInfoBlock({
 }): React.ReactElement {
   return (
     <div className={className}>
-      <h3
+      <h2
         className="relative mb-2 pb-2 border-b border-b-[#E5E7EB] font-semibold text-sm text-[#FB9A74]
         xl:pl-9 xl:text-[28px] xl:text-[#FD7740]
         xl:before:absolute xl:before:left-0 xl:before:top-2 xl:before:w-7 xl:before:h-7
         xl:before:bg-[url('/assets/brand/symbol.svg')] xl:before:bg-contain xl:before:bg-center xl:before:bg-no-repeat"
       >
         {title}
-      </h3>
+      </h2>
       {children}
     </div>
   );
@@ -278,6 +280,9 @@ function DetailInfoBlock({
 function ScheduleTable({ doctor }: { doctor: Doctor }): React.ReactElement {
   return (
     <div>
+      <h2 id="doctor-schedule-heading" className="sr-only">
+        진료시간표
+      </h2>
       <div
         className="rounded-md border border-[#DCE3E1] bg-white overflow-hidden
         xl:mx-auto"

@@ -85,7 +85,7 @@ export default function HomeInfo() {
         <MainSectionHeader
           usePaddingHorizontal
           eyebrow="알려드립니다"
-          title={<p>청맥병원 소식</p>}
+          title={<span>청맥병원 소식</span>}
         />
 
         <div
@@ -109,12 +109,12 @@ export default function HomeInfo() {
                     className="flex items-center gap-1.75 font-medium text-xs
                   xl:gap-3 xl:text-sm"
                   >
-                    <h4
+                    <span
                       className="px-3 py-0.75 rounded-sm bg-white
                     xl:px-5 xl:py-1.5"
                     >
                       {notice.category}
-                    </h4>
+                    </span>
                     <span>{notice.date}</span>
                   </div>
 

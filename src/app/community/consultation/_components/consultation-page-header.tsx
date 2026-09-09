@@ -1,6 +1,12 @@
-import PageHeader from '@/app/_components/ui/page-header';
+import PageHeader, {
+  type PageHeaderTitleAs,
+} from '@/app/_components/ui/page-header';
 
-export default function ConsultationPageHeader() {
+export default function ConsultationPageHeader({
+  titleAs = 'h1',
+}: {
+  titleAs?: PageHeaderTitleAs;
+}) {
   return (
     <PageHeader
       breadcrumbs={[
@@ -8,6 +14,7 @@ export default function ConsultationPageHeader() {
         { label: '의학상담' },
       ]}
       title="의학상담"
+      titleAs={titleAs}
       description={
         <>
           청맥병원은 환자분의 고민을 가볍게 넘기지 않습니다.

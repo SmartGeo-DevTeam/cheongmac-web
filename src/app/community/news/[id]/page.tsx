@@ -106,17 +106,24 @@ export default async function NewsDetailPage({
           { label: '청맥뉴스' },
         ]}
         title="청맥뉴스"
+        titleAs="div"
       />
 
-      <article className="mx-auto mt-8 w-full max-w-7xl px-5 xl:mt-14">
+      <article
+        aria-labelledby="news-detail-title"
+        className="mx-auto w-full max-w-7xl px-5"
+      >
         <header className="border-b border-[#E5E7EB] pb-5 xl:pb-6">
           <NewsClientBrand client={client} fallbackName={item.source} />
 
           <div className="mt-2 flex items-end justify-between gap-5 xl:mt-2.5">
             <div className="min-w-0">
-              <h2 className="break-keep text-[18px] font-semibold leading-[1.45] tracking-[-0.04em] text-[#252B33] xl:text-[22px]">
+              <h1
+                id="news-detail-title"
+                className="break-keep text-[18px] font-semibold leading-[1.45] tracking-[-0.04em] text-[#252B33] xl:text-[22px]"
+              >
                 {item.title}
-              </h2>
+              </h1>
               <p className="mt-1 text-[11px] text-[#B0B5BC] xl:text-xs">
                 {item.date}
               </p>

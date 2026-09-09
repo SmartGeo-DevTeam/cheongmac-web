@@ -11,7 +11,7 @@ export default function ConsultationWritePage() {
   return (
     <div>
       <ConsultationPageHeader />
-      <div className="mt-7 xl:mt-8"><ConsultationForm /></div>
+      <div><ConsultationForm /></div>
     </div>
   );
 }

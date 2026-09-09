@@ -288,7 +288,14 @@ export default function NewsBoard() {
   };
 
   return (
-    <section ref={sectionRef} className="mx-auto w-full max-w-7xl px-5">
+    <section
+      ref={sectionRef}
+      aria-labelledby="news-list-heading"
+      className="mx-auto w-full max-w-7xl px-5"
+    >
+      <h2 id="news-list-heading" className="sr-only">
+        청맥뉴스 목록
+      </h2>
       <FilterTabs
         items={CATEGORY_TABS.map((tab) => ({
           value: tab.id,

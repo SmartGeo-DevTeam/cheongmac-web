@@ -13,7 +13,7 @@ export default function NonCoveredFeesPage() {
     <LegalPageLayout
       title="비급여진료비"
       breadcrumbLabel="비급여진료비"
-      articleClassName="pb-14 pt-8 xl:pb-24 xl:pt-12"
+      articleClassName="pb-14 xl:pb-24"
     >
       <div>
         <div className="mx-auto max-w-7xl break-keep text-center text-sm leading-[1.75] tracking-[-0.02em] text-[#555555]">

@@ -51,14 +51,20 @@ export default function NoticeDetail({ id }: { id: string }) {
   };
 
   return (
-    <article className="mx-auto w-full max-w-7xl pb-20 pt-8 xl:pb-28 xl:pt-10">
+    <article
+      aria-labelledby="notice-detail-title"
+      className="mx-auto w-full max-w-7xl pb-20 xl:pb-28"
+    >
       <header className="border-y border-[#E5E7E9] py-5 xl:border-t-0 xl:pb-5 xl:pt-0">
         <div className="flex items-end justify-between gap-4">
           <div className="min-w-0">
             <CategoryBadge holiday={detail.kind === 'holiday'} />
-            <h2 className="mt-3 truncate text-2xl font-semibold tracking-[-0.035em] text-[#282D32] xl:text-3xl">
+            <h1
+              id="notice-detail-title"
+              className="mt-3 truncate text-2xl font-semibold tracking-[-0.035em] text-[#282D32] xl:text-3xl"
+            >
               {detail.title}
-            </h2>
+            </h1>
             <p className="mt-2 text-sm text-[#ADB2B7] xl:text-xl">{detail.date}</p>
           </div>
 

@@ -14,7 +14,7 @@ export default function PatientRightsPage() {
     <LegalPageLayout
       title="환자권리장전"
       breadcrumbLabel="환자권리장전"
-      articleClassName="mx-auto max-w-[1080px] pb-14 pt-10 xl:pb-24 xl:pt-12"
+      articleClassName="mx-auto max-w-[1080px] pb-14 xl:pb-24"
     >
           <p
             className="break-keep text-sm leading-[1.7] text-[#262C35]

@@ -476,8 +476,11 @@ export default function MedicalEquipmentContent() {
   return (
     <div
       ref={contentTopRef}
-      className="mx-auto w-full max-w-7xl scroll-mt-28 px-5 pb-20 pt-8 xl:px-0 xl:pb-28 xl:pt-14"
+      className="mx-auto w-full max-w-7xl scroll-mt-28 px-5 pb-20 xl:px-0 xl:pb-28"
     >
+      <h2 id="medical-equipment-list-heading" className="sr-only">
+        청맥병원 첨단의료장비 목록
+      </h2>
       <CategoryTabs value={category} onChange={changeCategory} />
 
       {category === 'all' ? (

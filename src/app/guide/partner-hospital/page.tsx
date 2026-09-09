@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function PartnerHospitalPage() {
   return (
-    <main>
+    <div>
       <PageHeader
         breadcrumbs={[
           { label: '이용안내', href: '/guide/partner-hospital' },
@@ -27,6 +27,6 @@ export default function PartnerHospitalPage() {
       />
 
       <PartnerHospitalContent />
-    </main>
+    </div>
   );
 }

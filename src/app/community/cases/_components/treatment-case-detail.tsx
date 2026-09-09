@@ -58,12 +58,15 @@ export default function TreatmentCaseDetail({ item, previousId, nextId, isAuthen
   const values = { patient: `${item.patientName} (${item.age}세 · ${item.sex})`, diagnosis: item.diagnosis, treatment: item.treatment, before: item.before, after: item.after };
 
   return (
-    <article className="mx-auto w-full max-w-7xl px-5 pb-20 pt-10 xl:px-0 xl:pb-28 xl:pt-16">
+    <article
+      aria-labelledby="treatment-case-detail-title"
+      className="mx-auto w-full max-w-7xl px-5 pb-20 xl:px-0 xl:pb-28"
+    >
       <div className="mx-auto max-w-5xl">
         <header className="flex items-end justify-between gap-5 border-b border-[#E2E4E6] pb-5 xl:pb-7">
           <div className="min-w-0">
             <span className="inline-flex min-h-8 items-center rounded-md bg-[#E5F6F1] px-2.5 text-base font-semibold text-[#2C8A75] xl:min-h-9 xl:px-3 xl:text-xl">{item.category}</span>
-            <h2 className="mt-3 break-keep text-2xl font-bold tracking-[-0.035em] text-[#272C31] xl:text-3xl">{item.title}</h2>
+            <h1 id="treatment-case-detail-title" className="mt-3 break-keep text-2xl font-bold tracking-[-0.035em] text-[#272C31] xl:text-3xl">{item.title}</h1>
             <time dateTime={item.date} className="mt-2 block text-sm text-[#A5AAB0] xl:text-xl">{item.date.replaceAll('-', '. ')}</time>
           </div>
           <TreatmentCaseShareButton />

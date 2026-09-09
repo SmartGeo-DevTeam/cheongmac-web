@@ -23,7 +23,7 @@ export default function TermsPage() {
     <LegalPageLayout
       title="이용약관"
       breadcrumbLabel="이용약관"
-      articleClassName="mx-auto max-w-7xl pb-14 pt-6 xl:pb-24 xl:pt-12"
+      articleClassName="mx-auto max-w-7xl pb-14 xl:pb-24"
     >
       <LegalSection title="[제1장] 총칙">
         <LegalArticle title="제1조 (목적)">

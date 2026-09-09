@@ -306,6 +306,10 @@ export default function ConsultationBoard() {
     <div className="mx-auto w-full max-w-7xl px-4 pb-14 xl:px-0 xl:pb-24">
       <NoticeBox />
 
+      <h2 id="consultation-list-heading" className="sr-only">
+        의학상담 목록
+      </h2>
+
       <div className="mt-5 flex items-end justify-between xl:mt-7">
         <p className="text-[10px] tracking-[-0.02em] text-[#8E959D] xl:text-[12px]">
           총{' '}

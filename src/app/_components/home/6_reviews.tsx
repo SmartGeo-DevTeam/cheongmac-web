@@ -81,8 +81,8 @@ export default function HomeReviews() {
           eyebrow="치료후기"
           title={
             <>
-              <p>치료 후 마주할 놀라운 변화,</p>
-              <p>먼저 경험한 분들의 이야기</p>
+              <span className="block">치료 후 마주할 놀라운 변화,</span>
+              <span className="block">먼저 경험한 분들의 이야기</span>
             </>
           }
           description={

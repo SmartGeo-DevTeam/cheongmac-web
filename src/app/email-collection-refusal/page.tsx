@@ -12,7 +12,7 @@ export default function EmailCollectionRefusalPage() {
     <LegalPageLayout
       title="이메일 무단수집거부"
       breadcrumbLabel="이메일무단수집거부"
-      articleClassName="mx-auto max-w-[1080px] pb-14 pt-16 xl:pb-24 xl:pt-20"
+      articleClassName="mx-auto max-w-[1080px] pb-14 xl:pb-24"
     >
       <div
         className="flex flex-col items-center gap-10

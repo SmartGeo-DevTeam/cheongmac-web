@@ -39,7 +39,7 @@ export default function PrivacyPolicyPage() {
     <LegalPageLayout
       title="개인정보 처리방침"
       breadcrumbLabel="개인정보처리방침"
-      articleClassName="pb-14 pt-8 xl:pb-24 xl:pt-12"
+      articleClassName="pb-14 xl:pb-24"
     >
       <div className="flex flex-col">
         <p className="order-2 mx-auto mt-6 max-w-7xl break-keep text-[15px] leading-[1.75] tracking-[-0.02em] text-[#555555] xl:order-1 xl:mt-0 xl:text-center xl:text-xl xl:leading-[1.9]">

@@ -17,19 +17,19 @@ function MainSectionHeader({
     <div
       className={`mx-auto max-w-7xl w-full ${usePaddingHorizontal ? 'px-5' : ''} ${className}`}
     >
-      <h1
+      <p
         className="font-semibold text-lg
         xl:text-2xl"
       >
         {eyebrow}
-      </h1>
+      </p>
 
-      <div
+      <h2
         className="mt-2 break-keep font-extrabold text-3xl
         xl:leading-[120%] xl:text-5xl"
       >
         {title}
-      </div>
+      </h2>
 
       {description && (
         <div

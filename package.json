@@ -12,7 +12,8 @@
     "db:migrate": "prisma migrate dev",
     "db:deploy": "prisma migrate deploy",
     "db:studio": "prisma studio",
-    "auth:set-role": "tsx scripts/set-user-role.ts"
+    "auth:set-role": "tsx scripts/set-user-role.ts",
+    "check:semantics": "node scripts/check-semantic-structure.mjs"
   },
   "dependencies": {
     "@better-auth/prisma-adapter": "1.7.3",

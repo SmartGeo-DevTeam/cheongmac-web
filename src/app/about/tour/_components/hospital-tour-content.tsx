@@ -448,7 +448,7 @@ export default function HospitalTourContent() {
 
   return (
     <>
-      <div className="mx-auto w-full max-w-7xl px-5 pb-16 pt-8 xl:px-0 xl:pb-24 xl:pt-14">
+      <div className="mx-auto w-full max-w-7xl px-5 pb-16 xl:px-0 xl:pb-24">
         <HospitalTourTabs activeTab={activeTab} onChange={setActiveTab} />
 
         {activeTab === 'floor' ? (

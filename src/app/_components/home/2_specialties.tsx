@@ -195,8 +195,8 @@ export default function HomeSpecialties(): React.ReactNode {
             eyebrow="진료분야"
             title={
               <>
-                <p>혈관 질환 전 영역을</p>
-                <p>책임집니다</p>
+                <span className="block">혈관 질환 전 영역을</span>
+                <span className="block">책임집니다</span>
               </>
             }
             description={
@@ -280,21 +280,21 @@ export default function HomeSpecialties(): React.ReactNode {
                 [&>li]:even:top-15
                 [&>li:nth-child(n+3)]:mt-4
 
-                [&>li>a>span]:absolute
-                [&>li>a>span]:bottom-2.5
-                [&>li>a>span]:left-4
-                [&>li>a>span]:z-10
-                [&>li>a>span]:text-sm
-                [&>li>a>span]:font-extrabold
-                [&>li>a>span]:text-white
+                [&>li>a>h3]:absolute
+                [&>li>a>h3]:bottom-2.5
+                [&>li>a>h3]:left-4
+                [&>li>a>h3]:z-10
+                [&>li>a>h3]:text-sm
+                [&>li>a>h3]:font-extrabold
+                [&>li>a>h3]:text-white
 
                 [&>li>a>img]:object-cover
 
                 xl:gap-x-21
                 xl:[&>li]:w-[calc((100%-5.25rem)/2)]
-                xl:[&>li>a>span]:bottom-8
-                xl:[&>li>a>span]:left-10
-                xl:[&>li>a>span]:text-3xl
+                xl:[&>li>a>h3]:bottom-8
+                xl:[&>li>a>h3]:left-10
+                xl:[&>li>a>h3]:text-3xl
               "
             >
               {specialties.map((item, index) => (
@@ -305,7 +305,7 @@ export default function HomeSpecialties(): React.ReactNode {
                   containerRef={contRef}
                   progress={scrollYProgress}
                 >
-                  <span>{item.title}</span>
+                  <h3>{item.title}</h3>
 
                   <Image src={item.imageSrc} alt={item.alt} fill />
                 </SpecialtiesItem>
