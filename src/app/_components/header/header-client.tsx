@@ -103,9 +103,11 @@ export default function HeaderClient({
             >
               <Image
                 src={`/assets/brand/logo.svg`}
-                alt="logo"
-                style={{ objectFit: 'cover' }}
-                fill
+                alt="청맥병원"
+                width={162}
+                height={40}
+                priority
+                className="h-auto w-full"
               />
             </Link>
 
@@ -155,8 +157,9 @@ export default function HeaderClient({
               >
                 <Image
                   src={`/assets/icons/header-hamburger.svg`}
-                  alt="hamburger"
-                  fill
+                  alt="메뉴 열기"
+                  width={30}
+                  height={30}
                 />
               </button>
             </div>
@@ -193,7 +196,10 @@ export default function HeaderClient({
         unoptimized
       />
               <input
+                id="header-ai-search-input"
+                name="headerAiSearch"
                 type="search"
+                autoComplete="off"
                 placeholder={aiSearchPlaceholder}
                 className="flex-1 ml-1 font-semibold text-sm text-[#656565]
                 xl:min-w-80 xl:font-medium xl:text-white xl:text-base"
@@ -202,8 +208,9 @@ export default function HeaderClient({
               <button type="submit" className="relative shrink-0 w-6.5 h-6.5">
                 <Image
                   src={`/assets/icons/header-search.svg`}
-                  alt="search"
-                  fill
+                  alt="검색"
+                  width={26}
+                  height={26}
                   className="xl:brightness-300"
                 />
               </button>
@@ -249,13 +256,20 @@ export default function HeaderClient({
                           onSubmit={(event) => event.preventDefault()}
                         >
                           <input
+                            id="header-lnb-reservation-name"
+                            name="name"
                             type="text"
+                            autoComplete="name"
                             placeholder="성함"
                             className="row-start-1 p-3 tracking-[-5%] text-[15px] rounded-lg bg-white placeholder:text-[#CCCCCC]"
                           />
 
                           <input
-                            type="text"
+                            id="header-lnb-reservation-phone"
+                            name="phone"
+                            type="tel"
+                            inputMode="numeric"
+                            autoComplete="tel"
                             placeholder="휴대폰 번호"
                             className="row-start-2 p-3 tracking-[-5%] text-[15px] rounded-lg bg-white placeholder:text-[#CCCCCC]"
                           />
@@ -350,7 +364,8 @@ export default function HeaderClient({
                     <Image
                       src={`/assets/icons/header-profile.svg`}
                       alt="로그인"
-                      fill
+                      width={30}
+                      height={30}
                     />
                   </Link>
 
@@ -361,8 +376,9 @@ export default function HeaderClient({
                   >
                     <Image
                       src={`/assets/icons/header-close.svg`}
-                      alt="close"
-                      fill
+                      alt="메뉴 닫기"
+                      width={30}
+                      height={30}
                     />
                   </button>
                 </div>
@@ -376,6 +392,9 @@ export default function HeaderClient({
                 >
                   <input
                     id="hamburger-search"
+                    name="hamburgerSearch"
+                    type="search"
+                    autoComplete="off"
                     placeholder="메뉴명을 검색하세요."
                     className="w-full font-medium text-sm placeholder:text-[#CCCCCC]"
                   />
@@ -383,8 +402,9 @@ export default function HeaderClient({
                   <button type="submit" className="relative w-7.5 h-7.5">
                     <Image
                       src={`/assets/icons/header-search.svg`}
-                      alt={`search`}
-                      fill
+                      alt="검색"
+                      width={30}
+                      height={30}
                     />
                   </button>
                 </form>

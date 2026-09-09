@@ -31,11 +31,17 @@ export default function MembershipForm({ callbackURL, defaultName, email }: Prop
 
   return (
     <form action={formAction} className="mt-8 space-y-5">
-      <input type="hidden" name="callbackURL" value={callbackURL} />
+      <input
+        id="join-callback-url"
+        type="hidden"
+        name="callbackURL"
+        value={callbackURL}
+      />
 
       <label className="block">
         <span className="mb-2 block text-sm font-semibold text-[#444444]">본명</span>
         <input
+          id="join-name"
           name="name"
           type="text"
           defaultValue={defaultName}
@@ -48,7 +54,10 @@ export default function MembershipForm({ callbackURL, defaultName, email }: Prop
       <label className="block">
         <span className="mb-2 block text-sm font-semibold text-[#444444]">이메일</span>
         <input
+          id="join-email"
+          name="email"
           type="email"
+          autoComplete="email"
           value={email}
           readOnly
           className="h-13 w-full rounded-xl border border-[#E7E8E9] bg-[#F7F7F7] px-4 text-[15px] text-[#777777]"
@@ -61,6 +70,7 @@ export default function MembershipForm({ callbackURL, defaultName, email }: Prop
       <label className="block">
         <span className="mb-2 block text-sm font-semibold text-[#444444]">연락처</span>
         <input
+          id="join-phone"
           name="phone"
           type="tel"
           inputMode="numeric"
@@ -77,6 +87,7 @@ export default function MembershipForm({ callbackURL, defaultName, email }: Prop
       <div className="space-y-3 rounded-2xl bg-[#F8F8F8] p-4 text-sm text-[#555555]">
         <label className="flex items-start gap-3">
           <input
+            id="join-terms-accepted"
             name="termsAccepted"
             type="checkbox"
             required
@@ -91,6 +102,7 @@ export default function MembershipForm({ callbackURL, defaultName, email }: Prop
         <div className="border-t border-[#E7E7E7] pt-3">
           <label className="flex items-start gap-3">
             <input
+              id="join-privacy-accepted"
               name="privacyAccepted"
               type="checkbox"
               required

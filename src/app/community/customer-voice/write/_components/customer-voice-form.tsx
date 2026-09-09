@@ -66,6 +66,7 @@ export default function CustomerVoiceForm() {
 
   return (
     <form
+      id="customer-voice-write-form"
       className="mx-auto w-full max-w-7xl px-4 pb-14 xl:px-0 xl:pb-24"
       onSubmit={(event) => {
         event.preventDefault();
@@ -104,13 +105,20 @@ export default function CustomerVoiceForm() {
                   onSelect={setCategory}
                 />
               ))}
-              <input type="hidden" name="category" value={category} />
+              <input
+                id="customer-voice-category"
+                type="hidden"
+                name="category"
+                value={category}
+              />
             </div>
           </div>
 
           <div className="grid gap-2 xl:grid-cols-[150px_1fr] xl:items-center">
             <RequiredLabel>제목</RequiredLabel>
             <input
+              id="customer-voice-title"
+              name="title"
               required
               type="text"
               placeholder="제목을 입력하세요"
@@ -122,6 +130,8 @@ export default function CustomerVoiceForm() {
             <RequiredLabel>내용</RequiredLabel>
             <div className="relative">
               <textarea
+                id="customer-voice-content"
+                name="content"
                 required
                 maxLength={2000}
                 value={content}
@@ -163,6 +173,8 @@ export default function CustomerVoiceForm() {
                   <Link2 className="size-4" /> 파일 선택
                 </button>
                 <input
+                  id="customer-voice-attachment"
+                  name="attachment"
                   ref={fileInputRef}
                   type="file"
                   accept="image/*,.pdf"
@@ -181,8 +193,11 @@ export default function CustomerVoiceForm() {
           <div className="grid gap-2 xl:grid-cols-[150px_1fr] xl:items-center">
             <RequiredLabel>이름</RequiredLabel>
             <input
+              id="customer-voice-name"
+              name="name"
               required
               type="text"
+              autoComplete="name"
               placeholder="이름을 입력하세요"
               className={`${fieldClass} xl:max-w-[280px]`}
             />
@@ -191,20 +206,31 @@ export default function CustomerVoiceForm() {
           <div className="grid gap-2 xl:grid-cols-[150px_1fr] xl:items-center">
             <RequiredLabel>연락처</RequiredLabel>
             <div className="grid grid-cols-[82px_1fr_1fr] items-center gap-2 xl:max-w-[460px]">
-              <select className={fieldClass} defaultValue="010">
+              <select
+                id="customer-voice-phone-prefix"
+                name="phonePrefix"
+                className={fieldClass}
+                defaultValue="010"
+              >
                 <option>010</option>
                 <option>011</option>
                 <option>016</option>
               </select>
               <input
+                id="customer-voice-phone-middle"
+                name="phoneMiddle"
                 required
                 inputMode="numeric"
+                autoComplete="tel-local-prefix"
                 maxLength={4}
                 className={fieldClass}
               />
               <input
+                id="customer-voice-phone-last"
+                name="phoneLast"
                 required
                 inputMode="numeric"
+                autoComplete="tel-local-suffix"
                 maxLength={4}
                 className={fieldClass}
               />
@@ -225,8 +251,11 @@ export default function CustomerVoiceForm() {
                 <RefreshCw className="size-4 text-[#555C64]" />
               </div>
               <input
+                id="customer-voice-captcha"
+                name="captcha"
                 required
                 inputMode="numeric"
+                autoComplete="off"
                 placeholder="숫자를 순서대로 입력하세요"
                 className={fieldClass}
               />

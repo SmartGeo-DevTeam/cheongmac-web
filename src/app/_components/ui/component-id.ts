@@ -1,7 +1,7 @@
 import { useId } from 'react';
 
 function normalizeReactId(value: string) {
-  const normalized = value.replace(/[^A-Za-z0-9_-]/g, '');
+  const normalized = value.replace(/[^A-Za-z0-9]/g, '').toLowerCase();
   return normalized || 'component';
 }
 

@@ -96,6 +96,7 @@ export default function QuickReservationForm() {
               <span className="sr-only">{labels.content}</span>
 
               <input
+                id="quick-reservation-mobile-consultation-type"
                 type="hidden"
                 name="consultationType"
                 value={selectedConsultation}
@@ -148,7 +149,10 @@ export default function QuickReservationForm() {
               <label>
                 <span className="sr-only">{labels.name}</span>
                 <input
+                  id="quick-reservation-mobile-name"
+                  name="name"
                   type="text"
+                  autoComplete="name"
                   placeholder={labels.name}
                   className="h-10 w-full rounded-full border border-[#E8E8E8] bg-white px-5 text-sm text-[#333333] outline-none placeholder:text-[#999999]"
                 />
@@ -157,7 +161,11 @@ export default function QuickReservationForm() {
               <label>
                 <span className="sr-only">{labels.birthDate}</span>
                 <input
+                  id="quick-reservation-mobile-birth-date"
+                  name="birthDate"
                   type="text"
+                  inputMode="numeric"
+                  autoComplete="bday"
                   placeholder={labels.birthDate}
                   className="h-10 w-full rounded-full border border-[#E8E8E8] bg-white px-5 text-sm text-[#333333] outline-none placeholder:text-[#999999]"
                 />
@@ -167,8 +175,11 @@ export default function QuickReservationForm() {
             <label className="mt-2 block">
               <span className="sr-only">{labels.phone}</span>
               <input
+                id="quick-reservation-mobile-phone"
+                name="phone"
                 type="tel"
                 inputMode="numeric"
+                autoComplete="tel"
                 placeholder={labels.phone}
                 className="h-10 w-full rounded-full border border-[#E8E8E8] bg-white px-5 text-sm text-[#333333] outline-none placeholder:text-[#999999]"
               />
@@ -209,6 +220,8 @@ export default function QuickReservationForm() {
             <span className="sr-only">{labels.content}</span>
 
             <select
+              id="quick-reservation-desktop-consultation-type"
+              name="consultationType"
               defaultValue=""
               className="h-12 w-full appearance-none rounded-full border border-[#E8E8E8] bg-white px-8 pr-12 text-center font-medium text-base text-[#999999] outline-none transition-colors focus:border-[#FD7740] focus:text-[#333333]"
             >
@@ -228,7 +241,10 @@ export default function QuickReservationForm() {
             <span className="sr-only">{labels.name}</span>
 
             <input
+              id="quick-reservation-desktop-name"
+              name="name"
               type="text"
+              autoComplete="name"
               placeholder={labels.name}
               className="h-12 w-full rounded-full border border-[#E8E8E8] bg-white px-5 text-center font-medium text-base text-[#333333] outline-none transition-colors placeholder:text-[#999999] focus:border-[#FD7740]"
             />
@@ -238,7 +254,11 @@ export default function QuickReservationForm() {
             <span className="sr-only">{labels.birthDate}</span>
 
             <input
+              id="quick-reservation-desktop-birth-date"
+              name="birthDate"
               type="text"
+              inputMode="numeric"
+              autoComplete="bday"
               placeholder={labels.birthDate}
               className="h-12 w-full rounded-full border border-[#E8E8E8] bg-white px-5 text-center font-medium text-base text-[#333333] outline-none transition-colors placeholder:text-[#999999] focus:border-[#FD7740]"
             />
@@ -248,8 +268,11 @@ export default function QuickReservationForm() {
             <span className="sr-only">{labels.phone}</span>
 
             <input
+              id="quick-reservation-desktop-phone"
+              name="phone"
               type="tel"
               inputMode="numeric"
+              autoComplete="tel"
               placeholder={labels.phone}
               className="h-12 w-full rounded-full border border-[#E8E8E8] bg-white px-5 text-center font-medium text-base text-[#333333] outline-none transition-colors placeholder:text-[#999999] focus:border-[#FD7740]"
             />

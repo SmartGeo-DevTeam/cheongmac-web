@@ -21,6 +21,7 @@ function RadioOption({
   return (
     <label className="flex items-center gap-2 text-[12px] text-[#555C64] xl:text-[13px]">
       <input
+        id={`consultation-${name}-${value}`}
         type="radio"
         name={name}
         value={value}
@@ -50,6 +51,7 @@ export default function ConsultationForm() {
 
   return (
     <form
+      id="consultation-write-form"
       className="mx-auto w-full max-w-7xl px-4 pb-14 xl:px-0 xl:pb-24"
       onSubmit={(event) => {
         event.preventDefault();
@@ -97,7 +99,13 @@ export default function ConsultationForm() {
           <div className="grid gap-2 xl:grid-cols-[150px_1fr] xl:items-center">
             <RequiredLabel>상담 분야</RequiredLabel>
             <div className="grid grid-cols-2 gap-2 xl:max-w-[360px]">
-              <select required className={fieldClass} defaultValue="">
+              <select
+                id="consultation-area"
+                name="consultationArea"
+                required
+                className={fieldClass}
+                defaultValue=""
+              >
                 <option value="" disabled>
                   진료 영역
                 </option>
@@ -106,7 +114,12 @@ export default function ConsultationForm() {
                 <option>부인과</option>
                 <option>기타</option>
               </select>
-              <select className={fieldClass} defaultValue="">
+              <select
+                id="consultation-disease"
+                name="consultationDisease"
+                className={fieldClass}
+                defaultValue=""
+              >
                 <option value="">세부 질환 (선택)</option>
                 <option>하지정맥류</option>
                 <option>정계정맥류</option>
@@ -120,6 +133,8 @@ export default function ConsultationForm() {
           <div className="grid gap-2 xl:grid-cols-[150px_1fr] xl:items-center">
             <RequiredLabel>제목</RequiredLabel>
             <input
+              id="consultation-title"
+              name="title"
               required
               type="text"
               placeholder="제목을 입력하세요"
@@ -131,6 +146,8 @@ export default function ConsultationForm() {
             <RequiredLabel>내용</RequiredLabel>
             <div className="relative">
               <textarea
+                id="consultation-content"
+                name="content"
                 required
                 maxLength={2000}
                 value={content}
@@ -170,6 +187,8 @@ export default function ConsultationForm() {
                   <Link2 className="size-4" /> 파일 선택
                 </button>
                 <input
+                  id="consultation-attachment"
+                  name="attachment"
                   ref={fileInputRef}
                   type="file"
                   accept="image/*,.pdf"
@@ -210,8 +229,11 @@ export default function ConsultationForm() {
           <div className="grid gap-2 xl:grid-cols-[150px_1fr] xl:items-center">
             <RequiredLabel>이름</RequiredLabel>
             <input
+              id="consultation-patient-name"
+              name="patientName"
               required
               type="text"
+              autoComplete="name"
               placeholder="이름을 입력하세요"
               className={`${fieldClass} xl:max-w-[168px]`}
             />
@@ -219,20 +241,31 @@ export default function ConsultationForm() {
           <div className="grid gap-2 xl:grid-cols-[150px_1fr] xl:items-center">
             <RequiredLabel>연락처</RequiredLabel>
             <div className="grid grid-cols-[82px_1fr_1fr] items-center gap-2 xl:max-w-[360px]">
-              <select className={fieldClass} defaultValue="010">
+              <select
+                id="consultation-phone-prefix"
+                name="phonePrefix"
+                className={fieldClass}
+                defaultValue="010"
+              >
                 <option>010</option>
                 <option>011</option>
                 <option>016</option>
               </select>
               <input
+                id="consultation-phone-middle"
+                name="phoneMiddle"
                 required
                 inputMode="numeric"
+                autoComplete="tel-local-prefix"
                 maxLength={4}
                 className={fieldClass}
               />
               <input
+                id="consultation-phone-last"
+                name="phoneLast"
                 required
                 inputMode="numeric"
+                autoComplete="tel-local-suffix"
                 maxLength={4}
                 className={fieldClass}
               />
@@ -241,8 +274,11 @@ export default function ConsultationForm() {
           <div className="grid gap-2 xl:grid-cols-[150px_1fr] xl:items-center">
             <RequiredLabel>생년월일 6자리</RequiredLabel>
             <input
+              id="consultation-birth-date"
+              name="birthDate"
               required
               inputMode="numeric"
+              autoComplete="bday"
               maxLength={6}
               placeholder="예) 950312"
               className={`${fieldClass} xl:max-w-[168px]`}
@@ -262,8 +298,11 @@ export default function ConsultationForm() {
                 <RefreshCw className="size-4 text-[#555C64]" />
               </div>
               <input
+                id="consultation-captcha"
+                name="captcha"
                 required
                 inputMode="numeric"
+                autoComplete="off"
                 placeholder="숫자를 순서대로 입력하세요"
                 className={fieldClass}
               />
@@ -273,9 +312,12 @@ export default function ConsultationForm() {
             <RequiredLabel>비밀번호 설정</RequiredLabel>
             <div>
               <input
+                id="consultation-post-password"
+                name="postPassword"
                 required
                 type="password"
                 inputMode="numeric"
+                autoComplete="new-password"
                 minLength={4}
                 maxLength={4}
                 placeholder="4자리 숫자"

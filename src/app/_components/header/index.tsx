@@ -1,8 +1,15 @@
-import { getPrimaryNavigation } from '@/_lib/navigation';
+import {
+  getPrimaryNavigation,
+  type NavigationItem,
+} from '@/_lib/navigation';
 import HeaderClient from './header-client';
 
-export default async function Header() {
-  const primaryNavigation = await getPrimaryNavigation();
+export default async function Header({
+  primaryNavigation,
+}: {
+  primaryNavigation?: NavigationItem[];
+}) {
+  const navigation = primaryNavigation ?? (await getPrimaryNavigation());
 
-  return <HeaderClient primaryNavigation={primaryNavigation} />;
+  return <HeaderClient primaryNavigation={navigation} />;
 }
