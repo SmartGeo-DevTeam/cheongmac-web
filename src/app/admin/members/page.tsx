@@ -27,6 +27,14 @@ export default async function AdminMembersPage() {
       accounts: {
         select: { providerId: true },
       },
+      loginLogs: {
+        orderBy: { loggedInAt: 'desc' },
+        take: 1,
+        select: { loggedInAt: true },
+      },
+      _count: {
+        select: { loginLogs: true },
+      },
     },
   });
 
@@ -40,6 +48,8 @@ export default async function AdminMembersPage() {
     providers: Array.from(
       new Set(user.accounts.map((account) => account.providerId)),
     ),
+    loginCount: user._count.loginLogs,
+    lastLoginAt: user.loginLogs[0]?.loggedInAt.toISOString() ?? null,
     createdAt: user.createdAt.toISOString(),
   }));
 
@@ -50,7 +60,7 @@ export default async function AdminMembersPage() {
           전체 회원
         </h1>
         <p className="mt-2 max-w-3xl text-sm leading-6 text-[#71717A]">
-          홈페이지 가입을 마친 회원을 확인합니다. 이름, 이메일, 휴대전화번호로 원하는 회원을 쉽게 찾을 수 있습니다.
+          홈페이지 가입을 마친 회원을 확인합니다. 회원 이름을 누르면 로그인 횟수와 최근 방문 기록을 자세히 볼 수 있습니다.
         </p>
       </div>
 
@@ -58,7 +68,7 @@ export default async function AdminMembersPage() {
         <CardHeader>
           <CardTitle>회원 목록</CardTitle>
           <CardDescription>
-            현재 가입을 완료한 회원은 {users.length.toLocaleString()}명입니다. 회원 이름이나 연락처를 검색하거나 가입일 순으로 정렬해 볼 수 있습니다.
+            현재 가입을 완료한 회원은 {users.length.toLocaleString()}명입니다. 로그인 기록은 이번 기능 적용 이후부터 쌓입니다.
           </CardDescription>
         </CardHeader>
         <CardContent>

@@ -8,23 +8,27 @@ datasource db {
 }
 
 model User {
-  id                    String   @id
+  id                    String    @id
   name                  String
-  email                 String   @unique
-  emailVerified         Boolean  @default(false)
+  email                 String    @unique
+  emailVerified         Boolean   @default(false)
   image                 String?
   phone                 String?
-  role                  String   @default("MEMBER")
-  membershipStatus      String   @default("PENDING")
+  role                  String    @default("MEMBER")
+  membershipStatus      String    @default("PENDING")
   onboardingCompletedAt DateTime?
-  createdAt             DateTime @default(now())
-  updatedAt             DateTime @updatedAt
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
 
-  sessions        Session[]
-  accounts        Account[]
-  consents        Consent[]
-  contentRevisions ContentRevision[] @relation("ContentRevisionEditor")
-  auditLogs       AdminAuditLog[]    @relation("AuditActor")
+  sessions         Session[]
+  accounts         Account[]
+  consents         Consent[]
+  loginLogs        UserLoginLog[]
+  activitySessions UserActivitySession[]
+  pageViews        UserPageView[]
+  activityEvents   UserActivityEvent[]
+  contentRevisions ContentRevision[]     @relation("ContentRevisionEditor")
+  auditLogs        AdminAuditLog[]       @relation("AuditActor")
 
   @@index([membershipStatus])
   @@index([role])
@@ -32,22 +36,22 @@ model User {
 }
 
 model Session {
-  id             String   @id
-  expiresAt      DateTime
-  token          String   @unique
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  ipAddress      String?
-  userAgent      String?
-  userId         String
-  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id        String   @id
+  expiresAt DateTime
+  token     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@map("session")
 }
 
 model Account {
-  id                    String   @id
+  id                    String    @id
   accountId             String
   providerId            String
   userId                String
@@ -58,9 +62,9 @@ model Account {
   refreshTokenExpiresAt DateTime?
   scope                 String?
   password              String?
-  createdAt             DateTime @default(now())
-  updatedAt             DateTime @updatedAt
-  user                  User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([providerId, accountId])
   @@index([userId])
@@ -90,6 +94,88 @@ model Consent {
   @@unique([userId, type, version])
   @@index([userId])
   @@map("consent")
+}
+
+model UserLoginLog {
+  id            String   @id @default(cuid())
+  userId        String
+  authSessionId String   @unique
+  provider      String?
+  deviceType    String?
+  userAgent     String?  @db.Text
+  loggedInAt    DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, loggedInAt])
+  @@map("user_login_log")
+}
+
+model UserActivitySession {
+  id             String    @id
+  userId         String
+  authSessionId  String
+  startedAt      DateTime  @default(now())
+  lastActiveAt   DateTime  @default(now())
+  endedAt        DateTime?
+  pageViewCount  Int       @default(0)
+  engagedSeconds Int       @default(0)
+  entryPath      String?
+  exitPath       String?
+  deviceType     String?
+  userAgent      String?   @db.Text
+
+  user      User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  pageViews UserPageView[]
+  events    UserActivityEvent[]
+
+  @@index([userId, startedAt])
+  @@index([authSessionId])
+  @@map("user_activity_session")
+}
+
+model UserPageView {
+  id                String    @id
+  userId            String
+  activitySessionId String
+  path              String
+  pageTitle         String?
+  referrerPath      String?
+  nextPath          String?
+  enteredAt         DateTime  @default(now())
+  leftAt            DateTime?
+  engagedSeconds    Int       @default(0)
+
+  user            User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  activitySession UserActivitySession @relation(fields: [activitySessionId], references: [id], onDelete: Cascade)
+  events          UserActivityEvent[]
+
+  @@index([userId, enteredAt])
+  @@index([activitySessionId, enteredAt])
+  @@index([path])
+  @@map("user_page_view")
+}
+
+model UserActivityEvent {
+  id                String   @id @default(cuid())
+  userId            String
+  activitySessionId String
+  pageViewId        String?
+  eventType         String
+  path              String
+  targetId          String?
+  metadata          Json?
+  createdAt         DateTime @default(now())
+
+  user            User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  activitySession UserActivitySession @relation(fields: [activitySessionId], references: [id], onDelete: Cascade)
+  pageView        UserPageView?       @relation(fields: [pageViewId], references: [id], onDelete: SetNull)
+
+  @@index([userId, createdAt])
+  @@index([activitySessionId, createdAt])
+  @@index([eventType, createdAt])
+  @@index([path])
+  @@map("user_activity_event")
 }
 
 model Content {

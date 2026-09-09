@@ -26,6 +26,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import { ArrowUpDown, ChevronLeft, ChevronRight, Search } from 'lucide-react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState, useTransition } from 'react';
 
@@ -37,6 +38,8 @@ export type AdminMemberRow = {
   role: string;
   membershipStatus: string;
   providers: string[];
+  loginCount?: number;
+  lastLoginAt?: string | null;
   createdAt: string;
 };
 
@@ -242,12 +245,23 @@ export default function MemberDataTable({
             onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           />
         ),
-        cell: ({ row }) => (
-          <div className="min-w-[180px]">
-            <p className="font-medium text-[#27272A]">{row.original.name}</p>
-            <p className="mt-1 text-xs text-[#A1A1AA]">{row.original.email}</p>
-          </div>
-        ),
+        cell: ({ row }) =>
+          mode === 'members' ? (
+            <Link
+              href={`/admin/members/${row.original.id}`}
+              className="group block min-w-[180px]"
+            >
+              <p className="font-medium text-[#27272A] underline-offset-4 group-hover:underline">
+                {row.original.name}
+              </p>
+              <p className="mt-1 text-xs text-[#A1A1AA]">{row.original.email}</p>
+            </Link>
+          ) : (
+            <div className="min-w-[180px]">
+              <p className="font-medium text-[#27272A]">{row.original.name}</p>
+              <p className="mt-1 text-xs text-[#A1A1AA]">{row.original.email}</p>
+            </div>
+          ),
       },
       {
         accessorKey: 'phone',
@@ -261,30 +275,67 @@ export default function MemberDataTable({
     ];
 
     if (mode === 'members') {
-      sharedColumns.push({
-        id: 'providers',
-        accessorFn: (row) => row.providers.join(','),
-        header: '가입 방법',
-        filterFn: (row, _id, value) =>
-          value === 'ALL' || row.original.providers.includes(String(value)),
-        cell: ({ row }) => (
-          <div className="flex min-w-[120px] flex-wrap gap-1">
-            {row.original.providers.length ? (
-              row.original.providers.map((provider) => (
-                <Badge
-                  key={provider}
-                  variant="outline"
-                  className={providerBadgeClass(provider)}
-                >
-                  {PROVIDER_LABELS[provider] ?? provider}
-                </Badge>
-              ))
-            ) : (
-              <span className="text-xs text-[#A1A1AA]">-</span>
-            )}
-          </div>
-        ),
-      });
+      sharedColumns.push(
+        {
+          id: 'providers',
+          accessorFn: (row) => row.providers.join(','),
+          header: '가입 방법',
+          filterFn: (row, _id, value) =>
+            value === 'ALL' || row.original.providers.includes(String(value)),
+          cell: ({ row }) => (
+            <div className="flex min-w-[120px] flex-wrap gap-1">
+              {row.original.providers.length ? (
+                row.original.providers.map((provider) => (
+                  <Badge
+                    key={provider}
+                    variant="outline"
+                    className={providerBadgeClass(provider)}
+                  >
+                    {PROVIDER_LABELS[provider] ?? provider}
+                  </Badge>
+                ))
+              ) : (
+                <span className="text-xs text-[#A1A1AA]">-</span>
+              )}
+            </div>
+          ),
+        },
+        {
+          id: 'loginCount',
+          accessorFn: (row) => row.loginCount ?? 0,
+          header: '총 로그인',
+          cell: ({ row }) => (
+            <span className="whitespace-nowrap text-sm text-[#52525B]">
+              {(row.original.loginCount ?? 0).toLocaleString()}회
+            </span>
+          ),
+        },
+        {
+          id: 'lastLoginAt',
+          accessorFn: (row) => row.lastLoginAt ?? '',
+          header: '최근 로그인',
+          sortingFn: (rowA, rowB, columnId) => {
+            const a = String(rowA.getValue(columnId) ?? '');
+            const b = String(rowB.getValue(columnId) ?? '');
+            return (a ? new Date(a).getTime() : 0) - (b ? new Date(b).getTime() : 0);
+          },
+          cell: ({ row }) => (
+            <span className="whitespace-nowrap text-xs text-[#71717A]">
+              {row.original.lastLoginAt
+                ? new Intl.DateTimeFormat('ko-KR', {
+                    timeZone: 'Asia/Seoul',
+                    year: '2-digit',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: false,
+                  }).format(new Date(row.original.lastLoginAt))
+                : '-'}
+            </span>
+          ),
+        },
+      );
     }
 
     if (mode === 'roles') {

@@ -87,6 +87,10 @@ export default function PrivacyPolicyPage() {
             회원 식별·인증, 홈페이지 회원 전환, 회원자격 유지·관리, 서비스 부정이용 방지
           </li>
           <li>
+            <b>홈페이지 서비스 운영 및 개선</b>: 로그인 회원의 페이지 방문·이동,
+            실제 활동 시간과 주요 기능 이용 흐름을 분석하여 서비스 품질 개선
+          </li>
+          <li>
             <b>진료 예약 및 상담</b>: 진료 예약 접수·확인, 온라인
             상담(의학상담·고객의 소리) 처리 및 결과 회신
           </li>
@@ -156,14 +160,15 @@ export default function PrivacyPolicyPage() {
                 자동 생성·수집되는 정보
               </td>
               <td className="border-t border-r border-[#E9EAEC] px-1.5 py-2 align-middle last:border-r-0 xl:px-3 xl:py-3">
-                서비스 이용기록, 접속 로그, 쿠키,
+                로그인 일시, 페이지 방문·이동 경로, 페이지 이용 일시,
+                실제 활동 시간, 주요 기능 이용 이벤트, 접속 로그, 쿠키,
                 <br className="hidden xl:block" /> 접속 IP 정보,
                 기기정보(브라우저·OS 등)
               </td>
               <td className="border-t border-r border-[#E9EAEC] px-1.5 py-2 align-middle last:border-r-0 xl:px-3 xl:py-3">
-                접속 기록 3개월
+                회원 탈퇴 또는 처리 목적 달성 시까지
                 <br />
-                (통신비밀보호법)
+                (관계 법령상 보존 의무가 있는 경우 해당 기간)
               </td>
             </tr>
             <tr>

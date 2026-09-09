@@ -4,6 +4,7 @@ import Footer from "@/app/_components/footer";
 import Header from "@/app/_components/header";
 import MacGptSearchLayer from "@/app/_components/mac-gpt-search";
 import QuickReservationForm from "@/app/_components/quick-reservation-form";
+import UserActivityTracker from "@/app/_components/user-activity-tracker";
 import { ScrollDirectionProvider } from "@/app/_providers/scroll-direction-provider";
 import { ViewportProvider } from "@/app/_providers/viewport-provider";
 import type { Metadata } from "next";
@@ -31,6 +32,8 @@ export default function RootLayout({
     >
       <body>
         <ViewportProvider>
+          <UserActivityTracker />
+
           <ScrollDirectionProvider>
             <Header />
             <QuickReservationForm />
