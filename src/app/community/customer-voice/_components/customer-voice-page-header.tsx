@@ -15,8 +15,6 @@ export default function CustomerVoicePageHeader() {
           보내주신 의견을 바탕으로 더 나은 청맥병원을 만들어갑니다.
         </>
       }
-      variant="compact"
-      descriptionClassName="max-w-[560px]"
     />
   );
 }

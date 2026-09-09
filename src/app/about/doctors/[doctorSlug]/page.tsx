@@ -1,7 +1,7 @@
 "use client";
 
 import Inner from "@/app/_components/inner";
-import Breadcrumb from "@/app/_components/ui/breadcrumb";
+import PageHeader from "@/app/_components/ui/page-header";
 import { ArrowRight, HeartIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -120,27 +120,15 @@ export default function DoctorDetailPage(): React.ReactElement {
   }
 
   return (
-    <div
-      className="mt-20
-      xl:mt-5"
-    >
-      <Inner usePaddingHorizontal>
-        <section>
-          <Breadcrumb id="doctor-detail-breadcrumb" />
-
-          <div
-            className="mt-10 mb-5 flex flex-col items-center justify-center
-            xl:my-15"
-          >
-            <h1
-              className="font-bold text-[26px] text-[#333333]
-              xl:text-[50px]"
-            >
-              의료진 상세보기
-            </h1>
-          </div>
-        </section>
-      </Inner>
+    <div>
+      <PageHeader
+        id="doctor-detail-page-header"
+        breadcrumbs={[
+          { label: '병원 소개', href: '/about/doctors' },
+          { label: '의료진/진료과', href: '/about/doctors' },
+        ]}
+        title="의료진 상세보기"
+      />
 
       <DoctorHero doctor={doctor} />
 

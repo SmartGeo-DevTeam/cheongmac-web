@@ -18,9 +18,6 @@ export default function CommunityNewsPage() {
           { label: '청맥뉴스' },
         ]}
         title="청맥뉴스"
-        variant="compact"
-        divider="desktop"
-        dividerClassName="xl:mt-10"
       />
 
       <div className="mt-8 xl:mt-14">

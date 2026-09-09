@@ -1,6 +1,6 @@
 import BottomBanner from "@/app/_components/bottom-banners";
 import Inner from "@/app/_components/inner";
-import Breadcrumb from "@/app/_components/ui/breadcrumb";
+import PageHeader from "@/app/_components/ui/page-header";
 import { HeartIcon, Search } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -107,36 +107,22 @@ function DoctorCard({ doctor }: { doctor: Doctor }): React.ReactNode {
 
 export default function AboutDoctors(): React.ReactNode {
   return (
-    <div
-      className="mt-20
-      xl:mt-5"
-    >
-      <Inner usePaddingHorizontal>
-        <section>
-          <Breadcrumb id="about-doctors-breadcrumb" />
-
-          <div
-            className="mt-10 mb-5 flex flex-col items-center justify-center
-            xl:mt-15"
-          >
-            <h1
-              className="font-bold text-[26px] text-[#333333]
-              xl:text-[50px]"
-            >
-              의료진/진료과
-            </h1>
-
-            <p
-              className="mt-2 break-keep text-center text-sm text-[#555555]
-              xl:mt-2.5 xl:text-xl"
-            >
-              환자의 삶에 흐르는 건강을 최고의 전문성으로 지켜내며{" "}
-              <br className="hidden xl:block" />
-              대한민국 혈관 치료의 표준을 만드는 청맥의 의료진을 소개합니다.
-            </p>
-          </div>
-        </section>
-      </Inner>
+    <div>
+      <PageHeader
+        id="about-doctors-page-header"
+        breadcrumbs={[
+          { label: '병원 소개', href: '/about/doctors' },
+          { label: '의료진/진료과' },
+        ]}
+        title="의료진/진료과"
+        description={
+          <>
+            환자의 삶에 흐르는 건강을 최고의 전문성으로 지켜내며
+            <br className="hidden xl:block" />
+            대한민국 혈관 치료의 표준을 만드는 청맥의 의료진을 소개합니다.
+          </>
+        }
+      />
 
       <section>
         <Inner usePaddingHorizontal>

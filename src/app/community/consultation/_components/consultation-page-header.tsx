@@ -15,7 +15,6 @@ export default function ConsultationPageHeader() {
           올바른 의학 정보 제공을 위해 최선을 다해 답변해 드립니다.
         </>
       }
-      variant="compact"
     />
   );
 }
