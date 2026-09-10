@@ -143,6 +143,12 @@ export default function AdminSidebar({
                 콘텐츠 관리
               </SidebarMenuButton>
             </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel>진료 데이터</SidebarGroupLabel>
+          <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton
                 href="/admin/doctors"
@@ -155,16 +161,12 @@ export default function AdminSidebar({
                 의료진 관리
               </SidebarMenuButton>
             </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarGroup>
-
-        <SidebarGroup>
-          <SidebarGroupLabel>관계형 콘텐츠 DB</SidebarGroupLabel>
-          <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton
                 href="/admin/content-relations/specialties"
-                active={pathname.startsWith('/admin/content-relations/specialties')}
+                active={pathname.startsWith(
+                  '/admin/content-relations/specialties',
+                )}
               >
                 <Database className="size-4" />
                 진료분야
@@ -173,16 +175,26 @@ export default function AdminSidebar({
             <SidebarMenuItem>
               <SidebarMenuButton
                 href="/admin/content-relations/schedules"
-                active={pathname.startsWith('/admin/content-relations/schedules')}
+                active={pathname.startsWith(
+                  '/admin/content-relations/schedules',
+                )}
               >
                 <Database className="size-4" />
                 진료시간표
               </SidebarMenuButton>
             </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel>학술·미디어</SidebarGroupLabel>
+          <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton
                 href="/admin/content-relations/presentations"
-                active={pathname.startsWith('/admin/content-relations/presentations')}
+                active={pathname.startsWith(
+                  '/admin/content-relations/presentations',
+                )}
               >
                 <Database className="size-4" />
                 발표 이력
@@ -190,8 +202,27 @@ export default function AdminSidebar({
             </SidebarMenuItem>
             <SidebarMenuItem>
               <SidebarMenuButton
+                href="/admin/content-relations/media"
+                active={pathname.startsWith(
+                  '/admin/content-relations/media',
+                )}
+              >
+                <Database className="size-4" />
+                미디어
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel>환자 소통</SidebarGroupLabel>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton
                 href="/admin/content-relations/reviews"
-                active={pathname.startsWith('/admin/content-relations/reviews')}
+                active={pathname.startsWith(
+                  '/admin/content-relations/reviews',
+                )}
               >
                 <Database className="size-4" />
                 환자 후기
@@ -199,17 +230,10 @@ export default function AdminSidebar({
             </SidebarMenuItem>
             <SidebarMenuItem>
               <SidebarMenuButton
-                href="/admin/content-relations/media"
-                active={pathname.startsWith('/admin/content-relations/media')}
-              >
-                <Database className="size-4" />
-                미디어
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton
                 href="/admin/content-relations/consultations"
-                active={pathname.startsWith('/admin/content-relations/consultations')}
+                active={pathname.startsWith(
+                  '/admin/content-relations/consultations',
+                )}
               >
                 <Database className="size-4" />
                 의학상담

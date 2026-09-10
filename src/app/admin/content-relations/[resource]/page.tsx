@@ -77,18 +77,31 @@ export default async function RelatedContentListPage({
     : undefined;
 
   const columns: AdminDataTableColumn[] = [
-    { key: 'content', label: '콘텐츠', className: 'min-w-[260px]' },
-    { key: 'summary', label: '요약', className: 'min-w-[240px]' },
+    {
+      key: 'content',
+      label: '콘텐츠',
+      className: 'w-[23%] min-w-[240px]',
+    },
+    {
+      key: 'summary',
+      label: '요약',
+      className: 'w-[22%] min-w-[220px]',
+    },
     {
       key: 'doctors',
       label: '관련 의료진',
-      className: 'min-w-[260px]',
+      className: 'w-[37%] min-w-[320px]',
     },
-    { key: 'status', label: '상태', className: 'w-[90px]' },
+    {
+      key: 'status',
+      label: '상태',
+      className: 'w-[88px] min-w-[88px] whitespace-nowrap',
+    },
     {
       key: 'actions',
       label: '관리',
-      className: 'w-[100px] text-right',
+      className:
+        'w-[112px] min-w-[112px] whitespace-nowrap text-right',
     },
   ];
 
@@ -97,34 +110,40 @@ export default async function RelatedContentListPage({
     cells: {
       content: (
         <div className="min-w-0">
-          <p className="truncate font-semibold text-[#27272A]">{item.title}</p>
-          <p className="mt-1 text-[11px] text-[#A1A1AA]">ID {item.id}</p>
+          <p className="truncate font-semibold text-[#27272A]">
+            {item.title}
+          </p>
+          <p className="mt-1 truncate text-[11px] text-[#A1A1AA]">
+            ID {item.id}
+          </p>
         </div>
       ),
       summary: (
-        <p className="line-clamp-2 text-xs leading-5 text-[#71717A]">
+        <p className="line-clamp-2 break-keep text-xs leading-5 text-[#71717A]">
           {item.summary || '-'}
         </p>
       ),
       doctors: (
-        <div className="flex flex-wrap gap-1.5">
+        <div className="flex min-w-0 flex-wrap gap-1.5">
           {item.doctors.length ? (
             item.doctors.map((doctor) => (
               <span
                 key={doctor.id}
-                className="rounded-full bg-[#F4F4F5] px-2.5 py-1 text-[11px] font-medium text-[#52525B]"
+                className="shrink-0 whitespace-nowrap rounded-full bg-[#F4F4F5] px-2.5 py-1 text-[11px] font-medium text-[#52525B]"
               >
                 {doctor.name} {doctor.position}
               </span>
             ))
           ) : (
-            <span className="text-xs text-[#A1A1AA]">연결 의료진 없음</span>
+            <span className="text-xs text-[#A1A1AA]">
+              연결 의료진 없음
+            </span>
           )}
         </div>
       ),
       status: (
         <span
-          className={`inline-flex rounded-full px-2 py-1 text-[11px] font-medium ${
+          className={`inline-flex whitespace-nowrap rounded-full px-2 py-1 text-[11px] font-medium ${
             item.isVisible
               ? 'bg-[#DCFCE7] text-[#166534]'
               : 'bg-[#F4F4F5] text-[#71717A]'
@@ -134,13 +153,13 @@ export default async function RelatedContentListPage({
         </span>
       ),
       actions: (
-        <div className="flex justify-end">
+        <div className="flex min-w-[80px] justify-end">
           <Link
             href={`${meta.href}/${item.id}`}
-            className="inline-flex h-9 items-center gap-1.5 rounded-md border border-[#E4E4E7] bg-white px-3 text-xs font-semibold text-[#52525B] hover:bg-[#F4F4F5] hover:text-[#18181B]"
+            className="inline-flex h-9 min-w-[76px] shrink-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-md border border-[#E4E4E7] bg-white px-3 text-xs font-semibold text-[#52525B] hover:bg-[#F4F4F5] hover:text-[#18181B]"
           >
-            <PencilLine className="size-3.5" />
-            수정
+            <PencilLine className="size-3.5 shrink-0" />
+            <span>수정</span>
           </Link>
         </div>
       ),
@@ -151,7 +170,9 @@ export default async function RelatedContentListPage({
     <section className="space-y-6">
       <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div>
-          <p className="text-xs font-medium text-[#A1A1AA]">관계형 콘텐츠 DB</p>
+          <p className="text-xs font-medium text-[#A1A1AA]">
+            {meta.groupLabel}
+          </p>
           <h1 className="mt-1 text-2xl font-semibold tracking-[-0.03em] text-[#18181B] md:text-3xl">
             {meta.label} 관리
           </h1>
@@ -162,9 +183,9 @@ export default async function RelatedContentListPage({
 
         <Link
           href={`${meta.href}/new`}
-          className="inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-md bg-[#18181B] px-4 text-sm font-medium text-white hover:bg-[#27272A]"
+          className="inline-flex h-10 shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md bg-[#18181B] px-4 text-sm font-medium text-white hover:bg-[#27272A]"
         >
-          <Plus className="size-4" />
+          <Plus className="size-4 shrink-0" />
           {meta.singularLabel} 추가
         </Link>
       </div>
@@ -172,12 +193,12 @@ export default async function RelatedContentListPage({
       {filteredDoctor ? (
         <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-[#DCE9E5] bg-[#F4FAF8] px-4 py-3 text-sm">
           <span className="font-medium text-[#285E51]">
-            {filteredDoctor.name} {filteredDoctor.position}와 연결된 {meta.label}만
-            보고 있습니다.
+            {filteredDoctor.name} {filteredDoctor.position}와 연결된{' '}
+            {meta.label}만 보고 있습니다.
           </span>
           <Link
             href={meta.href}
-            className="text-xs font-semibold text-[#006651] underline underline-offset-4"
+            className="shrink-0 whitespace-nowrap text-xs font-semibold text-[#006651] underline underline-offset-4"
           >
             전체 보기
           </Link>

@@ -211,7 +211,7 @@ export default function DoctorEditor({
           </h1>
           <p className="mt-1 text-sm text-[#71717A]">
             의료진 고유정보와 이 의료진에게 노출할 미디어 4개를 관리합니다.
-            진료분야·시간표·발표·후기·상담은 각 관계형 콘텐츠 DB에서 연결합니다.
+            진료분야·시간표·발표·후기·상담은 각 데이터 관리 메뉴에서 연결합니다.
           </p>
         </div>
 
@@ -742,8 +742,8 @@ export default function DoctorEditor({
       </Section>
 
       <Section
-        title="관계형 콘텐츠"
-        description="아래 데이터는 의료진 내부에 복사해 저장하지 않습니다. 각 콘텐츠 DB에서 '관련 의료진'으로 연결합니다."
+        title="연결 데이터"
+        description="의료진과 연결된 각 데이터베이스를 확인하고 관리합니다. 데이터 자체는 해당 관리 메뉴에서 독립적으로 유지됩니다."
       >
         <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
           {relationCounts.map((item) => (

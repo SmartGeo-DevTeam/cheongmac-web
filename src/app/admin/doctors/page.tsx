@@ -48,7 +48,7 @@ export default async function AdminDoctorsPage() {
           <CardTitle>의료진 추가</CardTitle>
           <CardDescription>
             새 의료진은 처음에는 비노출 상태로 생성됩니다. 기본정보와 이미지를 입력한
-            뒤 각 관계형 콘텐츠 DB에서 연결할 수 있습니다.
+            뒤 진료 데이터·학술·미디어·환자 소통 메뉴에서 필요한 데이터를 연결할 수 있습니다.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -60,7 +60,7 @@ export default async function AdminDoctorsPage() {
         <CardHeader>
           <CardTitle>의료진 목록</CardTitle>
           <CardDescription>
-            각 의료진과 연결된 관계형 데이터 개수를 확인할 수 있습니다.
+            각 의료진과 연결된 데이터 개수를 확인할 수 있습니다.
           </CardDescription>
         </CardHeader>
         <CardContent>

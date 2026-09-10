@@ -83,11 +83,11 @@ export default function AdminDataTable({
 
   return (
     <div className="space-y-4">
-      <div className="flex flex-col gap-3 rounded-xl border border-[#E4E4E7] bg-white p-4 md:flex-row md:items-center md:justify-between">
+      <div className="flex flex-col gap-3 rounded-xl border border-[#E4E4E7] bg-white p-4 lg:flex-row lg:items-center lg:justify-between">
         <form
           action={basePath}
           method="get"
-          className="flex min-w-0 flex-1 flex-col gap-2 sm:flex-row"
+          className="flex min-w-0 flex-1 flex-col gap-2 sm:flex-row sm:flex-wrap lg:flex-nowrap"
         >
           {Object.entries(extraParams).map(([key, value]) =>
             value ? (
@@ -95,7 +95,7 @@ export default function AdminDataTable({
             ) : null,
           )}
 
-          <div className="relative min-w-0 flex-1 md:max-w-xl">
+          <div className="relative min-w-0 flex-1 basis-full sm:basis-auto lg:max-w-xl">
             <Search
               className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-[#A1A1AA]"
               aria-hidden="true"
@@ -107,7 +107,7 @@ export default function AdminDataTable({
               autoComplete="off"
               defaultValue={query}
               placeholder={searchPlaceholder}
-              className="h-10 w-full rounded-md border border-[#D4D4D8] bg-white pl-9 pr-3 text-sm text-[#18181B] outline-none placeholder:text-[#A1A1AA] focus:border-[#A1A1AA]"
+              className="h-10 w-full min-w-0 rounded-md border border-[#D4D4D8] bg-white pl-9 pr-3 text-sm text-[#18181B] outline-none placeholder:text-[#A1A1AA] focus:border-[#A1A1AA]"
             />
           </div>
 
@@ -115,7 +115,7 @@ export default function AdminDataTable({
             id="admin-data-table-page-size"
             name="pageSize"
             defaultValue={String(pageSize)}
-            className="h-10 rounded-md border border-[#D4D4D8] bg-white px-3 text-sm text-[#52525B]"
+            className="h-10 shrink-0 rounded-md border border-[#D4D4D8] bg-white px-3 text-sm text-[#52525B]"
             aria-label="페이지당 표시 개수"
           >
             <option value="10">10개씩</option>
@@ -125,7 +125,7 @@ export default function AdminDataTable({
 
           <button
             type="submit"
-            className="inline-flex h-10 shrink-0 items-center justify-center rounded-md bg-[#18181B] px-4 text-sm font-medium text-white hover:bg-[#27272A]"
+            className="inline-flex h-10 shrink-0 items-center justify-center whitespace-nowrap rounded-md bg-[#18181B] px-4 text-sm font-medium text-white hover:bg-[#27272A]"
           >
             검색
           </button>
@@ -133,21 +133,21 @@ export default function AdminDataTable({
           {query ? (
             <Link
               href={pageHref(basePath, 1, '', pageSize, extraParams)}
-              className="inline-flex h-10 shrink-0 items-center justify-center rounded-md border border-[#E4E4E7] bg-white px-4 text-sm font-medium text-[#52525B] hover:bg-[#F4F4F5]"
+              className="inline-flex h-10 shrink-0 items-center justify-center whitespace-nowrap rounded-md border border-[#E4E4E7] bg-white px-4 text-sm font-medium text-[#52525B] hover:bg-[#F4F4F5]"
             >
               초기화
             </Link>
           ) : null}
         </form>
 
-        <p className="shrink-0 text-xs text-[#71717A]">
+        <p className="shrink-0 whitespace-nowrap text-xs text-[#71717A]">
           총 <strong className="font-semibold text-[#27272A]">{total}</strong>건
         </p>
       </div>
 
       <div className="overflow-hidden rounded-xl border border-[#E4E4E7] bg-white">
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[900px] border-collapse text-left">
+          <table className="w-full min-w-[1040px] table-fixed border-collapse text-left">
             <thead className="bg-[#FAFAFA]">
               <tr>
                 {columns.map((column) => (
@@ -205,7 +205,7 @@ export default function AdminDataTable({
               extraParams,
             )}
             aria-disabled={page <= 1}
-            className={`inline-flex h-9 items-center rounded-md border px-3 text-xs font-medium ${
+            className={`inline-flex h-9 items-center whitespace-nowrap rounded-md border px-3 text-xs font-medium ${
               page <= 1
                 ? 'pointer-events-none border-[#ECECEF] text-[#C4C4C7]'
                 : 'border-[#E4E4E7] bg-white text-[#52525B] hover:bg-[#F4F4F5]'
@@ -253,7 +253,7 @@ export default function AdminDataTable({
               extraParams,
             )}
             aria-disabled={page >= totalPages}
-            className={`inline-flex h-9 items-center rounded-md border px-3 text-xs font-medium ${
+            className={`inline-flex h-9 items-center whitespace-nowrap rounded-md border px-3 text-xs font-medium ${
               page >= totalPages
                 ? 'pointer-events-none border-[#ECECEF] text-[#C4C4C7]'
                 : 'border-[#E4E4E7] bg-white text-[#52525B] hover:bg-[#F4F4F5]'

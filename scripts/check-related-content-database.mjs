@@ -14,6 +14,12 @@ function requireText(file, token, message) {
   }
 }
 
+function forbidText(file, token, message) {
+  if (read(file).includes(token)) {
+    errors.push(`${file}: ${message}`);
+  }
+}
+
 const joinModels = [
   'DoctorSpecialtyDoctor',
   'DoctorScheduleDoctor',
@@ -42,20 +48,55 @@ for (const resource of [
   requireText(
     'src/_lib/related-content-types.ts',
     `'${resource}'`,
-    `${resource} 관계형 콘텐츠 리소스가 필요합니다.`,
+    `${resource} 콘텐츠 데이터 리소스가 필요합니다.`,
   );
 }
+
+for (const groupLabel of [
+  '진료 데이터',
+  '학술·미디어',
+  '환자 소통',
+]) {
+  requireText(
+    'src/_lib/related-content-types.ts',
+    `label: '${groupLabel}'`,
+    `${groupLabel} 관리자 데이터 그룹이 필요합니다.`,
+  );
+  requireText(
+    'src/app/admin/_components/admin-sidebar.tsx',
+    `<SidebarGroupLabel>${groupLabel}</SidebarGroupLabel>`,
+    `${groupLabel} 사이드바 그룹이 필요합니다.`,
+  );
+}
+
+forbidText(
+  'src/app/admin/_components/admin-sidebar.tsx',
+  '<SidebarGroupLabel>관계형 콘텐츠 DB</SidebarGroupLabel>',
+  '각 데이터베이스는 의료진 하위처럼 보이지 않도록 별도 용도 그룹으로 분류해야 합니다.',
+);
+
+forbidText(
+  'src/app/admin/content-relations/[resource]/page.tsx',
+  '>관계형 콘텐츠 DB<',
+  '각 데이터 목록의 상단 분류명은 실제 데이터 그룹명을 사용해야 합니다.',
+);
+
+requireText(
+  'src/app/admin/content-relations/[resource]/page.tsx',
+  'meta.groupLabel',
+  '각 데이터 목록에서 진료/학술·미디어/환자소통 그룹명을 표시해야 합니다.',
+);
 
 requireText(
   'src/app/admin/content-relations/[resource]/page.tsx',
   '관련 의료진',
-  '각 콘텐츠 DB 목록에 관련 의료진 컬럼이 필요합니다.',
+  '각 데이터 DB 목록에 관련 의료진 컬럼이 필요합니다.',
 );
 
 requireText(
   'src/app/admin/content-relations/[resource]/[id]/page.tsx',
   'name="doctorIds"',
-  '각 콘텐츠 편집 화면에서 여러 의료진을 선택할 수 있어야 합니다.',
+  '미디어를 제외한 데이터 편집 화면에서 여러 의료진을 선택할 수 있어야 합니다.',
 );
 
 requireText(
@@ -76,37 +117,47 @@ requireText(
   '기존 의학상담-의료진 관계를 join table로 이전해야 합니다.',
 );
 
-
 requireText(
   'src/app/admin/_components/admin-data-table.tsx',
   'name="q"',
-  '관계형 콘텐츠 Data Table에 검색 입력이 필요합니다.',
+  '관리자 Data Table에 검색 입력이 필요합니다.',
 );
 
 requireText(
   'src/app/admin/_components/admin-data-table.tsx',
   'totalPages',
-  '관계형 콘텐츠 Data Table에 페이지네이션이 필요합니다.',
+  '관리자 Data Table에 페이지네이션이 필요합니다.',
+);
+
+requireText(
+  'src/app/admin/_components/admin-data-table.tsx',
+  'min-w-[1040px]',
+  '관리자 Data Table은 좁은 화면에서 내부 버튼이 찌그러지지 않도록 최소 폭과 가로 스크롤을 유지해야 합니다.',
+);
+
+requireText(
+  'src/app/admin/content-relations/[resource]/page.tsx',
+  'whitespace-nowrap',
+  '상태/관리 버튼과 칩 텍스트는 좁은 컬럼에서 글자 단위로 줄바꿈되지 않아야 합니다.',
 );
 
 requireText(
   'src/app/admin/content-relations/[resource]/page.tsx',
   'getRelatedContentPage',
-  '관계형 콘텐츠 목록은 서버 검색/페이지네이션 조회를 사용해야 합니다.',
+  '데이터 목록은 서버 검색/페이지네이션 조회를 사용해야 합니다.',
 );
 
 requireText(
   'src/_lib/related-content.ts',
-  "contains: query",
-  '관계형 콘텐츠 DB 검색 조건이 필요합니다.',
+  'contains: query',
+  '데이터 DB 검색 조건이 필요합니다.',
 );
 
 requireText(
   'src/app/admin/content-relations/[resource]/page.tsx',
   '<AdminDataTable',
-  '관계형 콘텐츠 목록은 공통 Data Table 컴포넌트를 사용해야 합니다.',
+  '데이터 목록은 공통 AdminDataTable 컴포넌트를 사용해야 합니다.',
 );
-
 
 if (errors.length) {
   console.error('\nRelated content database check failed:\n');

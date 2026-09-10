@@ -66,8 +66,8 @@ requireText(
 
 requireText(
   'src/app/admin/doctors/[doctorId]/doctor-editor.tsx',
-  '관계형 콘텐츠',
-  '의료진 관리 화면에서 별도 콘텐츠 DB 관계를 안내해야 합니다.',
+  '연결 데이터',
+  '의료진 관리 화면에서 의료진과 연결된 별도 데이터베이스로 이동할 수 있어야 합니다.',
 );
 
 for (const path of [
@@ -121,7 +121,6 @@ forbidText(
   '진료시간표는 별도 DB에서 관리해야 합니다.',
 );
 
-
 requireText(
   'src/app/admin/doctors/[doctorId]/doctor-editor.tsx',
   'Array.from({ length: 4 }',
@@ -157,7 +156,6 @@ forbidText(
   'doctorMediaDoctor.deleteMany',
   '미디어 DB 편집 화면에서 의료진별 미디어 선택 관계를 덮어쓰지 않습니다.',
 );
-
 
 if (errors.length) {
   console.error('\nDoctor database check failed:\n');

@@ -6,7 +6,6 @@ import {
   normalizeRole,
 } from '@/_lib/roles';
 import { SidebarInset, SidebarProvider } from '@/_shadcn/ui/sidebar';
-import AdminSidebar from './_components/admin-sidebar';
 import {
   Database,
   ExternalLink,
@@ -20,6 +19,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
+import AdminSidebar from './_components/admin-sidebar';
 
 export default async function AdminLayout({
   children,
@@ -102,6 +102,7 @@ export default async function AdminLayout({
                     </Link>
                   </>
                 ) : null}
+
                 <Link
                   href="/admin/content"
                   className="inline-flex size-9 items-center justify-center rounded-md text-[#52525B] hover:bg-[#F4F4F5]"
@@ -109,6 +110,7 @@ export default async function AdminLayout({
                 >
                   <FileText className="size-4" />
                 </Link>
+
                 <Link
                   href="/admin/doctors"
                   className="inline-flex size-9 items-center justify-center rounded-md text-[#52525B] hover:bg-[#F4F4F5]"
@@ -116,10 +118,11 @@ export default async function AdminLayout({
                 >
                   <Stethoscope className="size-4" />
                 </Link>
+
                 <Link
                   href="/admin/content-relations"
                   className="inline-flex size-9 items-center justify-center rounded-md text-[#52525B] hover:bg-[#F4F4F5]"
-                  aria-label="관계형 콘텐츠 DB"
+                  aria-label="데이터 관리"
                 >
                   <Database className="size-4" />
                 </Link>
