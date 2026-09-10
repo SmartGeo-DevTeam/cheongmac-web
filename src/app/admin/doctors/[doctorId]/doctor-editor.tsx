@@ -100,12 +100,20 @@ function moveItem<T>(
 export default function DoctorEditor({
   initial,
   relationCounts,
+  mediaOptions,
 }: {
   initial: DoctorAdminPayload;
   relationCounts: {
     label: string;
     count: number;
     href: string;
+  }[];
+  mediaOptions: {
+    id: string;
+    title: string;
+    kind: string;
+    source: string | null;
+    isVisible: boolean;
   }[];
 }) {
   const router = useRouter();
@@ -202,9 +210,8 @@ export default function DoctorEditor({
             {data.name} {data.position}
           </h1>
           <p className="mt-1 text-sm text-[#71717A]">
-            의료진 고유정보만 이 화면에서 관리하고,
-            진료분야·시간표·발표·후기·미디어·상담은
-            별도 관계형 콘텐츠 DB에서 연결합니다.
+            의료진 고유정보와 이 의료진에게 노출할 미디어 4개를 관리합니다.
+            진료분야·시간표·발표·후기·상담은 각 관계형 콘텐츠 DB에서 연결합니다.
           </p>
         </div>
 
@@ -225,7 +232,7 @@ export default function DoctorEditor({
             <Save className="size-4" />
             {isPending
               ? '저장 중...'
-              : '기본정보 저장'}
+              : '의료진 정보 저장'}
           </Button>
         </div>
       </div>
@@ -650,6 +657,91 @@ export default function DoctorEditor({
       </Section>
 
       <Section
+        title="의료진 미디어"
+        description="미디어 DB에 등록된 콘텐츠 중 이 의료진 상세페이지에 노출할 항목을 최대 4개까지 순서대로 선택합니다."
+      >
+        <div className="flex flex-col gap-4">
+          <div className="grid gap-3 md:grid-cols-2">
+            {Array.from({ length: 4 }, (_, index) => {
+              const selectedId = data.mediaIds[index] ?? '';
+              const selectedElsewhere = new Set(
+                data.mediaIds.filter(
+                  (mediaId, mediaIndex) =>
+                    mediaId && mediaIndex !== index,
+                ),
+              );
+
+              return (
+                <div
+                  key={`doctor-media-slot-${index}`}
+                  className="rounded-xl border border-[#E4E4E7] bg-[#FAFAFA] p-4"
+                >
+                  <Label htmlFor={`admin-doctor-media-${index}`}>
+                    미디어 {index + 1}
+                  </Label>
+
+                  <select
+                    id={`admin-doctor-media-${index}`}
+                    name={`doctorMediaSelection.${index}`}
+                    value={selectedId}
+                    onChange={(event) => {
+                      const next = Array.from(
+                        { length: 4 },
+                        (_, mediaIndex) =>
+                          data.mediaIds[mediaIndex] ?? '',
+                      );
+                      next[index] = event.target.value;
+                      patch('mediaIds', next);
+                    }}
+                    className="h-10 w-full rounded-md border border-[#D4D4D8] bg-white px-3 text-sm text-[#27272A]"
+                  >
+                    <option value="">선택 안 함</option>
+                    {mediaOptions.map((media) => (
+                      <option
+                        key={media.id}
+                        value={media.id}
+                        disabled={selectedElsewhere.has(media.id)}
+                      >
+                        {media.title}
+                        {media.source ? ` · ${media.source}` : ''}
+                        {!media.isVisible ? ' · 미노출' : ''}
+                      </option>
+                    ))}
+                  </select>
+
+                  {selectedId ? (
+                    <Link
+                      href={`/admin/content-relations/media/${selectedId}`}
+                      className="mt-2 inline-flex text-xs font-medium text-[#006651] underline underline-offset-4"
+                    >
+                      선택한 미디어 수정
+                    </Link>
+                  ) : (
+                    <p className="mt-2 text-xs text-[#A1A1AA]">
+                      사용자 의료진 상세페이지에서는 선택 순서대로 최대 4개가 노출됩니다.
+                    </p>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-[#E4E4E7] bg-white px-4 py-3">
+            <p className="text-xs leading-5 text-[#71717A]">
+              새 미디어를 먼저 등록해야 한다면 미디어 DB에서 추가한 뒤 이 화면으로 돌아와 선택하세요.
+            </p>
+            <Link
+              href="/admin/content-relations/media"
+              className="inline-flex h-9 items-center gap-2 rounded-md border border-[#E4E4E7] bg-white px-3 text-xs font-semibold text-[#52525B] hover:bg-[#F4F4F5]"
+            >
+              미디어 DB 열기
+              <ArrowRight className="size-3.5" />
+            </Link>
+          </div>
+        </div>
+      </Section>
+
+      <Section
         title="관계형 콘텐츠"
         description="아래 데이터는 의료진 내부에 복사해 저장하지 않습니다. 각 콘텐츠 DB에서 '관련 의료진'으로 연결합니다."
       >
@@ -684,7 +776,7 @@ export default function DoctorEditor({
           <Save className="size-4" />
           {isPending
             ? '저장 중...'
-            : '기본정보 저장'}
+            : '의료진 정보 저장'}
         </Button>
       </div>
     </section>

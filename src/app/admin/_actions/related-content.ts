@@ -329,18 +329,11 @@ export async function saveRelatedContent(
             ? await tx.doctorMedia.create({ data })
             : await tx.doctorMedia.update({ where: { id }, data });
 
-        await tx.doctorMediaDoctor.deleteMany({
+        const currentLinks = await tx.doctorMediaDoctor.findMany({
           where: { mediaId: entity.id },
+          orderBy: { sortOrder: 'asc' },
+          select: { doctorId: true },
         });
-        if (validDoctorIds.length) {
-          await tx.doctorMediaDoctor.createMany({
-            data: validDoctorIds.map((doctorId, sortOrder) => ({
-              mediaId: entity.id,
-              doctorId,
-              sortOrder,
-            })),
-          });
-        }
 
         await audit(
           tx,
@@ -348,7 +341,10 @@ export async function saveRelatedContent(
           id === 'new' ? 'MEDIA_CREATE' : 'MEDIA_UPDATE',
           'DoctorMedia',
           entity.id,
-          { title, doctorIds: validDoctorIds },
+          {
+            title,
+            doctorIds: currentLinks.map((link) => link.doctorId),
+          },
         );
         return entity.id;
       }

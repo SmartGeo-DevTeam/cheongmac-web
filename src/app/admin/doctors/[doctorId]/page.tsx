@@ -13,27 +13,50 @@ export default async function AdminDoctorDetailPage({
 }) {
   const { doctorId } = await params;
 
-  const doctor = await prisma.doctor.findUnique({
-    where: { id: doctorId },
-    include: {
-      images: {
-        orderBy: { sortOrder: 'asc' },
-      },
-      careers: {
-        orderBy: { sortOrder: 'asc' },
-      },
-      _count: {
-        select: {
-          specialties: true,
-          schedules: true,
-          presentations: true,
-          reviews: true,
-          media: true,
-          consultations: true,
+  const [doctor, mediaOptions] = await Promise.all([
+    prisma.doctor.findUnique({
+      where: { id: doctorId },
+      include: {
+        images: {
+          orderBy: { sortOrder: 'asc' },
+        },
+        careers: {
+          orderBy: { sortOrder: 'asc' },
+        },
+        media: {
+          orderBy: { sortOrder: 'asc' },
+          select: {
+            mediaId: true,
+          },
+        },
+        _count: {
+          select: {
+            specialties: true,
+            schedules: true,
+            presentations: true,
+            reviews: true,
+            media: true,
+            consultations: true,
+          },
         },
       },
-    },
-  });
+    }),
+    prisma.doctorMedia.findMany({
+      orderBy: [
+        { isFeatured: 'desc' },
+        { sortOrder: 'asc' },
+        { publishedAt: 'desc' },
+        { title: 'asc' },
+      ],
+      select: {
+        id: true,
+        title: true,
+        kind: true,
+        source: true,
+        isVisible: true,
+      },
+    }),
+  ]);
 
   if (!doctor) notFound();
 
@@ -48,9 +71,7 @@ export default async function AdminDoctorDetailPage({
     displayOrder: doctor.displayOrder,
     isVisible: doctor.isVisible,
     images: DOCTOR_IMAGE_KINDS.map((kind) => {
-      const image = doctor.images.find(
-        (item) => item.kind === kind,
-      );
+      const image = doctor.images.find((item) => item.kind === kind);
 
       return {
         kind,
@@ -59,13 +80,11 @@ export default async function AdminDoctorDetailPage({
       };
     }),
     careers: doctor.careers.map((item) => ({
-      kind:
-        item.kind === 'EDUCATION'
-          ? 'EDUCATION'
-          : 'CAREER',
+      kind: item.kind === 'EDUCATION' ? 'EDUCATION' : 'CAREER',
       content: item.content,
       isVisible: item.isVisible,
     })),
+    mediaIds: doctor.media.map((item) => item.mediaId).slice(0, 4),
   };
 
   const relationCounts = [
@@ -90,11 +109,6 @@ export default async function AdminDoctorDetailPage({
       href: `/admin/content-relations/reviews?doctorId=${doctor.id}`,
     },
     {
-      label: '미디어',
-      count: doctor._count.media,
-      href: `/admin/content-relations/media?doctorId=${doctor.id}`,
-    },
-    {
       label: '의학상담',
       count: doctor._count.consultations,
       href: `/admin/content-relations/consultations?doctorId=${doctor.id}`,
@@ -105,6 +119,7 @@ export default async function AdminDoctorDetailPage({
     <DoctorEditor
       initial={initial}
       relationCounts={relationCounts}
+      mediaOptions={mediaOptions}
     />
   );
 }

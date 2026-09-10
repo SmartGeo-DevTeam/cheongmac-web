@@ -51,7 +51,7 @@ export const RELATED_CONTENT_META: Record<
     label: '미디어',
     singularLabel: '미디어',
     description:
-      '영상, 기사, SNS 등 미디어 콘텐츠를 별도 데이터로 관리하고 의료진과 연결합니다.',
+      '영상, 기사, SNS 등 미디어 콘텐츠를 별도 데이터로 관리하고 각 의료진 DB에서 최대 4개까지 선택합니다.',
     href: '/admin/content-relations/media',
   },
   consultations: {

@@ -22,21 +22,29 @@ function departmentMatches(
 }
 
 function DoctorCard({ doctor }: { doctor: DoctorSummary }) {
+  const detailHref = `/about/doctors/${doctor.slug}`;
   const mobileImage = doctor.profileImageUrl ?? doctor.coverImageUrl;
   const desktopImage = doctor.coverImageUrl ?? doctor.profileImageUrl;
 
   return (
-    <li className="relative grid grid-cols-[145px_1fr] gap-x-5 gap-y-10 xl:grid-cols-[302px_1fr]">
+    <li className="group relative grid cursor-pointer grid-cols-[145px_1fr] gap-x-5 gap-y-10 xl:grid-cols-[302px_1fr]">
+      <Link
+        id={`doctor-card-${doctor.slug}-card-link`}
+        href={detailHref}
+        aria-label={`${doctor.name} ${doctor.position} 상세보기`}
+        className="absolute inset-0 z-[1] rounded-[14px] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#8BC9B8]"
+      />
+
       <button
         id={`doctor-card-${doctor.slug}-favorite`}
         type="button"
         aria-label={`${doctor.name} ${doctor.position} 관심 의료진`}
-        className="absolute right-0 top-0.5 z-10 xl:left-6 xl:top-6"
+        className="absolute right-0 top-0.5 z-20 xl:left-6 xl:top-6"
       >
         <HeartIcon size={20} color="#B2AFAC" />
       </button>
 
-      <div className="relative aspect-145/200 w-full shrink-0 overflow-hidden rounded-[14px] bg-[#F7F4F2] xl:aspect-[302/360]">
+      <div className="pointer-events-none relative z-[2] aspect-145/200 w-full shrink-0 overflow-hidden rounded-[14px] bg-[#F7F4F2] transition group-hover:opacity-95 xl:aspect-[302/360]">
         {mobileImage ? (
           <Image
             src={mobileImage}
@@ -58,7 +66,7 @@ function DoctorCard({ doctor }: { doctor: DoctorSummary }) {
         ) : null}
       </div>
 
-      <div className="flex flex-col">
+      <div className="pointer-events-none relative z-[2] flex flex-col">
         <span className="text-sm font-medium text-[#C8AFA4] xl:mt-10 xl:text-lg">
           {doctor.department}
         </span>
@@ -83,8 +91,8 @@ function DoctorCard({ doctor }: { doctor: DoctorSummary }) {
         <div className="mt-8 grid grid-cols-2 gap-x-1 text-sm font-bold text-white xl:mb-6 xl:gap-x-2 xl:text-base">
           <Link
             id={`doctor-card-${doctor.slug}-detail`}
-            href={`/about/doctors/${doctor.slug}`}
-            className="rounded-full bg-[#8BC9B8] py-2 text-center xl:py-3"
+            href={detailHref}
+            className="pointer-events-auto relative z-20 rounded-full bg-[#8BC9B8] py-2 text-center xl:py-3"
           >
             상세보기
           </Link>
@@ -92,7 +100,7 @@ function DoctorCard({ doctor }: { doctor: DoctorSummary }) {
           <Link
             id={`doctor-card-${doctor.slug}-reservation`}
             href={doctor.reservationHref || '/'}
-            className="rounded-full bg-[#FD7740] py-2 text-center xl:py-3"
+            className="pointer-events-auto relative z-20 rounded-full bg-[#FD7740] py-2 text-center xl:py-3"
           >
             예약하기
           </Link>

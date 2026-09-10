@@ -30,6 +30,7 @@ export type DoctorAdminPayload = {
   isVisible: boolean;
   images: DoctorAdminImage[];
   careers: DoctorAdminCareer[];
+  mediaIds: string[];
 };
 
 export type DoctorActionResult = {
@@ -306,6 +307,42 @@ export async function saveDoctor(
       });
     }
 
+    const requestedMediaIds = Array.from(
+      new Set(
+        input.mediaIds
+          .map((mediaId) => clean(mediaId, 200))
+          .filter(Boolean),
+      ),
+    ).slice(0, 4);
+
+    const existingMedia = requestedMediaIds.length
+      ? await tx.doctorMedia.findMany({
+          where: { id: { in: requestedMediaIds } },
+          select: { id: true },
+        })
+      : [];
+
+    const existingMediaIds = new Set(
+      existingMedia.map((media) => media.id),
+    );
+    const selectedMediaIds = requestedMediaIds.filter((mediaId) =>
+      existingMediaIds.has(mediaId),
+    );
+
+    await tx.doctorMediaDoctor.deleteMany({
+      where: { doctorId: input.id },
+    });
+
+    if (selectedMediaIds.length) {
+      await tx.doctorMediaDoctor.createMany({
+        data: selectedMediaIds.map((mediaId, sortOrder) => ({
+          mediaId,
+          doctorId: input.id,
+          sortOrder,
+        })),
+      });
+    }
+
     await tx.adminAuditLog.create({
       data: {
         actorId: actor.id,
@@ -321,6 +358,7 @@ export async function saveDoctor(
             slug,
             name,
             careers: input.careers.length,
+            media: input.mediaIds.filter(Boolean).length,
           },
         },
       },
@@ -339,7 +377,7 @@ export async function saveDoctor(
 
   return {
     ok: true,
-    success: '의료진 기본정보를 저장했습니다.',
+    success: '의료진 정보와 선택 미디어를 저장했습니다.',
   };
 }
 

@@ -76,6 +76,38 @@ requireText(
   '기존 의학상담-의료진 관계를 join table로 이전해야 합니다.',
 );
 
+
+requireText(
+  'src/app/admin/_components/admin-data-table.tsx',
+  'name="q"',
+  '관계형 콘텐츠 Data Table에 검색 입력이 필요합니다.',
+);
+
+requireText(
+  'src/app/admin/_components/admin-data-table.tsx',
+  'totalPages',
+  '관계형 콘텐츠 Data Table에 페이지네이션이 필요합니다.',
+);
+
+requireText(
+  'src/app/admin/content-relations/[resource]/page.tsx',
+  'getRelatedContentPage',
+  '관계형 콘텐츠 목록은 서버 검색/페이지네이션 조회를 사용해야 합니다.',
+);
+
+requireText(
+  'src/_lib/related-content.ts',
+  "contains: query",
+  '관계형 콘텐츠 DB 검색 조건이 필요합니다.',
+);
+
+requireText(
+  'src/app/admin/content-relations/[resource]/page.tsx',
+  '<AdminDataTable',
+  '관계형 콘텐츠 목록은 공통 Data Table 컴포넌트를 사용해야 합니다.',
+);
+
+
 if (errors.length) {
   console.error('\nRelated content database check failed:\n');
   for (const error of errors) console.error(`- ${error}`);

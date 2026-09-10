@@ -22,6 +22,15 @@ export type RelatedContentListItem = {
   doctors: RelatedDoctorSummary[];
 };
 
+export type RelatedContentPage = {
+  items: RelatedContentListItem[];
+  query: string;
+  page: number;
+  pageSize: number;
+  total: number;
+  totalPages: number;
+};
+
 export type RelatedContentEditorData = {
   id: string | null;
   resource: RelatedContentResource;
@@ -52,6 +61,49 @@ function textArray(value: unknown) {
     : [];
 }
 
+function normalizedPageSize(value?: number) {
+  if (value === 20 || value === 50) return value;
+  return 10;
+}
+
+function normalizedPage(value?: number) {
+  if (!Number.isFinite(value)) return 1;
+  return Math.max(1, Math.trunc(value ?? 1));
+}
+
+function doctorKeywordWhere(query: string): Prisma.DoctorWhereInput {
+  return {
+    OR: [
+      { name: { contains: query, mode: 'insensitive' } },
+      { position: { contains: query, mode: 'insensitive' } },
+      { department: { contains: query, mode: 'insensitive' } },
+    ],
+  };
+}
+
+function pageResult({
+  items,
+  query,
+  page,
+  pageSize,
+  total,
+}: {
+  items: RelatedContentListItem[];
+  query: string;
+  page: number;
+  pageSize: number;
+  total: number;
+}): RelatedContentPage {
+  return {
+    items,
+    query,
+    page,
+    pageSize,
+    total,
+    totalPages: Math.max(1, Math.ceil(total / pageSize)),
+  };
+}
+
 export async function getAdminDoctors(): Promise<RelatedDoctorSummary[]> {
   return prisma.doctor.findMany({
     orderBy: [{ displayOrder: 'asc' }, { name: 'asc' }],
@@ -59,17 +111,60 @@ export async function getAdminDoctors(): Promise<RelatedDoctorSummary[]> {
   });
 }
 
-export async function getRelatedContentList(
+export async function getRelatedContentPage(
   resource: RelatedContentResource,
-  doctorId?: string,
-): Promise<RelatedContentListItem[]> {
+  {
+    query: rawQuery = '',
+    page: rawPage = 1,
+    pageSize: rawPageSize = 10,
+    doctorId,
+  }: {
+    query?: string;
+    page?: number;
+    pageSize?: number;
+    doctorId?: string;
+  } = {},
+): Promise<RelatedContentPage> {
+  const query = rawQuery.trim().slice(0, 120);
+  const pageSize = normalizedPageSize(rawPageSize);
+  const requestedPage = normalizedPage(rawPage);
+
   switch (resource) {
     case 'specialties': {
+      const and: Prisma.DoctorSpecialtyWhereInput[] = [];
+
+      if (doctorId) {
+        and.push({ doctors: { some: { doctorId } } });
+      }
+
+      if (query) {
+        and.push({
+          OR: [
+            { name: { contains: query, mode: 'insensitive' } },
+            { description: { contains: query, mode: 'insensitive' } },
+            {
+              doctors: {
+                some: {
+                  doctor: doctorKeywordWhere(query),
+                },
+              },
+            },
+          ],
+        });
+      }
+
+      const where: Prisma.DoctorSpecialtyWhereInput | undefined =
+        and.length ? { AND: and } : undefined;
+
+      const total = await prisma.doctorSpecialty.count({ where });
+      const totalPages = Math.max(1, Math.ceil(total / pageSize));
+      const page = Math.min(requestedPage, totalPages);
+
       const rows = await prisma.doctorSpecialty.findMany({
-        where: doctorId
-          ? { doctors: { some: { doctorId } } }
-          : undefined,
+        where,
         orderBy: [{ sortOrder: 'asc' }, { name: 'asc' }],
+        skip: (page - 1) * pageSize,
+        take: pageSize,
         include: {
           doctors: {
             orderBy: { sortOrder: 'asc' },
@@ -78,21 +173,61 @@ export async function getRelatedContentList(
         },
       });
 
-      return rows.map((row) => ({
-        id: row.id,
-        title: row.name,
-        summary: row.description ?? '',
-        isVisible: row.isVisible,
-        doctors: row.doctors.map((link) => doctorSummary(link.doctor)),
-      }));
+      return pageResult({
+        query,
+        page,
+        pageSize,
+        total,
+        items: rows.map((row) => ({
+          id: row.id,
+          title: row.name,
+          summary: row.description ?? '',
+          isVisible: row.isVisible,
+          doctors: row.doctors.map((link) => doctorSummary(link.doctor)),
+        })),
+      });
     }
 
     case 'schedules': {
+      const and: Prisma.DoctorScheduleWhereInput[] = [];
+
+      if (doctorId) {
+        and.push({ doctors: { some: { doctorId } } });
+      }
+
+      if (query) {
+        and.push({
+          OR: [
+            { label: { contains: query, mode: 'insensitive' } },
+            { mon: { contains: query, mode: 'insensitive' } },
+            { tue: { contains: query, mode: 'insensitive' } },
+            { wed: { contains: query, mode: 'insensitive' } },
+            { thu: { contains: query, mode: 'insensitive' } },
+            { fri: { contains: query, mode: 'insensitive' } },
+            { sat: { contains: query, mode: 'insensitive' } },
+            {
+              doctors: {
+                some: {
+                  doctor: doctorKeywordWhere(query),
+                },
+              },
+            },
+          ],
+        });
+      }
+
+      const where: Prisma.DoctorScheduleWhereInput | undefined =
+        and.length ? { AND: and } : undefined;
+
+      const total = await prisma.doctorSchedule.count({ where });
+      const totalPages = Math.max(1, Math.ceil(total / pageSize));
+      const page = Math.min(requestedPage, totalPages);
+
       const rows = await prisma.doctorSchedule.findMany({
-        where: doctorId
-          ? { doctors: { some: { doctorId } } }
-          : undefined,
+        where,
         orderBy: [{ sortOrder: 'asc' }, { label: 'asc' }],
+        skip: (page - 1) * pageSize,
+        take: pageSize,
         include: {
           doctors: {
             orderBy: { sortOrder: 'asc' },
@@ -101,21 +236,57 @@ export async function getRelatedContentList(
         },
       });
 
-      return rows.map((row) => ({
-        id: row.id,
-        title: row.label,
-        summary: `월 ${row.mon} · 화 ${row.tue} · 수 ${row.wed} · 목 ${row.thu} · 금 ${row.fri} · 토 ${row.sat}`,
-        isVisible: row.isVisible,
-        doctors: row.doctors.map((link) => doctorSummary(link.doctor)),
-      }));
+      return pageResult({
+        query,
+        page,
+        pageSize,
+        total,
+        items: rows.map((row) => ({
+          id: row.id,
+          title: row.label,
+          summary: `월 ${row.mon} · 화 ${row.tue} · 수 ${row.wed} · 목 ${row.thu} · 금 ${row.fri} · 토 ${row.sat}`,
+          isVisible: row.isVisible,
+          doctors: row.doctors.map((link) => doctorSummary(link.doctor)),
+        })),
+      });
     }
 
     case 'presentations': {
+      const and: Prisma.DoctorPresentationWhereInput[] = [];
+
+      if (doctorId) {
+        and.push({ doctors: { some: { doctorId } } });
+      }
+
+      if (query) {
+        and.push({
+          OR: [
+            { title: { contains: query, mode: 'insensitive' } },
+            { organization: { contains: query, mode: 'insensitive' } },
+            { description: { contains: query, mode: 'insensitive' } },
+            {
+              doctors: {
+                some: {
+                  doctor: doctorKeywordWhere(query),
+                },
+              },
+            },
+          ],
+        });
+      }
+
+      const where: Prisma.DoctorPresentationWhereInput | undefined =
+        and.length ? { AND: and } : undefined;
+
+      const total = await prisma.doctorPresentation.count({ where });
+      const totalPages = Math.max(1, Math.ceil(total / pageSize));
+      const page = Math.min(requestedPage, totalPages);
+
       const rows = await prisma.doctorPresentation.findMany({
-        where: doctorId
-          ? { doctors: { some: { doctorId } } }
-          : undefined,
+        where,
         orderBy: [{ sortOrder: 'asc' }, { presentedAt: 'desc' }],
+        skip: (page - 1) * pageSize,
+        take: pageSize,
         include: {
           doctors: {
             orderBy: { sortOrder: 'asc' },
@@ -124,23 +295,60 @@ export async function getRelatedContentList(
         },
       });
 
-      return rows.map((row) => ({
-        id: row.id,
-        title: row.title,
-        summary: [row.organization, dateInput(row.presentedAt)]
-          .filter(Boolean)
-          .join(' · '),
-        isVisible: row.isVisible,
-        doctors: row.doctors.map((link) => doctorSummary(link.doctor)),
-      }));
+      return pageResult({
+        query,
+        page,
+        pageSize,
+        total,
+        items: rows.map((row) => ({
+          id: row.id,
+          title: row.title,
+          summary: [row.organization, dateInput(row.presentedAt)]
+            .filter(Boolean)
+            .join(' · '),
+          isVisible: row.isVisible,
+          doctors: row.doctors.map((link) => doctorSummary(link.doctor)),
+        })),
+      });
     }
 
     case 'reviews': {
+      const and: Prisma.DoctorReviewWhereInput[] = [];
+
+      if (doctorId) {
+        and.push({ doctors: { some: { doctorId } } });
+      }
+
+      if (query) {
+        and.push({
+          OR: [
+            { patientName: { contains: query, mode: 'insensitive' } },
+            { gender: { contains: query, mode: 'insensitive' } },
+            { treatment: { contains: query, mode: 'insensitive' } },
+            { content: { contains: query, mode: 'insensitive' } },
+            {
+              doctors: {
+                some: {
+                  doctor: doctorKeywordWhere(query),
+                },
+              },
+            },
+          ],
+        });
+      }
+
+      const where: Prisma.DoctorReviewWhereInput | undefined =
+        and.length ? { AND: and } : undefined;
+
+      const total = await prisma.doctorReview.count({ where });
+      const totalPages = Math.max(1, Math.ceil(total / pageSize));
+      const page = Math.min(requestedPage, totalPages);
+
       const rows = await prisma.doctorReview.findMany({
-        where: doctorId
-          ? { doctors: { some: { doctorId } } }
-          : undefined,
+        where,
         orderBy: [{ sortOrder: 'asc' }, { reviewedAt: 'desc' }],
+        skip: (page - 1) * pageSize,
+        take: pageSize,
         include: {
           doctors: {
             orderBy: { sortOrder: 'asc' },
@@ -149,27 +357,63 @@ export async function getRelatedContentList(
         },
       });
 
-      return rows.map((row) => ({
-        id: row.id,
-        title: row.patientName,
-        summary: [row.treatment, dateInput(row.reviewedAt)]
-          .filter(Boolean)
-          .join(' · '),
-        isVisible: row.isVisible,
-        doctors: row.doctors.map((link) => doctorSummary(link.doctor)),
-      }));
+      return pageResult({
+        query,
+        page,
+        pageSize,
+        total,
+        items: rows.map((row) => ({
+          id: row.id,
+          title: row.patientName,
+          summary: [row.treatment, dateInput(row.reviewedAt)]
+            .filter(Boolean)
+            .join(' · '),
+          isVisible: row.isVisible,
+          doctors: row.doctors.map((link) => doctorSummary(link.doctor)),
+        })),
+      });
     }
 
     case 'media': {
+      const and: Prisma.DoctorMediaWhereInput[] = [];
+
+      if (doctorId) {
+        and.push({ doctors: { some: { doctorId } } });
+      }
+
+      if (query) {
+        and.push({
+          OR: [
+            { kind: { contains: query, mode: 'insensitive' } },
+            { title: { contains: query, mode: 'insensitive' } },
+            { source: { contains: query, mode: 'insensitive' } },
+            {
+              doctors: {
+                some: {
+                  doctor: doctorKeywordWhere(query),
+                },
+              },
+            },
+          ],
+        });
+      }
+
+      const where: Prisma.DoctorMediaWhereInput | undefined =
+        and.length ? { AND: and } : undefined;
+
+      const total = await prisma.doctorMedia.count({ where });
+      const totalPages = Math.max(1, Math.ceil(total / pageSize));
+      const page = Math.min(requestedPage, totalPages);
+
       const rows = await prisma.doctorMedia.findMany({
-        where: doctorId
-          ? { doctors: { some: { doctorId } } }
-          : undefined,
+        where,
         orderBy: [
           { isFeatured: 'desc' },
           { sortOrder: 'asc' },
           { publishedAt: 'desc' },
         ],
+        skip: (page - 1) * pageSize,
+        take: pageSize,
         include: {
           doctors: {
             orderBy: { sortOrder: 'asc' },
@@ -178,23 +422,59 @@ export async function getRelatedContentList(
         },
       });
 
-      return rows.map((row) => ({
-        id: row.id,
-        title: row.title,
-        summary: [row.kind, row.source, dateInput(row.publishedAt)]
-          .filter(Boolean)
-          .join(' · '),
-        isVisible: row.isVisible,
-        doctors: row.doctors.map((link) => doctorSummary(link.doctor)),
-      }));
+      return pageResult({
+        query,
+        page,
+        pageSize,
+        total,
+        items: rows.map((row) => ({
+          id: row.id,
+          title: row.title,
+          summary: [row.kind, row.source, dateInput(row.publishedAt)]
+            .filter(Boolean)
+            .join(' · '),
+          isVisible: row.isVisible,
+          doctors: row.doctors.map((link) => doctorSummary(link.doctor)),
+        })),
+      });
     }
 
     case 'consultations': {
+      const and: Prisma.MedicalConsultationWhereInput[] = [];
+
+      if (doctorId) {
+        and.push({ doctors: { some: { doctorId } } });
+      }
+
+      if (query) {
+        and.push({
+          OR: [
+            { title: { contains: query, mode: 'insensitive' } },
+            { categoryPrimary: { contains: query, mode: 'insensitive' } },
+            { categorySecondary: { contains: query, mode: 'insensitive' } },
+            {
+              doctors: {
+                some: {
+                  doctor: doctorKeywordWhere(query),
+                },
+              },
+            },
+          ],
+        });
+      }
+
+      const where: Prisma.MedicalConsultationWhereInput | undefined =
+        and.length ? { AND: and } : undefined;
+
+      const total = await prisma.medicalConsultation.count({ where });
+      const totalPages = Math.max(1, Math.ceil(total / pageSize));
+      const page = Math.min(requestedPage, totalPages);
+
       const rows = await prisma.medicalConsultation.findMany({
-        where: doctorId
-          ? { doctors: { some: { doctorId } } }
-          : undefined,
+        where,
         orderBy: [{ publishedAt: 'desc' }, { sortOrder: 'asc' }, { id: 'desc' }],
+        skip: (page - 1) * pageSize,
+        take: pageSize,
         include: {
           doctors: {
             orderBy: { sortOrder: 'asc' },
@@ -203,23 +483,42 @@ export async function getRelatedContentList(
         },
       });
 
-      return rows.map((row) => ({
-        id: String(row.id),
-        title: row.title,
-        summary: [
-          row.categoryPrimary,
-          row.categorySecondary,
-          dateInput(row.publishedAt),
-        ]
-          .filter(Boolean)
-          .join(' · '),
-        isVisible: row.isVisible,
-        doctors: row.doctors.map((link) => doctorSummary(link.doctor)),
-      }));
+      return pageResult({
+        query,
+        page,
+        pageSize,
+        total,
+        items: rows.map((row) => ({
+          id: String(row.id),
+          title: row.title,
+          summary: [
+            row.categoryPrimary,
+            row.categorySecondary,
+            dateInput(row.publishedAt),
+          ]
+            .filter(Boolean)
+            .join(' · '),
+          isVisible: row.isVisible,
+          doctors: row.doctors.map((link) => doctorSummary(link.doctor)),
+        })),
+      });
     }
   }
 
   throw new Error(`지원하지 않는 관계형 콘텐츠 리소스입니다: ${resource}`);
+}
+
+export async function getRelatedContentList(
+  resource: RelatedContentResource,
+  doctorId?: string,
+): Promise<RelatedContentListItem[]> {
+  const page = await getRelatedContentPage(resource, {
+    page: 1,
+    pageSize: 50,
+    doctorId,
+  });
+
+  return page.items;
 }
 
 export async function getRelatedContentEditorData(

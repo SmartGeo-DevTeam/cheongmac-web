@@ -511,36 +511,69 @@ export default async function RelatedContentEditPage({
               관련 의료진
             </h2>
             <p className="mt-1 text-xs leading-5 text-[#71717A]">
-              이 데이터를 함께 사용하는 원장을 선택하세요. 하나의 데이터에
-              여러 의료진을 연결할 수 있습니다.
+              {resource === 'media'
+                ? '미디어는 각 의료진 DB에서 최대 4개까지 선택합니다. 이 화면에서는 현재 연결 상태만 확인합니다.'
+                : '이 데이터를 함께 사용하는 원장을 선택하세요. 하나의 데이터에 여러 의료진을 연결할 수 있습니다.'}
             </p>
           </div>
 
-          <div className="mt-5 grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
-            {doctors.map((doctor) => (
-              <label
-                key={doctor.id}
-                className="flex cursor-pointer items-start gap-3 rounded-lg border border-[#E4E4E7] px-3 py-3 hover:bg-[#FAFAFA]"
-              >
-                <input
-                  id={`related-doctor-${doctor.id}`}
-                  name="doctorIds"
-                  value={doctor.id}
-                  type="checkbox"
-                  defaultChecked={editor.doctorIds.includes(doctor.id)}
-                  className="mt-0.5 size-4 accent-[#18181B]"
-                />
-                <span className="min-w-0">
-                  <strong className="block text-sm font-semibold text-[#27272A]">
-                    {doctor.name} {doctor.position}
-                  </strong>
-                  <span className="mt-0.5 block text-xs text-[#A1A1AA]">
-                    {doctor.department}
+          {resource === 'media' ? (
+            <div className="mt-5 grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
+              {doctors
+                .filter((doctor) => editor.doctorIds.includes(doctor.id))
+                .map((doctor) => (
+                  <Link
+                    key={doctor.id}
+                    href={`/admin/doctors/${doctor.id}`}
+                    className="flex items-start justify-between gap-3 rounded-lg border border-[#E4E4E7] px-3 py-3 hover:bg-[#FAFAFA]"
+                  >
+                    <span className="min-w-0">
+                      <strong className="block text-sm font-semibold text-[#27272A]">
+                        {doctor.name} {doctor.position}
+                      </strong>
+                      <span className="mt-0.5 block text-xs text-[#A1A1AA]">
+                        {doctor.department}
+                      </span>
+                    </span>
+                    <span className="shrink-0 text-[11px] font-semibold text-[#006651]">
+                      의료진 DB
+                    </span>
+                  </Link>
+                ))}
+
+              {!editor.doctorIds.length ? (
+                <div className="rounded-lg border border-dashed border-[#D4D4D8] px-4 py-8 text-center text-xs text-[#A1A1AA] sm:col-span-2 xl:col-span-3">
+                  아직 이 미디어를 선택한 의료진이 없습니다.
+                </div>
+              ) : null}
+            </div>
+          ) : (
+            <div className="mt-5 grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
+              {doctors.map((doctor) => (
+                <label
+                  key={doctor.id}
+                  className="flex cursor-pointer items-start gap-3 rounded-lg border border-[#E4E4E7] px-3 py-3 hover:bg-[#FAFAFA]"
+                >
+                  <input
+                    id={`related-doctor-${doctor.id}`}
+                    name="doctorIds"
+                    value={doctor.id}
+                    type="checkbox"
+                    defaultChecked={editor.doctorIds.includes(doctor.id)}
+                    className="mt-0.5 size-4 accent-[#18181B]"
+                  />
+                  <span className="min-w-0">
+                    <strong className="block text-sm font-semibold text-[#27272A]">
+                      {doctor.name} {doctor.position}
+                    </strong>
+                    <span className="mt-0.5 block text-xs text-[#A1A1AA]">
+                      {doctor.department}
+                    </span>
                   </span>
-                </span>
-              </label>
-            ))}
-          </div>
+                </label>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="flex justify-end">

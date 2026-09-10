@@ -121,6 +121,44 @@ forbidText(
   '진료시간표는 별도 DB에서 관리해야 합니다.',
 );
 
+
+requireText(
+  'src/app/admin/doctors/[doctorId]/doctor-editor.tsx',
+  'Array.from({ length: 4 }',
+  '의료진 DB에서 미디어를 최대 4개까지 선택할 수 있어야 합니다.',
+);
+
+requireText(
+  'src/app/admin/doctors/[doctorId]/doctor-editor.tsx',
+  'doctorMediaSelection',
+  '의료진별 미디어 선택 필드가 필요합니다.',
+);
+
+requireText(
+  'src/app/admin/_actions/doctor.ts',
+  'doctorMediaDoctor.createMany',
+  '의료진 저장 시 선택 미디어 관계를 저장해야 합니다.',
+);
+
+requireText(
+  'src/_lib/doctors.ts',
+  'take: 4',
+  '사용자 의료진 상세 미디어는 최대 4개만 조회해야 합니다.',
+);
+
+requireText(
+  'src/app/about/doctors/_components/doctor-list-client.tsx',
+  'card-link',
+  '의료진 카드 전체 클릭 시 상세페이지로 이동하는 overlay link가 필요합니다.',
+);
+
+forbidText(
+  'src/app/admin/_actions/related-content.ts',
+  'doctorMediaDoctor.deleteMany',
+  '미디어 DB 편집 화면에서 의료진별 미디어 선택 관계를 덮어쓰지 않습니다.',
+);
+
+
 if (errors.length) {
   console.error('\nDoctor database check failed:\n');
   for (const error of errors) console.error(`- ${error}`);

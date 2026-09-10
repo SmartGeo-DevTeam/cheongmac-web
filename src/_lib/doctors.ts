@@ -210,19 +210,21 @@ export async function getDoctorReviews(doctorId: string) {
 }
 
 export async function getDoctorMedia(doctorId: string) {
-  return prisma.doctorMedia.findMany({
+  const links = await prisma.doctorMediaDoctor.findMany({
     where: {
-      isVisible: true,
-      doctors: {
-        some: { doctorId },
+      doctorId,
+      media: {
+        isVisible: true,
       },
     },
-    orderBy: [
-      { isFeatured: 'desc' },
-      { sortOrder: 'asc' },
-      { publishedAt: 'desc' },
-    ],
+    orderBy: { sortOrder: 'asc' },
+    take: 4,
+    include: {
+      media: true,
+    },
   });
+
+  return links.map((link) => link.media);
 }
 
 export async function getDoctorPresentations(doctorId: string) {
