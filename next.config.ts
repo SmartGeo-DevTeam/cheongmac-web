@@ -1,6 +1,8 @@
 import type { NextConfig } from 'next';
 
-function supabaseRemotePatterns(): NonNullable<NextConfig['images']>['remotePatterns'] {
+function supabaseRemotePatterns(): NonNullable<
+  NonNullable<NextConfig['images']>['remotePatterns']
+> {
   const value = process.env.SUPABASE_URL?.trim();
 
   if (!value) return [];
@@ -20,15 +22,37 @@ function supabaseRemotePatterns(): NonNullable<NextConfig['images']>['remotePatt
   }
 }
 
+const azureAssetBaseUrl = (
+  process.env.NEXT_PUBLIC_AZURE_ASSET_BASE_URL ||
+  'https://cheongmacmedia.blob.core.windows.net/assets'
+).replace(/\/+$/, '');
+
 const nextConfig: NextConfig = {
   devIndicators: false,
   experimental: {
     serverActions: {
-      bodySizeLimit: '12mb',
+      bodySizeLimit: '25mb',
     },
   },
   images: {
-    remotePatterns: supabaseRemotePatterns(),
+    remotePatterns: [
+      ...supabaseRemotePatterns(),
+      {
+        protocol: 'https',
+        hostname: 'cheongmacmedia.blob.core.windows.net',
+        pathname: '/assets/**',
+      },
+    ],
+  },
+  async rewrites() {
+    return {
+      beforeFiles: [
+        {
+          source: '/assets/:path*',
+          destination: `${azureAssetBaseUrl}/static/:path*`,
+        },
+      ],
+    };
   },
 };
 

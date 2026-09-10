@@ -2,6 +2,8 @@ import {
   deleteManagedPageItem,
   saveManagedPageItem,
 } from '@/app/admin/_actions/managed-pages';
+import { JsonAssetUploader } from './json-asset-uploader';
+import { ManagedAssetField } from './managed-asset-field';
 import {
   getManagedPageEditorItem,
 } from '@/_lib/managed-pages';
@@ -10,6 +12,7 @@ import {
   getManagedPageConfig,
   isManagedPageKey,
   type ManagedField,
+  type ManagedPageKey,
 } from '@/_lib/page-management-config';
 import { ArrowLeft, Save, Trash2 } from 'lucide-react';
 import Link from 'next/link';
@@ -58,13 +61,21 @@ function fieldValue(data: Record<string, unknown>, field: ManagedField) {
 }
 
 function ManagedFieldInput({
+  pageKey,
+  itemId,
+  itemType,
   field,
   data,
   visible,
+  isImageField,
 }: {
+  pageKey: ManagedPageKey;
+  itemId: string;
+  itemType: string;
   field: ManagedField;
   data: Record<string, unknown>;
   visible: boolean;
+  isImageField: boolean;
 }) {
   if (field.key === 'isVisible') {
     return (
@@ -82,6 +93,35 @@ function ManagedFieldInput({
   }
 
   const value = fieldValue(data, field);
+
+  if (isImageField) {
+    return (
+      <div className={field.type === 'lines' ? 'md:col-span-2' : ''}>
+        <label
+          htmlFor={`managed-item-${field.key}`}
+          className="mb-1.5 block text-xs font-medium text-[#52525B]"
+        >
+          {field.label}
+          {field.required ? <span className="ml-1 text-red-500">*</span> : null}
+        </label>
+        <ManagedAssetField
+          pageKey={pageKey}
+          itemId={itemId}
+          itemType={itemType}
+          fieldKey={field.key}
+          defaultValue={data[field.key]}
+          multiline={field.type === 'lines'}
+          required={field.required}
+          placeholder={field.placeholder}
+        />
+        {field.description ? (
+          <p className="mt-1.5 break-keep text-[11px] leading-5 text-[#8A8A91]">
+            {field.description}
+          </p>
+        ) : null}
+      </div>
+    );
+  }
 
   if (field.type === 'checkbox') {
     return (
@@ -123,14 +163,24 @@ function ManagedFieldInput({
           ))}
         </select>
       ) : field.type === 'textarea' || field.type === 'lines' || field.type === 'json' ? (
-        <textarea
-          id={`managed-item-${field.key}`}
-          name={field.key}
-          defaultValue={String(value)}
-          required={field.required}
-          placeholder={field.placeholder}
-          className={`${textareaClass} ${field.type === 'json' ? 'font-mono text-xs' : ''}`}
-        />
+        <div className="space-y-2">
+          <textarea
+            id={`managed-item-${field.key}`}
+            name={field.key}
+            defaultValue={String(value)}
+            required={field.required}
+            placeholder={field.placeholder}
+            className={`${textareaClass} ${field.type === 'json' ? 'font-mono text-xs' : ''}`}
+          />
+          {field.type === 'json' ? (
+            <JsonAssetUploader
+              pageKey={pageKey}
+              itemId={itemId}
+              itemType={itemType}
+              fieldKey={field.key}
+            />
+          ) : null}
+        </div>
       ) : (
         <input
           id={`managed-item-${field.key}`}
@@ -280,9 +330,13 @@ export default async function AdminManagedPageEdit({
             {typeConfig.fields.map((field) => (
               <ManagedFieldInput
                 key={field.key}
+                pageKey={pageKey}
+                itemId={id}
+                itemType={itemType}
                 field={field}
                 data={data}
                 visible={item?.isVisible ?? true}
+                isImageField={Boolean(typeConfig.imageFields?.includes(field.key))}
               />
             ))}
           </div>

@@ -1,6 +1,11 @@
 'use server';
 
 import { getCurrentSession, isActiveMember } from '@/_lib/auth-session';
+import {
+  deleteManagedAzureAssetByUrl,
+  deleteManagedAzureAssets,
+  uploadManagedImage,
+} from '@/_lib/azure-blob-storage';
 import { DOCTOR_IMAGE_KINDS, type DoctorImageKind } from '@/_lib/doctors';
 import { prisma } from '@/_lib/prisma';
 import { canEditContent } from '@/_lib/roles';
@@ -221,6 +226,11 @@ export async function saveDoctor(
     };
   }
 
+  const previousImages = await prisma.doctorImage.findMany({
+    where: { doctorId: input.id },
+    select: { url: true },
+  });
+
   const slugOwner = await prisma.doctor.findUnique({
     where: { slug },
   });
@@ -365,6 +375,15 @@ export async function saveDoctor(
     });
   });
 
+  const nextImageUrls = new Set(
+    input.images.map((image) => clean(image.url, 1000)).filter(Boolean),
+  );
+  await deleteManagedAzureAssets(
+    previousImages
+      .map((image) => image.url)
+      .filter((url) => url && !nextImageUrls.has(url)),
+  );
+
   revalidatePath('/about/doctors');
   revalidatePath(`/about/doctors/${slug}`);
   if (current.slug !== slug) {
@@ -381,68 +400,31 @@ export async function saveDoctor(
   };
 }
 
-async function storageRequest(
-  url: string,
-  serviceRoleKey: string,
-  path: string,
-  init: RequestInit = {},
-) {
-  const headers = new Headers(init.headers);
-  headers.set(
-    'Authorization',
-    `Bearer ${serviceRoleKey}`,
-  );
-  headers.set('apikey', serviceRoleKey);
+const DOCTOR_IMAGE_ALLOWED_TYPES = new Set([
+  'image/png',
+  'image/jpeg',
+  'image/webp',
+  'image/gif',
+  'image/avif',
+]);
 
-  return fetch(
-    `${url.replace(/\/$/, '')}/storage/v1${path}`,
-    {
-      ...init,
-      headers,
-      cache: 'no-store',
-    },
-  );
-}
+function validateDoctorImageFile(value: FormDataEntryValue | null) {
+  if (!(value instanceof File) || value.size <= 0) {
+    return { file: null, error: '업로드할 이미지 파일을 선택해주세요.' };
+  }
 
-async function ensureDoctorBucket(
-  url: string,
-  serviceRoleKey: string,
-  bucket: string,
-) {
-  const existing = await storageRequest(
-    url,
-    serviceRoleKey,
-    `/bucket/${encodeURIComponent(bucket)}`,
-    { method: 'GET' },
-  );
+  if (value.size > 20 * 1024 * 1024) {
+    return { file: null, error: '이미지는 20MB 이하만 업로드할 수 있습니다.' };
+  }
 
-  if (existing.ok) return true;
+  if (!DOCTOR_IMAGE_ALLOWED_TYPES.has(value.type)) {
+    return {
+      file: null,
+      error: 'PNG, JPG, WEBP, GIF, AVIF 이미지만 업로드할 수 있습니다.',
+    };
+  }
 
-  const created = await storageRequest(
-    url,
-    serviceRoleKey,
-    '/bucket',
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        id: bucket,
-        name: bucket,
-        public: true,
-        file_size_limit: 10485760,
-        allowed_mime_types: [
-          'image/png',
-          'image/jpeg',
-          'image/webp',
-          'image/gif',
-        ],
-      }),
-    },
-  );
-
-  return created.ok || created.status === 409;
+  return { file: value, error: null };
 }
 
 export async function uploadDoctorImage(
@@ -452,189 +434,163 @@ export async function uploadDoctorImage(
 ): Promise<DoctorActionResult> {
   const actor = await getEditor();
   if (!actor) {
-    return {
-      ok: false,
-      error:
-        '의료진 이미지를 수정할 권한이 없습니다.',
-    };
+    return { ok: false, error: '의료진 이미지를 수정할 권한이 없습니다.' };
   }
 
   if (!DOCTOR_IMAGE_KINDS.includes(kind)) {
-    return {
-      ok: false,
-      error: '지원하지 않는 이미지 종류입니다.',
-    };
+    return { ok: false, error: '지원하지 않는 이미지 종류입니다.' };
   }
 
-  const file = formData.get('file');
-  if (!(file instanceof File) || file.size <= 0) {
-    return {
-      ok: false,
-      error: '업로드할 이미지 파일을 선택해주세요.',
-    };
-  }
-
-  if (file.size > 10 * 1024 * 1024) {
-    return {
-      ok: false,
-      error:
-        '이미지는 10MB 이하만 업로드할 수 있습니다.',
-    };
-  }
-
-  const allowed = [
-    'image/png',
-    'image/jpeg',
-    'image/webp',
-    'image/gif',
-  ];
-  if (!allowed.includes(file.type)) {
-    return {
-      ok: false,
-      error:
-        'PNG, JPG, WEBP, GIF 파일만 업로드할 수 있습니다.',
-    };
+  const validated = validateDoctorImageFile(formData.get('file'));
+  if (!validated.file) {
+    return { ok: false, error: validated.error ?? '이미지를 확인해주세요.' };
   }
 
   const doctor = await prisma.doctor.findUnique({
     where: { id: doctorId },
-    select: {
-      id: true,
-      slug: true,
-      name: true,
-    },
+    select: { id: true, slug: true, name: true },
   });
 
   if (!doctor) {
+    return { ok: false, error: '의료진을 찾을 수 없습니다.' };
+  }
+
+  const previous = await prisma.doctorImage.findUnique({
+    where: { doctorId_kind: { doctorId, kind } },
+    select: { url: true },
+  });
+
+  let uploaded: Awaited<ReturnType<typeof uploadManagedImage>>;
+
+  try {
+    uploaded = await uploadManagedImage(validated.file, [
+      'doctors',
+      doctorId,
+      kind.toLowerCase(),
+    ]);
+  } catch (error) {
+    console.error('[doctor] Azure 이미지 업로드 실패', error);
     return {
       ok: false,
-      error: '의료진을 찾을 수 없습니다.',
+      error: 'Azure Blob에 이미지를 업로드하지 못했습니다. Storage 연결 설정을 확인해주세요.',
     };
   }
 
-  const supabaseUrl =
-    process.env.SUPABASE_URL?.trim();
-  const serviceRoleKey =
-    process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
-  const bucket =
-    process.env.SUPABASE_DOCTOR_MEDIA_BUCKET?.trim() ||
-    'doctor-media';
+  try {
+    await prisma.$transaction(async (tx) => {
+      await tx.doctorImage.upsert({
+        where: { doctorId_kind: { doctorId, kind } },
+        create: {
+          id: relationId(`doctor-image-${kind.toLowerCase()}`),
+          doctorId,
+          kind,
+          url: uploaded.url,
+          alt: `${doctor.name} ${kind}`,
+          sortOrder: DOCTOR_IMAGE_KINDS.indexOf(kind),
+        },
+        update: { url: uploaded.url },
+      });
 
-  if (!supabaseUrl || !serviceRoleKey) {
-    return {
-      ok: false,
-      error:
-        '파일 업로드를 사용하려면 SUPABASE_URL과 SUPABASE_SERVICE_ROLE_KEY를 .env에 설정해주세요. URL 직접 입력은 지금도 사용할 수 있습니다.',
-    };
+      await tx.adminAuditLog.create({
+        data: {
+          actorId: actor.id,
+          action: 'DOCTOR_IMAGE_UPLOAD',
+          targetType: 'DoctorImage',
+          targetId: `${doctorId}:${kind}`,
+          metadata: {
+            doctorId,
+            kind,
+            beforeUrl: previous?.url ?? '',
+            url: uploaded.url,
+            storage: 'azure-blob',
+          },
+        },
+      });
+    });
+  } catch (error) {
+    console.error('[doctor] 이미지 DB 저장 실패', error);
+    try {
+      await deleteManagedAzureAssetByUrl(uploaded.url);
+    } catch (cleanupError) {
+      console.error('[doctor] 실패 업로드 정리 실패', cleanupError);
+    }
+    return { ok: false, error: '이미지 정보를 저장하지 못했습니다.' };
   }
 
-  const bucketReady = await ensureDoctorBucket(
-    supabaseUrl,
-    serviceRoleKey,
-    bucket,
-  );
-
-  if (!bucketReady) {
-    return {
-      ok: false,
-      error:
-        'Supabase Storage 버킷을 준비하지 못했습니다.',
-    };
+  if (previous?.url && previous.url !== uploaded.url) {
+    await deleteManagedAzureAssets([previous.url]);
   }
 
-  const extension =
-    file.name
-      .split('.')
-      .pop()
-      ?.replace(/[^a-z0-9]/gi, '')
-      .toLowerCase() ||
-    (file.type === 'image/gif' ? 'gif' : 'png');
+  revalidatePath('/about/doctors');
+  revalidatePath(`/about/doctors/${doctor.slug}`);
+  revalidatePath(`/admin/doctors/${doctorId}`);
 
-  const objectPath =
-    `doctors/${doctor.slug}/` +
-    `${kind.toLowerCase()}-${Date.now()}.${extension}`;
+  return {
+    ok: true,
+    success: '새 이미지를 Azure Blob에 저장하고 기존 이미지를 정리했습니다.',
+    url: uploaded.url,
+  };
+}
 
-  const upload = await storageRequest(
-    supabaseUrl,
-    serviceRoleKey,
-    `/object/${encodeURIComponent(bucket)}/${objectPath
-      .split('/')
-      .map(encodeURIComponent)
-      .join('/')}`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': file.type,
-        'x-upsert': 'true',
-      },
-      body: file,
-    },
-  );
-
-  if (!upload.ok) {
-    const message = await upload
-      .text()
-      .catch(() => '');
-
-    return {
-      ok: false,
-      error:
-        `이미지 업로드에 실패했습니다.` +
-        `${message ? ` ${message.slice(0, 180)}` : ''}`,
-    };
+export async function deleteDoctorImage(
+  doctorId: string,
+  kind: DoctorImageKind,
+): Promise<DoctorActionResult> {
+  const actor = await getEditor();
+  if (!actor) {
+    return { ok: false, error: '의료진 이미지를 수정할 권한이 없습니다.' };
   }
 
-  const publicUrl =
-    `${supabaseUrl.replace(/\/$/, '')}` +
-    `/storage/v1/object/public/${bucket}/${objectPath}`;
+  if (!DOCTOR_IMAGE_KINDS.includes(kind)) {
+    return { ok: false, error: '지원하지 않는 이미지 종류입니다.' };
+  }
+
+  const doctor = await prisma.doctor.findUnique({
+    where: { id: doctorId },
+    select: { id: true, slug: true, name: true },
+  });
+  if (!doctor) return { ok: false, error: '의료진을 찾을 수 없습니다.' };
+
+  const previous = await prisma.doctorImage.findUnique({
+    where: { doctorId_kind: { doctorId, kind } },
+    select: { url: true },
+  });
 
   await prisma.$transaction(async (tx) => {
     await tx.doctorImage.upsert({
-      where: {
-        doctorId_kind: {
-          doctorId,
-          kind,
-        },
-      },
+      where: { doctorId_kind: { doctorId, kind } },
       create: {
-        id: relationId(
-          `doctor-image-${kind.toLowerCase()}`,
-        ),
+        id: relationId(`doctor-image-${kind.toLowerCase()}`),
         doctorId,
         kind,
-        url: publicUrl,
+        url: '',
         alt: `${doctor.name} ${kind}`,
         sortOrder: DOCTOR_IMAGE_KINDS.indexOf(kind),
       },
-      update: {
-        url: publicUrl,
-      },
+      update: { url: '' },
     });
 
     await tx.adminAuditLog.create({
       data: {
         actorId: actor.id,
-        action: 'DOCTOR_IMAGE_UPLOAD',
+        action: 'DOCTOR_IMAGE_DELETE',
         targetType: 'DoctorImage',
         targetId: `${doctorId}:${kind}`,
         metadata: {
           doctorId,
           kind,
-          url: publicUrl,
+          beforeUrl: previous?.url ?? '',
+          storage: 'azure-blob',
         },
       },
     });
   });
 
+  if (previous?.url) await deleteManagedAzureAssets([previous.url]);
+
   revalidatePath('/about/doctors');
-  revalidatePath(
-    `/about/doctors/${doctor.slug}`,
-  );
+  revalidatePath(`/about/doctors/${doctor.slug}`);
   revalidatePath(`/admin/doctors/${doctorId}`);
 
-  return {
-    ok: true,
-    success: '이미지를 업로드했습니다.',
-    url: publicUrl,
-  };
+  return { ok: true, success: '이미지를 제거하고 Azure Blob도 정리했습니다.' };
 }

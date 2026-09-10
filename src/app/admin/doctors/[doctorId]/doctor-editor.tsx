@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  deleteDoctorImage,
   saveDoctor,
   uploadDoctorImage,
   type DoctorAdminPayload,
@@ -196,6 +197,29 @@ export default function DoctorEditor({
       result.success ??
         '이미지를 업로드했습니다.',
     );
+    router.refresh();
+  };
+
+  const removeImage = async (kind: DoctorImageKind) => {
+    setMessage('');
+    setUploadingKind(kind);
+
+    const result = await deleteDoctorImage(data.id, kind);
+
+    setUploadingKind(null);
+
+    if (!result.ok) {
+      setMessage(result.error ?? '이미지를 제거하지 못했습니다.');
+      return;
+    }
+
+    patch(
+      'images',
+      data.images.map((item) =>
+        item.kind === kind ? { ...item, url: '' } : item,
+      ),
+    );
+    setMessage(result.success ?? '이미지를 제거했습니다.');
     router.refresh();
   };
 
@@ -454,28 +478,43 @@ export default function DoctorEditor({
                     placeholder="대체 텍스트"
                   />
 
-                  <label className="mt-2 inline-flex cursor-pointer items-center gap-2 rounded-md border border-[#D4D4D8] bg-white px-3 py-2 text-xs font-medium text-[#52525B] hover:bg-[#F4F4F5]">
-                    <ImageUp className="size-4" />
-                    {uploadingKind === image.kind
-                      ? '업로드 중...'
-                      : '파일 업로드'}
-                    <input
-                      id={`admin-doctor-image-${image.kind.toLowerCase()}-file`}
-                      name={`doctorImage.${image.kind}.file`}
-                      type="file"
-                      accept="image/png,image/jpeg,image/webp,image/gif"
-                      disabled={
-                        uploadingKind !== null
-                      }
-                      className="sr-only"
-                      onChange={(event) =>
-                        void uploadImage(
-                          image.kind,
-                          event.target.files?.[0],
-                        )
-                      }
-                    />
-                  </label>
+                  <div className="mt-2 flex flex-wrap items-center gap-2">
+                    <label className="inline-flex cursor-pointer items-center gap-2 rounded-md border border-[#D4D4D8] bg-white px-3 py-2 text-xs font-medium text-[#52525B] hover:bg-[#F4F4F5]">
+                      <ImageUp className="size-4" />
+                      {uploadingKind === image.kind
+                        ? 'Azure 업로드 중...'
+                        : image.url
+                          ? '이미지 변경'
+                          : '이미지 추가'}
+                      <input
+                        id={`admin-doctor-image-${image.kind.toLowerCase()}-file`}
+                        name={`doctorImage.${image.kind}.file`}
+                        type="file"
+                        accept="image/png,image/jpeg,image/webp,image/gif,image/avif"
+                        disabled={uploadingKind !== null}
+                        className="sr-only"
+                        onChange={(event) =>
+                          void uploadImage(
+                            image.kind,
+                            event.target.files?.[0],
+                          )
+                        }
+                      />
+                    </label>
+
+                    {image.url ? (
+                      <Button
+                        type="button"
+                        variant="outline"
+                        disabled={uploadingKind !== null}
+                        onClick={() => void removeImage(image.kind)}
+                        className="h-9 gap-2 border-red-200 px-3 text-xs text-red-600 hover:bg-red-50 hover:text-red-700"
+                      >
+                        <Trash2 className="size-4" />
+                        이미지 삭제
+                      </Button>
+                    ) : null}
+                  </div>
                 </div>
               </div>
             </article>

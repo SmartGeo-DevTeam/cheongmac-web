@@ -2,6 +2,11 @@
 
 import { getCurrentSession, isActiveMember } from '@/_lib/auth-session';
 import {
+  deleteManagedAzureAssets,
+  isManagedAzureAssetUrl,
+  uploadManagedImage,
+} from '@/_lib/azure-blob-storage';
+import {
   getManagedItemTypeConfig,
   getManagedPageConfig,
   type ManagedField,
@@ -31,6 +36,34 @@ function clean(value: FormDataEntryValue | null, max = 20000) {
   return typeof value === 'string'
     ? value.trim().slice(0, max)
     : '';
+}
+
+export type ManagedAssetUploadResult = {
+  ok: boolean;
+  error?: string;
+  success?: string;
+  url?: string;
+};
+
+function collectManagedAssetUrls(value: unknown, output = new Set<string>()) {
+  if (typeof value === 'string') {
+    const candidate = value.trim();
+    if (candidate && isManagedAzureAssetUrl(candidate)) output.add(candidate);
+    return output;
+  }
+
+  if (Array.isArray(value)) {
+    for (const item of value) collectManagedAssetUrls(item, output);
+    return output;
+  }
+
+  if (value && typeof value === 'object') {
+    for (const item of Object.values(value as Record<string, unknown>)) {
+      collectManagedAssetUrls(item, output);
+    }
+  }
+
+  return output;
 }
 
 function parseField(field: ManagedField, formData: FormData) {
@@ -113,6 +146,86 @@ function revalidateManagedPage(pageKey: ManagedPageKey, itemKey?: string) {
   }
 }
 
+export async function uploadManagedPageAsset(
+  pageKey: ManagedPageKey,
+  id: string,
+  itemType: string,
+  fieldKey: string,
+  formData: FormData,
+): Promise<ManagedAssetUploadResult> {
+  const actor = await getEditor();
+  if (!actor) {
+    return { ok: false, error: '이미지를 업로드할 권한이 없습니다.' };
+  }
+
+  const typeConfig = getManagedItemTypeConfig(pageKey, itemType);
+  if (!typeConfig) {
+    return { ok: false, error: '지원하지 않는 데이터 유형입니다.' };
+  }
+
+  const field = typeConfig.fields.find((item) => item.key === fieldKey);
+  const allowedField =
+    Boolean(typeConfig.imageFields?.includes(fieldKey)) ||
+    field?.type === 'json';
+
+  if (!field || !allowedField) {
+    return { ok: false, error: '이미지 업로드가 허용되지 않은 필드입니다.' };
+  }
+
+  if (id !== 'new') {
+    const existing = await prisma.managedPageItem.findFirst({
+      where: { id, pageKey, itemType },
+      select: { id: true },
+    });
+
+    if (!existing) {
+      return { ok: false, error: '이미지를 연결할 관리 항목을 찾을 수 없습니다.' };
+    }
+  }
+
+  const file = formData.get('file');
+  if (!(file instanceof File) || file.size <= 0) {
+    return { ok: false, error: '업로드할 이미지 파일을 선택해주세요.' };
+  }
+
+  if (file.size > 20 * 1024 * 1024) {
+    return { ok: false, error: '이미지는 20MB 이하만 업로드할 수 있습니다.' };
+  }
+
+  const allowedTypes = new Set([
+    'image/png',
+    'image/jpeg',
+    'image/webp',
+    'image/gif',
+    'image/avif',
+  ]);
+
+  if (!allowedTypes.has(file.type)) {
+    return { ok: false, error: 'PNG, JPG, WEBP, GIF, AVIF 이미지만 업로드할 수 있습니다.' };
+  }
+
+  try {
+    const uploaded = await uploadManagedImage(file, [
+      'pages',
+      pageKey,
+      id,
+      fieldKey,
+    ]);
+
+    return {
+      ok: true,
+      success: 'Azure Blob에 이미지를 업로드했습니다.',
+      url: uploaded.url,
+    };
+  } catch (error) {
+    console.error('[managed-pages] Azure 이미지 업로드 실패', error);
+    return {
+      ok: false,
+      error: 'Azure Blob에 이미지를 업로드하지 못했습니다. Storage 연결 설정을 확인해주세요.',
+    };
+  }
+}
+
 export async function saveManagedPageItem(
   pageKey: ManagedPageKey,
   id: string,
@@ -151,6 +264,7 @@ export async function saveManagedPageItem(
     throw new Error('기존 항목의 관리용 ID는 변경할 수 없습니다.');
   }
 
+  const previousAssetUrls = collectManagedAssetUrls(existing?.data);
   const existingData =
     existing?.data &&
     typeof existing.data === 'object' &&
@@ -275,6 +389,11 @@ export async function saveManagedPageItem(
     });
   });
 
+  const nextAssetUrls = collectManagedAssetUrls(data);
+  await deleteManagedAzureAssets(
+    Array.from(previousAssetUrls).filter((url) => !nextAssetUrls.has(url)),
+  );
+
   revalidateManagedPage(pageKey, itemKey);
   redirect(`/admin/pages/${pageKey}`);
 }
@@ -292,6 +411,7 @@ export async function deleteManagedPageItem(
       id: true,
       itemKey: true,
       title: true,
+      data: true,
     },
   });
 
@@ -316,6 +436,8 @@ export async function deleteManagedPageItem(
       },
     });
   });
+
+  await deleteManagedAzureAssets(collectManagedAssetUrls(existing.data));
 
   revalidateManagedPage(pageKey, existing.itemKey);
   redirect(`/admin/pages/${pageKey}`);
