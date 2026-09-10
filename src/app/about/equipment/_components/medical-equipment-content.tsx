@@ -10,7 +10,6 @@ import FilterTabs from '@/app/_components/ui/filter-tabs';
 
 import {
   EQUIPMENT_CATEGORY_OPTIONS,
-  MEDICAL_EQUIPMENT,
   type EquipmentCategory,
   type MedicalEquipment,
 } from '../_data';
@@ -93,13 +92,15 @@ function EquipmentCard({
 }
 
 function AllEquipmentGrid({
+  items,
   onSelect,
 }: {
+  items: MedicalEquipment[];
   onSelect: (item: MedicalEquipment) => void;
 }) {
   return (
     <div className="mt-8 grid grid-cols-2 gap-x-3 gap-y-8 xl:mt-12 xl:grid-cols-2 xl:gap-x-5 xl:gap-y-14">
-      {MEDICAL_EQUIPMENT.map((item) => (
+      {items.map((item) => (
         <EquipmentCard key={item.id} item={item} onSelect={onSelect} />
       ))}
     </div>
@@ -299,12 +300,14 @@ function DesktopCategoryDetail({
   category,
   selected,
   onSelect,
+  allItems,
 }: {
   category: Exclude<EquipmentCategory, 'all'>;
   selected: MedicalEquipment;
   onSelect: (item: MedicalEquipment) => void;
+  allItems: MedicalEquipment[];
 }) {
-  const items = MEDICAL_EQUIPMENT.filter((item) => item.category === category);
+  const items = allItems.filter((item) => item.category === category);
   const selectedIndex = items.findIndex((item) => item.id === selected.id);
   const canCycle = items.length > 1;
 
@@ -367,12 +370,14 @@ function MobileCategoryDetail({
   category,
   openId,
   onToggle,
+  allItems,
 }: {
   category: Exclude<EquipmentCategory, 'all'>;
   openId: string | null;
   onToggle: (item: MedicalEquipment) => void;
+  allItems: MedicalEquipment[];
 }) {
-  const items = MEDICAL_EQUIPMENT.filter((item) => item.category === category);
+  const items = allItems.filter((item) => item.category === category);
 
   return (
     <div className="mt-6 xl:hidden">
@@ -420,7 +425,11 @@ function MobileCategoryDetail({
   );
 }
 
-export default function MedicalEquipmentContent() {
+export default function MedicalEquipmentContent({
+  items,
+}: {
+  items: MedicalEquipment[];
+}) {
   const [category, setCategory] = useState<EquipmentCategory>('all');
   const [selectedId, setSelectedId] = useState('ct');
   const [mobileOpenId, setMobileOpenId] = useState<string | null>(null);
@@ -429,15 +438,15 @@ export default function MedicalEquipmentContent() {
   const selected = useMemo(() => {
     const categoryItems =
       category === 'all'
-        ? MEDICAL_EQUIPMENT
-        : MEDICAL_EQUIPMENT.filter((item) => item.category === category);
+        ? items
+        : items.filter((item) => item.category === category);
 
     return (
       categoryItems.find((item) => item.id === selectedId) ??
       categoryItems[0] ??
-      MEDICAL_EQUIPMENT[0]
+      items[0]
     );
-  }, [category, selectedId]);
+  }, [category, items, selectedId]);
 
   const changeCategory = (next: EquipmentCategory) => {
     setCategory(next);
@@ -447,7 +456,7 @@ export default function MedicalEquipmentContent() {
       return;
     }
 
-    const first = MEDICAL_EQUIPMENT.find((item) => item.category === next);
+    const first = items.find((item) => item.category === next);
 
     if (first) {
       setSelectedId(first.id);
@@ -492,20 +501,26 @@ export default function MedicalEquipmentContent() {
       <CategoryTabs value={category} onChange={changeCategory} />
 
       {category === 'all' ? (
-        <AllEquipmentGrid onSelect={selectEquipment} />
-      ) : (
+        <AllEquipmentGrid items={items} onSelect={selectEquipment} />
+      ) : selected ? (
         <>
           <DesktopCategoryDetail
             category={category}
             selected={selected}
             onSelect={selectEquipment}
+            allItems={items}
           />
           <MobileCategoryDetail
             category={category}
             openId={mobileOpenId}
             onToggle={toggleMobileEquipment}
+            allItems={items}
           />
         </>
+      ) : (
+        <div className="mt-8 rounded-xl bg-[#F7F8F8] px-5 py-12 text-center text-base text-[#8C9298]">
+          해당 분류의 장비가 없습니다.
+        </div>
       )}
     </div>
   );

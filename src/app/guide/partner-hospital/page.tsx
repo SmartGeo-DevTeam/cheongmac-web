@@ -1,6 +1,9 @@
 import NavigationPageHeader from '@/app/_components/ui/navigation-page-header';
+import { getPartnerHospitalManagedContent } from '@/_lib/managed-pages';
 import type { Metadata } from 'next';
 import PartnerHospitalContent from './_components/partner-hospital-content';
+
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: '의료협약병원 | 청맥병원',
@@ -8,7 +11,9 @@ export const metadata: Metadata = {
     '청맥병원과 의료·산학·지원 협약을 맺은 주요 기관과 협약 내용을 안내합니다.',
 };
 
-export default function PartnerHospitalPage() {
+export default async function PartnerHospitalPage() {
+  const content = await getPartnerHospitalManagedContent();
+
   return (
     <div>
       <NavigationPageHeader
@@ -23,7 +28,10 @@ export default function PartnerHospitalPage() {
         }
       />
 
-      <PartnerHospitalContent />
+      <PartnerHospitalContent
+        logos={content.logos}
+        hospitals={content.hospitals}
+      />
     </div>
   );
 }

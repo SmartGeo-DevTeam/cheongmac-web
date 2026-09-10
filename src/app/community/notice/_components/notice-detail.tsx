@@ -11,7 +11,7 @@ import {
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { getNoticeDetail, notices } from '../_data';
+import type { NoticeDetail as NoticeDetailData } from '../_data';
 
 function CategoryBadge({ holiday = false }: { holiday?: boolean }) {
   return (
@@ -27,13 +27,19 @@ function CategoryBadge({ holiday = false }: { holiday?: boolean }) {
   );
 }
 
-export default function NoticeDetail({ id }: { id: string }) {
+export default function NoticeDetail({
+  detail,
+  previous,
+  next,
+}: {
+  detail: NoticeDetailData;
+  previous?: NoticeDetailData;
+  next?: NoticeDetailData;
+}) {
   const pathname = usePathname();
-  const detail = getNoticeDetail(id);
   const parentPath = pathname.replace(/\/[^/]+\/?$/, '') || '/';
-  const index = notices.findIndex((notice) => notice.id === detail.id);
-  const previous = index > 0 ? notices[index - 1] : notices[notices.length - 1];
-  const next = index >= 0 && index < notices.length - 1 ? notices[index + 1] : notices[0];
+  const previousItem = previous ?? detail;
+  const nextItem = next ?? detail;
 
   const share = async () => {
     const shareData = {
@@ -144,21 +150,21 @@ export default function NoticeDetail({ id }: { id: string }) {
 
       <div className="mt-6 grid border-y border-[#E4E6E8] text-base text-[#8D9298] xl:grid-cols-2 xl:text-xl">
         <Link
-          href={`${parentPath}/${previous.id}`}
+          href={`${parentPath}/${previousItem.id}`}
           className="flex min-h-[60px] items-center gap-3 border-b border-[#E4E6E8] px-3 xl:border-b-0 xl:border-r"
         >
           <ChevronLeft className="size-5 xl:size-6" />
           <span className="shrink-0">이전글</span>
-          <strong className="truncate font-medium text-[#5A5F65]">{previous.title}</strong>
+          <strong className="truncate font-medium text-[#5A5F65]">{previousItem.title}</strong>
         </Link>
         <Link
-          href={`${parentPath}/${next.id}`}
+          href={`${parentPath}/${nextItem.id}`}
           className="flex min-h-[60px] items-center gap-3 px-3 xl:flex-row-reverse xl:justify-end"
         >
           <ChevronRight className="size-5 xl:hidden" />
           <ChevronDown className="hidden size-6 xl:block" />
           <span className="shrink-0">다음글</span>
-          <strong className="truncate font-medium text-[#5A5F65]">{next.title}</strong>
+          <strong className="truncate font-medium text-[#5A5F65]">{nextItem.title}</strong>
         </Link>
       </div>
 

@@ -4,10 +4,9 @@ import FilterTabs from '@/app/_components/ui/filter-tabs';
 
 import {
   FACILITY_CATEGORY_OPTIONS,
-  FACILITY_ITEMS,
-  FLOOR_GUIDES,
   type FacilityCategory,
   type FacilityItem,
+  type FloorGuide,
   type HospitalTourTab,
 } from '../_data';
 import { ChevronDown, Search, X } from 'lucide-react';
@@ -44,7 +43,7 @@ function HospitalTourTabs({
   );
 }
 
-function FloorCard({ floor, title, details }: (typeof FLOOR_GUIDES)[number]) {
+function FloorCard({ floor, title, details }: FloorGuide) {
   return (
     <article
       tabIndex={0}
@@ -71,7 +70,11 @@ function FloorCard({ floor, title, details }: (typeof FLOOR_GUIDES)[number]) {
   );
 }
 
-function FloorGuideSection() {
+function FloorGuideSection({
+  floorGuides,
+}: {
+  floorGuides: FloorGuide[];
+}) {
   return (
     <section className="relative left-1/2 mt-8 w-screen -translate-x-1/2 bg-[linear-gradient(180deg,#FFFFFF_0%,#EAF2FD_100%)] xl:mt-16">
       <div className="mx-auto grid w-full max-w-7xl grid-cols-1 px-5 pb-10 xl:grid-cols-2 xl:gap-14 xl:px-0 xl:pb-0">
@@ -90,7 +93,7 @@ function FloorGuideSection() {
         />
 
         <div className="space-y-3 py-0 xl:py-12">
-          {FLOOR_GUIDES.map((guide) => (
+          {floorGuides.map((guide) => (
             <FloorCard key={guide.floor} {...guide} />
           ))}
         </div>
@@ -136,8 +139,10 @@ function FacilityCard({
 
 function FacilitySection({
   onOpen,
+  facilityItems,
 }: {
   onOpen: (item: FacilityItem) => void;
+  facilityItems: FacilityItem[];
 }) {
   const [category, setCategory] = useState<FacilityCategory>('all');
   const [query, setQuery] = useState('');
@@ -148,7 +153,7 @@ function FacilitySection({
   const filtered = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
 
-    return FACILITY_ITEMS.filter((item) => {
+    return facilityItems.filter((item) => {
       const categoryMatches =
         category === 'all' || item.category === category;
       const queryMatches =
@@ -159,7 +164,7 @@ function FacilitySection({
 
       return categoryMatches && queryMatches;
     });
-  }, [category, query]);
+  }, [category, facilityItems, query]);
 
   const visibleItems = filtered.slice(0, visibleCount);
   const hasMore = visibleItems.length < filtered.length;
@@ -426,7 +431,13 @@ function FacilityModal({
   );
 }
 
-export default function HospitalTourContent() {
+export default function HospitalTourContent({
+  floorGuides,
+  facilityItems,
+}: {
+  floorGuides: FloorGuide[];
+  facilityItems: FacilityItem[];
+}) {
   const [activeTab, setActiveTab] = useState<HospitalTourTab>('floor');
   const [selectedFacility, setSelectedFacility] =
     useState<FacilityItem | null>(null);
@@ -437,9 +448,12 @@ export default function HospitalTourContent() {
         <HospitalTourTabs activeTab={activeTab} onChange={setActiveTab} />
 
         {activeTab === 'floor' ? (
-          <FloorGuideSection />
+          <FloorGuideSection floorGuides={floorGuides} />
         ) : (
-          <FacilitySection onOpen={setSelectedFacility} />
+          <FacilitySection
+            onOpen={setSelectedFacility}
+            facilityItems={facilityItems}
+          />
         )}
       </div>
 

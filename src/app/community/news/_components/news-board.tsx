@@ -15,7 +15,6 @@ import Pagination from '@/app/_components/ui/pagination';
 import SearchField from '@/app/_components/ui/search-field';
 import { useViewport } from '@/app/_providers/viewport-provider';
 import type { NewsItem } from '@/app/community/news/_data/news';
-import { NEWS_ITEMS } from '@/app/community/news/_data/news';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -230,7 +229,11 @@ function MobilePressCard({
   );
 }
 
-export default function NewsBoard() {
+export default function NewsBoard({
+  items,
+}: {
+  items: NewsItem[];
+}) {
   const { isDesktop } = useViewport();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -253,7 +256,7 @@ export default function NewsBoard() {
   const filteredItems = useMemo(() => {
     const normalizedQuery = query.trim().toLocaleLowerCase('ko-KR');
 
-    return NEWS_ITEMS.filter((item) => {
+    return items.filter((item) => {
       const matchesCategory = category === 'all' || item.category === category;
       const matchesQuery =
         !normalizedQuery ||
@@ -262,7 +265,7 @@ export default function NewsBoard() {
 
       return matchesCategory && matchesQuery;
     });
-  }, [category, query]);
+  }, [category, items, query]);
 
   const pageSize = isDesktop ? DESKTOP_PAGE_SIZE : MOBILE_PAGE_SIZE[category];
   const totalPages = Math.max(1, Math.ceil(filteredItems.length / pageSize));

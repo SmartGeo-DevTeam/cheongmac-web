@@ -22,6 +22,11 @@ function supabaseRemotePatterns(): NonNullable<NextConfig['images']>['remotePatt
 
 const nextConfig: NextConfig = {
   devIndicators: false,
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '12mb',
+    },
+  },
   images: {
     remotePatterns: supabaseRemotePatterns(),
   },

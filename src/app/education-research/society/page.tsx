@@ -1,6 +1,9 @@
 import NavigationPageHeader from '@/app/_components/ui/navigation-page-header';
+import { getSocietyManagedContent } from '@/_lib/managed-pages';
 import type { Metadata } from 'next';
 import SocietyActivitiesContent from './_components/society-activities-content';
+
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: '학회활동 | 청맥병원',
@@ -8,7 +11,9 @@ export const metadata: Metadata = {
     '청맥병원 의료진의 국내외 주요 혈관·정맥 관련 학회 발표 및 학술 활동을 소개합니다.',
 };
 
-export default function SocietyActivitiesPage() {
+export default async function SocietyActivitiesPage() {
+  const content = await getSocietyManagedContent();
+
   return (
     <div>
       <NavigationPageHeader
@@ -23,7 +28,10 @@ export default function SocietyActivitiesPage() {
         }
       />
 
-      <SocietyActivitiesContent />
+      <SocietyActivitiesContent
+        featured={content.featured}
+        activities={content.activities}
+      />
     </div>
   );
 }

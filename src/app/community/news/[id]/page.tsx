@@ -5,17 +5,15 @@ import {
   getNewsClientById,
   type NewsClient,
 } from '@/app/community/news/_data/clients';
-import {
-  NEWS_ITEMS,
-  getNewsBody,
-  getNewsItemById,
-  getNewsItemSiblings,
-} from '@/app/community/news/_data/news';
+import type { NewsItem } from '@/app/community/news/_data/news';
+import { getNewsManagedDetail } from '@/_lib/managed-pages';
 import { ChevronDown, ChevronUp, Newspaper } from 'lucide-react';
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+
+export const dynamic = 'force-dynamic';
 
 type NewsDetailPageProps = {
   params: Promise<{ id: string }>;
@@ -54,25 +52,33 @@ function buildNewsDetailHref(id: number, returnTo: string) {
   };
 }
 
-export function generateStaticParams() {
-  return NEWS_ITEMS.map((item) => ({ id: String(item.id) }));
+function newsBody(item: NewsItem) {
+  if (item.body?.length) return item.body;
+
+  return [
+    item.excerpt,
+    `${item.title}와 관련한 청맥병원의 주요 소식을 안내드립니다. 환자분들이 필요한 정보를 보다 편안하게 확인하실 수 있도록 정확한 내용을 전달하고 있습니다.`,
+    '청맥병원은 혈관 질환에 대한 전문적인 진료 경험을 바탕으로 안전하고 신뢰할 수 있는 의료 서비스를 제공하기 위해 지속적으로 노력하고 있습니다.',
+    '앞으로도 진료 소식과 병원 주요 활동, 의료 정보를 청맥뉴스를 통해 꾸준히 전해드리겠습니다.',
+    '감사합니다.',
+  ];
 }
 
 export async function generateMetadata({
   params,
 }: NewsDetailPageProps): Promise<Metadata> {
   const { id } = await params;
-  const item = getNewsItemById(Number(id));
+  const result = await getNewsManagedDetail(id);
 
-  if (!item) {
+  if (!result) {
     return {
       title: '청맥뉴스 | 청맥병원',
     };
   }
 
   return {
-    title: `${item.title} | 청맥뉴스 | 청맥병원`,
-    description: item.excerpt,
+    title: `${result.item.title} | 청맥뉴스 | 청맥병원`,
+    description: result.item.excerpt,
   };
 }
 
@@ -84,16 +90,12 @@ export default async function NewsDetailPage({
     params,
     searchParams,
   ]);
-  const newsId = Number(id);
 
-  if (!Number.isInteger(newsId)) notFound();
+  const result = await getNewsManagedDetail(id);
+  if (!result) notFound();
 
-  const item = getNewsItemById(newsId);
-
-  if (!item) notFound();
-
-  const body = getNewsBody(item);
-  const { previous, next } = getNewsItemSiblings(item.id);
+  const { item, previous, next } = result;
+  const body = newsBody(item);
   const client = getNewsClientById(item.clientId);
   const returnTo = getSafeNewsListUrl(detailSearchParams.from);
 
@@ -178,11 +180,15 @@ export default async function NewsDetailPage({
             item={previous}
             returnTo={returnTo}
           />
-          <NewsSiblingLink direction="next" item={next} returnTo={returnTo} />
+          <NewsSiblingLink
+            direction="next"
+            item={next}
+            returnTo={returnTo}
+          />
         </div>
       </nav>
 
-      <div className="mt-7 mb-12 flex justify-center xl:mt-8 xl:mb-20">
+      <div className="mb-12 mt-7 flex justify-center xl:mb-20 xl:mt-8">
         <Link
           href={returnTo}
           className={buttonClassName({ variant: 'outline', size: 'md' })}
@@ -230,7 +236,7 @@ function NewsSiblingLink({
   returnTo,
 }: {
   direction: 'previous' | 'next';
-  item?: (typeof NEWS_ITEMS)[number];
+  item?: NewsItem;
   returnTo: string;
 }) {
   const isPrevious = direction === 'previous';

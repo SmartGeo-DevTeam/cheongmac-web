@@ -16,8 +16,7 @@ import PageContainer from '@/app/_components/ui/page-container';
 import Pagination from '@/app/_components/ui/pagination';
 import SearchField from '@/app/_components/ui/search-field';
 import {
-  TREATMENT_CASE_COUNT,
-  TREATMENT_CASES,
+  type TreatmentCase,
   type TreatmentCaseKind,
 } from '../_data';
 import { TreatmentCaseImageLock } from './treatment-case-access';
@@ -33,13 +32,16 @@ const FILTERS: Array<{ value: TreatmentCaseKind; label: string }> = [
 
 type Props = {
   isAuthenticated: boolean;
+  items: TreatmentCase[];
 };
+
+const PAGE_SIZE = 6;
 
 function TreatmentCaseCard({
   item,
   isAuthenticated,
 }: {
-  item: (typeof TREATMENT_CASES)[number];
+  item: TreatmentCase;
   isAuthenticated: boolean;
 }) {
   const detailHref = `/community/cases/${item.id}`;
@@ -100,14 +102,18 @@ function TreatmentCaseCard({
   );
 }
 
-export default function TreatmentCaseList({ isAuthenticated }: Props) {
+export default function TreatmentCaseList({
+  isAuthenticated,
+  items,
+}: Props) {
   const [activeFilter, setActiveFilter] =
     useState<TreatmentCaseKind>('treatment');
   const [query, setQuery] = useState('');
+  const [page, setPage] = useState(1);
 
   const filteredCases = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
-    const filtered = TREATMENT_CASES.filter(
+    const filtered = items.filter(
       (item) => item.kind === activeFilter,
     );
 
@@ -118,16 +124,23 @@ export default function TreatmentCaseList({ isAuthenticated }: Props) {
         value.toLowerCase().includes(normalizedQuery),
       ),
     );
-  }, [activeFilter, query]);
+  }, [activeFilter, items, query]);
 
-  const visibleCases = filteredCases;
+  const totalPages = Math.max(1, Math.ceil(filteredCases.length / PAGE_SIZE));
+  const currentPage = Math.min(page, totalPages);
+  const visibleCases = filteredCases.slice(
+    (currentPage - 1) * PAGE_SIZE,
+    currentPage * PAGE_SIZE,
+  );
 
   const changeFilter = (next: TreatmentCaseKind) => {
     setActiveFilter(next);
+    setPage(1);
   };
 
   const changeQuery = (next: string) => {
     setQuery(next);
+    setPage(1);
   };
 
   return (
@@ -146,7 +159,7 @@ export default function TreatmentCaseList({ isAuthenticated }: Props) {
         />
 
         <BoardToolbar
-          count={TREATMENT_CASE_COUNT}
+          count={filteredCases.length}
           size="lg"
           accent="coral"
           className="mt-6 xl:mt-8"
@@ -177,9 +190,9 @@ export default function TreatmentCaseList({ isAuthenticated }: Props) {
 
         <Pagination
           id="treatment-case-pagination"
-          currentPage={1}
-          totalPages={5}
-          onPageChange={() => undefined}
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setPage}
           ariaLabel="치료사례 페이지"
           variant="large"
           showFirst={false}

@@ -14,9 +14,6 @@ import UiPagination from '@/app/_components/ui/pagination';
 import SearchField from '@/app/_components/ui/search-field';
 
 import {
-  ACADEMIC_EXCHANGE_HERO_IMAGES,
-  ACADEMIC_EXCHANGE_POSTS,
-  ACADEMIC_EXCHANGE_TOTAL_COUNT,
   type AcademicExchangePost,
 } from '../_data';
 import Image from 'next/image';
@@ -30,7 +27,11 @@ import 'swiper/css/pagination';
 import { Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-function AcademicExchangeIntro() {
+function AcademicExchangeIntro({
+  heroImages,
+}: {
+  heroImages: Array<{ id: string; src: string; alt: string }>;
+}) {
   return (
     <section className="overflow-hidden bg-[#F4F5F5]">
       <div className="mx-auto grid w-full max-w-7xl gap-8 px-5 py-10 xl:grid-cols-[minmax(0,1fr)_430px] xl:items-center xl:gap-20 xl:px-0 xl:py-24">
@@ -70,7 +71,7 @@ function AcademicExchangeIntro() {
             pagination={{ clickable: true }}
             className="!pb-10 [&_.swiper-pagination]:!bottom-0 [&_.swiper-pagination-bullet]:!mx-1.5 [&_.swiper-pagination-bullet]:!size-3 [&_.swiper-pagination-bullet]:!bg-[#DDE1E3] [&_.swiper-pagination-bullet]:!opacity-100 [&_.swiper-pagination-bullet-active]:!bg-[#88D4C5]"
           >
-            {ACADEMIC_EXCHANGE_HERO_IMAGES.map((image) => (
+            {heroImages.map((image) => (
               <SwiperSlide key={image.id}>
                 <div className="relative aspect-[666/453] overflow-hidden rounded-[18px] bg-[#E9EBEC]">
                   <Image
@@ -94,7 +95,7 @@ function AcademicExchangeIntro() {
             grabCursor
             className="!overflow-visible pr-5"
           >
-            {ACADEMIC_EXCHANGE_HERO_IMAGES.map((image) => (
+            {heroImages.map((image) => (
               <SwiperSlide key={image.id}>
                 <div className="relative aspect-[1.47/1] overflow-hidden rounded-xl bg-[#E6E8E9]">
                   <Image
@@ -197,7 +198,15 @@ function AcademicExchangeCard({
   );
 }
 
-export default function AcademicExchangeContent() {
+const PAGE_SIZE = 6;
+
+export default function AcademicExchangeContent({
+  heroImages,
+  posts,
+}: {
+  heroImages: Array<{ id: string; src: string; alt: string }>;
+  posts: AcademicExchangePost[];
+}) {
   const [query, setQuery] = useState('');
   const [activePage, setActivePage] = useState(1);
   const listTopRef = useRef<HTMLDivElement>(null);
@@ -206,10 +215,10 @@ export default function AcademicExchangeContent() {
     const normalized = query.trim().toLowerCase();
 
     if (!normalized) {
-      return ACADEMIC_EXCHANGE_POSTS;
+      return posts;
     }
 
-    return ACADEMIC_EXCHANGE_POSTS.filter((post) =>
+    return posts.filter((post) =>
       [
         post.date,
         post.place,
@@ -220,12 +229,15 @@ export default function AcademicExchangeContent() {
         .toLowerCase()
         .includes(normalized),
     );
-  }, [query]);
+  }, [posts, query]);
 
-  const resultCount =
-    query.trim().length === 0
-      ? ACADEMIC_EXCHANGE_TOTAL_COUNT
-      : filteredPosts.length;
+  const resultCount = filteredPosts.length;
+  const totalPages = Math.max(1, Math.ceil(filteredPosts.length / PAGE_SIZE));
+  const safePage = Math.min(activePage, totalPages);
+  const visiblePosts = filteredPosts.slice(
+    (safePage - 1) * PAGE_SIZE,
+    safePage * PAGE_SIZE,
+  );
 
   const updateQuery = (value: string) => {
     setQuery(value);
@@ -242,7 +254,7 @@ export default function AcademicExchangeContent() {
 
   return (
     <>
-      <AcademicExchangeIntro />
+      <AcademicExchangeIntro heroImages={heroImages} />
 
       <section className="mx-auto w-full max-w-7xl px-5 pb-20 pt-10 xl:px-0 xl:pb-28 xl:pt-16">
         <div
@@ -262,7 +274,7 @@ export default function AcademicExchangeContent() {
 
           {filteredPosts.length > 0 ? (
             <div className="mt-6 grid grid-cols-1 gap-y-14 xl:mt-7 xl:grid-cols-3 xl:gap-x-6 xl:gap-y-10">
-              {filteredPosts.map((post) => (
+              {visiblePosts.map((post) => (
                 <AcademicExchangeCard
                   key={post.id}
                   post={post}
@@ -277,8 +289,8 @@ export default function AcademicExchangeContent() {
 
           <UiPagination
             id="academic-exchange-pagination"
-            currentPage={activePage}
-            totalPages={5}
+            currentPage={safePage}
+            totalPages={totalPages}
             onPageChange={changePage}
             ariaLabel="학술교류 페이지"
             variant="default"

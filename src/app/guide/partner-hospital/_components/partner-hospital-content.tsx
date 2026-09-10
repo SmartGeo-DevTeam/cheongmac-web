@@ -11,10 +11,9 @@ import Pagination from '@/app/_components/ui/pagination';
 
 import {
   PARTNER_CATEGORY_OPTIONS,
-  PARTNER_HOSPITALS,
-  PARTNER_INSTITUTION_LOGOS,
-  PARTNER_TOTAL_COUNT,
   type PartnerCategory,
+  type PartnerHospital,
+  type PartnerInstitutionLogo,
 } from '../_data';
 import { Search } from 'lucide-react';
 import Image from 'next/image';
@@ -25,7 +24,11 @@ import {
   type ChangeEvent,
 } from 'react';
 
-function PartnershipOverview() {
+function PartnershipOverview({
+  logos,
+}: {
+  logos: PartnerInstitutionLogo[];
+}) {
   return (
     <section>
       <div>
@@ -50,7 +53,7 @@ function PartnershipOverview() {
       </div>
 
       <div className="mt-5 grid grid-cols-2 gap-2 xl:mt-10 xl:grid-cols-4 xl:gap-3">
-        {PARTNER_INSTITUTION_LOGOS.map((institution) => (
+        {logos.map((institution) => (
           <div
             key={institution.id}
             className="relative aspect-[2.5/1] overflow-hidden rounded-lg transition hover:-translate-y-0.5 hover:shadow-[0_8px_20px_rgba(0,0,0,0.05)]"
@@ -164,7 +167,15 @@ function PartnerCard({
   );
 }
 
-export default function PartnerHospitalContent() {
+const PAGE_SIZE = 6;
+
+export default function PartnerHospitalContent({
+  logos,
+  hospitals,
+}: {
+  logos: PartnerInstitutionLogo[];
+  hospitals: PartnerHospital[];
+}) {
   const [category, setCategory] = useState<PartnerCategory>('all');
   const [query, setQuery] = useState('');
   const [activePage, setActivePage] = useState(1);
@@ -173,7 +184,7 @@ export default function PartnerHospitalContent() {
   const filtered = useMemo(() => {
     const normalized = query.trim().toLowerCase();
 
-    return PARTNER_HOSPITALS.filter((item) => {
+    return hospitals.filter((item) => {
       const categoryMatches =
         category === 'all' || item.category === category;
       const queryMatches =
@@ -185,12 +196,15 @@ export default function PartnerHospitalContent() {
 
       return categoryMatches && queryMatches;
     });
-  }, [category, query]);
+  }, [category, hospitals, query]);
 
-  const resultCount =
-    category === 'all' && query.trim().length === 0
-      ? PARTNER_TOTAL_COUNT
-      : filtered.length;
+  const resultCount = filtered.length;
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const safePage = Math.min(activePage, totalPages);
+  const visibleHospitals = filtered.slice(
+    (safePage - 1) * PAGE_SIZE,
+    safePage * PAGE_SIZE,
+  );
 
   const updateQuery = (event: ChangeEvent<HTMLInputElement>) => {
     setQuery(event.target.value);
@@ -212,7 +226,7 @@ export default function PartnerHospitalContent() {
 
   return (
     <div className="mx-auto w-full max-w-7xl px-5 pb-20 xl:px-0 xl:pb-28">
-      <PartnershipOverview />
+      <PartnershipOverview logos={logos} />
 
       <div className="mt-14 xl:mt-20">
         <PartnerFilters
@@ -251,7 +265,7 @@ export default function PartnerHospitalContent() {
 
           {filtered.length > 0 ? (
             <div className="mt-5 grid grid-cols-1 gap-x-5 gap-y-12 xl:mt-7 xl:grid-cols-3 xl:gap-y-16">
-              {filtered.map((item) => (
+              {visibleHospitals.map((item) => (
                 <PartnerCard key={item.id} {...item} />
               ))}
             </div>
@@ -263,8 +277,8 @@ export default function PartnerHospitalContent() {
 
           <Pagination
             id="partner-hospital-pagination"
-            currentPage={activePage}
-            totalPages={5}
+            currentPage={safePage}
+            totalPages={totalPages}
             onPageChange={changePage}
             ariaLabel="의료협약기관 페이지"
             variant="partner"

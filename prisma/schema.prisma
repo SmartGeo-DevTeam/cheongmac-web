@@ -495,6 +495,13 @@ model MedicalConsultation {
   title             String
   question          Json
   imageUrl          String?
+  patientName       String?
+  phone             String?
+  birthDate         String?
+  phoneConsultRequested Boolean?
+  postPasswordHash  String?
+  attachmentName    String?
+  attachmentUrl     String?
   isPrivate         Boolean   @default(false)
   hasLinkIcon       Boolean   @default(false)
   answer             Json?
@@ -524,4 +531,52 @@ model MedicalConsultationDoctor {
   @@id([consultationId, doctorId])
   @@index([doctorId, sortOrder])
   @@map("medical_consultation_doctor")
+}
+
+
+model ManagedPageItem {
+  id        String   @id @default(cuid())
+  pageKey   String
+  itemKey   String
+  itemType  String   @default("item")
+  title     String
+  summary   String?  @db.Text
+  category  String?
+  imageUrls String[] @default([])
+  data      Json
+  sortOrder Int      @default(0)
+  isVisible Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([pageKey, itemKey])
+  @@index([pageKey, itemType, isVisible, sortOrder])
+  @@index([pageKey, sortOrder])
+  @@map("managed_page_item")
+}
+
+model ManagedPageSeed {
+  pageKey  String   @id
+  version  Int      @default(1)
+  seededAt DateTime @default(now())
+
+  @@map("managed_page_seed")
+}
+
+model CustomerVoiceSubmission {
+  id             String   @id @default(cuid())
+  category       String
+  title          String
+  content        String   @db.Text
+  attachmentName String?
+  attachmentUrl  String?
+  name           String
+  phone          String
+  status         String   @default("RECEIVED")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([category, createdAt])
+  @@index([status, createdAt])
+  @@map("customer_voice_submission")
 }

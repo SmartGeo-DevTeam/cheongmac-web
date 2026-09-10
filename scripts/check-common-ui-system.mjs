@@ -45,7 +45,7 @@ const paginationChecks = [
   ['src/app/community/cases/_components/treatment-case-list.tsx', 'id="treatment-case-pagination"'],
   ['src/app/community/consultation/_components/consultation-board.tsx', 'id="consultation-pagination-desktop"'],
   ['src/app/community/consultation/_components/consultation-board.tsx', 'id="consultation-pagination-mobile"'],
-  ['src/app/community/consultation/[id]/page.tsx', 'id="consultation-detail-pagination"'],
+  ['src/app/community/consultation/[id]/_components/consultation-detail-pagination.tsx', 'id="consultation-detail-pagination"'],
 ];
 
 for (const [file, token] of paginationChecks) {

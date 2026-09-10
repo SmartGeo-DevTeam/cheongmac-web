@@ -3,10 +3,8 @@
 import FilterTabs from '@/app/_components/ui/filter-tabs';
 
 import {
-  SOCIETY_ACTIVITIES,
-  SOCIETY_FEATURED,
-  SOCIETY_YEARS,
   type SocietyActivity,
+  type SocietyFeatured,
   type SocietyYear,
 } from '../_data';
 import Image from 'next/image';
@@ -38,7 +36,11 @@ function SocietyIntro() {
   );
 }
 
-function FeaturedActivities() {
+function FeaturedActivities({
+  featured,
+}: {
+  featured: SocietyFeatured[];
+}) {
   return (
     <section className="relative overflow-hidden bg-[#006656]">
       <div className="absolute inset-0">
@@ -79,7 +81,7 @@ function FeaturedActivities() {
             }}
             className="!overflow-visible pr-5 xl:pr-[10vw]"
           >
-            {SOCIETY_FEATURED.map((item) => (
+            {featured.map((item) => (
               <SwiperSlide key={item.id}>
                 <article className="overflow-hidden rounded-[18px] bg-white/0 xl:grid xl:grid-cols-[430px_minmax(0,1fr)] xl:items-center xl:gap-16">
                   <div className="relative aspect-[1.45/1] overflow-hidden rounded-[16px] bg-black/10 xl:aspect-[1.56/1]">
@@ -121,15 +123,17 @@ function FeaturedActivities() {
 
 function YearTabs({
   activeYear,
+  years,
   onChange,
 }: {
   activeYear: SocietyYear;
+  years: SocietyYear[];
   onChange: (year: SocietyYear) => void;
 }) {
   return (
     <FilterTabs
       id="society-year-tabs"
-      items={SOCIETY_YEARS.map((year) => ({
+      items={years.map((year) => ({
         value: year,
         label: year,
       }))}
@@ -183,21 +187,30 @@ function TimelineItem({
   );
 }
 
-function SocietyTimeline() {
-  const [activeYear, setActiveYear] = useState<SocietyYear>(2026);
+function SocietyTimeline({
+  activities: allActivities,
+  years,
+}: {
+  activities: SocietyActivity[];
+  years: SocietyYear[];
+}) {
+  const [activeYear, setActiveYear] = useState<SocietyYear>(
+    years[0] ?? new Date().getFullYear(),
+  );
 
   const activities = useMemo(
     () =>
-      SOCIETY_ACTIVITIES.filter(
+      allActivities.filter(
         (activity) => activity.year === activeYear,
       ),
-    [activeYear],
+    [activeYear, allActivities],
   );
 
   return (
     <section className="mx-auto w-full max-w-7xl px-5 pb-20 pt-10 xl:px-0 xl:pb-28 xl:pt-14">
       <YearTabs
         activeYear={activeYear}
+        years={years}
         onChange={setActiveYear}
       />
 
@@ -230,12 +243,22 @@ function SocietyTimeline() {
   );
 }
 
-export default function SocietyActivitiesContent() {
+export default function SocietyActivitiesContent({
+  featured,
+  activities,
+}: {
+  featured: SocietyFeatured[];
+  activities: SocietyActivity[];
+}) {
+  const years = Array.from(
+    new Set(activities.map((activity) => activity.year)),
+  ).sort((a, b) => b - a);
+
   return (
     <>
       <SocietyIntro />
-      <FeaturedActivities />
-      <SocietyTimeline />
+      <FeaturedActivities featured={featured} />
+      <SocietyTimeline activities={activities} years={years} />
     </>
   );
 }

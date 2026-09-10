@@ -1,12 +1,14 @@
 import { getCurrentSession, isActiveMember } from '@/_lib/auth-session';
 import {
-  TREATMENT_CASES,
-  getTreatmentCase,
-} from '../_data';
-import TreatmentCaseDetail from '../_components/treatment-case-detail';
-import TreatmentCasePageHeader from '../_components/treatment-case-page-header';
+  getTreatmentCaseManagedById,
+  getTreatmentCaseManagedSiblings,
+} from '@/_lib/managed-pages';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import TreatmentCaseDetail from '../_components/treatment-case-detail';
+import TreatmentCasePageHeader from '../_components/treatment-case-page-header';
+
+export const dynamic = 'force-dynamic';
 
 type PageProps = {
   params: Promise<{ id: string }>;
@@ -16,7 +18,7 @@ export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const { id } = await params;
-  const item = getTreatmentCase(id);
+  const item = await getTreatmentCaseManagedById(id);
 
   if (!item) {
     return {
@@ -30,31 +32,27 @@ export async function generateMetadata({
   };
 }
 
-export default async function TreatmentCaseDetailPage({ params }: PageProps) {
+export default async function TreatmentCaseDetailPage({
+  params,
+}: PageProps) {
   const { id } = await params;
-  const item = getTreatmentCase(id);
 
-  if (!item) {
-    notFound();
-  }
+  const [item, session, siblings] = await Promise.all([
+    getTreatmentCaseManagedById(id),
+    getCurrentSession(),
+    getTreatmentCaseManagedSiblings(id),
+  ]);
 
-  const session = await getCurrentSession();
-  const isAuthenticated = isActiveMember(session);
-
-  const currentIndex = TREATMENT_CASES.findIndex(
-    (candidate) => candidate.id === item.id,
-  );
-  const previous = TREATMENT_CASES[currentIndex - 1];
-  const next = TREATMENT_CASES[currentIndex + 1];
+  if (!item) notFound();
 
   return (
     <div>
       <TreatmentCasePageHeader titleAs="div" />
       <TreatmentCaseDetail
         item={item}
-        previousId={previous?.id}
-        nextId={next?.id}
-        isAuthenticated={isAuthenticated}
+        previousId={siblings.previous?.id}
+        nextId={siblings.next?.id}
+        isAuthenticated={isActiveMember(session)}
       />
     </div>
   );

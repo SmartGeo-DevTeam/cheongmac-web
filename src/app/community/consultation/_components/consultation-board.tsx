@@ -21,7 +21,6 @@ import { useMemo } from 'react';
 
 const DESKTOP_PAGE_SIZE = 7;
 const MOBILE_PAGE_SIZE = 5;
-const DISPLAY_TOTAL_COUNT = 3824;
 
 function parsePage(value: string | null) {
   if (!value) return 1;
@@ -242,7 +241,7 @@ export default function ConsultationBoard({
         <p className="text-[10px] tracking-[-0.02em] text-[#8E959D] xl:text-[12px]">
           총{' '}
           <strong className="font-medium text-[#FA6A3D]">
-            {DISPLAY_TOTAL_COUNT.toLocaleString('ko-KR')}
+            {filteredItems.length.toLocaleString('ko-KR')}
           </strong>{' '}
           건
         </p>

@@ -1,8 +1,9 @@
 'use client';
 
+import { submitMedicalConsultation } from '@/app/community/consultation/_actions';
 import { Link2, RefreshCw, XCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useRef, useState, type ReactNode } from 'react';
+import { useRef, useState, useTransition, type ReactNode } from 'react';
 
 const fieldClass =
   'h-11 rounded-[6px] border border-[#DFE3E7] bg-white px-3 text-[12px] tracking-[-0.03em] text-[#424951] placeholder:text-[#ADB3BA] xl:h-12 xl:text-[13px]';
@@ -46,8 +47,10 @@ function RequiredLabel({ children }: { children: ReactNode }) {
 export default function ConsultationForm() {
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [fileName, setFileName] = useState('이미지 첨부 1.png');
+  const [fileName, setFileName] = useState('');
   const [content, setContent] = useState('');
+  const [submitError, setSubmitError] = useState('');
+  const [isPending, startTransition] = useTransition();
 
   return (
     <form
@@ -55,7 +58,23 @@ export default function ConsultationForm() {
       className="mx-auto w-full max-w-7xl px-4 pb-14 xl:px-0 xl:pb-24"
       onSubmit={(event) => {
         event.preventDefault();
-        router.push('/community/consultation');
+        setSubmitError('');
+        const formData = new FormData(event.currentTarget);
+
+        startTransition(async () => {
+          const result = await submitMedicalConsultation(formData);
+
+          if (!result.ok || !result.id) {
+            setSubmitError(result.error ?? '상담 등록에 실패했습니다.');
+            return;
+          }
+
+          router.push(
+            result.isPrivate
+              ? '/community/consultation?submitted=private'
+              : `/community/consultation/${result.id}`,
+          );
+        });
       }}
     >
       <div className="rounded-[10px] bg-[#F5F6F7] px-5 py-5 text-[10px] leading-[1.75] tracking-[-0.03em] text-[#6A7179] xl:px-12 xl:py-7 xl:text-[12px]">
@@ -174,7 +193,12 @@ export default function ConsultationForm() {
                   <button
                     type="button"
                     aria-label="첨부파일 제거"
-                    onClick={() => setFileName('')}
+                    onClick={() => {
+                      setFileName('');
+                      if (fileInputRef.current) {
+                        fileInputRef.current.value = '';
+                      }
+                    }}
                   >
                     <XCircle className="size-4 text-[#4C535B]" />
                   </button>
@@ -191,7 +215,7 @@ export default function ConsultationForm() {
                   name="attachment"
                   ref={fileInputRef}
                   type="file"
-                  accept="image/*,.pdf"
+                  accept=".png,.jpg,.jpeg,.webp,.gif,.pdf"
                   className="hidden"
                   onChange={(event) =>
                     setFileName(event.target.files?.[0]?.name ?? '')
@@ -331,12 +355,22 @@ export default function ConsultationForm() {
         </div>
       </section>
 
+      {submitError ? (
+        <p
+          role="alert"
+          className="mt-6 text-center text-[11px] font-medium text-red-600 xl:text-[12px]"
+        >
+          {submitError}
+        </p>
+      ) : null}
+
       <div className="mt-8 flex justify-center xl:mt-10">
         <button
           type="submit"
-          className="h-11 min-w-[105px] rounded-full bg-[#064E40] px-6 text-[12px] font-semibold text-white xl:h-12 xl:min-w-[120px] xl:text-[13px]"
+          disabled={isPending}
+          className="h-11 min-w-[105px] rounded-full bg-[#064E40] px-6 text-[12px] font-semibold text-white disabled:opacity-50 xl:h-12 xl:min-w-[120px] xl:text-[13px]"
         >
-          작성완료
+          {isPending ? '등록 중...' : '작성완료'}
         </button>
       </div>
     </form>

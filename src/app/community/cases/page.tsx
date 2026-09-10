@@ -1,7 +1,10 @@
 import { getCurrentSession, isActiveMember } from '@/_lib/auth-session';
+import { getTreatmentCasesManagedContent } from '@/_lib/managed-pages';
+import type { Metadata } from 'next';
 import TreatmentCaseList from './_components/treatment-case-list';
 import TreatmentCasePageHeader from './_components/treatment-case-page-header';
-import type { Metadata } from 'next';
+
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: '치료사례 | 청맥병원',
@@ -10,13 +13,19 @@ export const metadata: Metadata = {
 };
 
 export default async function TreatmentCasesPage() {
-  const session = await getCurrentSession();
+  const [session, items] = await Promise.all([
+    getCurrentSession(),
+    getTreatmentCasesManagedContent(),
+  ]);
   const isAuthenticated = isActiveMember(session);
 
   return (
     <div>
       <TreatmentCasePageHeader />
-      <TreatmentCaseList isAuthenticated={isAuthenticated} />
+      <TreatmentCaseList
+        isAuthenticated={isAuthenticated}
+        items={items}
+      />
     </div>
   );
 }

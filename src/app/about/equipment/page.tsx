@@ -1,6 +1,9 @@
 import NavigationPageHeader from '@/app/_components/ui/navigation-page-header';
+import { getMedicalEquipmentManagedContent } from '@/_lib/managed-pages';
 import type { Metadata } from 'next';
 import MedicalEquipmentContent from './_components/medical-equipment-content';
+
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: '첨단의료장비 | 청맥병원',
@@ -8,7 +11,9 @@ export const metadata: Metadata = {
     '청맥병원의 영상진단, 기능생체검사, 시술·수술, 특수치료 장비를 안내합니다.',
 };
 
-export default function MedicalEquipmentPage() {
+export default async function MedicalEquipmentPage() {
+  const items = await getMedicalEquipmentManagedContent();
+
   return (
     <div>
       <NavigationPageHeader
@@ -23,7 +28,7 @@ export default function MedicalEquipmentPage() {
         }
       />
 
-      <MedicalEquipmentContent />
+      <MedicalEquipmentContent items={items} />
     </div>
   );
 }

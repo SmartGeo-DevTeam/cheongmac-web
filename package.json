@@ -17,7 +17,8 @@
     "check:ui-system": "node scripts/check-common-ui-system.mjs",
     "check:doctor-db": "node scripts/check-doctor-database.mjs",
     "check:navigation-db": "node scripts/check-navigation-database.mjs",
-    "check:related-content-db": "node scripts/check-related-content-database.mjs"
+    "check:related-content-db": "node scripts/check-related-content-database.mjs",
+    "check:managed-pages": "node scripts/check-managed-public-pages.mjs"
   },
   "dependencies": {
     "@better-auth/prisma-adapter": "1.7.3",

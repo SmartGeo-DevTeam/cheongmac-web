@@ -1,6 +1,9 @@
 import NavigationPageHeader from '@/app/_components/ui/navigation-page-header';
+import { getAcademicExchangeManagedContent } from '@/_lib/managed-pages';
 import type { Metadata } from 'next';
 import AcademicExchangeContent from './_components/academic-exchange-content';
+
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: '학술교류 | 청맥병원',
@@ -8,7 +11,9 @@ export const metadata: Metadata = {
     '청맥병원의 국내외 학술교류, 혈관의학 연구 교류와 교육 프로그램 활동을 소개합니다.',
 };
 
-export default function AcademicExchangePage() {
+export default async function AcademicExchangePage() {
+  const content = await getAcademicExchangeManagedContent();
+
   return (
     <div>
       <NavigationPageHeader
@@ -23,7 +28,10 @@ export default function AcademicExchangePage() {
         }
       />
 
-      <AcademicExchangeContent />
+      <AcademicExchangeContent
+        heroImages={content.heroImages}
+        posts={content.posts}
+      />
     </div>
   );
 }

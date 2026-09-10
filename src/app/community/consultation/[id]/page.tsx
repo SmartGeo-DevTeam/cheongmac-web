@@ -1,5 +1,5 @@
 import { buttonClassName } from '@/app/_components/ui/button';
-import UiPagination from '@/app/_components/ui/pagination';
+import ConsultationDetailPagination from '@/app/community/consultation/[id]/_components/consultation-detail-pagination';
 import ConsultationPageHeader from '@/app/community/consultation/_components/consultation-page-header';
 import ConsultationSidebar from '@/app/community/consultation/_components/consultation-sidebar';
 import { getPublicConsultationById } from '@/_lib/consultations';
@@ -50,38 +50,6 @@ export async function generateMetadata({
         description: item.question[0],
       }
     : { title: '의학상담 | 청맥병원' };
-}
-
-function MobileListPagination({ returnTo }: { returnTo: string }) {
-  const url = new URL(returnTo, 'https://cheongmac.local');
-  const currentPage = Math.max(
-    1,
-    Number.parseInt(url.searchParams.get('page') ?? '1', 10) || 1,
-  );
-  const query = url.searchParams.get('q') ?? '';
-
-  const hrefForPage = (page: number) => {
-    const params = new URLSearchParams();
-    if (page > 1) params.set('page', String(page));
-    if (query) params.set('q', query);
-    const search = params.toString();
-
-    return search
-      ? `/community/consultation?${search}`
-      : '/community/consultation';
-  };
-
-  return (
-    <UiPagination
-      id="consultation-detail-pagination"
-      currentPage={currentPage}
-      totalPages={7}
-      getPageHref={hrefForPage}
-      ariaLabel="의학상담 목록 페이지 바로가기"
-      variant="compact"
-      className="mt-3 xl:hidden"
-    />
-  );
 }
 
 export default async function ConsultationDetailPage({
@@ -220,7 +188,7 @@ export default async function ConsultationDetailPage({
             </Link>
           </div>
 
-          <MobileListPagination returnTo={returnTo} />
+          <ConsultationDetailPagination returnTo={returnTo} />
 
           <div className="mt-8 xl:hidden">
             <ConsultationSidebar />

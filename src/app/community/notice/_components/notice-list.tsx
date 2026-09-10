@@ -16,7 +16,14 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useMemo, useState } from 'react';
-import { doctorLeaves, notices, type NoticeKind } from '../_data';
+import type { NoticeDetail, NoticeKind } from '../_data';
+
+type ManagedDoctorLeave = {
+  name: string;
+  department: string;
+  schedule: string;
+  image: string;
+};
 
 type FilterValue = 'all' | NoticeKind;
 
@@ -164,7 +171,13 @@ function MobileQuickCard({
   );
 }
 
-export default function NoticeList() {
+export default function NoticeList({
+  items,
+  doctorLeaves,
+}: {
+  items: NoticeDetail[];
+  doctorLeaves: ManagedDoctorLeave[];
+}) {
   const pathname = usePathname();
   const [filter, setFilter] = useState<FilterValue>('all');
   const [query, setQuery] = useState('');
@@ -173,12 +186,12 @@ export default function NoticeList() {
   const filtered = useMemo(() => {
     const normalized = query.trim().toLowerCase();
 
-    return notices.filter((notice) => {
+    return items.filter((notice) => {
       const matchesFilter = filter === 'all' || notice.kind === filter;
       const matchesQuery = !normalized || notice.title.toLowerCase().includes(normalized);
       return matchesFilter && matchesQuery;
     });
-  }, [filter, query]);
+  }, [filter, items, query]);
 
   const pageCount = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   const currentPage = Math.min(page, pageCount);
@@ -225,16 +238,14 @@ export default function NoticeList() {
               title="추석 연휴"
               schedule="9월 15일(토) ~ 9월 17일(월)"
             />
-            <MobileQuickCard
-              image={doctorLeaves[0].image}
-              title="혈관외과 박용범 원장"
-              schedule="8월 15일(토)"
-            />
-            <MobileQuickCard
-              image={doctorLeaves[1].image}
-              title="혈관외과 전진원 원장"
-              schedule="8월 26일(수) 오후 휴진"
-            />
+            {doctorLeaves.slice(0, 2).map((doctor) => (
+              <MobileQuickCard
+                key={doctor.name + '-' + doctor.schedule}
+                image={doctor.image}
+                title={doctor.department + ' ' + doctor.name}
+                schedule={doctor.schedule}
+              />
+            ))}
           </div>
 
           <div className="relative mt-2 overflow-hidden rounded-[6px] border border-[#E1E3E5] bg-white">

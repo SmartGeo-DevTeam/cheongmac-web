@@ -1,8 +1,9 @@
 'use client';
 
+import { submitCustomerVoice } from '@/app/community/customer-voice/_actions';
 import { Link2, RefreshCw, XCircle } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useRef, useState, type ReactNode } from 'react';
+import { useRef, useState, useTransition, type ReactNode } from 'react';
 
 const categories = [
   { value: 'praise', label: '칭찬/감사' },
@@ -61,8 +62,10 @@ export default function CustomerVoiceForm() {
       ? initialCategory
       : 'praise',
   );
-  const [fileName, setFileName] = useState('이미지 첨부 1.png');
+  const [fileName, setFileName] = useState('');
   const [content, setContent] = useState('');
+  const [submitError, setSubmitError] = useState('');
+  const [isPending, startTransition] = useTransition();
 
   return (
     <form
@@ -70,7 +73,19 @@ export default function CustomerVoiceForm() {
       className="mx-auto w-full max-w-7xl px-4 pb-14 xl:px-0 xl:pb-24"
       onSubmit={(event) => {
         event.preventDefault();
-        router.push('/community/customer-voice');
+        setSubmitError('');
+        const formData = new FormData(event.currentTarget);
+
+        startTransition(async () => {
+          const result = await submitCustomerVoice(formData);
+
+          if (!result.ok) {
+            setSubmitError(result.error ?? '접수에 실패했습니다.');
+            return;
+          }
+
+          router.push('/community/customer-voice');
+        });
       }}
     >
       <div className="rounded-[10px] bg-[#F5F6F7] px-5 py-5 text-[10px] leading-[1.75] tracking-[-0.03em] text-[#6A7179] xl:px-12 xl:py-7 xl:text-[12px]">
@@ -159,7 +174,12 @@ export default function CustomerVoiceForm() {
                     <button
                       type="button"
                       aria-label="첨부파일 제거"
-                      onClick={() => setFileName('')}
+                      onClick={() => {
+                        setFileName('');
+                        if (fileInputRef.current) {
+                          fileInputRef.current.value = '';
+                        }
+                      }}
                     >
                       <XCircle className="size-4 text-[#4C535B]" />
                     </button>
@@ -177,7 +197,7 @@ export default function CustomerVoiceForm() {
                   name="attachment"
                   ref={fileInputRef}
                   type="file"
-                  accept="image/*,.pdf"
+                  accept=".png,.jpg,.jpeg,.webp,.gif,.pdf"
                   className="hidden"
                   onChange={(event) =>
                     setFileName(event.target.files?.[0]?.name ?? '')
@@ -264,12 +284,22 @@ export default function CustomerVoiceForm() {
         </div>
       </section>
 
+      {submitError ? (
+        <p
+          role="alert"
+          className="mt-6 text-center text-[11px] font-medium text-red-600 xl:text-[12px]"
+        >
+          {submitError}
+        </p>
+      ) : null}
+
       <div className="mt-8 flex justify-center gap-3 xl:mt-10">
         <button
           type="submit"
-          className="h-11 min-w-[105px] rounded-full bg-[#003D33] px-6 text-[12px] font-semibold text-white xl:h-12 xl:min-w-[120px] xl:text-[13px]"
+          disabled={isPending}
+          className="h-11 min-w-[105px] rounded-full bg-[#003D33] px-6 text-[12px] font-semibold text-white disabled:opacity-50 xl:h-12 xl:min-w-[120px] xl:text-[13px]"
         >
-          작성완료
+          {isPending ? '접수 중...' : '작성완료'}
         </button>
         <button
           type="button"

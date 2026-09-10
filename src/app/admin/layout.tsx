@@ -7,12 +7,12 @@ import {
 } from '@/_lib/roles';
 import { SidebarInset, SidebarProvider } from '@/_shadcn/ui/sidebar';
 import {
-  Database,
   ExternalLink,
   FileText,
   LayoutDashboard,
   ListTree,
   PanelBottom,
+  PanelsTopLeft,
   ShieldCheck,
   Stethoscope,
   Users,
@@ -114,17 +114,17 @@ export default async function AdminLayout({
                 <Link
                   href="/admin/doctors"
                   className="inline-flex size-9 items-center justify-center rounded-md text-[#52525B] hover:bg-[#F4F4F5]"
-                  aria-label="의료진 관리"
+                  aria-label="의료진/진료과"
                 >
                   <Stethoscope className="size-4" />
                 </Link>
 
                 <Link
-                  href="/admin/content-relations"
+                  href="/admin/pages"
                   className="inline-flex size-9 items-center justify-center rounded-md text-[#52525B] hover:bg-[#F4F4F5]"
-                  aria-label="데이터 관리"
+                  aria-label="페이지 관리"
                 >
-                  <Database className="size-4" />
+                  <PanelsTopLeft className="size-4" />
                 </Link>
               </nav>
 

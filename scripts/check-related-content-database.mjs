@@ -60,14 +60,34 @@ for (const groupLabel of [
   requireText(
     'src/_lib/related-content-types.ts',
     `label: '${groupLabel}'`,
-    `${groupLabel} 관리자 데이터 그룹이 필요합니다.`,
-  );
-  requireText(
-    'src/app/admin/_components/admin-sidebar.tsx',
-    `<SidebarGroupLabel>${groupLabel}</SidebarGroupLabel>`,
-    `${groupLabel} 사이드바 그룹이 필요합니다.`,
+    `${groupLabel} 내부 데이터 분류가 필요합니다.`,
   );
 }
+
+for (const pageMenuLabel of [
+  '의료진/진료과',
+  '병원 둘러보기',
+  '첨단의료장비',
+  '학술교류',
+  '학회활동',
+  '치료사례',
+  '의학상담',
+  '공지사항',
+  '청맥뉴스',
+  '의료협약병원',
+]) {
+  requireText(
+    'src/app/admin/_components/admin-sidebar.tsx',
+    pageMenuLabel,
+    `${pageMenuLabel} 페이지명 관리자 메뉴가 필요합니다.`,
+  );
+}
+
+forbidText(
+  'src/app/admin/_components/admin-sidebar.tsx',
+  '<Database',
+  '하위 데이터 메뉴는 일괄 Database 아이콘 대신 용도별 아이콘을 사용해야 합니다.',
+);
 
 forbidText(
   'src/app/admin/_components/admin-sidebar.tsx',
