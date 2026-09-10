@@ -1,3 +1,6 @@
+import {
+  P as TypographyP,
+} from '@/app/_components/ui/typography';
 import LegalPageLayout from '@/app/_components/legal-page';
 import { Mail, ShieldCheck } from 'lucide-react';
 import type { Metadata } from 'next';
@@ -36,28 +39,28 @@ export default function EmailCollectionRefusalPage() {
         </div>
 
         <div className="w-full max-w-7xl text-[#262C35]">
-          <p
+          <TypographyP
             className="break-keep text-lg font-bold leading-[1.55]
                 xl:text-[22px]"
           >
             청맥병원은 본 서비스 내 이메일 주소의 무단 수집을 거부합니다.
-          </p>
+          </TypographyP>
 
-          <p
+          <TypographyP managed={false}
             className="mt-7 break-keep text-sm leading-[1.85]
                 xl:mt-2 xl:text-lg xl:leading-[1.7]"
           >
             자동 수집 장치를 이용한 이메일 추출 등 부당한 방법으로 이메일 주소를
             획득하거나 광고성 정보를 전송할 경우 관련 법령에 따라 처벌될 수
             있습니다.
-          </p>
+          </TypographyP>
 
-          <p
+          <TypographyP managed={false}
             className="mt-7 text-sm text-[#969AA3]
                 xl:mt-6 xl:text-base"
           >
             게시일: 2026년 MM월 DD일
-          </p>
+          </TypographyP>
         </div>
       </div>
     </LegalPageLayout>

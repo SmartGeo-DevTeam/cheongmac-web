@@ -1,5 +1,8 @@
 'use client';
 
+import {
+  P as TypographyP,
+} from '@/app/_components/ui/typography';
 import FadeInUp from '@/app/_components/fade-in-up';
 import Marquee from 'react-fast-marquee';
 
@@ -20,13 +23,13 @@ export default function HomeName() {
           className="overflow-hidden"
         >
           {marqueeTexts.map((item) => (
-            <p
+            <TypographyP
               key={item}
               className="shrink-0 mr-5 whitespace-nowrap font-extrabold text-5xl text-[#F7F7F7]/50
             xl:mr-15 xl:text-8xl"
             >
               CHEONGMAC VASCULAR HOSPITAL
-            </p>
+            </TypographyP>
           ))}
         </Marquee>
       </section>

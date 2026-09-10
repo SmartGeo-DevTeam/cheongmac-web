@@ -580,3 +580,17 @@ model CustomerVoiceSubmission {
   @@index([status, createdAt])
   @@map("customer_voice_submission")
 }
+
+model TypographySetting {
+  id                String   @id @default(cuid())
+  tag               String   @unique
+  mobileFontSize    Int
+  mobileLineHeight  Float
+  desktopFontSize   Int
+  desktopLineHeight Float
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@map("typography_setting")
+}
+

@@ -1,6 +1,12 @@
 'use client';
 
 import {
+  H2 as TypographyH2,
+  H3 as TypographyH3,
+  P as TypographyP,
+  Strong as TypographyStrong,
+} from '@/app/_components/ui/typography';
+import {
   NOTICE_ITEMS,
   type NoticeCategory,
   type NoticeItem,
@@ -137,9 +143,9 @@ function FeaturedNotice({ returnTo }: { returnTo: string }) {
 
   return (
     <section>
-      <h2 className="mb-2 text-[16px] font-semibold tracking-[-0.04em] text-[#252B33] xl:mb-3 xl:text-[20px]">
+      <TypographyH2 className="mb-2 text-[16px] font-semibold tracking-[-0.04em] text-[#252B33] xl:mb-3 xl:text-[20px]">
         주요 공지
-      </h2>
+      </TypographyH2>
       <article className="overflow-hidden rounded-[10px] border border-[#E3E6E9] bg-white">
         <Link
           href={buildNoticeDetailHref(featuredItem.id, returnTo)}
@@ -167,14 +173,14 @@ function FeaturedNotice({ returnTo }: { returnTo: string }) {
 function HolidayAlert({ title, date }: { title: string; date: string }) {
   return (
     <article className="flex min-h-[70px] flex-col justify-center rounded-[9px] bg-[#FFF5F5] px-4 xl:min-h-[116px] xl:items-center xl:px-3 xl:text-center">
-      <p className="text-[12px] font-semibold tracking-[-0.035em] text-[#E74C4C] xl:text-[14px]">
+      <TypographyP className="text-[12px] font-semibold tracking-[-0.035em] text-[#E74C4C] xl:text-[14px]">
         <span aria-hidden>● </span>
         {title}
         <span aria-hidden> ●</span>
-      </p>
-      <p className="mt-1 text-[13px] font-medium tracking-[-0.035em] text-[#454B53] xl:mt-2 xl:text-[16px]">
+      </TypographyP>
+      <TypographyP className="mt-1 text-[13px] font-medium tracking-[-0.035em] text-[#454B53] xl:mt-2 xl:text-[16px]">
         {date}
-      </p>
+      </TypographyP>
     </article>
   );
 }
@@ -195,9 +201,9 @@ function DesktopDoctorMini({
           className="object-cover"
         />
       </div>
-      <p className="mt-2 text-[12px] tracking-[-0.04em] text-[#777E87]">
+      <TypographyP className="mt-2 text-[12px] tracking-[-0.04em] text-[#777E87]">
         {doctor.name}
-      </p>
+      </TypographyP>
     </article>
   );
 }
@@ -209,9 +215,9 @@ function DesktopDoctorWide({
 }) {
   return (
     <article className="relative flex min-h-[84px] items-center overflow-hidden rounded-[9px] border border-[#E3E6E9] bg-white px-5">
-      <p className="w-[65%] text-center text-[12px] tracking-[-0.04em] text-[#777E87]">
+      <TypographyP className="w-[65%] text-center text-[12px] tracking-[-0.04em] text-[#777E87]">
         {doctor.name}
-      </p>
+      </TypographyP>
       <div className="absolute bottom-0 right-5 size-19 overflow-hidden rounded-full bg-[#F5F6F7]">
         <Image
           src={doctor.imageSrc}
@@ -233,12 +239,12 @@ function MobileDoctorRow({
   return (
     <article className="relative flex min-h-[62px] items-center overflow-hidden rounded-[8px] border border-[#E3E6E9] bg-white px-3 pr-20">
       <div>
-        <p className="text-[11px] tracking-[-0.035em] text-[#6F7680]">
+        <TypographyP className="text-[11px] tracking-[-0.035em] text-[#6F7680]">
           {doctor.mobileName}
-        </p>
-        <p className="mt-1 text-[12px] font-medium tracking-[-0.035em] text-[#454B53]">
+        </TypographyP>
+        <TypographyP className="mt-1 text-[12px] font-medium tracking-[-0.035em] text-[#454B53]">
           {doctor.date}
-        </p>
+        </TypographyP>
       </div>
       <div className="absolute -bottom-1 right-3 size-15 overflow-hidden rounded-full bg-[#F5F6F7]">
         <Image
@@ -286,7 +292,7 @@ function NoticeRow({ item, returnTo }: { item: NoticeItem; returnTo: string }) {
       >
         <div className="flex min-w-0 items-center gap-2.5 xl:gap-3">
           <NoticeBadge item={item} />
-          <h3
+          <TypographyH3 managed={false}
             className={`min-w-0 truncate text-[13px] font-medium tracking-[-0.035em] xl:text-[14px] ${
               item.isFeatured ? 'text-[#F36A3B]' : 'text-[#444B54]'
             }`}
@@ -299,11 +305,11 @@ function NoticeRow({ item, returnTo }: { item: NoticeItem; returnTo: string }) {
                 strokeWidth={1.6}
               />
             ) : null}
-          </h3>
+          </TypographyH3>
         </div>
-        <p className="mt-1 pl-[45px] text-[10px] text-[#B2B8C0] xl:mt-0 xl:pl-0 xl:text-right xl:text-xs">
+        <TypographyP managed={false} className="mt-1 pl-[45px] text-[10px] text-[#B2B8C0] xl:mt-0 xl:pl-0 xl:text-right xl:text-xs">
           {item.date}
-        </p>
+        </TypographyP>
       </Link>
     </article>
   );
@@ -498,9 +504,9 @@ export default function NoticeBoard() {
         <FeaturedNotice returnTo={currentListUrl} />
 
         <section className="mt-4 xl:mt-0">
-          <h2 className="mb-2 text-[16px] font-semibold tracking-[-0.04em] text-[#252B33] xl:mb-3 xl:text-[20px]">
+          <TypographyH2 className="mb-2 text-[16px] font-semibold tracking-[-0.04em] text-[#252B33] xl:mb-3 xl:text-[20px]">
             휴진
-          </h2>
+          </TypographyH2>
 
           <div className="hidden grid-cols-[1.65fr_0.8fr_0.8fr] gap-3 xl:grid">
             <div className="grid gap-3">
@@ -536,9 +542,9 @@ export default function NoticeBoard() {
       </div>
 
       <section className="mt-6 hidden xl:block">
-        <h2 className="mb-3 text-[20px] font-semibold tracking-[-0.04em] text-[#252B33]">
+        <TypographyH2 className="mb-3 text-[20px] font-semibold tracking-[-0.04em] text-[#252B33]">
           휴진
-        </h2>
+        </TypographyH2>
         <div className="grid grid-cols-2 gap-3">
           {HOLIDAY_DOCTORS.map((doctor) => (
             <DesktopDoctorWide key={doctor.id} doctor={doctor} />
@@ -569,13 +575,13 @@ export default function NoticeBoard() {
         </div>
 
         <div className="mt-5 flex items-end justify-between xl:mt-7">
-          <p className="pb-1 text-[11px] text-[#8D939C] xl:text-sm">
+          <TypographyP className="pb-1 text-[11px] text-[#8D939C] xl:text-sm">
             총{' '}
-            <strong className="font-medium text-[#FA6805]">
+            <TypographyStrong className="font-medium text-[#FA6805]">
               {filteredItems.length.toLocaleString('ko-KR')}
-            </strong>{' '}
+            </TypographyStrong>{' '}
             건
-          </p>
+          </TypographyP>
           <SearchBox value={query} onChange={handleQueryChange} />
         </div>
 

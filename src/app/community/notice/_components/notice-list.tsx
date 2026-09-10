@@ -1,5 +1,10 @@
 'use client';
 
+import {
+  H2 as TypographyH2,
+  H3 as TypographyH3,
+  P as TypographyP,
+} from '@/app/_components/ui/typography';
 import Badge from '@/app/_components/ui/badge';
 import {
   ContentCard,
@@ -65,10 +70,10 @@ function CalendarCard() {
       <div className="overflow-hidden rounded-[12px] border border-[#E5E7E9] bg-white shadow-[0_3px_8px_rgba(0,0,0,0.06)]">
         <div className="h-[37px] bg-[#FF4238]" />
         <div className="px-3 py-6 text-center">
-          <p className="text-base font-bold text-[#E84237] xl:text-xl">• 추석연휴 •</p>
-          <p className="mt-2 whitespace-nowrap text-sm font-medium text-[#252A30] xl:text-xl">
+          <TypographyP className="text-base font-bold text-[#E84237] xl:text-xl">• 추석연휴 •</TypographyP>
+          <TypographyP managed={false} className="mt-2 whitespace-nowrap text-sm font-medium text-[#252A30] xl:text-xl">
             9월 24일(목) ~ 9월 26일(토)
-          </p>
+          </TypographyP>
         </div>
       </div>
     </div>
@@ -122,8 +127,8 @@ function MobileHangingCard({ second = false }: { second?: boolean }) {
         ) : null}
       </div>
       <div className="mx-auto flex h-[68px] w-[calc(100%-22px)] flex-col items-center justify-center rounded-[7px] bg-white">
-        <p className="text-base font-semibold text-[#E63D38]">• 추석연휴 •</p>
-        <p className="mt-1.5 text-sm text-[#2F3337]">8월 15일(토) ~ 8월 17일(월)</p>
+        <TypographyP className="text-base font-semibold text-[#E63D38]">• 추석연휴 •</TypographyP>
+        <TypographyP managed={false} className="mt-1.5 text-sm text-[#2F3337]">8월 15일(토) ~ 8월 17일(월)</TypographyP>
       </div>
     </div>
   );
@@ -164,8 +169,8 @@ function MobileQuickCard({
         </div>
       )}
       <div className="flex min-w-0 flex-1 flex-col justify-center px-3 py-2">
-        <p className="truncate text-base font-medium text-[#787D82]">{title}</p>
-        <p className="mt-1 truncate text-sm font-semibold text-[#2E3338]">{schedule}</p>
+        <TypographyP managed={false} className="truncate text-base font-medium text-[#787D82]">{title}</TypographyP>
+        <TypographyP managed={false} className="mt-1 truncate text-sm font-semibold text-[#2E3338]">{schedule}</TypographyP>
       </div>
     </div>
   );
@@ -210,9 +215,9 @@ export default function NoticeList({
   return (
     <div className="mx-auto w-full max-w-7xl pb-20 xl:pb-28">
       <section>
-        <h2 className="text-base font-bold tracking-[-0.035em] text-[#272C31] xl:text-2xl">
+        <TypographyH2 className="text-base font-bold tracking-[-0.035em] text-[#272C31] xl:text-2xl">
           휴진 및 주요 공지
-        </h2>
+        </TypographyH2>
 
         <div className="mt-3 xl:hidden">
           <div className="grid grid-cols-1 gap-2">
@@ -221,10 +226,10 @@ export default function NoticeList({
           </div>
 
           <div className="py-7 text-center">
-            <p className="text-base font-bold text-[#E64236]">• 추석연휴 •</p>
-            <p className="mt-2 text-sm font-semibold text-[#292E33]">
+            <TypographyP className="text-base font-bold text-[#E64236]">• 추석연휴 •</TypographyP>
+            <TypographyP managed={false} className="mt-2 text-sm font-semibold text-[#292E33]">
               9월 24일(목) ~ 9월 26일(토)
-            </p>
+            </TypographyP>
           </div>
 
           <div className="grid gap-[5px]">
@@ -293,9 +298,9 @@ export default function NoticeList({
             />
           </div>
 
-          <h3 className="mt-10 text-2xl font-bold tracking-[-0.03em] text-[#30353A]">
+          <TypographyH3 className="mt-10 text-2xl font-bold tracking-[-0.03em] text-[#30353A]">
             의료진별 휴진
-          </h3>
+          </TypographyH3>
           <div className="mt-3 grid grid-cols-2 gap-3">
             {doctorLeaves.map((doctor) => (
               <div
@@ -312,12 +317,12 @@ export default function NoticeList({
                   />
                 </div>
                 <div className="flex min-w-0 flex-1 flex-col justify-center px-6">
-                  <p className="text-xl font-medium text-[#8B9096]">
+                  <TypographyP className="text-xl font-medium text-[#8B9096]">
                     {doctor.department} {doctor.name}
-                  </p>
-                  <p className="mt-2 text-xl font-semibold tracking-[-0.02em] text-[#30353A]">
+                  </TypographyP>
+                  <TypographyP className="mt-2 text-xl font-semibold tracking-[-0.02em] text-[#30353A]">
                     {doctor.schedule}
-                  </p>
+                  </TypographyP>
                 </div>
               </div>
             ))}

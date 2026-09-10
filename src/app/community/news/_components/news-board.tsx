@@ -1,5 +1,8 @@
 'use client';
 
+import {
+  H2 as TypographyH2,
+} from '@/app/_components/ui/typography';
 import BoardToolbar from '@/app/_components/ui/board-toolbar';
 import {
   ContentCard,
@@ -323,9 +326,9 @@ export default function NewsBoard({
       aria-labelledby="news-list-heading"
       className="mx-auto w-full max-w-7xl px-5"
     >
-      <h2 id="news-list-heading" className="sr-only">
+      <TypographyH2 id="news-list-heading" className="sr-only">
         청맥뉴스 목록
-      </h2>
+      </TypographyH2>
       <FilterTabs
         id="news-filter-tabs"
         items={CATEGORY_TABS.map((tab) => ({

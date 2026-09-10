@@ -1,5 +1,9 @@
 'use client';
 
+import {
+  H3 as TypographyH3,
+  P as TypographyP,
+} from '@/app/_components/ui/typography';
 import { openMacGptSearch } from '@/app/_components/mac-gpt-search';
 import { ArrowUpRight } from 'lucide-react';
 import Image from 'next/image';
@@ -12,9 +16,9 @@ export default function ConsultationSidebar() {
     <aside className="space-y-8 xl:space-y-11">
       <section>
         <div className="mb-3 flex items-end justify-between xl:block">
-          <h3 className="text-[17px] font-bold tracking-[-0.04em] text-[#292F36] xl:text-[22px]">
+          <TypographyH3 className="text-[17px] font-bold tracking-[-0.04em] text-[#292F36] xl:text-[22px]">
             관련 콘텐츠
-          </h3>
+          </TypographyH3>
           <Link
             href="/"
             className="text-[10px] tracking-[-0.03em] text-[#8D939B] xl:mt-1 xl:block xl:text-[12px]"
@@ -40,21 +44,21 @@ export default function ConsultationSidebar() {
       </section>
 
       <section>
-        <h3 className="mb-3 text-[17px] font-bold tracking-[-0.04em] text-[#292F36] xl:text-[22px]">
+        <TypographyH3 className="mb-3 text-[17px] font-bold tracking-[-0.04em] text-[#292F36] xl:text-[22px]">
           이달의 칼럼
-        </h3>
+        </TypographyH3>
         <Link
           href="/"
           className="relative block min-h-29.5 rounded-lg bg-[#F5F6F7] p-4 pr-12 xl:min-h-33 xl:p-5"
         >
-          <p className="text-[10px] font-semibold tracking-[-0.03em] text-[#626971] xl:text-[12px]">
+          <TypographyP managed={false} className="text-[10px] font-semibold tracking-[-0.03em] text-[#626971] xl:text-[12px]">
             혈관외과 박용범 원장
-          </p>
-          <p className="mt-3 whitespace-pre-line text-[13px] font-medium leading-[1.55] tracking-[-0.04em] text-[#333941] xl:text-[15px]">
+          </TypographyP>
+          <TypographyP managed={false} className="mt-3 whitespace-pre-line text-[13px] font-medium leading-[1.55] tracking-[-0.04em] text-[#333941] xl:text-[15px]">
             {
               '자궁근종 수술 고민?\n로봇 vs 복강경 vs 색전술\n나에게 맞는 선택은?'
             }
-          </p>
+          </TypographyP>
           <span className="absolute bottom-4 right-4 flex size-8 items-center justify-center rounded-full bg-white xl:size-9">
             <ArrowUpRight className="size-4" strokeWidth={1.7} />
           </span>
@@ -67,12 +71,12 @@ export default function ConsultationSidebar() {
           onClick={() => openMacGptSearch('다리 부종과 하지정맥류가 궁금해요')}
           className="relative block min-h-37 w-full overflow-hidden rounded-lg bg-[#DFF5EF] p-4 text-left xl:min-h-42 xl:p-5"
         >
-          <h3 className="text-[17px] font-bold tracking-[-0.04em] text-[#28323A] xl:text-[20px]">
+          <TypographyH3 managed={false} className="text-[17px] font-bold tracking-[-0.04em] text-[#28323A] xl:text-[20px]">
             맥GPT에게 물어보기
-          </h3>
-          <p className="mt-1 max-w-38.75 break-keep text-[11px] leading-[1.55] tracking-[-0.03em] text-[#55616A] xl:max-w-43.75 xl:text-[13px]">
+          </TypographyH3>
+          <TypographyP managed={false} className="mt-1 max-w-38.75 break-keep text-[11px] leading-[1.55] tracking-[-0.03em] text-[#55616A] xl:max-w-43.75 xl:text-[13px]">
             AI에게 질환 관련 문의하고 실시간으로 답변을 받아보세요.
-          </p>
+          </TypographyP>
 
           <Image
             src="/assets/community/consultation/macgpt-atom.png"

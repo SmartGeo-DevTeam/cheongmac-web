@@ -1,5 +1,9 @@
 'use client';
 
+import {
+  H2 as TypographyH2,
+  P as TypographyP,
+} from '@/app/_components/ui/typography';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -251,8 +255,8 @@ export default function HomeDoctors(): React.ReactNode {
             eyebrow="당신의 혈관을 지키는 사람들"
             title={
               <>
-                <p>대학병원 20년 경험의</p>
-                <p>혈관 특화 전문의</p>
+                <TypographyP>대학병원 20년 경험의</TypographyP>
+                <TypographyP>혈관 특화 전문의</TypographyP>
               </>
             }
           />
@@ -350,12 +354,12 @@ export default function HomeDoctors(): React.ReactNode {
                   className="mt-5
                 xl:mt-0 xl:flex xl:flex-col xl:justify-center xl:items-start"
                 >
-                  <p
+                  <TypographyP
                     className={`mx-auto w-9/10 break-keep ${jejuMyeongjo.className} text-center text-lg text-[#164534]
                   xl:w-full xl:text-left xl:text-2xl`}
                   >
                     “{activeDoctor.quote}”
-                  </p>
+                  </TypographyP>
 
                   <div
                     className="mt-3 flex justify-center items-center font-bold gap-2.5
@@ -366,12 +370,12 @@ export default function HomeDoctors(): React.ReactNode {
                     xl:gap-1.5  
                     "
                     >
-                      <h2
+                      <TypographyH2
                         className="text-xl text-[#262C35]
                       xl:text-[32px]"
                       >
                         {activeDoctor.name}
-                      </h2>
+                      </TypographyH2>
                       <span
                         className="text-xl text-[#262C35]
                       xl:relative xl:top-0.5 xl:text-2xl"

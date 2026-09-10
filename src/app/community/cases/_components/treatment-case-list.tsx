@@ -1,5 +1,8 @@
 'use client';
 
+import {
+  H2 as TypographyH2,
+} from '@/app/_components/ui/typography';
 import Badge from '@/app/_components/ui/badge';
 import {
   ContentCard,
@@ -146,9 +149,9 @@ export default function TreatmentCaseList({
   return (
     <PageContainer className="pb-20 xl:pb-28">
       <div className="flex flex-col">
-        <h2 id="treatment-case-list-heading" className="sr-only">
+        <TypographyH2 id="treatment-case-list-heading" className="sr-only">
           치료사례 목록
-        </h2>
+        </TypographyH2>
         <FilterTabs
           id="treatment-case-filter-tabs"
           items={FILTERS}

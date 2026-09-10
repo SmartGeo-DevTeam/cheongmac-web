@@ -1,3 +1,9 @@
+import {
+  H1 as TypographyH1,
+  H2 as TypographyH2,
+  H3 as TypographyH3,
+  P as TypographyP,
+} from '@/app/_components/ui/typography';
 import Inner from '@/app/_components/inner';
 import {
   getDoctorCareers,
@@ -38,9 +44,9 @@ function DetailInfoBlock({
 }) {
   return (
     <div>
-      <h2 className="relative mb-2 border-b border-b-[#E5E7EB] pb-2 text-sm font-semibold text-[#FB9A74] xl:pl-9 xl:text-[28px] xl:text-[#FD7740] xl:before:absolute xl:before:left-0 xl:before:top-2 xl:before:size-7 xl:before:bg-[url('/assets/brand/symbol.svg')] xl:before:bg-contain xl:before:bg-center xl:before:bg-no-repeat">
+      <TypographyH2 className="relative mb-2 border-b border-b-[#E5E7EB] pb-2 text-sm font-semibold text-[#FB9A74] xl:pl-9 xl:text-[28px] xl:text-[#FD7740] xl:before:absolute xl:before:left-0 xl:before:top-2 xl:before:size-7 xl:before:bg-[url('/assets/brand/symbol.svg')] xl:before:bg-contain xl:before:bg-center xl:before:bg-no-repeat">
         {title}
-      </h2>
+      </TypographyH2>
       {children}
     </div>
   );
@@ -56,13 +62,13 @@ async function DoctorSpecialtiesBlock({
   return (
     <DetailInfoBlock title="전문진료분야">
       {specialties.length ? (
-        <p className="text-[#262C35] xl:text-xl">
+        <TypographyP className="text-[#262C35] xl:text-xl">
           {specialties.map((item) => item.name).join(', ')}
-        </p>
+        </TypographyP>
       ) : (
-        <p className="text-[#9AA0A7] xl:text-lg">
+        <TypographyP className="text-[#9AA0A7] xl:text-lg">
           등록된 전문진료분야가 없습니다.
-        </p>
+        </TypographyP>
       )}
     </DetailInfoBlock>
   );
@@ -86,9 +92,9 @@ async function DoctorCareersBlock({
           ))}
         </ul>
       ) : (
-        <p className="text-[#9AA0A7] xl:text-lg">
+        <TypographyP className="text-[#9AA0A7] xl:text-lg">
           등록된 학력·약력이 없습니다.
-        </p>
+        </TypographyP>
       )}
     </DetailInfoBlock>
   );
@@ -142,12 +148,12 @@ export async function DoctorProfileSection({
               <span className="text-xs text-[#767C88] xl:relative xl:top-2 xl:text-lg">
                 {doctor.department}
               </span>
-              <h1
+              <TypographyH1
                 id="doctor-profile-title"
                 className="text-lg font-bold text-[#262C35] xl:text-[34px]"
               >
                 {doctor.name} {doctor.position}
-              </h1>
+              </TypographyH1>
             </div>
 
             <div className="flex items-center gap-2.5 xl:gap-5">
@@ -210,9 +216,9 @@ export async function DoctorScheduleSection({
   return (
     <Inner usePaddingHorizontal>
       <div>
-        <h2 id="doctor-schedule-heading" className="sr-only">
+        <TypographyH2 id="doctor-schedule-heading" className="sr-only">
           진료시간표
-        </h2>
+        </TypographyH2>
 
         {rows.length ? (
           <div className="overflow-hidden rounded-md border border-[#DCE3E1] bg-white xl:mx-auto">
@@ -245,13 +251,13 @@ export async function DoctorScheduleSection({
           </div>
         )}
 
-        <p className="mt-3 break-keep text-xs leading-5 text-[#999999] xl:mx-auto xl:mt-4 xl:text-sm xl:leading-[180%]">
+        <TypographyP managed={false} className="mt-3 break-keep text-xs leading-5 text-[#999999] xl:mx-auto xl:mt-4 xl:text-sm xl:leading-[180%]">
           *진료시간표는 상황에 따라 변경될 수 있으니, 내원 전 꼭 병원에
           문의해주시길 바랍니다.
           <br />
           *토요일 진료는 예약 및 내원 시 확인 부탁드립니다. (일요일, 공휴일은
           휴진입니다.)
-        </p>
+        </TypographyP>
       </div>
     </Inner>
   );
@@ -382,11 +388,11 @@ export async function DoctorConsultationsSection({
             >
               <div className="flex items-start justify-between gap-4">
                 <div className="min-w-0">
-                  <p className="text-xs font-medium text-[#6D8E86] xl:text-sm">
+                  <TypographyP managed={false} className="text-xs font-medium text-[#6D8E86] xl:text-sm">
                     {item.categoryPrimary}
                     {item.categorySecondary ? ` · ${item.categorySecondary}` : ''}
-                  </p>
-                  <h3 className="mt-2 flex items-center gap-1.5 break-keep text-base font-semibold text-[#252B33] xl:text-xl">
+                  </TypographyP>
+                  <TypographyH3 managed={false} className="mt-2 flex items-center gap-1.5 break-keep text-base font-semibold text-[#252B33] xl:text-xl">
                     {item.isPrivate ? (
                       <LockKeyhole className="size-4 shrink-0" />
                     ) : null}
@@ -394,7 +400,7 @@ export async function DoctorConsultationsSection({
                     {item.hasLinkIcon ? (
                       <Link2 className="size-4 shrink-0" />
                     ) : null}
-                  </h3>
+                  </TypographyH3>
                 </div>
                 <time className="shrink-0 text-xs text-[#A0A6AC] xl:text-sm">
                   {new Intl.DateTimeFormat('ko-KR', {
@@ -429,16 +435,16 @@ export async function DoctorPresentationsSection({
   return (
     <section className="bg-[linear-gradient(to_bottom,#FFFFFF_0%,#FFEAE2_66%,#FFFFFF_100%)] pb-15 pt-20">
       <div className="px-5 text-center text-[#333333]">
-        <h2 className="text-[26px] font-bold xl:text-[34px]">
+        <TypographyH2 className="text-[26px] font-bold xl:text-[34px]">
           끊임없이 연구하여 <br className="block xl:hidden" />
           의료계가 인정한 전문성
-        </h2>
+        </TypographyH2>
 
-        <p className="mt-3 text-sm xl:mt-5 xl:text-xl">
+        <TypographyP managed={false} className="mt-3 text-sm xl:mt-5 xl:text-xl">
           논문 발표와 전문 서적 집필, 국내외 학술 활동 및 수상을 통해
           <br className="hidden xl:block" />
           의료계에서도 인정받는 전문성을 이어가고 있습니다.
-        </p>
+        </TypographyP>
       </div>
 
       <DoctorPresentationMarquee

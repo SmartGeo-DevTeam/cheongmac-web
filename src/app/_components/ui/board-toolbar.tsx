@@ -1,3 +1,7 @@
+import {
+  P as TypographyP,
+  Strong as TypographyStrong,
+} from '@/app/_components/ui/typography';
 import { cn } from '@/_lib/utils';
 import type { ReactNode } from 'react';
 import { useComponentId } from './component-id';
@@ -36,16 +40,16 @@ export default function BoardToolbar({
       id={componentId}
       className={cn('flex items-center justify-between gap-4', className)}
     >
-      <p
+      <TypographyP managed={false}
         id={`${componentId}-count`}
         className={cn('shrink-0 text-[#8D939C]', sizeClasses[size])}
       >
         총{' '}
-        <strong className={cn('font-semibold', accentClasses[accent])}>
+        <TypographyStrong className={cn('font-semibold', accentClasses[accent])}>
           {count.toLocaleString('ko-KR')}
-        </strong>{' '}
+        </TypographyStrong>{' '}
         건
-      </p>
+      </TypographyP>
       <div id={`${componentId}-actions`}>{children}</div>
     </div>
   );

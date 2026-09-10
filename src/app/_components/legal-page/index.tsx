@@ -1,3 +1,7 @@
+import {
+  H2 as TypographyH2,
+  H3 as TypographyH3,
+} from '@/app/_components/ui/typography';
 import PageContainer from '@/app/_components/ui/page-container';
 import PageHeader from '@/app/_components/ui/page-header';
 import type { ReactNode } from 'react';
@@ -49,12 +53,12 @@ export function LegalSection({
   if (variant === 'patient') {
     return (
       <section className="mt-10 xl:mt-15">
-        <h2
+        <TypographyH2
           className="mb-6 font-bold text-xl leading-[1.4] tracking-[-0.035em] text-[#262C35]
           xl:mb-7 xl:text-[34px]"
         >
           {title}
-        </h2>
+        </TypographyH2>
 
         <div
           className="space-y-7 text-sm leading-[1.7] text-[#262C35]
@@ -68,12 +72,12 @@ export function LegalSection({
 
   return (
     <section className="mt-10 first:mt-0 xl:mt-15 xl:first:mt-0">
-      <h2
+      <TypographyH2
         className="mb-5 font-bold text-xl leading-[1.4] tracking-[-0.035em] text-[#262C35]
         xl:text-[34px]"
       >
         {title}
-      </h2>
+      </TypographyH2>
 
       <div
         className="space-y-5 text-sm leading-normal text-[#262C35]
@@ -92,7 +96,7 @@ export function LegalArticle({
 }: LegalArticleProps) {
   return (
     <div>
-      <h3 className="font-bold text-[#262C35]">{title}</h3>
+      <TypographyH3 className="font-bold text-[#262C35]">{title}</TypographyH3>
       <div
         className={
           variant === 'patient'

@@ -1,3 +1,4 @@
+import { H1 as TypographyH1 } from '@/app/_components/ui/typography';
 import type { ReactNode } from 'react';
 import Breadcrumb, { type BreadcrumbItem } from './breadcrumb';
 import { useComponentId } from './component-id';
@@ -21,7 +22,7 @@ export default function PageHeader({
   showDivider?: boolean;
 }) {
   const componentId = useComponentId('cm-page-header', id);
-  const TitleTag = titleAs;
+  const TitleTag = titleAs === 'h1' ? TypographyH1 : titleAs;
 
   return (
     <>

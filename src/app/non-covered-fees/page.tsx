@@ -1,3 +1,6 @@
+import {
+  P as TypographyP,
+} from '@/app/_components/ui/typography';
 import LegalPageLayout from '@/app/_components/legal-page';
 import type { Metadata } from 'next';
 
@@ -17,16 +20,16 @@ export default function NonCoveredFeesPage() {
     >
       <div>
         <div className="mx-auto max-w-7xl break-keep text-center text-sm leading-[1.75] tracking-[-0.02em] text-[#555555]">
-          <p>
+          <TypographyP>
             의료법 제45조 및 같은 법 시행규칙 제42조의2에 의거하여
             비급여진료비용을 고지합니다.
             <br className="hidden xl:block" /> 고지된 금액은 1회 기준이며, 진료
             범위 및 약제료에 따라 달라질 수 있습니다.
-          </p>
-          <p className="mt-3 text-sm text-[#888888] xl:mt-4">
+          </TypographyP>
+          <TypographyP managed={false} className="mt-3 text-sm text-[#888888] xl:mt-4">
             ※ 초음파 검사료 항목은 급여 인정기준 외 실시한 경우 비급여로
             적용됩니다.
-          </p>
+          </TypographyP>
         </div>
 
         <NonCoveredFeeTable />

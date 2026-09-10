@@ -1,5 +1,10 @@
 'use client';
 
+import {
+  H1 as TypographyH1,
+  H2 as TypographyH2,
+  P as TypographyP,
+} from '@/app/_components/ui/typography';
 import { openMacGptSearch } from '@/app/_components/mac-gpt-search';
 import { useViewport } from '@/app/_providers/viewport-provider';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -129,18 +134,18 @@ function PopupCard({
         className="space-y-1 text-white
       xl:space-y-1.25"
       >
-        <p
+        <TypographyP managed={false}
           className={`font-bold text-xl
         xl:text-2xl`}
         >
           {popup.title}
-        </p>
+        </TypographyP>
         <div
           className={`font-medium text-xs
         xl:text-lg`}
         >
           {popup.lines.map((line) => (
-            <p key={line}>{line}</p>
+            <TypographyP managed={false} key={line}>{line}</TypographyP>
           ))}
         </div>
       </div>
@@ -536,9 +541,9 @@ function HomeCoverPopups({
                       top: mobileExpandedHeight + 20,
                     }}
                   >
-                    <p className="text-[15px] font-medium text-white/80">
+                    <TypographyP className="text-[15px] font-medium text-white/80">
                       {countdown}초 후 팝업이 닫힙니다.
-                    </p>
+                    </TypographyP>
 
                     <div className="flex items-center justify-center gap-2">
                       <button
@@ -655,21 +660,21 @@ export default function HomeCover() {
             className="relative px-5 pb-[5%] w-full h-full flex flex-col justify-center items-center rounded-[20px] bg-[url('/assets/images/home-cover-mobile-1.png')] bg-cover bg-center bg-no-repeat
             xl:pb-[6%] xl:rounded-none xl:bg-[url('/assets/images/home-cover-desktop-1.png')]"
           >
-            <h1
+            <TypographyH1
               id="home-primary-heading"
               className="order-1 flex flex-col items-center text-4xl leading-[125%] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)]
               xl:order-2 xl:mt-14 xl:flex-row xl:gap-1.75 xl:text-6xl"
             >
               <span>혈관의 모든 정답,</span>
               <span className="font-extrabold">청맥에 있습니다</span>
-            </h1>
+            </TypographyH1>
 
             <div
               className="order-2 mt-5 flex flex-col items-center leading-[150%] break-keep text-center text-[15px] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)]
               xl:order-3 xl:gap-1 xl:text-2xl"
             >
-              <p>더 스마트해진 혈관 특화 의료 혁신의 시작.</p>
-              <p>증상부터 치료까지 AI가 빠르고 정확한 길을 안내합니다.</p>
+              <TypographyP>더 스마트해진 혈관 특화 의료 혁신의 시작.</TypographyP>
+              <TypographyP>증상부터 치료까지 AI가 빠르고 정확한 길을 안내합니다.</TypographyP>
             </div>
 
             <button
@@ -695,17 +700,17 @@ export default function HomeCover() {
             className="relative px-5 pb-[5%] flex h-full w-full flex-col items-center justify-center rounded-[20px] bg-[url('/assets/images/home-cover-mobile-1.png')] bg-cover bg-center bg-no-repeat
             xl:pb-[3%] xl:rounded-none xl:bg-[url('/assets/images/home-cover-desktop-2.png')]"
           >
-            <h2 className="flex flex-col items-center text-4xl leading-[125%] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)] xl:flex-row xl:gap-1.75 xl:text-6xl">
+            <TypographyH2 className="flex flex-col items-center text-4xl leading-[125%] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)] xl:flex-row xl:gap-1.75 xl:text-6xl">
               <span>혈관을 잘 아는 의사,</span>
               <span className="font-extrabold">청맥에 있습니다</span>
-            </h2>
+            </TypographyH2>
 
             <div
               className="mt-5 flex flex-col items-center leading-[150%] break-keep text-center text-[15px] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)]
               xl:text-2xl"
             >
-              <p>오직 혈관질환에 집중한 전문의 협진으로</p>
-              <p>깊이 있는 진료, 정밀한 치료를 약속드립니다.</p>
+              <TypographyP>오직 혈관질환에 집중한 전문의 협진으로</TypographyP>
+              <TypographyP>깊이 있는 진료, 정밀한 치료를 약속드립니다.</TypographyP>
             </div>
 
             <Link
@@ -723,17 +728,17 @@ export default function HomeCover() {
             className="relative px-5 pb-[5%] flex h-full w-full flex-col items-center justify-center rounded-[20px] bg-[url('/assets/images/home-cover-mobile-1.png')] bg-cover bg-center bg-no-repeat
             xl:pb-[3%] xl:rounded-none xl:bg-[url('/assets/images/home-cover-desktop-3.png')]"
           >
-            <h2 className="flex flex-col items-center text-4xl leading-[125%] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)] xl:flex-row xl:gap-1.75 xl:text-6xl">
+            <TypographyH2 className="flex flex-col items-center text-4xl leading-[125%] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)] xl:flex-row xl:gap-1.75 xl:text-6xl">
               <span>대한정맥학회도</span>
               <span className="font-extrabold">인정한 청맥의 전문성</span>
-            </h2>
+            </TypographyH2>
 
             <div
               className="mt-5 flex flex-col items-center leading-[150%] break-keep text-center text-[15px] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)]
               xl:text-2xl"
             >
-              <p>2026 대한정맥학회 학술연구비 지원 대상 선정!</p>
-              <p>차별화된 전문성으로 혈관 진료의 발전을 선도합니다.</p>
+              <TypographyP>2026 대한정맥학회 학술연구비 지원 대상 선정!</TypographyP>
+              <TypographyP>차별화된 전문성으로 혈관 진료의 발전을 선도합니다.</TypographyP>
             </div>
 
             <Link

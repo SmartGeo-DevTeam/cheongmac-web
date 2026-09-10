@@ -1,6 +1,12 @@
 'use client';
 
 import {
+  H2 as TypographyH2,
+  H3 as TypographyH3,
+  P as TypographyP,
+  Strong as TypographyStrong,
+} from '@/app/_components/ui/typography';
+import {
   ChevronDown,
   ChevronLeft,
   ChevronRight,
@@ -71,15 +77,15 @@ function TestimonialCard({
 }) {
   return (
     <article className="flex min-h-[178px] flex-col rounded-[12px] bg-white px-5 py-5 xl:min-h-[238px] xl:rounded-[14px] xl:px-8 xl:py-8">
-      <h3 className="text-[14px] font-semibold tracking-[-0.04em] text-[#2E9B82] xl:text-[17px]">
+      <TypographyH3 className="text-[14px] font-semibold tracking-[-0.04em] text-[#2E9B82] xl:text-[17px]">
         {item.title}
-      </h3>
-      <p className="mt-3 break-keep text-[11px] leading-[1.65] tracking-[-0.035em] text-[#394149] xl:mt-4 xl:text-[14px] xl:leading-[1.75]">
+      </TypographyH3>
+      <TypographyP className="mt-3 break-keep text-[11px] leading-[1.65] tracking-[-0.035em] text-[#394149] xl:mt-4 xl:text-[14px] xl:leading-[1.75]">
         {item.content}
-      </p>
-      <p className="mt-auto pt-4 text-[10px] tracking-[-0.03em] text-[#9AA0A7] xl:text-[12px]">
+      </TypographyP>
+      <TypographyP className="mt-auto pt-4 text-[10px] tracking-[-0.03em] text-[#9AA0A7] xl:text-[12px]">
         {item.author}
-      </p>
+      </TypographyP>
     </article>
   );
 }
@@ -108,9 +114,9 @@ function TestimonialCarousel() {
   return (
     <section className="bg-[#F5F6F7] py-8 xl:py-16">
       <div className="mx-auto w-full max-w-7xl px-4 xl:px-0">
-        <h2 className="text-[18px] font-bold tracking-[-0.04em] text-[#2C3239] xl:text-[22px]">
+        <TypographyH2 className="text-[18px] font-bold tracking-[-0.04em] text-[#2C3239] xl:text-[22px]">
           칭찬합니다
-        </h2>
+        </TypographyH2>
 
         <div className="relative mt-5 xl:mt-8">
           <button
@@ -151,12 +157,12 @@ function VoiceCtaCards() {
     <section className="grid gap-2.5 xl:grid-cols-2 xl:gap-5">
       <article className="relative min-h-[132px] overflow-hidden rounded-[10px] bg-[#DFF4EF] px-5 py-5 xl:min-h-[178px] xl:rounded-[8px] xl:px-8 xl:py-8">
         <div className="relative z-10">
-          <h2 className="text-[18px] font-bold tracking-[-0.045em] text-[#177B68] xl:text-[22px]">
+          <TypographyH2 className="text-[18px] font-bold tracking-[-0.045em] text-[#177B68] xl:text-[22px]">
             감사합니다·칭찬해요
-          </h2>
-          <p className="mt-1 text-[11px] tracking-[-0.035em] text-[#4A5B57] xl:text-[13px]">
+          </TypographyH2>
+          <TypographyP className="mt-1 text-[11px] tracking-[-0.035em] text-[#4A5B57] xl:text-[13px]">
             따뜻한 경험이나 따뜻한 마음을 전해주세요
-          </p>
+          </TypographyP>
           <Link
             href="/community/customer-voice/write?category=praise"
             className="mt-4 inline-flex h-8 items-center justify-center rounded-full bg-white px-5 text-[11px] font-semibold text-[#39444A] xl:mt-5 xl:h-9 xl:text-[12px]"
@@ -172,12 +178,12 @@ function VoiceCtaCards() {
 
       <article className="relative min-h-[132px] overflow-hidden rounded-[10px] bg-[#003F34] px-5 py-5 xl:min-h-[178px] xl:rounded-[8px] xl:px-8 xl:py-8">
         <div className="relative z-10">
-          <h2 className="text-[18px] font-bold tracking-[-0.045em] text-white xl:text-[22px]">
+          <TypographyH2 className="text-[18px] font-bold tracking-[-0.045em] text-white xl:text-[22px]">
             건의합니다·불만/고충
-          </h2>
-          <p className="mt-1 text-[11px] tracking-[-0.035em] text-white/80 xl:text-[13px]">
+          </TypographyH2>
+          <TypographyP className="mt-1 text-[11px] tracking-[-0.035em] text-white/80 xl:text-[13px]">
             불편했던 점이나 개선 의견을 남겨주세요
-          </p>
+          </TypographyP>
           <Link
             href="/community/customer-voice/write?category=complaint"
             className="mt-4 inline-flex h-8 items-center justify-center rounded-full bg-white px-5 text-[11px] font-semibold text-[#39444A] xl:mt-5 xl:h-9 xl:text-[12px]"
@@ -197,9 +203,9 @@ function VoiceCtaCards() {
 function ReceiveMethods() {
   return (
     <section className="mt-9 xl:mt-16">
-      <h2 className="text-[18px] font-bold tracking-[-0.04em] text-[#2F353C] xl:text-[22px]">
+      <TypographyH2 className="text-[18px] font-bold tracking-[-0.04em] text-[#2F353C] xl:text-[22px]">
         고객의 소리 접수방법
-      </h2>
+      </TypographyH2>
       <div className="mt-4 overflow-hidden rounded-[14px] border border-[#E0E4E7] bg-white px-4 xl:mt-6 xl:rounded-[12px] xl:px-6">
         {receiveMethods.map((item, index) => {
           const Icon = item.icon;
@@ -216,12 +222,12 @@ function ReceiveMethods() {
                 <Icon className="size-5 xl:size-6" strokeWidth={1.8} />
               </span>
               <div>
-                <h3 className="text-[14px] font-semibold tracking-[-0.04em] text-[#343B43] xl:text-[16px]">
+                <TypographyH3 className="text-[14px] font-semibold tracking-[-0.04em] text-[#343B43] xl:text-[16px]">
                   {item.title}
-                </h3>
-                <p className="mt-0.5 text-[10px] tracking-[-0.03em] text-[#A0A5AB] xl:text-[12px]">
+                </TypographyH3>
+                <TypographyP className="mt-0.5 text-[10px] tracking-[-0.03em] text-[#A0A5AB] xl:text-[12px]">
                   {item.description}
-                </p>
+                </TypographyP>
               </div>
             </div>
           );
@@ -234,16 +240,16 @@ function ReceiveMethods() {
 function Process() {
   return (
     <section className="mt-9 xl:mt-16">
-      <h2 className="text-[18px] font-bold tracking-[-0.04em] text-[#2F353C] xl:text-[22px]">
+      <TypographyH2 className="text-[18px] font-bold tracking-[-0.04em] text-[#2F353C] xl:text-[22px]">
         처리절차
-      </h2>
+      </TypographyH2>
       <div className="mt-4 flex flex-col items-stretch xl:mt-6 xl:flex-row xl:items-center xl:gap-7">
         {processSteps.map((item, index) => (
           <div key={item.step} className="contents">
             <div className="flex min-h-[72px] flex-1 flex-col items-center justify-center rounded-[9px] bg-[#F5F6F7] px-4 text-center xl:min-h-[86px]">
-              <strong className="text-[11px] font-semibold text-[#2AA88D] xl:text-[12px]">
+              <TypographyStrong className="text-[11px] font-semibold text-[#2AA88D] xl:text-[12px]">
                 {item.step}
-              </strong>
+              </TypographyStrong>
               <span className="mt-1 text-[12px] tracking-[-0.035em] text-[#454D55] xl:text-[14px]">
                 {item.text}
               </span>

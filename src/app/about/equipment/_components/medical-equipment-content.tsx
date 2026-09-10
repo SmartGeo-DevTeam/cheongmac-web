@@ -1,6 +1,11 @@
 'use client';
 
 import {
+  H2 as TypographyH2,
+  H3 as TypographyH3,
+  P as TypographyP,
+} from '@/app/_components/ui/typography';
+import {
   ContentCard,
   ContentCardBody,
   ContentCardMedia,
@@ -74,9 +79,9 @@ function EquipmentCard({
 
         <ContentCardBody variant="equipment">
           <div className="min-w-0">
-            <p className="text-sm font-semibold text-[#FF6B3D] xl:text-base">
+            <TypographyP managed={false} className="text-sm font-semibold text-[#FF6B3D] xl:text-base">
               {item.categoryLabel}
-            </p>
+            </TypographyP>
             <ContentCardTitle variant="equipment">
               {item.model}
             </ContentCardTitle>
@@ -156,30 +161,30 @@ function EquipmentDetail({
       </div>
 
       <div className="mt-5 xl:mt-7">
-        <p className="text-base font-semibold text-[#FF6B3D] xl:text-xl">
+        <TypographyP className="text-base font-semibold text-[#FF6B3D] xl:text-xl">
           {item.categoryLabel}
-        </p>
-        <h2 className="mt-1 break-keep text-2xl font-bold tracking-[-0.035em] text-[#252B33] xl:text-[32px]">
+        </TypographyP>
+        <TypographyH2 className="mt-1 break-keep text-2xl font-bold tracking-[-0.035em] text-[#252B33] xl:text-[32px]">
           {item.model}
-        </h2>
+        </TypographyH2>
 
         {item.subtitle ? (
-          <p className="mt-3 border-b border-[#BFC4C8] pb-5 text-base font-semibold text-[#565D64] xl:mt-4 xl:pb-6 xl:text-xl">
+          <TypographyP className="mt-3 border-b border-[#BFC4C8] pb-5 text-base font-semibold text-[#565D64] xl:mt-4 xl:pb-6 xl:text-xl">
             {item.subtitle}
-          </p>
+          </TypographyP>
         ) : (
           <div className="mt-4 border-b border-[#BFC4C8]" />
         )}
       </div>
 
       {item.description ? (
-        <p className="mt-5 break-keep text-base leading-[1.75] text-[#52585E] xl:mt-6 xl:text-xl xl:leading-[1.8]">
+        <TypographyP className="mt-5 break-keep text-base leading-[1.75] text-[#52585E] xl:mt-6 xl:text-xl xl:leading-[1.8]">
           {item.description}
-        </p>
+        </TypographyP>
       ) : (
-        <p className="mt-5 text-base leading-[1.7] text-[#92979C] xl:mt-6 xl:text-xl">
+        <TypographyP className="mt-5 text-base leading-[1.7] text-[#92979C] xl:mt-6 xl:text-xl">
           장비별 상세 설명은 실제 콘텐츠 연동 시 입력됩니다.
-        </p>
+        </TypographyP>
       )}
 
       {item.highlights ? (
@@ -200,12 +205,12 @@ function EquipmentDetail({
 
       {item.diseases ? (
         <section className="mt-12 xl:mt-20">
-          <p className="text-sm font-semibold text-[#A2A7AC] xl:text-xl">
+          <TypographyP managed={false} className="text-sm font-semibold text-[#A2A7AC] xl:text-xl">
             진단 가능 질환
-          </p>
-          <h3 className="mt-1 text-2xl font-bold tracking-[-0.04em] text-[#252B33] xl:text-[32px]">
+          </TypographyP>
+          <TypographyH3 className="mt-1 text-2xl font-bold tracking-[-0.04em] text-[#252B33] xl:text-[32px]">
             어떤 질환을 알 수 있나요?
-          </h3>
+          </TypographyH3>
 
           <div className="mt-5 flex flex-wrap gap-2">
             {item.diseases.map((disease) => (
@@ -222,12 +227,12 @@ function EquipmentDetail({
 
       {item.cases ? (
         <section className="mt-12 xl:mt-20">
-          <p className="text-sm font-semibold text-[#A2A7AC] xl:text-xl">
+          <TypographyP managed={false} className="text-sm font-semibold text-[#A2A7AC] xl:text-xl">
             실제 진단 사례
-          </p>
-          <h3 className="mt-1 text-2xl font-bold tracking-[-0.04em] text-[#252B33] xl:text-[32px]">
+          </TypographyP>
+          <TypographyH3 className="mt-1 text-2xl font-bold tracking-[-0.04em] text-[#252B33] xl:text-[32px]">
             검사 결과, 이렇게 확인해요
-          </h3>
+          </TypographyH3>
 
           <div className="mt-6 grid gap-8 xl:grid-cols-2 xl:gap-x-5 xl:gap-y-10">
             {item.cases.map((caseItem, index) => (
@@ -277,9 +282,9 @@ function EquipmentDetail({
                   </div>
                 )}
 
-                <p className="mt-3 break-keep text-base leading-[1.65] text-[#52585E] xl:text-lg">
+                <TypographyP className="mt-3 break-keep text-base leading-[1.65] text-[#52585E] xl:text-lg">
                   {caseItem.description}
-                </p>
+                </TypographyP>
               </article>
             ))}
           </div>
@@ -326,11 +331,11 @@ function DesktopCategoryDetail({
   return (
     <div className="mx-auto mt-14 hidden w-full max-w-[1120px] grid-cols-[220px_minmax(0,1fr)] gap-16 xl:grid">
       <aside className="sticky top-32 self-start pt-1">
-        <p className="mb-5 text-xl font-semibold tracking-[-0.025em] text-[#08715F]">
+        <TypographyP className="mb-5 text-xl font-semibold tracking-[-0.025em] text-[#08715F]">
           {EQUIPMENT_CATEGORY_OPTIONS.find((option) => option.value === category)
             ?.label}
           장비
-        </p>
+        </TypographyP>
 
         <nav aria-label="첨단의료장비 목록" className="flex flex-col gap-3">
           {items.map((item) => {
@@ -398,12 +403,12 @@ function MobileCategoryDetail({
                 }`}
               >
                 <div className="min-w-0">
-                  <p className="text-sm font-semibold text-[#FF6B3D]">
+                  <TypographyP managed={false} className="text-sm font-semibold text-[#FF6B3D]">
                     {item.categoryLabel}
-                  </p>
-                  <p className="mt-1 truncate text-base font-semibold text-[#252B33]">
+                  </TypographyP>
+                  <TypographyP managed={false} className="mt-1 truncate text-base font-semibold text-[#252B33]">
                     {item.model}
-                  </p>
+                  </TypographyP>
                 </div>
                 {active ? (
                   <Minus className="size-5 shrink-0 text-[#B9BEC3]" />
@@ -495,9 +500,9 @@ export default function MedicalEquipmentContent({
       ref={contentTopRef}
       className="mx-auto w-full max-w-7xl scroll-mt-28 px-5 pb-20 xl:px-0 xl:pb-28"
     >
-      <h2 id="medical-equipment-list-heading" className="sr-only">
+      <TypographyH2 id="medical-equipment-list-heading" className="sr-only">
         청맥병원 첨단의료장비 목록
-      </h2>
+      </TypographyH2>
       <CategoryTabs value={category} onChange={changeCategory} />
 
       {category === 'all' ? (

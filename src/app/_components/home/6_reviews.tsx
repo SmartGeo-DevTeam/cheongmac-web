@@ -1,5 +1,8 @@
 'use client';
 
+import {
+  P as TypographyP,
+} from '@/app/_components/ui/typography';
 import FadeInUp from '@/app/_components/fade-in-up';
 import MainSectionHeader from '@/app/_components/main-section-header';
 import { ArrowRight } from 'lucide-react';
@@ -87,11 +90,11 @@ export default function HomeReviews() {
           }
           description={
             <>
-              <p>청맥을 만나고 혈관 건강과 삶의 활력을 되찾은 분들.</p>
-              <p>
+              <TypographyP>청맥을 만나고 혈관 건강과 삶의 활력을 되찾은 분들.</TypographyP>
+              <TypographyP>
                 전문의의 정확한 진단과 치료가 어떤 변화를 만드는지 직접 확인해
                 보세요.
-              </p>
+              </TypographyP>
             </>
           }
         />
@@ -187,9 +190,9 @@ export default function HomeReviews() {
                   `}
                 />
 
-                <p className="absolute left-1/2 top-5 -translate-x-1/2 px-3 py-1.5 rounded-sm bg-black font-bold text-sm text-white">
+                <TypographyP managed={false} className="absolute left-1/2 top-5 -translate-x-1/2 px-3 py-1.5 rounded-sm bg-black font-bold text-sm text-white">
                   사진을 눌러보세요!
-                </p>
+                </TypographyP>
               </button>
 
               {/* Desktop: before / after 둘 다 항상 노출 */}
@@ -229,12 +232,12 @@ export default function HomeReviews() {
               className="px-5 pb-5 flex flex-col items-center bg-[#A68E79]
             xl:px-10 xl:justify-center"
             >
-              <p
+              <TypographyP
                 className="mt-8 font-semibold text-[15px] text-white
               xl:text-2xl"
               >
                 "{mainReview.quote}"
-              </p>
+              </TypographyP>
 
               <div
                 className="mt-4 w-full grid grid-cols-[auto_1fr] items-center gap-x-3 gap-y-4
@@ -245,7 +248,7 @@ export default function HomeReviews() {
                 </span>
 
                 <div className="flex items-center font-medium text-white">
-                  <p>{mainReview.patientName}</p>
+                  <TypographyP>{mainReview.patientName}</TypographyP>
                   <div className="flex items-center">
                     <span>{`(`}</span>
                     <span>{mainReview.age}세</span>
@@ -258,13 +261,13 @@ export default function HomeReviews() {
                 <span className="px-5 py-1.5 rounded-full bg-white font-bold font-sm text-[#394559]">
                   치료정보
                 </span>
-                <p className="font-medium text-white">{mainReview.treatment}</p>
+                <TypographyP className="font-medium text-white">{mainReview.treatment}</TypographyP>
 
                 <span className="px-5 py-1.5 rounded-full bg-white font-bold font-sm text-[#394559]">
                   담당의사
                 </span>
                 <div className="flex items-center gap-3 font-medium text-white">
-                  <p>{mainReview.doctorName}</p>
+                  <TypographyP>{mainReview.doctorName}</TypographyP>
                   <div
                     className="hidden relative w-11 h-11 rounded-full overflow-clip
                   xl:block"
@@ -282,13 +285,13 @@ export default function HomeReviews() {
                 className="mt-5 flex flex-col items-center
               xl:mt-15"
               >
-                <p
+                <TypographyP managed={false}
                   className="break-keep text-center font-medium text-xs text-white
                 xl:text-sm
               "
                 >
                   * 의료법에 의거하여 치료후기는 로그인 후 열람 가능합니다.
-                </p>
+                </TypographyP>
                 <Link
                   target="_blank"
                   href={`/`}
@@ -358,12 +361,12 @@ export default function HomeReviews() {
                 ))}
               </div>
 
-              <p
+              <TypographyP managed={false}
                 className="mt-1.5 font-bold
               xl:mt-3 xl:text-center xl:text-[26px]"
               >
                 {review.title}
-              </p>
+              </TypographyP>
             </Link>
           ))}
         </div>

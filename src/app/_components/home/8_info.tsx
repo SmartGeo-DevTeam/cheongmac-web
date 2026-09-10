@@ -1,3 +1,7 @@
+import {
+  H3 as TypographyH3,
+  P as TypographyP,
+} from '@/app/_components/ui/typography';
 import FadeInUp from '@/app/_components/fade-in-up';
 import MainSectionHeader from '@/app/_components/main-section-header';
 import { ArrowRight } from 'lucide-react';
@@ -118,18 +122,18 @@ export default function HomeInfo() {
                     <span>{notice.date}</span>
                   </div>
 
-                  <h3
+                  <TypographyH3 managed={false}
                     className="mt-3 font-extrabold text-lg
                   xl:mt-6.5 xl:text-2xl"
                   >
                     {notice.title}
-                  </h3>
-                  <p
+                  </TypographyH3>
+                  <TypographyP managed={false}
                     className="mt-3 break-keep text-sm
                   xl:mt-5 xl:text-xl"
                   >
                     {notice.description}
-                  </p>
+                  </TypographyP>
                 </Link>
               </li>
             ))}

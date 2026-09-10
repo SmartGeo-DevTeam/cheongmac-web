@@ -33,6 +33,7 @@ import {
   Presentation,
   ShieldCheck,
   Stethoscope,
+  Type,
   Users,
 } from 'lucide-react';
 import { usePathname } from 'next/navigation';
@@ -101,6 +102,15 @@ export default function AdminSidebar({
                 >
                   <PanelBottom className="size-4" />
                   공통 페이지 하단 배너
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  href="/admin/common/typography"
+                  active={menuActive(pathname, '/admin/common/typography')}
+                >
+                  <Type className="size-4" />
+                  본문 타이포그래피
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>

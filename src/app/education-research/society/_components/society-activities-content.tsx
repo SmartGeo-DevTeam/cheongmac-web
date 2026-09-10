@@ -1,5 +1,10 @@
 'use client';
 
+import {
+  H2 as TypographyH2,
+  H3 as TypographyH3,
+  P as TypographyP,
+} from '@/app/_components/ui/typography';
 import FilterTabs from '@/app/_components/ui/filter-tabs';
 
 import {
@@ -15,23 +20,23 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 function SocietyIntro() {
   return (
     <section className="mx-auto w-full max-w-7xl px-5 pb-12 xl:px-0 xl:pb-20">
-      <p className="text-sm font-semibold tracking-[-0.015em] text-[#279A82] xl:text-base">
+      <TypographyP managed={false} className="text-sm font-semibold tracking-[-0.015em] text-[#279A82] xl:text-base">
         SOCIETY ACTIVITIES
-      </p>
+      </TypographyP>
 
-      <h2 className="mt-4 max-w-[1050px] break-keep text-[24px] font-bold leading-[1.48] tracking-[-0.045em] text-[#262C35] xl:mt-5 xl:text-[34px] xl:leading-[1.5]">
+      <TypographyH2 className="mt-4 max-w-[1050px] break-keep text-[24px] font-bold leading-[1.48] tracking-[-0.045em] text-[#262C35] xl:mt-5 xl:text-[34px] xl:leading-[1.5]">
         청맥병원 의료진은 대한혈관외과학회, 대한정맥학회, UIP 세계정맥학회
         등을 비롯한
         <br className="hidden xl:block" />
         국내외 주요 학회의 중심에서 활발히 활동하고 있습니다.
-      </h2>
+      </TypographyH2>
 
-      <p className="mt-7 max-w-[950px] break-keep text-base leading-[1.8] text-[#5B6269] xl:mt-9 xl:text-xl xl:leading-[1.8]">
+      <TypographyP className="mt-7 max-w-[950px] break-keep text-base leading-[1.8] text-[#5B6269] xl:mt-9 xl:text-xl xl:leading-[1.8]">
         정기 학술대회 참여와 치료 지침서 집필, 학술상 수상을 통해 혈관의학
         발전에 기여하고,
         <br className="hidden xl:block" />
         세계 혈관의학의 최신 흐름을 진료에 반영하기 위해 노력합니다.
-      </p>
+      </TypographyP>
     </section>
   );
 }
@@ -57,9 +62,9 @@ function FeaturedActivities({
 
       <div className="relative mx-auto w-full max-w-7xl px-5 py-10 xl:px-0 xl:py-14">
         <div className="relative">
-          <p className="relative z-10 text-base font-semibold text-white xl:text-xl">
+          <TypographyP className="relative z-10 text-base font-semibold text-white xl:text-xl">
             · 주요 발표 ·
-          </p>
+          </TypographyP>
           <span
             aria-hidden="true"
             className="absolute left-0 top-7 text-[54px] font-black leading-none tracking-[-0.05em] text-white/5 xl:top-8 xl:text-[82px]"
@@ -95,21 +100,21 @@ function FeaturedActivities({
                   </div>
 
                   <div className="pt-5 xl:pt-0">
-                    <h3 className="break-keep text-[20px] font-bold leading-[1.4] tracking-[-0.035em] text-white xl:text-[28px]">
+                    <TypographyH3 className="break-keep text-[20px] font-bold leading-[1.4] tracking-[-0.035em] text-white xl:text-[28px]">
                       {item.title}
-                    </h3>
+                    </TypographyH3>
 
-                    <p className="mt-2 text-sm text-[#A9D5CD] xl:text-base">
+                    <TypographyP managed={false} className="mt-2 text-sm text-[#A9D5CD] xl:text-base">
                       {item.date}
-                    </p>
+                    </TypographyP>
 
-                    <p className="mt-5 break-keep text-base leading-[1.7] text-white/75 xl:mt-7 xl:max-w-[620px] xl:text-lg">
+                    <TypographyP className="mt-5 break-keep text-base leading-[1.7] text-white/75 xl:mt-7 xl:max-w-[620px] xl:text-lg">
                       {item.description}
-                    </p>
+                    </TypographyP>
 
-                    <p className="mt-2 break-words text-sm leading-[1.65] text-white/55 xl:text-base">
+                    <TypographyP managed={false} className="mt-2 break-words text-sm leading-[1.65] text-white/55 xl:text-base">
                       {item.english}
-                    </p>
+                    </TypographyP>
                   </div>
                 </article>
               </SwiperSlide>
@@ -155,22 +160,22 @@ function TimelineItem({
       <span className="absolute left-[-4px] top-[7px] size-[9px] rounded-full border-2 border-[#188B78] bg-white xl:left-[-5px] xl:top-2 xl:size-[11px]" />
 
       <div>
-        <h3 className="break-keep text-xl font-bold tracking-[-0.035em] text-[#272D35] xl:text-[24px]">
+        <TypographyH3 className="break-keep text-xl font-bold tracking-[-0.035em] text-[#272D35] xl:text-[24px]">
           {activity.society}
-        </h3>
+        </TypographyH3>
 
-        <p className="mt-3 text-base font-semibold text-[#596067] xl:text-lg">
+        <TypographyP className="mt-3 text-base font-semibold text-[#596067] xl:text-lg">
           {activity.title}
-        </p>
+        </TypographyP>
 
-        <p className="mt-2 max-w-[720px] break-keep text-base leading-[1.7] text-[#92989E] xl:text-lg">
+        <TypographyP className="mt-2 max-w-[720px] break-keep text-base leading-[1.7] text-[#92989E] xl:text-lg">
           {activity.description}
-        </p>
+        </TypographyP>
 
         {activity.english ? (
-          <p className="mt-1 max-w-[720px] break-words text-sm leading-[1.65] text-[#B1B6BA] xl:text-base">
+          <TypographyP managed={false} className="mt-1 max-w-[720px] break-words text-sm leading-[1.65] text-[#B1B6BA] xl:text-base">
             {activity.english}
-          </p>
+          </TypographyP>
         ) : null}
       </div>
 
@@ -218,9 +223,9 @@ function SocietyTimeline({
         <div className="relative ml-2 border-l border-[#D9DEDF] xl:ml-8">
           <div className="relative pl-7 xl:pl-12">
             <span className="absolute left-[-5px] top-[8px] size-[11px] rounded-full bg-[#FF6B3D] xl:left-[-6px] xl:size-[13px]" />
-            <h2 className="text-[26px] font-bold tracking-[-0.04em] text-[#FF6B3D] xl:text-[38px]">
+            <TypographyH2 className="text-[26px] font-bold tracking-[-0.04em] text-[#FF6B3D] xl:text-[38px]">
               {activeYear}년
-            </h2>
+            </TypographyH2>
           </div>
 
           {activities.length > 0 ? (

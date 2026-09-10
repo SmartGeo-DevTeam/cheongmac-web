@@ -20,7 +20,8 @@
     "check:related-content-db": "node scripts/check-related-content-database.mjs",
     "check:managed-pages": "node scripts/check-managed-public-pages.mjs",
     "assets:migrate": "tsx scripts/migrate-public-assets-to-azure.ts",
-    "assets:prune:managed": "tsx scripts/prune-managed-azure-assets.ts"
+    "assets:prune:managed": "tsx scripts/prune-managed-azure-assets.ts",
+    "check:typography": "node scripts/check-typography-components.mjs"
   },
   "dependencies": {
     "@better-auth/prisma-adapter": "1.7.3",

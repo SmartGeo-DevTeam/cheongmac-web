@@ -1,5 +1,9 @@
 'use client';
 
+import {
+  H2 as TypographyH2,
+  P as TypographyP,
+} from '@/app/_components/ui/typography';
 import BoardToolbar from '@/app/_components/ui/board-toolbar';
 import {
   ContentCard,
@@ -36,11 +40,11 @@ function AcademicExchangeIntro({
     <section className="overflow-hidden bg-[#F4F5F5]">
       <div className="mx-auto grid w-full max-w-7xl gap-8 px-5 py-10 xl:grid-cols-[minmax(0,1fr)_430px] xl:items-center xl:gap-20 xl:px-0 xl:py-24">
         <div>
-          <p className="text-sm font-semibold tracking-[-0.015em] text-[#2B9B82] xl:text-base">
+          <TypographyP managed={false} className="text-sm font-semibold tracking-[-0.015em] text-[#2B9B82] xl:text-base">
             ACADEMIC EXCHANGE
-          </p>
+          </TypographyP>
 
-          <h2 className="mt-4 break-keep text-[24px] font-bold leading-[1.45] tracking-[-0.045em] text-[#262C35] xl:mt-5 xl:text-[34px] xl:leading-[1.5]">
+          <TypographyH2 className="mt-4 break-keep text-[24px] font-bold leading-[1.45] tracking-[-0.045em] text-[#262C35] xl:mt-5 xl:text-[34px] xl:leading-[1.5]">
             혈관 치료의{' '}
             <span className="relative inline-block whitespace-nowrap">
               <span className="relative z-10">올바른 기준</span>
@@ -52,14 +56,14 @@ function AcademicExchangeIntro({
             을 세우기 위해
             <br className="hidden xl:block" />
             청맥병원은 끊임없이 연구하고 소통합니다.
-          </h2>
+          </TypographyH2>
 
-          <p className="mt-7 break-keep text-base leading-[1.8] text-[#4F565D] xl:mt-9 xl:max-w-[680px] xl:text-xl">
+          <TypographyP className="mt-7 break-keep text-base leading-[1.8] text-[#4F565D] xl:mt-9 xl:max-w-[680px] xl:text-xl">
             국내외 의료진과 임상 경험과 치료 노하우를 공유하고,
             <br className="hidden xl:block" />
             술기 연수와 교육 프로그램을 지속적으로 운영하며 혈관의학의
             저변을 함께 넓혀가고 있습니다.
-          </p>
+          </TypographyP>
         </div>
 
         <div className="hidden min-w-0 xl:block">

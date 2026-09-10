@@ -1,0 +1,71 @@
+.cm-typography-h1 {
+  font-size: var(--cm-typography-h1-mobile-font-size) !important;
+  line-height: var(--cm-typography-h1-mobile-line-height) !important;
+}
+
+.cm-typography-h2 {
+  font-size: var(--cm-typography-h2-mobile-font-size) !important;
+  line-height: var(--cm-typography-h2-mobile-line-height) !important;
+}
+
+.cm-typography-h3 {
+  font-size: var(--cm-typography-h3-mobile-font-size) !important;
+  line-height: var(--cm-typography-h3-mobile-line-height) !important;
+}
+
+.cm-typography-h4 {
+  font-size: var(--cm-typography-h4-mobile-font-size) !important;
+  line-height: var(--cm-typography-h4-mobile-line-height) !important;
+}
+
+.cm-typography-h5 {
+  font-size: var(--cm-typography-h5-mobile-font-size) !important;
+  line-height: var(--cm-typography-h5-mobile-line-height) !important;
+}
+
+.cm-typography-h6 {
+  font-size: var(--cm-typography-h6-mobile-font-size) !important;
+  line-height: var(--cm-typography-h6-mobile-line-height) !important;
+}
+
+.cm-typography-p {
+  font-size: var(--cm-typography-p-mobile-font-size) !important;
+  line-height: var(--cm-typography-p-mobile-line-height) !important;
+}
+
+@media (min-width: 1280px) {
+  .cm-typography-h1 {
+    font-size: var(--cm-typography-h1-desktop-font-size) !important;
+    line-height: var(--cm-typography-h1-desktop-line-height) !important;
+  }
+
+  .cm-typography-h2 {
+    font-size: var(--cm-typography-h2-desktop-font-size) !important;
+    line-height: var(--cm-typography-h2-desktop-line-height) !important;
+  }
+
+  .cm-typography-h3 {
+    font-size: var(--cm-typography-h3-desktop-font-size) !important;
+    line-height: var(--cm-typography-h3-desktop-line-height) !important;
+  }
+
+  .cm-typography-h4 {
+    font-size: var(--cm-typography-h4-desktop-font-size) !important;
+    line-height: var(--cm-typography-h4-desktop-line-height) !important;
+  }
+
+  .cm-typography-h5 {
+    font-size: var(--cm-typography-h5-desktop-font-size) !important;
+    line-height: var(--cm-typography-h5-desktop-line-height) !important;
+  }
+
+  .cm-typography-h6 {
+    font-size: var(--cm-typography-h6-desktop-font-size) !important;
+    line-height: var(--cm-typography-h6-desktop-line-height) !important;
+  }
+
+  .cm-typography-p {
+    font-size: var(--cm-typography-p-desktop-font-size) !important;
+    line-height: var(--cm-typography-p-desktop-line-height) !important;
+  }
+}

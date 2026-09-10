@@ -1,3 +1,7 @@
+import {
+  H3 as TypographyH3,
+  P as TypographyP,
+} from '@/app/_components/ui/typography';
 import { cn } from '@/_lib/utils';
 import type { ReactNode } from 'react';
 import { useComponentId } from './component-id';
@@ -202,9 +206,9 @@ export function ContentCardTitle({
   }
 
   return (
-    <h3 id={id} data-slot="content-card-title" className={classNames}>
+    <TypographyH3 managed={false} id={id} data-slot="content-card-title" className={classNames}>
       {children}
-    </h3>
+    </TypographyH3>
   );
 }
 
@@ -220,13 +224,13 @@ export function ContentCardDescription({
   children: ReactNode;
 }) {
   return (
-    <p
+    <TypographyP managed={false}
       id={id}
       data-slot="content-card-description"
       className={cn(variants[variant].description, className)}
     >
       {children}
-    </p>
+    </TypographyP>
   );
 }
 
@@ -247,9 +251,9 @@ export function ContentCardMeta({
 
   if (as === 'p') {
     return (
-      <p id={id} data-slot="content-card-meta" className={classNames}>
+      <TypographyP managed={false} id={id} data-slot="content-card-meta" className={classNames}>
         {children}
-      </p>
+      </TypographyP>
     );
   }
 

@@ -1,5 +1,8 @@
 'use client';
 
+import {
+  P as TypographyP,
+} from '@/app/_components/ui/typography';
 import { LockKeyhole } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { toast } from 'sonner';
@@ -81,9 +84,9 @@ export function TreatmentCaseContentLock() {
         className="size-7 text-[#85D7C5] xl:size-9"
         strokeWidth={2}
       />
-      <p className="mt-3 text-base font-medium xl:text-xl">
+      <TypographyP className="mt-3 text-base font-medium xl:text-xl">
         로그인 후 자세한 내용을 확인하세요
-      </p>
+      </TypographyP>
       <button
         type="button"
         onClick={goToSignIn}

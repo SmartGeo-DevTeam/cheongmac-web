@@ -1,6 +1,11 @@
 'use client';
 
 import {
+  H2 as TypographyH2,
+  P as TypographyP,
+  Strong as TypographyStrong,
+} from '@/app/_components/ui/typography';
+import {
   ContentCard,
   ContentCardBody,
   ContentCardMedia,
@@ -32,13 +37,13 @@ function PartnershipOverview({
   return (
     <section>
       <div>
-        <h2 className="text-[24px] font-bold tracking-[-0.04em] text-[#262C35] xl:text-[34px]">
+        <TypographyH2 className="text-[24px] font-bold tracking-[-0.04em] text-[#262C35] xl:text-[34px]">
           협약기관 현황
-        </h2>
-        <p className="mt-3 break-keep text-base leading-[1.7] text-[#8A9096] xl:text-xl">
+        </TypographyH2>
+        <TypographyP className="mt-3 break-keep text-base leading-[1.7] text-[#8A9096] xl:text-xl">
           청맥병원과 협약을 맺은 기관을 이용하시면 진료비 감면 등 폭넓은
           의료·제휴 혜택을 누리실 수 있습니다.
-        </p>
+        </TypographyP>
       </div>
 
       <div className="relative mt-5 aspect-[165/58] overflow-hidden rounded-xl xl:hidden">
@@ -239,13 +244,13 @@ export default function PartnerHospitalContent({
           className="mt-8 scroll-mt-28 xl:mt-10"
         >
           <div className="flex items-center justify-between gap-4">
-            <p className="text-sm text-[#9A9FA5] xl:text-base">
+            <TypographyP managed={false} className="text-sm text-[#9A9FA5] xl:text-base">
               총{' '}
-              <strong className="font-semibold text-[#FF6B3D]">
+              <TypographyStrong className="font-semibold text-[#FF6B3D]">
                 {resultCount.toLocaleString()}
-              </strong>{' '}
+              </TypographyStrong>{' '}
               건
-            </p>
+            </TypographyP>
 
             <label className="relative block w-[190px] xl:w-[250px]">
               <span className="sr-only">의료협약기관 검색</span>

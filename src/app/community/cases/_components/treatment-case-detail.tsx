@@ -1,3 +1,7 @@
+import {
+  H1 as TypographyH1,
+  P as TypographyP,
+} from '@/app/_components/ui/typography';
 import { buttonClassName } from '@/app/_components/ui/button';
 import type { TreatmentCase, TreatmentCaseDetailMedia } from '../_data';
 import TreatmentCaseShareButton from './treatment-case-share-button';
@@ -66,7 +70,7 @@ export default function TreatmentCaseDetail({ item, previousId, nextId, isAuthen
         <header className="flex items-end justify-between gap-5 border-b border-[#E2E4E6] pb-5 xl:pb-7">
           <div className="min-w-0">
             <span className="inline-flex min-h-8 items-center rounded-md bg-[#E5F6F1] px-2.5 text-base font-semibold text-[#2C8A75] xl:min-h-9 xl:px-3 xl:text-xl">{item.category}</span>
-            <h1 id="treatment-case-detail-title" className="mt-3 break-keep text-2xl font-bold tracking-[-0.035em] text-[#272C31] xl:text-3xl">{item.title}</h1>
+            <TypographyH1 managed={false} id="treatment-case-detail-title" className="mt-3 break-keep text-2xl font-bold tracking-[-0.035em] text-[#272C31] xl:text-3xl">{item.title}</TypographyH1>
             <time dateTime={item.date} className="mt-2 block text-sm text-[#A5AAB0] xl:text-xl">{item.date.replaceAll('-', '. ')}</time>
           </div>
           <TreatmentCaseShareButton />
@@ -90,7 +94,7 @@ export default function TreatmentCaseDetail({ item, previousId, nextId, isAuthen
         </dl>
 
         <div className="mt-9 overflow-hidden rounded-xl xl:mt-12"><Image src="/assets/images/treatment-cases/doctor-banner.jpg" alt="혈관외과 전문의 박용범 원장 책임 진료" width={1028} height={752} className="h-auto w-full" /></div>
-        <p className="mt-4 rounded-xl bg-[#FBF8F4] px-5 py-4 text-center text-base leading-[1.6] text-[#A47B62] xl:mt-5 xl:px-8 xl:py-5 xl:text-xl">치료후기는 실제로 진료 받은 환자분들의 자발적 참여를 통해 만들어 갑니다.</p>
+        <TypographyP className="mt-4 rounded-xl bg-[#FBF8F4] px-5 py-4 text-center text-base leading-[1.6] text-[#A47B62] xl:mt-5 xl:px-8 xl:py-5 xl:text-xl">치료후기는 실제로 진료 받은 환자분들의 자발적 참여를 통해 만들어 갑니다.</TypographyP>
 
         <div className="mt-7 grid border-y border-[#E3E5E7] text-base text-[#777C82] xl:mt-10 xl:grid-cols-2 xl:text-xl">
           <div className="flex min-h-14 items-center gap-3 border-b border-[#E3E5E7] px-3 xl:min-h-16 xl:border-b-0 xl:border-r xl:px-5"><ChevronUp className="size-5 shrink-0" /><span className="shrink-0">이전글</span>{previousId ? <Link href={`/community/cases/${previousId}`} className="truncate text-[#4C5156] hover:text-cm-green">이전글 제목입니다.</Link> : <span className="truncate text-[#B2B6BA]">이전글이 없습니다.</span>}</div>

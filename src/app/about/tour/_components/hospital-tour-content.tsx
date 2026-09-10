@@ -1,5 +1,11 @@
 'use client';
 
+import {
+  H2 as TypographyH2,
+  H3 as TypographyH3,
+  P as TypographyP,
+  Strong as TypographyStrong,
+} from '@/app/_components/ui/typography';
 import FilterTabs from '@/app/_components/ui/filter-tabs';
 
 import {
@@ -53,9 +59,9 @@ function FloorCard({ floor, title, details }: FloorGuide) {
         <span className="inline-flex h-10 min-w-10 items-center justify-center rounded-lg bg-[#F3F4F5] px-2 text-base font-semibold text-[#262C35] xl:h-12 xl:min-w-12 xl:text-xl">
           {floor}
         </span>
-        <h3 className="break-keep text-xl font-bold tracking-[-0.035em] text-[#262C35] transition group-hover:text-white group-focus-visible:text-white xl:text-2xl">
+        <TypographyH3 className="break-keep text-xl font-bold tracking-[-0.035em] text-[#262C35] transition group-hover:text-white group-focus-visible:text-white xl:text-2xl">
           {title}
-        </h3>
+        </TypographyH3>
       </div>
 
       <ul className="mt-3 space-y-1.5 pl-[52px] text-base leading-[1.65] text-[#262C35] transition group-hover:text-[#8FD5C6] group-focus-visible:text-[#8FD5C6] xl:pl-[64px] xl:text-xl">
@@ -129,9 +135,9 @@ function FacilityCard({
         <span className="inline-flex shrink-0 items-center rounded-full bg-[#EFF8F5] px-2.5 py-1 text-sm font-semibold text-[#08715F] xl:text-base">
           {item.floor}
         </span>
-        <strong className="line-clamp-1 text-base font-semibold text-[#262C35] xl:text-xl">
+        <TypographyStrong className="line-clamp-1 text-base font-semibold text-[#262C35] xl:text-xl">
           {item.title}
-        </strong>
+        </TypographyStrong>
       </div>
     </button>
   );
@@ -328,9 +334,9 @@ function FacilityModal({
             <span className="inline-flex h-14 min-w-14 shrink-0 items-center justify-center rounded-xl bg-[#006656] px-3 text-xl font-semibold text-white xl:h-16 xl:min-w-16 xl:text-2xl">
               {item.floor}
             </span>
-            <h2 className="truncate text-2xl font-bold tracking-[-0.04em] text-[#262C35] xl:text-[34px]">
+            <TypographyH2 managed={false} className="truncate text-2xl font-bold tracking-[-0.04em] text-[#262C35] xl:text-[34px]">
               {item.title}
-            </h2>
+            </TypographyH2>
           </div>
 
           <button
@@ -392,9 +398,9 @@ function FacilityModal({
         </div>
 
         {item.description ? (
-          <p className="mt-6 break-keep text-base leading-[1.75] text-[#262C35] xl:mt-8 xl:text-xl xl:leading-[1.8]">
+          <TypographyP className="mt-6 break-keep text-base leading-[1.75] text-[#262C35] xl:mt-8 xl:text-xl xl:leading-[1.8]">
             {item.description}
-          </p>
+          </TypographyP>
         ) : null}
 
         {item.bulletDetails ? (
@@ -418,7 +424,7 @@ function FacilityModal({
                   </dt>
                   <dd className="space-y-2 text-base leading-[1.7] text-[#262C35] xl:text-xl">
                     {row.lines.map((line) => (
-                      <p key={line}>{line}</p>
+                      <TypographyP key={line}>{line}</TypographyP>
                     ))}
                   </dd>
                 </div>

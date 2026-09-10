@@ -1,5 +1,9 @@
 'use client';
 
+import {
+  H2 as TypographyH2,
+  P as TypographyP,
+} from '@/app/_components/ui/typography';
 import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -65,9 +69,9 @@ export function DoctorReviewCarousel({
                 ) : null}
 
                 <div className="hidden xl:absolute xl:inset-0 xl:flex xl:flex-col xl:items-center xl:justify-center xl:gap-3 xl:bg-black/45 xl:p-12">
-                  <p className="text-center text-xs font-medium text-white">
+                  <TypographyP managed={false} className="text-center text-xs font-medium text-white">
                     * 의료법에 의거하여 치료후기는 로그인 후 열람 가능합니다.
-                  </p>
+                  </TypographyP>
                   <Link
                     href="/signin"
                     className="rounded-full bg-[#0E705B] px-10 py-2.5 text-[15px] font-bold text-white"
@@ -160,9 +164,9 @@ export function DoctorSectionHead({
 }) {
   return (
     <div className="flex items-center justify-between px-5 xl:absolute xl:grid xl:w-76.5 xl:grid-cols-[200px_1fr] xl:gap-10">
-      <h2 className="text-xl font-bold text-[#767C88] xl:text-[28px]">
+      <TypographyH2 className="text-xl font-bold text-[#767C88] xl:text-[28px]">
         {title}
-      </h2>
+      </TypographyH2>
 
       {moreHref && moreLabel ? (
         <Link

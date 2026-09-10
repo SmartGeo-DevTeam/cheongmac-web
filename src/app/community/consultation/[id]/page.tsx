@@ -1,3 +1,8 @@
+import {
+  H1 as TypographyH1,
+  H2 as TypographyH2,
+  P as TypographyP,
+} from '@/app/_components/ui/typography';
 import { buttonClassName } from '@/app/_components/ui/button';
 import ConsultationDetailPagination from '@/app/community/consultation/[id]/_components/consultation-detail-pagination';
 import ConsultationPageHeader from '@/app/community/consultation/_components/consultation-page-header';
@@ -85,7 +90,7 @@ export default async function ConsultationDetailPage({
                 </time>
               </div>
 
-              <h1
+              <TypographyH1 managed={false}
                 id="consultation-question-title"
                 className="mt-2 flex items-center gap-1.5 break-keep text-[17px] font-semibold leading-[1.4] tracking-[-0.04em] text-[#242A31] xl:text-[20px]"
               >
@@ -96,7 +101,7 @@ export default async function ConsultationDetailPage({
                 {item.hasLinkIcon ? (
                   <Link2 className="size-4 shrink-0" strokeWidth={1.7} />
                 ) : null}
-              </h1>
+              </TypographyH1>
             </header>
 
             {item.imageSrc ? (
@@ -114,7 +119,7 @@ export default async function ConsultationDetailPage({
 
             <div className="mt-4 space-y-3 break-keep text-[12px] leading-[1.75] tracking-[-0.035em] text-[#444B53] xl:mt-5 xl:text-[14px]">
               {item.question.map((paragraph, index) => (
-                <p key={index}>{paragraph}</p>
+                <TypographyP key={index}>{paragraph}</TypographyP>
               ))}
             </div>
           </article>
@@ -124,14 +129,14 @@ export default async function ConsultationDetailPage({
               aria-labelledby="consultation-answer-heading"
               className="mt-5 rounded-[10px] border border-[#E0E4E7] px-4 py-5 xl:rounded-[14px] xl:px-8 xl:py-8"
             >
-              <h2 id="consultation-answer-heading" className="sr-only">
+              <TypographyH2 id="consultation-answer-heading" className="sr-only">
                 의료진 답변
-              </h2>
+              </TypographyH2>
 
               <div className="border-b border-[#E4E7EA] pb-4">
-                <p className="mb-3 text-[10px] font-medium text-[#9298A0] xl:text-[11px]">
+                <TypographyP className="mb-3 text-[10px] font-medium text-[#9298A0] xl:text-[11px]">
                   관련 의료진
-                </p>
+                </TypographyP>
                 <div className="flex flex-wrap gap-4">
                   {item.doctors.map((doctor) => (
                     <div key={doctor.id} className="flex items-center gap-3">
@@ -146,12 +151,12 @@ export default async function ConsultationDetailPage({
                       </div>
 
                       <div>
-                        <p className="text-[13px] font-semibold text-[#FF6B3C] xl:text-[15px]">
+                        <TypographyP className="text-[13px] font-semibold text-[#FF6B3C] xl:text-[15px]">
                           {doctor.department} {doctor.name}
-                        </p>
-                        <p className="mt-1 text-[9px] text-[#9298A0] xl:text-[11px]">
+                        </TypographyP>
+                        <TypographyP className="mt-1 text-[9px] text-[#9298A0] xl:text-[11px]">
                           전문분야 | {doctor.specialties.join(', ')}
-                        </p>
+                        </TypographyP>
                       </div>
                     </div>
                   ))}
@@ -160,16 +165,16 @@ export default async function ConsultationDetailPage({
 
               <div className="mt-4 space-y-3 break-keep text-[11px] leading-[1.75] tracking-[-0.03em] text-[#444B53] xl:text-[13px] xl:leading-[1.8]">
                 {item.answer.map((paragraph, index) => (
-                  <p key={index}>{paragraph}</p>
+                  <TypographyP key={index}>{paragraph}</TypographyP>
                 ))}
-                <p className="pt-1 text-[9px] text-[#A2A8AF] xl:text-[10px]">
+                <TypographyP className="pt-1 text-[9px] text-[#A2A8AF] xl:text-[10px]">
                   * 본 답변은 일반적인 의학 정보를 위한 것으로, 의료진의 직접
                   진료를 대신하지 않습니다.
-                </p>
+                </TypographyP>
                 {item.answerDate ? (
-                  <p className="text-right text-[9px] text-[#9AA0A7] xl:text-[10px]">
+                  <TypographyP className="text-right text-[9px] text-[#9AA0A7] xl:text-[10px]">
                     답변작성일&nbsp;&nbsp;{item.answerDate}
-                  </p>
+                  </TypographyP>
                 ) : null}
               </div>
             </section>

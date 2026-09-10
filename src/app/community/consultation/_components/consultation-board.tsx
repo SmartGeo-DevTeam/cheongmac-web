@@ -1,5 +1,11 @@
 'use client';
 
+import {
+  H2 as TypographyH2,
+  H3 as TypographyH3,
+  P as TypographyP,
+  Strong as TypographyStrong,
+} from '@/app/_components/ui/typography';
 import { buttonClassName } from '@/app/_components/ui/button';
 import UiPagination from '@/app/_components/ui/pagination';
 
@@ -86,25 +92,25 @@ function SearchBox({ defaultValue }: { defaultValue: string }) {
 function NoticeBox() {
   return (
     <section className="mx-auto max-w-7xl rounded-xl bg-[#E7F5F1] px-5 py-5 xl:rounded-[15px] xl:px-14 xl:py-8">
-      <h2 className="flex items-center justify-center gap-2 text-[16px] font-bold tracking-[-0.04em] text-[#167963] xl:text-[20px]">
+      <TypographyH2 className="flex items-center justify-center gap-2 text-[16px] font-bold tracking-[-0.04em] text-[#167963] xl:text-[20px]">
         <ShieldAlert className="size-5 xl:size-6" strokeWidth={2} />
         확인해 주세요
-      </h2>
+      </TypographyH2>
       <div className="mt-4 space-y-3 text-[11px] leading-[1.65] tracking-[-0.035em] text-[#4E5D5A] xl:mt-5 xl:text-[13px] xl:leading-[1.7]">
-        <p>
+        <TypographyP>
           ① 본 상담은 진료를 돕기 위한 보조적인 수단이며, 의료진의 직접 진료에
           대한 진료를 대신할 수 없습니다. 정확한 진단과 치료 계획은 반드시 병원
           내원을 통해 확인하시기 바랍니다.
-        </p>
-        <p>
+        </TypographyP>
+        <TypographyP>
           ② 현재 전문의가 진료와 병행해 직접 답변을 작성하므로, 답변 완료까지
           일정 시간이 소요될 수 있습니다. 신속한 답변은 정확하고 깊이 있는
           답변을 드리기 위함이니 너그러운 양해 부탁드립니다.
-        </p>
-        <p>
+        </TypographyP>
+        <TypographyP>
           ③ 개인정보(성명, 연락처, 환자번호 등)가 포함된 문의나 민감한 상담
           내용은 비공개 게시물로 작성해 주시기 바랍니다.
-        </p>
+        </TypographyP>
       </div>
     </section>
   );
@@ -139,7 +145,7 @@ function ConsultationCard({
           </time>
         </div>
 
-        <h3 className="mt-2 flex items-start gap-1.5 break-keep text-[15px] font-semibold leading-[1.45] tracking-[-0.04em] text-[#242A31] xl:text-[17px]">
+        <TypographyH3 managed={false} className="mt-2 flex items-start gap-1.5 break-keep text-[15px] font-semibold leading-[1.45] tracking-[-0.04em] text-[#242A31] xl:text-[17px]">
           {item.isPrivate ? (
             <LockKeyhole
               className="mt-0.5 size-3.5 shrink-0"
@@ -150,7 +156,7 @@ function ConsultationCard({
           {item.hasLinkIcon ? (
             <Link2 className="mt-0.5 size-3.5 shrink-0" strokeWidth={1.7} />
           ) : null}
-        </h3>
+        </TypographyH3>
 
         {item.answered && item.doctor ? (
           <div className="mt-3 flex items-center gap-1.5 text-[11px] tracking-[-0.035em] xl:mt-4 xl:text-[12px]">
@@ -167,9 +173,9 @@ function ConsultationCard({
                 className="object-cover"
               />
             </div>
-            <strong className="font-semibold text-[#FF6F3D]">
+            <TypographyStrong className="font-semibold text-[#FF6F3D]">
               {item.doctor.department} {item.doctor.name}
-            </strong>
+            </TypographyStrong>
             {item.doctors.length > 1 ? (
               <span className="text-[#8E959D]">
                 외 {item.doctors.length - 1}명
@@ -233,18 +239,18 @@ export default function ConsultationBoard({
     <div className="mx-auto w-full max-w-7xl px-4 pb-14 xl:px-0 xl:pb-24">
       <NoticeBox />
 
-      <h2 id="consultation-list-heading" className="sr-only">
+      <TypographyH2 id="consultation-list-heading" className="sr-only">
         의학상담 목록
-      </h2>
+      </TypographyH2>
 
       <div className="mt-5 flex items-end justify-between xl:mt-7">
-        <p className="text-[10px] tracking-[-0.02em] text-[#8E959D] xl:text-[12px]">
+        <TypographyP className="text-[10px] tracking-[-0.02em] text-[#8E959D] xl:text-[12px]">
           총{' '}
-          <strong className="font-medium text-[#FA6A3D]">
+          <TypographyStrong className="font-medium text-[#FA6A3D]">
             {filteredItems.length.toLocaleString('ko-KR')}
-          </strong>{' '}
+          </TypographyStrong>{' '}
           건
-        </p>
+        </TypographyP>
         <SearchBox defaultValue={query} />
       </div>
 

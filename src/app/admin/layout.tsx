@@ -15,6 +15,7 @@ import {
   PanelsTopLeft,
   ShieldCheck,
   Stethoscope,
+  Type,
   Users,
 } from 'lucide-react';
 import Link from 'next/link';
@@ -85,6 +86,13 @@ export default async function AdminLayout({
                       aria-label="공통 페이지 하단 배너"
                     >
                       <PanelBottom className="size-4" />
+                    </Link>
+                    <Link
+                      href="/admin/common/typography"
+                      className="inline-flex size-9 items-center justify-center rounded-md text-[#52525B] hover:bg-[#F4F4F5]"
+                      aria-label="본문 타이포그래피"
+                    >
+                      <Type className="size-4" />
                     </Link>
                     <Link
                       href="/admin/members"

@@ -1,5 +1,9 @@
 'use client';
 
+import {
+  H2 as TypographyH2,
+  P as TypographyP,
+} from '@/app/_components/ui/typography';
 import { submitMedicalConsultation } from '@/app/community/consultation/_actions';
 import { Link2, RefreshCw, XCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -78,27 +82,27 @@ export default function ConsultationForm() {
       }}
     >
       <div className="rounded-[10px] bg-[#F5F6F7] px-5 py-5 text-[10px] leading-[1.75] tracking-[-0.03em] text-[#6A7179] xl:px-12 xl:py-7 xl:text-[12px]">
-        <p>· 공개글 등록 시 이름은 일부 가림 처리되어 노출됩니다.</p>
-        <p>
+        <TypographyP managed={false}>· 공개글 등록 시 이름은 일부 가림 처리되어 노출됩니다.</TypographyP>
+        <TypographyP managed={false}>
           · 검사 결과·판독 등 병원 분석이 필요한 문의는 답변이 제한될 수
           있습니다.
-        </p>
-        <p>· 광고성 글·비방·중복 게시물은 사전 고지 없이 삭제될 수 있습니다.</p>
-        <p>· 게시글 수정·삭제 시 비밀번호 입력이 필요합니다.</p>
-        <p>
+        </TypographyP>
+        <TypographyP managed={false}>· 광고성 글·비방·중복 게시물은 사전 고지 없이 삭제될 수 있습니다.</TypographyP>
+        <TypographyP managed={false}>· 게시글 수정·삭제 시 비밀번호 입력이 필요합니다.</TypographyP>
+        <TypographyP managed={false}>
           · 상담 내용의 저작권은 본원에 귀속되며, 네이버 지식iN 등 외부 채널에
           공유될 수 있습니다.
-        </p>
+        </TypographyP>
       </div>
 
       <section className="mt-7 xl:mt-10">
         <div className="flex items-end justify-between border-b border-[#363C43] pb-2">
-          <h2 className="text-[18px] font-bold tracking-[-0.04em] text-[#2E343B] xl:text-[22px]">
+          <TypographyH2 managed={false} className="text-[18px] font-bold tracking-[-0.04em] text-[#2E343B] xl:text-[22px]">
             상담 내용
-          </h2>
-          <p className="text-[9px] text-[#8D949C] xl:text-[11px]">
+          </TypographyH2>
+          <TypographyP managed={false} className="text-[9px] text-[#8D949C] xl:text-[11px]">
             <span className="text-[#FF7040]">*</span> 은 필수 입력 항목입니다.
-          </p>
+          </TypographyP>
         </div>
 
         <div className="mt-5 space-y-5 xl:mt-6 xl:space-y-6">
@@ -222,9 +226,9 @@ export default function ConsultationForm() {
                   }
                 />
               </div>
-              <p className="mt-1.5 text-[9px] text-[#9EA4AB] xl:text-[10px]">
+              <TypographyP managed={false} className="mt-1.5 text-[9px] text-[#9EA4AB] xl:text-[10px]">
                 · 첨부파일은 최대 5MB로 제한됩니다.
-              </p>
+              </TypographyP>
             </div>
           </div>
 
@@ -245,9 +249,9 @@ export default function ConsultationForm() {
 
       <section className="mt-9 xl:mt-12">
         <div className="border-b border-[#363C43] pb-2">
-          <h2 className="text-[18px] font-bold tracking-[-0.04em] text-[#2E343B] xl:text-[22px]">
+          <TypographyH2 managed={false} className="text-[18px] font-bold tracking-[-0.04em] text-[#2E343B] xl:text-[22px]">
             환자 정보
-          </h2>
+          </TypographyH2>
         </div>
         <div className="mt-5 space-y-5 xl:mt-6 xl:space-y-6">
           <div className="grid gap-2 xl:grid-cols-[150px_1fr] xl:items-center">
@@ -347,21 +351,21 @@ export default function ConsultationForm() {
                 placeholder="4자리 숫자"
                 className={`${fieldClass} w-full xl:max-w-[215px]`}
               />
-              <p className="mt-1.5 text-[9px] text-[#9EA4AB] xl:text-[10px]">
+              <TypographyP managed={false} className="mt-1.5 text-[9px] text-[#9EA4AB] xl:text-[10px]">
                 · 작성하신 글 확인/수정 시 필요한 비밀번호입니다.
-              </p>
+              </TypographyP>
             </div>
           </div>
         </div>
       </section>
 
       {submitError ? (
-        <p
+        <TypographyP managed={false}
           role="alert"
           className="mt-6 text-center text-[11px] font-medium text-red-600 xl:text-[12px]"
         >
           {submitError}
-        </p>
+        </TypographyP>
       ) : null}
 
       <div className="mt-8 flex justify-center xl:mt-10">

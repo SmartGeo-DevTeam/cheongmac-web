@@ -1,3 +1,7 @@
+import {
+  H1 as TypographyH1,
+  P as TypographyP,
+} from '@/app/_components/ui/typography';
 import { buttonClassName } from '@/app/_components/ui/button';
 import NavigationPageHeader from '@/app/_components/ui/navigation-page-header';
 import ShareButton from '@/app/community/news/[id]/_components/share-button';
@@ -116,15 +120,15 @@ export default async function NewsDetailPage({
 
           <div className="mt-2 flex items-end justify-between gap-5 xl:mt-2.5">
             <div className="min-w-0">
-              <h1
+              <TypographyH1 managed={false}
                 id="news-detail-title"
                 className="break-keep text-[18px] font-semibold leading-[1.45] tracking-[-0.04em] text-[#252B33] xl:text-[22px]"
               >
                 {item.title}
-              </h1>
-              <p className="mt-1 text-[11px] text-[#B0B5BC] xl:text-xs">
+              </TypographyH1>
+              <TypographyP managed={false} className="mt-1 text-[11px] text-[#B0B5BC] xl:text-xs">
                 {item.date}
-              </p>
+              </TypographyP>
             </div>
 
             <ShareButton title={item.title} />
@@ -159,12 +163,12 @@ export default async function NewsDetailPage({
 
           <div className="mt-6 space-y-6 text-center xl:mt-7 xl:space-y-7">
             {body.map((paragraph, index) => (
-              <p
+              <TypographyP
                 key={`${item.id}-${index}`}
                 className="break-keep text-[13px] leading-[1.9] tracking-[-0.035em] text-[#40464E] xl:text-[15px] xl:leading-[1.9]"
               >
                 {paragraph}
-              </p>
+              </TypographyP>
             ))}
           </div>
         </div>
@@ -224,9 +228,9 @@ function NewsClientBrand({
   }
 
   return (
-    <p className="text-[13px] font-bold tracking-[-0.03em] text-[#252B33] xl:text-base">
+    <TypographyP className="text-[13px] font-bold tracking-[-0.03em] text-[#252B33] xl:text-base">
       {name}
-    </p>
+    </TypographyP>
   );
 }
 

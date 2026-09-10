@@ -1,5 +1,10 @@
 'use client';
 
+import {
+  H2 as TypographyH2,
+  H3 as TypographyH3,
+  P as TypographyP,
+} from '@/app/_components/ui/typography';
 import Inner from '@/app/_components/inner';
 import type { DoctorSummary } from '@/_lib/doctors';
 import { HeartIcon, Search } from 'lucide-react';
@@ -72,9 +77,9 @@ function DoctorCard({ doctor }: { doctor: DoctorSummary }) {
         </span>
 
         <div className="flex items-end gap-0.5">
-          <h3 className="text-[22px] font-bold text-[#262C35] xl:text-[32px]">
+          <TypographyH3 className="text-[22px] font-bold text-[#262C35] xl:text-[32px]">
             {doctor.name}
-          </h3>
+          </TypographyH3>
           <span className="relative text-[22px] font-bold text-[#262C35] xl:bottom-0.5 xl:text-[26px]">
             {doctor.position}
           </span>
@@ -84,9 +89,9 @@ function DoctorCard({ doctor }: { doctor: DoctorSummary }) {
           전문분야
         </span>
 
-        <p className="break-keep text-[#262C35] xl:mt-2 xl:flex-1 xl:text-xl">
+        <TypographyP className="break-keep text-[#262C35] xl:mt-2 xl:flex-1 xl:text-xl">
           {doctor.specialties.join(', ') || '전문분야 준비 중'}
-        </p>
+        </TypographyP>
 
         <div className="mt-8 grid grid-cols-2 gap-x-1 text-sm font-bold text-white xl:mb-6 xl:gap-x-2 xl:text-base">
           <Link
@@ -140,9 +145,9 @@ export default function DoctorListClient({
 
   return (
     <section aria-labelledby="doctor-list-heading">
-      <h2 id="doctor-list-heading" className="sr-only">
+      <TypographyH2 id="doctor-list-heading" className="sr-only">
         청맥병원 의료진 목록
-      </h2>
+      </TypographyH2>
 
       <Inner usePaddingHorizontal>
         <div className="grid grid-cols-2 text-[15px] font-semibold xl:text-[23px]">

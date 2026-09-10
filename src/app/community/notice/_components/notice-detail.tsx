@@ -1,5 +1,10 @@
 'use client';
 
+import {
+  H1 as TypographyH1,
+  P as TypographyP,
+  Strong as TypographyStrong,
+} from '@/app/_components/ui/typography';
 import { buttonClassName } from '@/app/_components/ui/button';
 import {
   ChevronDown,
@@ -65,13 +70,13 @@ export default function NoticeDetail({
         <div className="flex items-end justify-between gap-4">
           <div className="min-w-0">
             <CategoryBadge holiday={detail.kind === 'holiday'} />
-            <h1
+            <TypographyH1 managed={false}
               id="notice-detail-title"
               className="mt-3 truncate text-2xl font-semibold tracking-[-0.035em] text-[#282D32] xl:text-3xl"
             >
               {detail.title}
-            </h1>
-            <p className="mt-2 text-sm text-[#ADB2B7] xl:text-xl">{detail.date}</p>
+            </TypographyH1>
+            <TypographyP managed={false} className="mt-2 text-sm text-[#ADB2B7] xl:text-xl">{detail.date}</TypographyP>
           </div>
 
           <button
@@ -108,25 +113,25 @@ export default function NoticeDetail({
         {detail.lead?.length ? (
           <div className="mx-auto mt-3 max-w-3xl text-base font-bold leading-[1.55] text-[#3A3F44] xl:mt-6 xl:text-2xl">
             {detail.lead.map((line, lineIndex) => (
-              <p key={line}>
+              <TypographyP key={line}>
                 <span className={lineIndex === detail.lead!.length - 1 ? 'bg-[#FFF1A5] px-1' : ''}>
                   {line}
                 </span>
-              </p>
+              </TypographyP>
             ))}
           </div>
         ) : null}
 
         <div className="mx-auto mt-4 max-w-5xl space-y-5 whitespace-pre-line break-keep text-base leading-[1.75] tracking-[-0.02em] text-[#3E4348] xl:mt-10 xl:space-y-8 xl:text-xl xl:leading-[1.85]">
           {detail.paragraphs?.map((paragraph) => (
-            <p key={paragraph}>{paragraph}</p>
+            <TypographyP key={paragraph}>{paragraph}</TypographyP>
           ))}
         </div>
 
         {detail.emphasis ? (
-          <p className="mt-8 text-base font-semibold text-[#2E3338] xl:mt-10 xl:text-xl">
+          <TypographyP className="mt-8 text-base font-semibold text-[#2E3338] xl:mt-10 xl:text-xl">
             {detail.emphasis}
-          </p>
+          </TypographyP>
         ) : null}
       </div>
 
@@ -155,7 +160,7 @@ export default function NoticeDetail({
         >
           <ChevronLeft className="size-5 xl:size-6" />
           <span className="shrink-0">이전글</span>
-          <strong className="truncate font-medium text-[#5A5F65]">{previousItem.title}</strong>
+          <TypographyStrong className="truncate font-medium text-[#5A5F65]">{previousItem.title}</TypographyStrong>
         </Link>
         <Link
           href={`${parentPath}/${nextItem.id}`}
@@ -164,7 +169,7 @@ export default function NoticeDetail({
           <ChevronRight className="size-5 xl:hidden" />
           <ChevronDown className="hidden size-6 xl:block" />
           <span className="shrink-0">다음글</span>
-          <strong className="truncate font-medium text-[#5A5F65]">{nextItem.title}</strong>
+          <TypographyStrong className="truncate font-medium text-[#5A5F65]">{nextItem.title}</TypographyStrong>
         </Link>
       </div>
 
