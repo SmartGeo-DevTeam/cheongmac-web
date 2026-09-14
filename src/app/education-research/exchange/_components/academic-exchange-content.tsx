@@ -1,5 +1,6 @@
 'use client';
 
+import CollectionAdminEditButton from '@/app/_components/inline-editor/collection-admin-edit-button';
 import ManagedItemEditButton from '@/app/_components/inline-editor/managed-item-edit-button';
 import {
   H2 as TypographyH2,
@@ -301,7 +302,11 @@ export default function AcademicExchangeContent({
     <>
       <AcademicExchangeIntro heroImages={heroImages} copy={copy} />
 
-      <section className="mx-auto w-full max-w-7xl px-5 pb-20 pt-10 xl:px-0 xl:pb-28 xl:pt-16">
+      <section className="group/cms-collection relative mx-auto w-full max-w-7xl px-5 pb-20 pt-10 xl:px-0 xl:pb-28 xl:pt-16">
+        <CollectionAdminEditButton
+          href="/admin/pages/exchange"
+          label="학술교류"
+        />
         <div
           ref={listTopRef}
           className="scroll-mt-28"

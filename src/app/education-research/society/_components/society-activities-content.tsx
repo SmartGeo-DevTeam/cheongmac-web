@@ -1,5 +1,6 @@
 'use client';
 
+import CollectionAdminEditButton from '@/app/_components/inline-editor/collection-admin-edit-button';
 import ManagedItemEditButton from '@/app/_components/inline-editor/managed-item-edit-button';
 import {
   H2 as TypographyH2,
@@ -224,7 +225,11 @@ function SocietyTimeline({
   );
 
   return (
-    <section className="mx-auto w-full max-w-7xl px-5 pb-20 pt-10 xl:px-0 xl:pb-28 xl:pt-14">
+    <section className="group/cms-collection relative mx-auto w-full max-w-7xl px-5 pb-20 pt-10 xl:px-0 xl:pb-28 xl:pt-14">
+      <CollectionAdminEditButton
+        href="/admin/pages/society"
+        label="학회활동"
+      />
       <YearTabs
         activeYear={activeYear}
         years={years}

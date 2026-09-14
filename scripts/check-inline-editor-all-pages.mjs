@@ -113,13 +113,42 @@ const adminIndex = editableRegion.indexOf('연결 데이터 상세 관리');
 if (
   fieldIndex === -1 ||
   adminIndex === -1 ||
-  fieldIndex > adminIndex
+  adminIndex > fieldIndex
 ) {
   console.error(
-    '❌ Hybrid Dialog 순서가 잘못되었습니다: 고정 텍스트/이미지 필드가 관리자 상세관리보다 먼저 와야 합니다.',
+    '❌ Hybrid Dialog 순서가 잘못되었습니다: 연결 데이터 상세 관리가 고정 텍스트/이미지 필드보다 먼저 와야 합니다.',
   );
   process.exit(1);
 }
+
+
+const collectionAdminLinks = [
+  [
+    'src/app/education-research/society/_components/society-activities-content.tsx',
+    'href="/admin/pages/society"',
+  ],
+  [
+    'src/app/education-research/exchange/_components/academic-exchange-content.tsx',
+    'href="/admin/pages/exchange"',
+  ],
+];
+
+for (const [file, token] of collectionAdminLinks) {
+  const source = fs.readFileSync(file, 'utf8');
+
+  if (
+    !source.includes('CollectionAdminEditButton') ||
+    !source.includes(token) ||
+    !source.includes('group/cms-collection')
+  ) {
+    console.error(`❌ 목록 전체 관리 링크 누락: ${file} -> ${token}`);
+    process.exit(1);
+  }
+}
+
+console.log(
+  'COLLECTION_ADMIN_LINK_CHECK_OK — society / exchange 전체 관리 링크 확인',
+);
 
 const adminFocus = fs.readFileSync(
   'src/app/admin/_components/admin-hash-focus.tsx',
