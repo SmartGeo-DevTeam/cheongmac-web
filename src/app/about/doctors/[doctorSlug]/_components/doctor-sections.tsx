@@ -181,7 +181,7 @@ export async function DoctorProfileSection({
             sectionKey="profile-image"
             label="의료진 프로필 이미지"
             publicPath={publicPath}
-            adminHref={`/admin/doctors/${doctorId}`}
+            adminHref={`/admin/doctors/${doctorId}#admin-doctor-images`}
             className="rounded-xl bg-white xl:rounded-[14px]"
           >
             <div className="relative flex aspect-335/300 w-full items-end justify-center">
@@ -214,7 +214,7 @@ export async function DoctorProfileSection({
                 required: true,
               },
             ]}
-            adminHref={`/admin/doctors/${doctorId}`}
+            adminHref={`/admin/doctors/${doctorId}#admin-doctor-basic`}
             adminLabel="이름·진료과·직책·예약 URL 관리"
             className="mt-2.5 flex items-center justify-between"
           >

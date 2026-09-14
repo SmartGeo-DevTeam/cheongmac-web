@@ -39,9 +39,9 @@ function buildReceiveMethods(copy: InlineContentData) {
 
 function buildProcessSteps(copy: InlineContentData) {
   return [
-    { step: 'STEP 1', text: copy.step1 },
-    { step: 'STEP 2', text: copy.step2 },
-    { step: 'STEP 3', text: copy.step3 },
+    { step: copy.step1Label, text: copy.step1 },
+    { step: copy.step2Label, text: copy.step2 },
+    { step: copy.step3Label, text: copy.step3 },
   ];
 }
 
@@ -97,7 +97,7 @@ function TestimonialCarousel({ copy }: { copy: InlineContentData }) {
         <div className="relative mt-5 xl:mt-8">
           <button
             type="button"
-            aria-label="이전 칭찬"
+            aria-label={copy.testimonialPrevLabel}
             onClick={() => move(-1)}
             className="absolute left-0 top-1/2 z-10 flex size-8 -translate-x-1/4 -translate-y-1/2 items-center justify-center rounded-full border border-[#E0E4E7] bg-white text-[#7B838B] shadow-sm xl:-translate-x-[70%] xl:size-10"
           >
@@ -116,7 +116,7 @@ function TestimonialCarousel({ copy }: { copy: InlineContentData }) {
 
           <button
             type="button"
-            aria-label="다음 칭찬"
+            aria-label={copy.testimonialNextLabel}
             onClick={() => move(1)}
             className="absolute right-0 top-1/2 z-10 flex size-8 translate-x-1/4 -translate-y-1/2 items-center justify-center rounded-full border border-[#E0E4E7] bg-white text-[#7B838B] shadow-sm xl:translate-x-[70%] xl:size-10"
           >

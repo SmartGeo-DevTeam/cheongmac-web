@@ -1,5 +1,6 @@
 'use client';
 
+import ManagedItemEditButton from '@/app/_components/inline-editor/managed-item-edit-button';
 import {
   H2 as TypographyH2,
 } from '@/app/_components/ui/typography';
@@ -18,6 +19,7 @@ import FilterTabs from '@/app/_components/ui/filter-tabs';
 import PageContainer from '@/app/_components/ui/page-container';
 import Pagination from '@/app/_components/ui/pagination';
 import SearchField from '@/app/_components/ui/search-field';
+import type { InlineContentData } from '@/_lib/inline-content-shared';
 import {
   type TreatmentCase,
   type TreatmentCaseKind,
@@ -27,15 +29,16 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
 
-const FILTERS: Array<{ value: TreatmentCaseKind; label: string }> = [
-  { value: 'treatment', label: '치료 전후' },
-  { value: 'review', label: '환자 후기' },
-  { value: 'video', label: '영상 인터뷰' },
+const FILTER_VALUES: TreatmentCaseKind[] = [
+  'treatment',
+  'review',
+  'video',
 ];
 
 type Props = {
   isAuthenticated: boolean;
   items: TreatmentCase[];
+  copy: InlineContentData;
 };
 
 const PAGE_SIZE = 6;
@@ -43,9 +46,11 @@ const PAGE_SIZE = 6;
 function TreatmentCaseCard({
   item,
   isAuthenticated,
+  copy,
 }: {
   item: TreatmentCase;
   isAuthenticated: boolean;
+  copy: InlineContentData;
 }) {
   const detailHref = `/community/cases/${item.id}`;
 
@@ -53,7 +58,13 @@ function TreatmentCaseCard({
     <ContentCard
       id={`treatment-case-card-${item.id}`}
       variant="treatment"
+      className="relative"
     >
+      <ManagedItemEditButton
+        pageKey="cases"
+        itemKey={String(item.id)}
+        label={item.title}
+      />
       <ContentCardMedia variant="treatment">
         <Image
           src={
@@ -95,7 +106,7 @@ function TreatmentCaseCard({
 
           <ContentCardMeta variant="treatment">
             <span>
-              한 ♡ {item.patientName} · {item.age}세 · {item.sex}
+              {copy.patientPrefix} {item.patientName} · {item.age}세 · {item.sex}
             </span>
             <time dateTime={item.date}>{item.date}</time>
           </ContentCardMeta>
@@ -108,6 +119,7 @@ function TreatmentCaseCard({
 export default function TreatmentCaseList({
   isAuthenticated,
   items,
+  copy,
 }: Props) {
   const [activeFilter, setActiveFilter] =
     useState<TreatmentCaseKind>('treatment');
@@ -150,14 +162,22 @@ export default function TreatmentCaseList({
     <PageContainer className="pb-20 xl:pb-28">
       <div className="flex flex-col">
         <TypographyH2 id="treatment-case-list-heading" className="sr-only">
-          치료사례 목록
+          {copy.listHeading}
         </TypographyH2>
         <FilterTabs
           id="treatment-case-filter-tabs"
-          items={FILTERS}
+          items={FILTER_VALUES.map((value) => ({
+            value,
+            label:
+              value === 'review'
+                ? copy.filterReview
+                : value === 'video'
+                  ? copy.filterVideo
+                  : copy.filterTreatment,
+          }))}
           value={activeFilter}
           onValueChange={changeFilter}
-          ariaLabel="치료사례 종류"
+          ariaLabel={copy.filterAria}
           variant="treatment"
         />
 
@@ -168,11 +188,11 @@ export default function TreatmentCaseList({
           className="mt-6 xl:mt-8"
         >
           <SearchField
-            ariaLabel="치료사례 검색"
+            ariaLabel={copy.searchAria}
             size="lg"
             value={query}
             onChange={(event) => changeQuery(event.target.value)}
-            placeholder="검색어를 입력하세요"
+            placeholder={copy.searchPlaceholder}
             className="max-w-[260px] xl:max-w-[320px]"
           />
         </BoardToolbar>
@@ -184,11 +204,14 @@ export default function TreatmentCaseList({
                 key={item.id}
                 item={item}
                 isAuthenticated={isAuthenticated}
+                copy={copy}
               />
             ))}
           </div>
         ) : (
-          <EmptyState className="mt-12 min-h-[240px] xl:text-xl" />
+          <EmptyState className="mt-12 min-h-[240px] xl:text-xl">
+            {copy.emptyText}
+          </EmptyState>
         )}
 
         <Pagination
@@ -196,7 +219,7 @@ export default function TreatmentCaseList({
           currentPage={currentPage}
           totalPages={totalPages}
           onPageChange={setPage}
-          ariaLabel="치료사례 페이지"
+          ariaLabel={copy.paginationAria}
           variant="large"
           showFirst={false}
           className="mt-10 xl:mt-12"

@@ -55,6 +55,9 @@ export default function EditableRegion({
   adminHref,
   adminLabel = '관리자에서 상세 수정',
   adminDescription,
+  secondaryAdminHref,
+  secondaryAdminLabel = '정적 문구·링크 관리자',
+  secondaryAdminDescription,
   className,
   children,
 }: {
@@ -68,6 +71,9 @@ export default function EditableRegion({
   adminHref?: string;
   adminLabel?: string;
   adminDescription?: string;
+  secondaryAdminHref?: string;
+  secondaryAdminLabel?: string;
+  secondaryAdminDescription?: string;
   className?: string;
   children: ReactNode;
 }) {
@@ -400,13 +406,31 @@ export default function EditableRegion({
                   {adminDescription ??
                     '목록 추가·삭제·정렬·관계 연결처럼 복잡한 데이터는 관리자 화면에서 수정합니다.'}
                 </p>
-                <Link
-                  href={adminHref}
-                  className="mt-3 inline-flex items-center gap-1.5 rounded-md bg-[#285E51] px-3 py-2 text-sm font-semibold text-white transition hover:bg-[#214F45]"
-                >
-                  {adminLabel}
-                  <ExternalLink className="size-4" />
-                </Link>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <Link
+                    href={adminHref}
+                    className="inline-flex items-center gap-1.5 rounded-md bg-[#285E51] px-3 py-2 text-sm font-semibold text-white transition hover:bg-[#214F45]"
+                  >
+                    {adminLabel}
+                    <ExternalLink className="size-4" />
+                  </Link>
+
+                  {secondaryAdminHref ? (
+                    <Link
+                      href={secondaryAdminHref}
+                      className="inline-flex items-center gap-1.5 rounded-md border border-[#BFD8D1] bg-white px-3 py-2 text-sm font-semibold text-[#285E51] transition hover:bg-[#EDF7F4]"
+                    >
+                      {secondaryAdminLabel}
+                      <ExternalLink className="size-4" />
+                    </Link>
+                  ) : null}
+                </div>
+
+                {secondaryAdminDescription ? (
+                  <p className="mt-2 text-xs leading-5 text-[#5F756F]">
+                    {secondaryAdminDescription}
+                  </p>
+                ) : null}
               </div>
             ) : null}
 

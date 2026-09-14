@@ -155,6 +155,15 @@ export default function AdminSidebar({
                 콘텐츠 관리
               </SidebarMenuButton>
             </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                href="/admin/common/page-copy"
+                active={menuActive(pathname, '/admin/common/page-copy')}
+              >
+                <Type className="size-4" />
+                페이지 정적 문구·링크
+              </SidebarMenuButton>
+            </SidebarMenuItem>
           </SidebarMenu>
         </SidebarGroup>
 

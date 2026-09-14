@@ -26,19 +26,21 @@ export default async function CommunityNewsPage() {
       <div className="mt-8 xl:mt-14">
         <EditablePageCopyBlock path="/community/news">
           {(copy) => (
-            <Suspense
-              fallback={
-                <div className="mx-auto min-h-[520px] w-full max-w-7xl px-5" />
-              }
-            >
-              <NewsBoard items={items} copy={copy} />
-            </Suspense>
+            <>
+              <Suspense
+                fallback={
+                  <div className="mx-auto min-h-[520px] w-full max-w-7xl px-5" />
+                }
+              >
+                <NewsBoard items={items} copy={copy} />
+              </Suspense>
+
+              <div className="mb-16 mt-14 xl:mb-20 xl:mt-24">
+                <MoreSocials copy={copy} />
+              </div>
+            </>
           )}
         </EditablePageCopyBlock>
-      </div>
-
-      <div className="mb-16 mt-14 xl:mb-20 xl:mt-24">
-        <MoreSocials />
       </div>
     </div>
   );

@@ -161,7 +161,7 @@ export default function DoctorListClient({
   return (
     <section aria-labelledby="doctor-list-heading">
       <TypographyH2 id="doctor-list-heading" className="sr-only">
-        청맥병원 의료진 목록
+        {copy.doctorListHeading}
       </TypographyH2>
 
       <Inner usePaddingHorizontal>
@@ -203,7 +203,7 @@ export default function DoctorListClient({
 
             <button
               type="button"
-              aria-label="의료진 검색"
+              aria-label={copy.searchAria}
               className="flex h-10.5 w-10.5 shrink-0 items-center justify-center rounded-lg bg-[#FD7740] xl:h-15 xl:w-15"
             >
               <Search className="size-8 text-white xl:h-9 xl:w-8" />

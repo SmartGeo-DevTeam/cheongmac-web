@@ -1,3 +1,4 @@
+import EditablePageCopyBlock from '@/app/_components/inline-editor/editable-page-copy-block';
 import { getCurrentSession, isActiveMember } from '@/_lib/auth-session';
 import { getTreatmentCasesManagedContent } from '@/_lib/managed-pages';
 import type { Metadata } from 'next';
@@ -22,10 +23,15 @@ export default async function TreatmentCasesPage() {
   return (
     <div>
       <TreatmentCasePageHeader />
-      <TreatmentCaseList
-        isAuthenticated={isAuthenticated}
-        items={items}
-      />
+      <EditablePageCopyBlock path="/community/cases">
+        {(copy) => (
+          <TreatmentCaseList
+            isAuthenticated={isAuthenticated}
+            items={items}
+            copy={copy}
+          />
+        )}
+      </EditablePageCopyBlock>
     </div>
   );
 }
