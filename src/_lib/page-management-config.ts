@@ -1,4 +1,5 @@
 export const MANAGED_PAGE_KEYS = [
+  'home',
   'tour',
   'equipment',
   'exchange',
@@ -61,6 +62,152 @@ export const MANAGED_PAGE_CONFIGS: Record<
   ManagedPageKey,
   ManagedPageConfig
 > = {
+  home: {
+    key: 'home',
+    label: '메인페이지',
+    publicHref: '/',
+    groupLabel: '메인페이지',
+    description:
+      '메인 커버 슬라이드와 팝업을 관리합니다. 슬라이드와 팝업은 사용자 화면의 편집 모드에서도 빠르게 수정할 수 있습니다.',
+    itemTypes: [
+      {
+        value: 'slide',
+        label: '커버 슬라이드',
+        titleField: 'titleStrong',
+        summaryField: 'description1',
+        imageFields: ['mobileImage', 'desktopImage'],
+        fields: [
+          {
+            key: 'titleLead',
+            label: '제목 앞 문구',
+            type: 'text',
+            required: true,
+          },
+          {
+            key: 'titleStrong',
+            label: '강조 제목',
+            type: 'text',
+            required: true,
+          },
+          {
+            key: 'description1',
+            label: '설명 1',
+            type: 'text',
+          },
+          {
+            key: 'description2',
+            label: '설명 2',
+            type: 'text',
+          },
+          {
+            key: 'buttonLabel',
+            label: '버튼 문구',
+            type: 'text',
+          },
+          {
+            key: 'actionType',
+            label: '버튼 동작',
+            type: 'select',
+            required: true,
+            options: [
+              { value: 'link', label: '링크 이동' },
+              { value: 'macgpt', label: '맥GPT 열기' },
+            ],
+          },
+          {
+            key: 'href',
+            label: '버튼 링크',
+            type: 'text',
+            placeholder: '예: /about/doctors 또는 https://...',
+            description:
+              '버튼 동작이 링크 이동일 때 사용합니다. 사이트 내부 경로는 /로 시작할 수 있습니다.',
+          },
+          {
+            key: 'openInNewTab',
+            label: '새 창으로 열기',
+            type: 'checkbox',
+          },
+          {
+            key: 'mobileImage',
+            label: '모바일 배경 이미지',
+            type: 'text',
+            required: true,
+          },
+          {
+            key: 'desktopImage',
+            label: 'PC 배경 이미지',
+            type: 'text',
+            required: true,
+          },
+          {
+            key: 'alt',
+            label: '이미지 대체 텍스트',
+            type: 'text',
+            required: true,
+          },
+          visibilityField,
+        ],
+      },
+      {
+        value: 'popup',
+        label: '메인 팝업',
+        titleField: 'title',
+        summaryField: 'lines',
+        fields: [
+          {
+            key: 'title',
+            label: '팝업 제목',
+            type: 'text',
+            required: true,
+          },
+          {
+            key: 'lines',
+            label: '팝업 내용',
+            type: 'lines',
+            required: true,
+            description: '한 줄에 한 문장씩 입력합니다.',
+          },
+          {
+            key: 'icon',
+            label: '아이콘/이모지',
+            type: 'text',
+          },
+          {
+            key: 'backgroundColor',
+            label: '배경색',
+            type: 'text',
+            required: true,
+            placeholder: '예: #3270C3',
+          },
+          {
+            key: 'href',
+            label: '연결 경로',
+            type: 'text',
+            placeholder: '예: /community/notice 또는 https://...',
+          },
+          {
+            key: 'openInNewTab',
+            label: '새 창으로 열기',
+            type: 'checkbox',
+          },
+          {
+            key: 'desktopOrder',
+            label: 'PC 노출 순서',
+            type: 'number',
+            required: true,
+          },
+          {
+            key: 'mobileOrder',
+            label: '모바일 노출 순서',
+            type: 'number',
+            required: true,
+          },
+          visibilityField,
+        ],
+      },
+    ],
+  },
+
   tour: {
     key: 'tour',
     label: '병원 둘러보기',

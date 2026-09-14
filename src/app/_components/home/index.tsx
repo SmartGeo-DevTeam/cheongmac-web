@@ -9,14 +9,19 @@ import HomeInfo from './8_info';
 import HomePartners from './9_partners';
 import { getPageContentBlock } from '@/_lib/page-content-blocks';
 import { getPublicPageCopyConfig } from '@/_lib/public-page-copy';
+import { getHomeCoverManagedContent } from '@/_lib/managed-pages';
 
 export default async function HomeSections() {
   const config = getPublicPageCopyConfig('/');
-  const content = await getPageContentBlock(
-    'page-copy',
-    '/',
-    config.defaults,
-  );
+
+  const [content, homeCover] = await Promise.all([
+    getPageContentBlock(
+      'page-copy',
+      '/',
+      config.defaults,
+    ),
+    getHomeCoverManagedContent(),
+  ]);
 
   const copyProps = {
     copy: content.data,
@@ -25,7 +30,11 @@ export default async function HomeSections() {
 
   return (
     <>
-      <HomeCover {...copyProps} />
+      <HomeCover
+        {...copyProps}
+        slides={homeCover.slides}
+        popups={homeCover.popups}
+      />
       <HomeSpecialties {...copyProps} />
       <HomeDoctors {...copyProps} />
       <HomeBanners />

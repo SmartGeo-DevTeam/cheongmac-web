@@ -319,6 +319,23 @@ export async function saveManagedPageItem(
 
   const imageUrls = collectImageUrls(data, typeConfig.imageFields);
 
+  if (pageKey === 'home' && itemType === 'popup' && isVisible) {
+    const visiblePopupCount = await prisma.managedPageItem.count({
+      where: {
+        pageKey: 'home',
+        itemType: 'popup',
+        isVisible: true,
+        ...(id === 'new' ? {} : { id: { not: id } }),
+      },
+    });
+
+    if (visiblePopupCount >= 3) {
+      throw new Error(
+        '메인 팝업은 최대 3개까지만 동시에 노출할 수 있습니다. 다른 팝업을 먼저 비활성화해주세요.',
+      );
+    }
+  }
+
   await prisma.$transaction(async (tx) => {
     let targetId: string;
 
@@ -410,12 +427,24 @@ export async function deleteManagedPageItem(
     select: {
       id: true,
       itemKey: true,
+      itemType: true,
       title: true,
+      isVisible: true,
       data: true,
     },
   });
 
   if (!existing) throw new Error('삭제할 데이터를 찾을 수 없습니다.');
+
+  if (
+    pageKey === 'home' &&
+    ['slide', 'popup'].includes(existing.itemType) &&
+    existing.isVisible
+  ) {
+    throw new Error(
+      '메인 슬라이드와 팝업은 먼저 비활성화한 뒤 삭제할 수 있습니다.',
+    );
+  }
 
   await prisma.$transaction(async (tx) => {
     await tx.managedPageItem.delete({

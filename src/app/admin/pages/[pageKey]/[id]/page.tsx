@@ -236,6 +236,11 @@ export default async function AdminManagedPageEdit({
   const data = dataRecord(item?.data);
   const action = saveManagedPageItem.bind(null, pageKey, id, itemType);
 
+  const homeDeleteLocked =
+    Boolean(item?.isVisible) &&
+    pageKey === 'home' &&
+    ['slide', 'popup'].includes(itemType);
+
   return (
     <section className="space-y-6 pb-12">
       <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
@@ -257,15 +262,29 @@ export default async function AdminManagedPageEdit({
         </div>
 
         {item ? (
-          <form action={deleteManagedPageItem.bind(null, pageKey, item.id)}>
-            <button
-              type="submit"
-              className="inline-flex h-10 items-center gap-2 rounded-md border border-red-200 bg-white px-4 text-sm font-medium text-red-600 hover:bg-red-50"
-            >
-              <Trash2 className="size-4" />
-              삭제
-            </button>
-          </form>
+          <div className="flex flex-col items-end gap-1.5">
+            <form action={deleteManagedPageItem.bind(null, pageKey, item.id)}>
+              <button
+                type="submit"
+                disabled={homeDeleteLocked}
+                title={
+                  homeDeleteLocked
+                    ? '먼저 사용자 페이지 노출을 해제하고 저장한 뒤 삭제할 수 있습니다.'
+                    : '이 항목을 삭제합니다.'
+                }
+                className="inline-flex h-10 items-center gap-2 rounded-md border border-red-200 bg-white px-4 text-sm font-medium text-red-600 hover:bg-red-50 disabled:cursor-not-allowed disabled:border-[#E4E4E7] disabled:bg-[#F4F4F5] disabled:text-[#A1A1AA]"
+              >
+                <Trash2 className="size-4" />
+                {homeDeleteLocked ? '비활성화 후 삭제' : '삭제'}
+              </button>
+            </form>
+
+            {homeDeleteLocked ? (
+              <p className="text-[11px] text-[#A1A1AA]">
+                활성 슬라이드·팝업은 먼저 비활성화 후 저장해야 삭제할 수 있습니다.
+              </p>
+            ) : null}
+          </div>
         ) : null}
       </div>
 

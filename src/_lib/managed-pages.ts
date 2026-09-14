@@ -1,6 +1,13 @@
 import 'server-only';
 
 import {
+  buildHomeCoverContentFromLegacy,
+  DEFAULT_HOME_COVER_POPUPS,
+  DEFAULT_HOME_COVER_SLIDES,
+  type HomeCoverPopup,
+  type HomeCoverSlide,
+} from '@/_lib/home-cover-content';
+import {
   FACILITY_ITEMS,
   FLOOR_GUIDES,
   type FacilityItem,
@@ -80,8 +87,47 @@ function record(value: unknown): Record<string, unknown> {
     : {};
 }
 
-function seedRows(pageKey: ManagedPageKey): SeedRow[] {
+function isManagedDatabaseFallbackError(error: unknown) {
+  const code =
+    error && typeof error === 'object' && 'code' in error
+      ? String((error as { code?: unknown }).code ?? '')
+      : '';
+
+  return code === 'P1001' || code === 'P2021' || code === 'P2022';
+}
+
+function seedRows(
+  pageKey: ManagedPageKey,
+  legacyCopy: Record<string, unknown> = {},
+): SeedRow[] {
   switch (pageKey) {
+    case 'home': {
+      const { slides, popups } =
+        buildHomeCoverContentFromLegacy(legacyCopy);
+
+      return [
+        ...slides.map((item, index) => ({
+          itemKey: item.itemKey,
+          itemType: 'slide',
+          title: `${item.titleLead} ${item.titleStrong}`.trim(),
+          summary: [item.description1, item.description2]
+            .filter(Boolean)
+            .join(' '),
+          imageUrls: [item.mobileImage, item.desktopImage].filter(Boolean),
+          data: inputJson(item),
+          sortOrder: index,
+        })),
+        ...popups.map((item, index) => ({
+          itemKey: item.itemKey,
+          itemType: 'popup',
+          title: item.title,
+          summary: item.lines.join(' '),
+          data: inputJson(item),
+          sortOrder: 100 + index,
+        })),
+      ];
+    }
+
     case 'tour':
       return [
         ...FLOOR_GUIDES.map((item, index) => ({
@@ -258,7 +304,23 @@ export async function ensureManagedPageSeeded(pageKey: ManagedPageKey) {
 
   if (state) return;
 
-  const rows = seedRows(pageKey);
+  let legacyCopy: Record<string, unknown> = {};
+
+  if (pageKey === 'home') {
+    const legacy = await prisma.pageContentBlock.findUnique({
+      where: {
+        pageKey_sectionKey: {
+          pageKey: 'page-copy',
+          sectionKey: '/',
+        },
+      },
+      select: { data: true },
+    });
+
+    legacyCopy = record(legacy?.data);
+  }
+
+  const rows = seedRows(pageKey, legacyCopy);
 
   await prisma.$transaction(async (tx) => {
     await tx.managedPageItem.createMany({
@@ -292,6 +354,73 @@ async function publicRows(pageKey: ManagedPageKey) {
     where: { pageKey, isVisible: true },
     orderBy: [{ sortOrder: 'asc' }, { createdAt: 'asc' }],
   });
+}
+
+export async function getHomeCoverManagedContent(): Promise<{
+  slides: HomeCoverSlide[];
+  popups: HomeCoverPopup[];
+}> {
+  try {
+    const rows = await publicRows('home');
+
+    return {
+      slides: rows
+        .filter((row) => row.itemType === 'slide')
+        .map((row) => {
+          const data = record(row.data);
+
+          return {
+            itemKey: row.itemKey,
+            id: String(data.id ?? row.itemKey.replace(/^slide:/, 'slide-')),
+            titleLead: String(data.titleLead ?? ''),
+            titleStrong: String(data.titleStrong ?? row.title),
+            description1: String(data.description1 ?? row.summary ?? ''),
+            description2: String(data.description2 ?? ''),
+            buttonLabel: String(data.buttonLabel ?? ''),
+            actionType:
+              data.actionType === 'macgpt' ? 'macgpt' : 'link',
+            href: String(data.href ?? '/'),
+            openInNewTab: Boolean(data.openInNewTab),
+            mobileImage: String(
+              data.mobileImage ?? row.imageUrls[0] ?? '',
+            ),
+            desktopImage: String(
+              data.desktopImage ?? row.imageUrls[1] ?? row.imageUrls[0] ?? '',
+            ),
+            alt: String(data.alt ?? row.title),
+          } satisfies HomeCoverSlide;
+        }),
+      popups: rows
+        .filter((row) => row.itemType === 'popup')
+        .map((row) => {
+          const data = record(row.data);
+
+          return {
+            itemKey: row.itemKey,
+            id: String(data.id ?? row.itemKey.replace(/^popup:/, 'popup-')),
+            title: String(data.title ?? row.title),
+            lines: strings(data.lines),
+            backgroundColor: String(
+              data.backgroundColor ?? '#3270C3',
+            ),
+            icon: String(data.icon ?? ''),
+            href: String(data.href ?? '/'),
+            openInNewTab: Boolean(data.openInNewTab),
+            desktopOrder: Number(data.desktopOrder ?? row.sortOrder),
+            mobileOrder: Number(data.mobileOrder ?? row.sortOrder),
+          } satisfies HomeCoverPopup;
+        }),
+    };
+  } catch (error) {
+    if (isManagedDatabaseFallbackError(error)) {
+      return {
+        slides: DEFAULT_HOME_COVER_SLIDES,
+        popups: DEFAULT_HOME_COVER_POPUPS,
+      };
+    }
+
+    throw error;
+  }
 }
 
 export async function getHospitalTourManagedContent(): Promise<{

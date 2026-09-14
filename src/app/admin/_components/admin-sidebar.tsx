@@ -117,6 +117,21 @@ export default function AdminSidebar({
           </SidebarGroup>
         ) : null}
 
+        <SidebarGroup>
+          <SidebarGroupLabel>메인페이지</SidebarGroupLabel>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                href="/admin/pages/home"
+                active={menuActive(pathname, '/admin/pages/home')}
+              >
+                <Clapperboard className="size-4" />
+                커버 슬라이드·팝업
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarGroup>
+
         {canAccessDashboard ? (
           <SidebarGroup>
             <SidebarGroupLabel>회원</SidebarGroupLabel>

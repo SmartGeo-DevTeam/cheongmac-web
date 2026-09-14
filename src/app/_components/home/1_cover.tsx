@@ -1,13 +1,19 @@
 'use client';
 
+import CollectionAdminEditButton from '@/app/_components/inline-editor/collection-admin-edit-button';
 import EditablePageCopyRegion from '@/app/_components/inline-editor/editable-page-copy-region';
+import ManagedItemEditButton from '@/app/_components/inline-editor/managed-item-edit-button';
+import { openMacGptSearch } from '@/app/_components/mac-gpt-search';
 import {
   H1 as TypographyH1,
   H2 as TypographyH2,
   P as TypographyP,
 } from '@/app/_components/ui/typography';
-import { openMacGptSearch } from '@/app/_components/mac-gpt-search';
 import { useViewport } from '@/app/_providers/viewport-provider';
+import type {
+  HomeCoverPopup,
+  HomeCoverSlide,
+} from '@/_lib/home-cover-content';
 import { HOME_COPY_FIELD_KEYS } from '@/_lib/home-page-copy';
 import type { InlineContentData } from '@/_lib/inline-content-shared';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -42,48 +48,6 @@ const mobileStackTransition = {
   mass: 0.9,
 } as const;
 
-type CoverPopup = {
-  id: string;
-  title: string;
-  lines: string[];
-  bgClassName: string;
-  icon: string;
-  desktopOrder: number;
-  mobileOrder: number;
-};
-
-function getCoverPopups(copy: InlineContentData): CoverPopup[] {
-  return [
-    {
-      id: 'may-clinic',
-      title: copy.coverPopup1Title,
-      lines: [copy.coverPopup1Line1, copy.coverPopup1Line2],
-      bgClassName: 'bg-[#3270C3]',
-      icon: '➕',
-      desktopOrder: 1,
-      mobileOrder: 1,
-    },
-    {
-      id: 'same-day-green',
-      title: copy.coverPopup2Title,
-      lines: [copy.coverPopup2Line1, copy.coverPopup2Line2],
-      bgClassName: 'bg-[#767E93]',
-      icon: '🗓️',
-      desktopOrder: 2,
-      mobileOrder: 3,
-    },
-    {
-      id: 'same-day-blue',
-      title: copy.coverPopup3Title,
-      lines: [copy.coverPopup3Line1, copy.coverPopup3Line2],
-      bgClassName: 'bg-[#4F8D76]',
-      icon: '🗓️',
-      desktopOrder: 3,
-      mobileOrder: 2,
-    },
-  ];
-}
-
 function getLocalDateKey() {
   const now = new Date();
   const year = now.getFullYear();
@@ -94,7 +58,7 @@ function getLocalDateKey() {
 }
 
 function getOrderedPopups(
-  popups: CoverPopup[],
+  popups: HomeCoverPopup[],
   dismissedIds: string[],
   mode: 'desktop' | 'mobile',
 ) {
@@ -109,49 +73,44 @@ function getOrderedPopups(
 
 function PopupCard({
   popup,
-  variant,
   onClose,
 }: {
-  popup: CoverPopup;
-  variant: 'desktop' | 'mobile';
+  popup: HomeCoverPopup;
   onClose: () => void;
 }) {
   return (
-    <Link
-      target="_blank"
-      href={`/`}
-      className={[
-        'relative pl-3.5 pr-8.5 py-3.5 rounded-[20px] flex items-center gap-5',
-        'xl:pl-5 xl:pr-16 xl:py-5 xl:gap-8',
-        popup.bgClassName,
-      ].join(' ')}
+    <div
+      className="relative rounded-[20px]"
+      style={{ backgroundColor: popup.backgroundColor || '#3270C3' }}
     >
-      <span
-        className="text-5xl
-      xl:text-6xl"
+      <Link
+        href={popup.href || '/'}
+        target={popup.openInNewTab ? '_blank' : undefined}
+        rel={popup.openInNewTab ? 'noopener noreferrer' : undefined}
+        className="flex items-center gap-5 rounded-[20px] py-3.5 pl-3.5 pr-12 xl:gap-8 xl:py-5 xl:pl-5 xl:pr-16"
       >
-        {popup.icon}
-      </span>
+        <span className="text-5xl xl:text-6xl">{popup.icon}</span>
 
-      <div
-        className="space-y-1 text-white
-      xl:space-y-1.25"
-      >
-        <TypographyP managed={false}
-          className={`font-bold text-xl
-        xl:text-2xl`}
-        >
-          {popup.title}
-        </TypographyP>
-        <div
-          className={`font-medium text-xs
-        xl:text-lg`}
-        >
-          {popup.lines.map((line) => (
-            <TypographyP managed={false} key={line}>{line}</TypographyP>
-          ))}
+        <div className="min-w-0 space-y-1 text-white xl:space-y-1.25">
+          <TypographyP
+            managed={false}
+            className="truncate text-xl font-bold xl:text-2xl"
+          >
+            {popup.title}
+          </TypographyP>
+
+          <div className="text-xs font-medium xl:text-lg">
+            {popup.lines.map((line, index) => (
+              <TypographyP
+                managed={false}
+                key={`${popup.itemKey}-${index}`}
+              >
+                {line}
+              </TypographyP>
+            ))}
+          </div>
         </div>
-      </div>
+      </Link>
 
       <button
         type="button"
@@ -161,11 +120,18 @@ function PopupCard({
           event.stopPropagation();
           onClose();
         }}
-        className="absolute right-3.5 top-3.5 w-10 h-10 text-3xl text-white"
+        className="absolute right-3.5 top-3.5 z-20 size-10 text-3xl text-white"
       >
         ×
       </button>
-    </Link>
+
+      <ManagedItemEditButton
+        pageKey="home"
+        itemKey={popup.itemKey}
+        label={popup.title}
+        className="left-2 right-auto top-2"
+      />
+    </div>
   );
 }
 
@@ -173,10 +139,12 @@ function HomeCoverPopups({
   isMobile,
   onMobilePopupsClosed,
   copy,
+  popups,
 }: {
   isMobile: boolean;
   onMobilePopupsClosed: () => void;
   copy: InlineContentData;
+  popups: HomeCoverPopup[];
 }) {
   const mobileLayerRef = useRef<HTMLDivElement | null>(null);
   const mobileCardRefs = useRef<Record<string, HTMLDivElement | null>>({});
@@ -193,10 +161,7 @@ function HomeCoverPopups({
   const [isInitialMobileLayoutReady, setIsInitialMobileLayoutReady] =
     useState(false);
 
-  const coverPopups = useMemo(
-    () => getCoverPopups(copy),
-    [copy],
-  );
+  const coverPopups = useMemo(() => popups, [popups]);
 
   const desktopPopups = useMemo(
     () => getOrderedPopups(coverPopups, dismissedIds, 'desktop'),
@@ -210,7 +175,6 @@ function HomeCoverPopups({
 
   useEffect(() => {
     if (!isMobile || mobilePopups.length > 0) return;
-
     onMobilePopupsClosed();
   }, [isMobile, mobilePopups.length, onMobilePopupsClosed]);
 
@@ -218,7 +182,9 @@ function HomeCoverPopups({
 
   const mobileExpandedHeight = mobilePopups.reduce(
     (total, popup, index) =>
-      total + getMobileCardHeight(popup.id) + (index > 0 ? MOBILE_CARD_GAP : 0),
+      total +
+      getMobileCardHeight(popup.id) +
+      (index > 0 ? MOBILE_CARD_GAP : 0),
     0,
   );
 
@@ -235,7 +201,9 @@ function HomeCoverPopups({
 
   const mobileStackedY =
     mobileLayerHeight > 0
-      ? mobileLayerHeight / 2 - MOBILE_STACK_BOTTOM_OFFSET - mobileStackedHeight
+      ? mobileLayerHeight / 2 -
+        MOBILE_STACK_BOTTOM_OFFSET -
+        mobileStackedHeight
       : mobileCenteredY;
 
   useEffect(() => {
@@ -258,20 +226,13 @@ function HomeCoverPopups({
       return;
     }
 
-    if (hasStartedMobileTimerRef.current) {
-      return;
-    }
+    if (hasStartedMobileTimerRef.current) return;
 
     hasStartedMobileTimerRef.current = true;
-
     setCountdown(MOBILE_POPUP_COUNTDOWN_SECONDS);
 
     const countdownTimer = window.setInterval(() => {
-      setCountdown((prev) => {
-        if (prev <= 1) return 1;
-
-        return prev - 1;
-      });
+      setCountdown((prev) => (prev <= 1 ? 1 : prev - 1));
     }, 1000);
 
     const closeTimer = window.setTimeout(() => {
@@ -294,7 +255,6 @@ function HomeCoverPopups({
 
   useEffect(() => {
     const node = mobileLayerRef.current;
-
     if (!node) return;
 
     const updateHeight = () => {
@@ -305,7 +265,6 @@ function HomeCoverPopups({
 
     const resizeObserver = new ResizeObserver(updateHeight);
     resizeObserver.observe(node);
-
     window.addEventListener('resize', updateHeight);
 
     return () => {
@@ -327,7 +286,8 @@ function HomeCoverPopups({
     const measureCardHeights = () => {
       const nextHeights = mobilePopups.reduce<Record<string, number>>(
         (acc, popup) => {
-          acc[popup.id] = mobileCardRefs.current[popup.id]?.offsetHeight ?? 0;
+          acc[popup.id] =
+            mobileCardRefs.current[popup.id]?.offsetHeight ?? 0;
           return acc;
         },
         {},
@@ -345,7 +305,10 @@ function HomeCoverPopups({
         return hasChanged ? nextHeights : prev;
       });
 
-      if (hasMeasuredAllCards && !hasPreparedInitialMobileLayoutRef.current) {
+      if (
+        hasMeasuredAllCards &&
+        !hasPreparedInitialMobileLayoutRef.current
+      ) {
         hasPreparedInitialMobileLayoutRef.current = true;
 
         readyFrameId = window.requestAnimationFrame(() => {
@@ -363,21 +326,13 @@ function HomeCoverPopups({
 
     mobilePopups.forEach((popup) => {
       const node = mobileCardRefs.current[popup.id];
-
-      if (node) {
-        resizeObserver.observe(node);
-      }
+      if (node) resizeObserver.observe(node);
     });
 
     window.addEventListener('resize', measureCardHeights);
 
     return () => {
-      // React Strict Mode(dev)에서는 layout effect가 setup → cleanup → setup 순서로
-      // 한 번 더 실행될 수 있습니다. 첫 setup에서 예약한 readyFrame을 cleanup이
-      // 취소하므로, 준비 완료 여부 ref도 반드시 함께 되돌려야 다음 setup에서
-      // 다시 isInitialMobileLayoutReady를 활성화할 수 있습니다.
       hasPreparedInitialMobileLayoutRef.current = false;
-
       window.cancelAnimationFrame(frameId);
       window.cancelAnimationFrame(readyFrameId);
       resizeObserver.disconnect();
@@ -386,7 +341,9 @@ function HomeCoverPopups({
   }, [isMobile, mobilePopups]);
 
   const handleClose = (id: string) => {
-    setDismissedIds((prev) => (prev.includes(id) ? prev : [...prev, id]));
+    setDismissedIds((prev) =>
+      prev.includes(id) ? prev : [...prev, id],
+    );
   };
 
   const handleCloseMobilePopups = () => {
@@ -397,6 +354,7 @@ function HomeCoverPopups({
   const handleHideToday = () => {
     window.localStorage.setItem(HOME_POPUP_HIDE_KEY, getLocalDateKey());
     setDismissedIds(coverPopups.map((popup) => popup.id));
+    onMobilePopupsClosed();
   };
 
   if (desktopPopups.length === 0 && mobilePopups.length === 0) {
@@ -405,13 +363,9 @@ function HomeCoverPopups({
 
   return (
     <>
-      {/* Desktop popup layer */}
-      {desktopPopups.length > 0 && (
-        <div
-          className={`hidden
-          absolute inset-x-0 bottom-36 px-5 pointer-events-none  z-20  justify-center xl:flex`}
-        >
-          <motion.div className="w-full flex justify-center gap-4">
+      {desktopPopups.length > 0 ? (
+        <div className="pointer-events-none absolute inset-x-0 bottom-36 z-20 hidden justify-center px-5 xl:flex">
+          <motion.div className="flex w-full justify-center gap-4">
             <AnimatePresence initial={false}>
               {desktopPopups.map((popup) => (
                 <motion.div
@@ -420,12 +374,14 @@ function HomeCoverPopups({
                   initial={{ opacity: 0, y: 28, scale: 0.96 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 24, scale: 0.92 }}
-                  transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{
+                    duration: 0.45,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
                   className="pointer-events-auto"
                 >
                   <PopupCard
                     popup={popup}
-                    variant="desktop"
                     onClose={() => handleClose(popup.id)}
                   />
                 </motion.div>
@@ -433,25 +389,22 @@ function HomeCoverPopups({
             </AnimatePresence>
           </motion.div>
         </div>
-      )}
+      ) : null}
 
-      {/* Mobile dimmed backdrop */}
       <AnimatePresence>
-        {isMobile && mobilePopups.length > 0 && !isStacked && (
+        {isMobile && mobilePopups.length > 0 && !isStacked ? (
           <motion.div
             key="mobile-popup-backdrop"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25, ease: 'easeOut' }}
-            className="absolute inset-0 left-1/2 -translate-x-1/2 w-[calc(100vw-var(--spacing)-var(--spacing)-var(--spacing)-var(--spacing))] rounded-[20px] bg-black/50 z-20
-            xl:hidden"
+            className="absolute inset-0 left-1/2 z-20 w-[calc(100vw-var(--spacing)-var(--spacing)-var(--spacing)-var(--spacing))] -translate-x-1/2 rounded-[20px] bg-black/50 xl:hidden"
           />
-        )}
+        ) : null}
       </AnimatePresence>
 
-      {/* Mobile popup layer */}
-      {mobilePopups.length > 0 && (
+      {mobilePopups.length > 0 ? (
         <div
           ref={mobileLayerRef}
           className="pointer-events-none absolute inset-0 z-30 xl:hidden"
@@ -487,8 +440,8 @@ function HomeCoverPopups({
                     );
 
                   const stackedY = index * MOBILE_STACK_OFFSET;
-
-                  const stackedScale = 1 - index * MOBILE_STACK_SCALE_STEP;
+                  const stackedScale =
+                    1 - index * MOBILE_STACK_SCALE_STEP;
                   const stackedOpacity = 1 - index * 0.08;
 
                   return (
@@ -501,7 +454,9 @@ function HomeCoverPopups({
                       animate={{
                         y: isStacked ? stackedY : expandedY,
                         scale: isStacked ? stackedScale : 1,
-                        opacity: isStacked ? stackedOpacity : 1,
+                        opacity: isStacked
+                          ? stackedOpacity
+                          : 1,
                       }}
                       exit={{
                         opacity: 0,
@@ -521,7 +476,6 @@ function HomeCoverPopups({
                     >
                       <PopupCard
                         popup={popup}
-                        variant="mobile"
                         onClose={() => handleClose(popup.id)}
                       />
                     </motion.div>
@@ -530,18 +484,12 @@ function HomeCoverPopups({
               </AnimatePresence>
 
               <AnimatePresence initial={false}>
-                {!isStacked && (
+                {!isStacked ? (
                   <motion.div
                     key="mobile-popup-countdown-area"
                     initial={false}
-                    animate={{
-                      opacity: 1,
-                      y: 0,
-                    }}
-                    exit={{
-                      opacity: 0,
-                      y: 8,
-                    }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 8 }}
                     transition={{
                       duration: 0.25,
                       ease: 'easeOut',
@@ -551,8 +499,12 @@ function HomeCoverPopups({
                       top: mobileExpandedHeight + 20,
                     }}
                   >
-                    <TypographyP managed={false} className="text-[15px] font-medium text-white/80">
-                      {countdown}{copy.coverPopupCountdownSuffix}
+                    <TypographyP
+                      managed={false}
+                      className="text-[15px] font-medium text-white/80"
+                    >
+                      {countdown}
+                      {copy.coverPopupCountdownSuffix}
                     </TypographyP>
 
                     <div className="flex items-center justify-center gap-2">
@@ -573,31 +525,155 @@ function HomeCoverPopups({
                       </button>
                     </div>
                   </motion.div>
-                )}
+                ) : null}
               </AnimatePresence>
             </motion.div>
           </div>
         </div>
-      )}
+      ) : null}
     </>
+  );
+}
+
+function SlideAction({ slide }: { slide: HomeCoverSlide }) {
+  if (!slide.buttonLabel) return null;
+
+  if (slide.actionType === 'macgpt') {
+    return (
+      <button
+        type="button"
+        onClick={() => openMacGptSearch()}
+        className="order-3 mt-5 flex items-center gap-1.5 rounded-full border border-white bg-white px-3 py-[4.5px] text-[15px] font-semibold text-black shadow-[0_0_20px_2px_#FF7740] xl:order-1 xl:mt-0 xl:text-lg"
+      >
+        <Image
+          src="/assets/effects/sparkle.gif"
+          alt=""
+          aria-hidden="true"
+          width={22}
+          height={22}
+          unoptimized
+        />
+        <span>{slide.buttonLabel}</span>
+      </button>
+    );
+  }
+
+  return (
+    <Link
+      href={slide.href || '/'}
+      target={slide.openInNewTab ? '_blank' : undefined}
+      rel={slide.openInNewTab ? 'noopener noreferrer' : undefined}
+      className="order-3 mt-5 rounded-full border border-white px-4 py-1 text-[15px] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)] xl:order-1 xl:mt-0 xl:text-lg"
+    >
+      {slide.buttonLabel}
+    </Link>
+  );
+}
+
+function CoverSlide({
+  slide,
+  index,
+}: {
+  slide: HomeCoverSlide;
+  index: number;
+}) {
+  const headingClassName =
+    'order-1 flex flex-col items-center text-4xl leading-[125%] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)] xl:order-2 xl:mt-14 xl:flex-row xl:gap-1.75 xl:text-6xl';
+
+  return (
+    <div
+      className={`relative flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-[20px] bg-[#4E6875] px-5 pb-[5%] xl:rounded-none ${
+        slide.actionType === 'macgpt'
+          ? 'xl:pb-[6%]'
+          : 'xl:pb-[3%]'
+      }`}
+    >
+      {slide.mobileImage ? (
+        <Image
+          src={slide.mobileImage}
+          alt={slide.alt}
+          fill
+          priority={index === 0}
+          className="object-cover xl:hidden"
+          sizes="100vw"
+        />
+      ) : null}
+
+      {slide.desktopImage ? (
+        <Image
+          src={slide.desktopImage}
+          alt={slide.alt}
+          fill
+          priority={index === 0}
+          className="hidden object-cover xl:block"
+          sizes="100vw"
+        />
+      ) : null}
+
+      <div className="relative z-[2] flex flex-col items-center">
+        {index === 0 ? (
+          <TypographyH1
+            managed={false}
+            id="home-primary-heading"
+            className={headingClassName}
+          >
+            <span>{slide.titleLead}</span>
+            <span className="font-extrabold">
+              {slide.titleStrong}
+            </span>
+          </TypographyH1>
+        ) : (
+          <TypographyH2
+            managed={false}
+            className={headingClassName}
+          >
+            <span>{slide.titleLead}</span>
+            <span className="font-extrabold">
+              {slide.titleStrong}
+            </span>
+          </TypographyH2>
+        )}
+
+        <div className="order-2 mt-5 flex flex-col items-center break-keep text-center text-[15px] leading-[150%] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)] xl:order-3 xl:gap-1 xl:text-2xl">
+          <TypographyP managed={false}>
+            {slide.description1}
+          </TypographyP>
+          <TypographyP managed={false}>
+            {slide.description2}
+          </TypographyP>
+        </div>
+
+        <SlideAction slide={slide} />
+      </div>
+
+      <ManagedItemEditButton
+        pageKey="home"
+        itemKey={slide.itemKey}
+        label={`${slide.titleLead} ${slide.titleStrong}`}
+        className="right-4 top-16"
+      />
+    </div>
   );
 }
 
 export default function HomeCover({
   copy,
   persisted,
+  slides,
+  popups,
 }: {
   copy: InlineContentData;
   persisted: boolean;
+  slides: HomeCoverSlide[];
+  popups: HomeCoverPopup[];
 }) {
   const { isMobile } = useViewport();
-
   const swiperRef = useRef<SwiperType | null>(null);
-  const [canStartSwiperAutoplay, setCanStartSwiperAutoplay] = useState(false);
-
-  const [initialCoverHeight, setInitialCoverHeight] = useState<number | null>(
-    null,
-  );
+  const [canStartSwiperAutoplay, setCanStartSwiperAutoplay] =
+    useState(false);
+  const [initialCoverHeight, setInitialCoverHeight] = useState<
+    number | null
+  >(null);
 
   const handleMobilePopupsClosed = useCallback(() => {
     setCanStartSwiperAutoplay(true);
@@ -605,7 +681,6 @@ export default function HomeCover({
 
   useLayoutEffect(() => {
     const initialViewportHeight = window.innerHeight;
-
     setInitialCoverHeight(Math.round(initialViewportHeight * 0.78));
   }, []);
 
@@ -615,12 +690,11 @@ export default function HomeCover({
       return;
     }
 
-    setCanStartSwiperAutoplay(false);
-  }, [isMobile]);
+    setCanStartSwiperAutoplay(popups.length === 0);
+  }, [isMobile, popups.length]);
 
   useEffect(() => {
     const swiper = swiperRef.current;
-
     if (!swiper?.autoplay) return;
 
     if (canStartSwiperAutoplay) {
@@ -636,150 +710,62 @@ export default function HomeCover({
       path="/"
       copy={copy}
       persisted={persisted}
-      label="메인 커버·팝업 문구"
+      label="메인 팝업 공통 문구"
       fieldKeys={HOME_COPY_FIELD_KEYS.cover}
     >
       <section
-        className="relative overflow-hidden px-2 xl:px-0"
-      style={{
-        height:
-          initialCoverHeight === null ? '78vh' : `${initialCoverHeight}px`,
-      }}
-    >
-      <Swiper
-        modules={[Autoplay, Pagination]}
-        spaceBetween={isMobile ? 8 : 0}
-        slidesPerView={1}
-        loop
-        pagination={{
-          clickable: true,
+        className="group/cms-collection relative overflow-hidden px-2 xl:px-0"
+        style={{
+          height:
+            initialCoverHeight === null
+              ? '78vh'
+              : `${initialCoverHeight}px`,
         }}
-        autoplay={{
-          delay: 500000,
-          disableOnInteraction: false,
-        }}
-        onSwiper={(swiper) => {
-          swiperRef.current = swiper;
-
-          if (isMobile) {
-            swiper.autoplay.stop();
-          }
-        }}
-        className="h-full w-full
-        [&_.swiper-pagination]:absolute!
-        [&_.swiper-pagination]:bottom-15!
-        [&_.swiper-pagination]:top-auto!
-        [&_.swiper-pagination]:z-10!
-        [&_.swiper-pagination-bullet]:bg-white!
-        [&_.swiper-pagination-bullet]:opacity-40!
-        [&_.swiper-pagination-bullet-active]:opacity-100!
-        [&_.swiper-pagination-bullet]:mx-1.5!
-        [&_.swiper-pagination-bullet]:w-3!
-        [&_.swiper-pagination-bullet]:h-3!
-        "
       >
-        <SwiperSlide>
-          <div
-            className="relative px-5 pb-[5%] w-full h-full flex flex-col justify-center items-center rounded-[20px] bg-[url('/assets/images/home-cover-mobile-1.png')] bg-cover bg-center bg-no-repeat
-            xl:pb-[6%] xl:rounded-none xl:bg-[url('/assets/images/home-cover-desktop-1.png')]"
+        <CollectionAdminEditButton
+          href="/admin/pages/home"
+          label="메인 커버 슬라이드·팝업"
+          className="left-3 right-auto"
+        />
+
+        {slides.length > 0 ? (
+          <Swiper
+            modules={[Autoplay, Pagination]}
+            spaceBetween={isMobile ? 8 : 0}
+            slidesPerView={1}
+            loop={slides.length > 1}
+            pagination={{ clickable: true }}
+            autoplay={{
+              delay: 500000,
+              disableOnInteraction: false,
+            }}
+            onSwiper={(swiper) => {
+              swiperRef.current = swiper;
+
+              if (isMobile && popups.length > 0) {
+                swiper.autoplay.stop();
+              }
+            }}
+            className="h-full w-full [&_.swiper-pagination]:absolute! [&_.swiper-pagination]:bottom-15! [&_.swiper-pagination]:top-auto! [&_.swiper-pagination]:z-10! [&_.swiper-pagination-bullet]:mx-1.5! [&_.swiper-pagination-bullet]:size-3! [&_.swiper-pagination-bullet]:bg-white! [&_.swiper-pagination-bullet]:opacity-40! [&_.swiper-pagination-bullet-active]:opacity-100!"
           >
-            <TypographyH1 managed={false}
-              id="home-primary-heading"
-              className="order-1 flex flex-col items-center text-4xl leading-[125%] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)]
-              xl:order-2 xl:mt-14 xl:flex-row xl:gap-1.75 xl:text-6xl"
-            >
-              <span>{copy.coverSlide1TitleLead}</span>
-              <span className="font-extrabold">{copy.coverSlide1TitleStrong}</span>
-            </TypographyH1>
-
-            <div
-              className="order-2 mt-5 flex flex-col items-center leading-[150%] break-keep text-center text-[15px] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)]
-              xl:order-3 xl:gap-1 xl:text-2xl"
-            >
-              <TypographyP managed={false}>{copy.coverSlide1Description1}</TypographyP>
-              <TypographyP managed={false}>{copy.coverSlide1Description2}</TypographyP>
-            </div>
-
-            <button
-              type="button"
-              onClick={() => openMacGptSearch()}
-              className="order-3 mt-5 px-3 py-[4.5px] flex items-center gap-1.5 rounded-full bg-white border border-white font-semibold text-[15px] text-black shadow-[0_0_20px_2px_#FF7740]
-              xl:order-1 xl:mt-0 xl:text-lg"
-            >
-              <Image
-                src={'/assets/effects/sparkle.gif'}
-                alt="sparkle"
-                width={22}
-                height={22}
-        unoptimized
-      />
-              <span>{copy.coverSlide1Button}</span>
-            </button>
+            {slides.map((slide, index) => (
+              <SwiperSlide key={slide.itemKey}>
+                <CoverSlide slide={slide} index={index} />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        ) : (
+          <div className="grid h-full place-items-center rounded-[20px] bg-[#4E6875] px-6 text-center text-sm text-white/80 xl:rounded-none">
+            메인페이지에 노출할 커버 슬라이드를 관리자에서 활성화해주세요.
           </div>
-        </SwiperSlide>
+        )}
 
-        <SwiperSlide>
-          <div
-            className="relative px-5 pb-[5%] flex h-full w-full flex-col items-center justify-center rounded-[20px] bg-[url('/assets/images/home-cover-mobile-1.png')] bg-cover bg-center bg-no-repeat
-            xl:pb-[3%] xl:rounded-none xl:bg-[url('/assets/images/home-cover-desktop-2.png')]"
-          >
-            <TypographyH2 managed={false} className="flex flex-col items-center text-4xl leading-[125%] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)] xl:flex-row xl:gap-1.75 xl:text-6xl">
-              <span>{copy.coverSlide2TitleLead}</span>
-              <span className="font-extrabold">{copy.coverSlide2TitleStrong}</span>
-            </TypographyH2>
-
-            <div
-              className="mt-5 flex flex-col items-center leading-[150%] break-keep text-center text-[15px] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)]
-              xl:text-2xl"
-            >
-              <TypographyP managed={false}>{copy.coverSlide2Description1}</TypographyP>
-              <TypographyP managed={false}>{copy.coverSlide2Description2}</TypographyP>
-            </div>
-
-            <Link
-              target="_blank"
-              href="/"
-              className="mt-3 rounded-full border border-white px-4 py-1 text-[15px] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)] xl:mt-6 xl:text-lg"
-            >
-              {copy.coverSlide2Button}
-            </Link>
-          </div>
-        </SwiperSlide>
-
-        <SwiperSlide>
-          <div
-            className="relative px-5 pb-[5%] flex h-full w-full flex-col items-center justify-center rounded-[20px] bg-[url('/assets/images/home-cover-mobile-1.png')] bg-cover bg-center bg-no-repeat
-            xl:pb-[3%] xl:rounded-none xl:bg-[url('/assets/images/home-cover-desktop-3.png')]"
-          >
-            <TypographyH2 managed={false} className="flex flex-col items-center text-4xl leading-[125%] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)] xl:flex-row xl:gap-1.75 xl:text-6xl">
-              <span>{copy.coverSlide3TitleLead}</span>
-              <span className="font-extrabold">{copy.coverSlide3TitleStrong}</span>
-            </TypographyH2>
-
-            <div
-              className="mt-5 flex flex-col items-center leading-[150%] break-keep text-center text-[15px] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)]
-              xl:text-2xl"
-            >
-              <TypographyP managed={false}>{copy.coverSlide3Description1}</TypographyP>
-              <TypographyP managed={false}>{copy.coverSlide3Description2}</TypographyP>
-            </div>
-
-            <Link
-              target="_blank"
-              href="/"
-              className="mt-3 rounded-full border border-white px-4 py-1 text-[15px] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)] xl:mt-6 xl:text-lg"
-            >
-              {copy.coverSlide3Button}
-            </Link>
-          </div>
-        </SwiperSlide>
-      </Swiper>
-
-      <HomeCoverPopups
-        isMobile={isMobile}
-        onMobilePopupsClosed={handleMobilePopupsClosed}
-        copy={copy}
-      />
+        <HomeCoverPopups
+          isMobile={isMobile}
+          onMobilePopupsClosed={handleMobilePopupsClosed}
+          copy={copy}
+          popups={popups}
+        />
       </section>
     </EditablePageCopyRegion>
   );

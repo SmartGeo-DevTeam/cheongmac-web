@@ -336,6 +336,29 @@ export async function saveInlineManagedItem(input: {
       ? Math.max(0, Math.trunc(input.sortOrder))
       : 0;
 
+    if (
+      pageKey === 'home' &&
+      item.itemType === 'popup' &&
+      Boolean(input.isVisible)
+    ) {
+      const visiblePopupCount = await prisma.managedPageItem.count({
+        where: {
+          pageKey: 'home',
+          itemType: 'popup',
+          isVisible: true,
+          id: { not: item.id },
+        },
+      });
+
+      if (visiblePopupCount >= 3) {
+        return {
+          ok: false,
+          error:
+            '메인 팝업은 최대 3개까지만 동시에 노출할 수 있습니다. 다른 팝업을 먼저 비활성화해주세요.',
+        };
+      }
+    }
+
     await prisma.$transaction(async (tx) => {
       await tx.managedPageItem.update({
         where: { id: item.id },
