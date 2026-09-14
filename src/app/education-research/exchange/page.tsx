@@ -1,3 +1,4 @@
+import EditablePageCopyBlock from '@/app/_components/inline-editor/editable-page-copy-block';
 import NavigationPageHeader from '@/app/_components/ui/navigation-page-header';
 import { getAcademicExchangeManagedContent } from '@/_lib/managed-pages';
 import type { Metadata } from 'next';
@@ -28,10 +29,15 @@ export default async function AcademicExchangePage() {
         }
       />
 
-      <AcademicExchangeContent
-        heroImages={content.heroImages}
-        posts={content.posts}
-      />
+      <EditablePageCopyBlock path="/education-research/exchange">
+        {(copy) => (
+          <AcademicExchangeContent
+            heroImages={content.heroImages}
+            posts={content.posts}
+            copy={copy}
+          />
+        )}
+      </EditablePageCopyBlock>
     </div>
   );
 }

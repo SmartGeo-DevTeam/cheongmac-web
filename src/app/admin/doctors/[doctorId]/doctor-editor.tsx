@@ -38,18 +38,21 @@ const IMAGE_LABELS: Record<
 };
 
 function Section({
+  id,
   title,
   description,
   children,
 }: {
+  id?: string;
   title: string;
   description?: string;
   children: React.ReactNode;
 }) {
   return (
     <details
+      id={id}
       open
-      className="rounded-xl border border-[#E4E4E7] bg-white shadow-sm"
+      className="scroll-mt-24 rounded-xl border border-[#E4E4E7] bg-white shadow-sm"
     >
       <summary className="cursor-pointer list-none px-5 py-4 md:px-6">
         <h2 className="text-base font-semibold text-[#27272A]">
@@ -268,6 +271,7 @@ export default function DoctorEditor({
       ) : null}
 
       <Section
+        id="admin-doctor-basic"
         title="기본정보"
         description="의료진 URL, 이름, 직책, 진료과, 소개, 예약 링크와 노출 순서를 관리합니다."
       >
@@ -404,6 +408,7 @@ export default function DoctorEditor({
       </Section>
 
       <Section
+        id="admin-doctor-images"
         title="이미지 4종"
         description="대표, 프로필, 누끼, 움직이는 GIF 이미지는 의료진 고유 데이터입니다."
       >
@@ -523,6 +528,7 @@ export default function DoctorEditor({
       </Section>
 
       <Section
+        id="admin-doctor-careers"
         title="학력 및 약력"
         description="학력·약력은 해당 의료진 고유 이력으로 유지합니다."
       >

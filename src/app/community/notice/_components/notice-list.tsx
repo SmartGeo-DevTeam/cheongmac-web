@@ -1,5 +1,6 @@
 'use client';
 
+import ManagedItemEditButton from '@/app/_components/inline-editor/managed-item-edit-button';
 import {
   H2 as TypographyH2,
   H3 as TypographyH3,
@@ -16,6 +17,7 @@ import BoardToolbar from '@/app/_components/ui/board-toolbar';
 import FilterTabs from '@/app/_components/ui/filter-tabs';
 import Pagination from '@/app/_components/ui/pagination';
 import SearchField from '@/app/_components/ui/search-field';
+import type { InlineContentData } from '@/_lib/inline-content-shared';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -56,7 +58,7 @@ function NoticeBadge({
   );
 }
 
-function CalendarCard() {
+function CalendarCard({ copy }: { copy: InlineContentData }) {
   return (
     <div className="relative mx-auto w-[220px] pt-3 xl:mx-0 xl:w-[240px]">
       <div className="absolute left-[19px] right-[19px] top-0 z-10 flex justify-between px-2">
@@ -70,9 +72,9 @@ function CalendarCard() {
       <div className="overflow-hidden rounded-[12px] border border-[#E5E7E9] bg-white shadow-[0_3px_8px_rgba(0,0,0,0.06)]">
         <div className="h-[37px] bg-[#FF4238]" />
         <div className="px-3 py-6 text-center">
-          <TypographyP className="text-base font-bold text-[#E84237] xl:text-xl">• 추석연휴 •</TypographyP>
+          <TypographyP className="text-base font-bold text-[#E84237] xl:text-xl">{copy.holidayTitle}</TypographyP>
           <TypographyP managed={false} className="mt-2 whitespace-nowrap text-sm font-medium text-[#252A30] xl:text-xl">
-            9월 24일(목) ~ 9월 26일(토)
+            {copy.holidaySchedule}
           </TypographyP>
         </div>
       </div>
@@ -89,10 +91,12 @@ function DesktopBannerCard({
   image: string;
   title: string;
 }) {
-  const cardId = `notice-feature-card-${href.split('/').filter(Boolean).at(-1) ?? 'item'}`;
+  const itemKey = href.split('/').filter(Boolean).at(-1) ?? 'item';
+  const cardId = `notice-feature-card-${itemKey}`;
 
   return (
-    <ContentCard id={cardId} variant="notice">
+    <ContentCard id={cardId} variant="notice" className="relative">
+      <ManagedItemEditButton pageKey="notice" itemKey={itemKey} label={title} />
       <Link href={href} className="block">
         <ContentCardMedia variant="notice">
           <Image
@@ -113,7 +117,7 @@ function DesktopBannerCard({
   );
 }
 
-function MobileHangingCard({ second = false }: { second?: boolean }) {
+function MobileHangingCard({ copy, second = false }: { copy: InlineContentData; second?: boolean }) {
   return (
     <div className="relative h-[112px] rounded-[7px] bg-[#FFF4F5] pt-[24px]">
       <div className="absolute left-1/2 top-0 h-[18px] w-[42px] -translate-x-1/2">
@@ -127,7 +131,7 @@ function MobileHangingCard({ second = false }: { second?: boolean }) {
         ) : null}
       </div>
       <div className="mx-auto flex h-[68px] w-[calc(100%-22px)] flex-col items-center justify-center rounded-[7px] bg-white">
-        <TypographyP className="text-base font-semibold text-[#E63D38]">• 추석연휴 •</TypographyP>
+        <TypographyP className="text-base font-semibold text-[#E63D38]">{copy.holidayTitle}</TypographyP>
         <TypographyP managed={false} className="mt-1.5 text-sm text-[#2F3337]">8월 15일(토) ~ 8월 17일(월)</TypographyP>
       </div>
     </div>
@@ -179,9 +183,11 @@ function MobileQuickCard({
 export default function NoticeList({
   items,
   doctorLeaves,
+  copy,
 }: {
   items: NoticeDetail[];
   doctorLeaves: ManagedDoctorLeave[];
+  copy: InlineContentData;
 }) {
   const pathname = usePathname();
   const [filter, setFilter] = useState<FilterValue>('all');
@@ -216,32 +222,32 @@ export default function NoticeList({
     <div className="mx-auto w-full max-w-7xl pb-20 xl:pb-28">
       <section>
         <TypographyH2 className="text-base font-bold tracking-[-0.035em] text-[#272C31] xl:text-2xl">
-          휴진 및 주요 공지
+          {copy.majorHeading}
         </TypographyH2>
 
         <div className="mt-3 xl:hidden">
           <div className="grid grid-cols-1 gap-2">
-            <MobileHangingCard />
-            <MobileHangingCard second />
+            <MobileHangingCard copy={copy} />
+            <MobileHangingCard copy={copy} second />
           </div>
 
           <div className="py-7 text-center">
-            <TypographyP className="text-base font-bold text-[#E64236]">• 추석연휴 •</TypographyP>
+            <TypographyP className="text-base font-bold text-[#E64236]">{copy.holidayTitle}</TypographyP>
             <TypographyP managed={false} className="mt-2 text-sm font-semibold text-[#292E33]">
-              9월 24일(목) ~ 9월 26일(토)
+              {copy.holidaySchedule}
             </TypographyP>
           </div>
 
           <div className="grid gap-[5px]">
             <MobileQuickCard
               type="red"
-              title="추석 연휴"
-              schedule="9월 15일(토) ~ 9월 17일(월)"
+              title={copy.mobileHolidayTitle}
+              schedule={copy.mobileHolidaySchedule}
             />
             <MobileQuickCard
               type="dark"
-              title="추석 연휴"
-              schedule="9월 15일(토) ~ 9월 17일(월)"
+              title={copy.mobileHolidayTitle}
+              schedule={copy.mobileHolidaySchedule}
             />
             {doctorLeaves.slice(0, 2).map((doctor) => (
               <MobileQuickCard
@@ -256,14 +262,14 @@ export default function NoticeList({
           <div className="relative mt-2 overflow-hidden rounded-[6px] border border-[#E1E3E5] bg-white">
             <Link href={noticeHref('naver-reservation-open')}>
               <Image
-                src="/assets/images/notice/naver-detail.png"
+                src={copy.naverDetailImage}
                 alt="청맥병원 네이버 예약 OPEN"
                 width={264}
                 height={297}
                 className="block h-auto w-full"
               />
               <div className="px-3 py-3 text-base font-medium text-[#3C4145]">
-                네이버예약 OPEN
+                {copy.naverOpenTitle}
               </div>
             </Link>
             <button
@@ -285,28 +291,33 @@ export default function NoticeList({
 
         <div className="hidden xl:block">
           <div className="mt-7 flex items-start justify-center gap-6">
-            <CalendarCard />
+            <CalendarCard copy={copy} />
             <DesktopBannerCard
               href={noticeHref('naver-reservation-open')}
-              image="/assets/images/notice/naver-card.png"
-              title="네이버예약 서비스 OPEN"
+              image={copy.naverCardImage}
+              title={copy.naverServiceTitle}
             />
             <DesktopBannerCard
               href={noticeHref('seomyeon-medical-center-move')}
-              image="/assets/images/notice/move-card.png"
-              title="서면 메디컬센터 확장 이전 안내"
+              image={copy.moveCardImage}
+              title={copy.moveTitle}
             />
           </div>
 
           <TypographyH3 className="mt-10 text-2xl font-bold tracking-[-0.03em] text-[#30353A]">
-            의료진별 휴진
+            {copy.doctorLeaveHeading}
           </TypographyH3>
           <div className="mt-3 grid grid-cols-2 gap-3">
-            {doctorLeaves.map((doctor) => (
-              <div
-                key={doctor.name}
-                className="flex h-[120px] overflow-hidden rounded-[8px] border border-[#E4E6E8] bg-white"
-              >
+            {doctorLeaves.map((doctor, index) => (
+              <div key={doctor.name} className="relative">
+                <ManagedItemEditButton
+                  pageKey="notice"
+                  itemKey={`doctor-leave:${index + 1}`}
+                  label={`${doctor.department} ${doctor.name}`}
+                />
+                <div
+                  className="flex h-[120px] overflow-hidden rounded-[8px] border border-[#E4E6E8] bg-white"
+                >
                 <div className="relative w-[112px] shrink-0 bg-[#F6F7F7]">
                   <Image
                     src={doctor.image}
@@ -325,6 +336,7 @@ export default function NoticeList({
                   </TypographyP>
                 </div>
               </div>
+              </div>
             ))}
           </div>
         </div>
@@ -334,9 +346,9 @@ export default function NoticeList({
         <FilterTabs
           id="notice-filter-tabs"
           items={[
-            { value: 'all' as const, label: '전체' },
-            { value: 'notice' as const, label: '공지사항' },
-            { value: 'holiday' as const, label: '휴진안내' },
+            { value: 'all' as const, label: copy.tabAll },
+            { value: 'notice' as const, label: copy.tabNotice },
+            { value: 'holiday' as const, label: copy.tabHoliday },
           ]}
           value={filter}
           onValueChange={changeFilter}
@@ -357,20 +369,25 @@ export default function NoticeList({
               setQuery(event.target.value);
               setPage(1);
             }}
-            placeholder="검색어를 입력하세요"
+            placeholder={copy.searchPlaceholder}
             className="max-w-[220px] xl:max-w-[320px]"
           />
         </BoardToolbar>
 
         <div className="mt-2 hidden bg-[#F5F6F7] text-xl font-semibold text-[#4A4F55] xl:grid xl:grid-cols-[1fr_180px]">
-          <div className="px-6 py-3.5 text-center">제목</div>
-          <div className="px-6 py-3.5 text-center">등록일</div>
+          <div className="px-6 py-3.5 text-center">{copy.columnTitle}</div>
+          <div className="px-6 py-3.5 text-center">{copy.columnDate}</div>
         </div>
 
         <div className="border-b border-[#E9EBED] xl:border-b-0">
           {pageItems.map((notice) => (
-            <Link
-              key={notice.id}
+            <div key={notice.id} className="relative">
+              <ManagedItemEditButton
+                pageKey="notice"
+                itemKey={notice.id}
+                label={notice.title}
+              />
+              <Link
               href={noticeHref(notice.id)}
               className="grid min-h-[72px] border-t border-[#ECEEF0] py-2.5 transition hover:bg-[#FAFAFA] xl:min-h-[80px] xl:grid-cols-[1fr_180px] xl:items-center xl:px-6 xl:py-0"
             >
@@ -390,6 +407,7 @@ export default function NoticeList({
                 {notice.date}
               </div>
             </Link>
+            </div>
           ))}
         </div>
 

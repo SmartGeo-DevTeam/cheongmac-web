@@ -1,3 +1,4 @@
+import EditablePageCopyBlock from '@/app/_components/inline-editor/editable-page-copy-block';
 import NavigationPageHeader from '@/app/_components/ui/navigation-page-header';
 import { getMedicalEquipmentManagedContent } from '@/_lib/managed-pages';
 import type { Metadata } from 'next';
@@ -28,7 +29,9 @@ export default async function MedicalEquipmentPage() {
         }
       />
 
-      <MedicalEquipmentContent items={items} />
+      <EditablePageCopyBlock path="/about/equipment">
+        {(copy) => <MedicalEquipmentContent items={items} copy={copy} />}
+      </EditablePageCopyBlock>
     </div>
   );
 }

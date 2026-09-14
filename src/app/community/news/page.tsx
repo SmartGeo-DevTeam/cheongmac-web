@@ -1,3 +1,4 @@
+import EditablePageCopyBlock from '@/app/_components/inline-editor/editable-page-copy-block';
 import MoreSocials from '@/app/_components/more-socials';
 import NavigationPageHeader from '@/app/_components/ui/navigation-page-header';
 import NewsBoard from '@/app/community/news/_components/news-board';
@@ -23,13 +24,17 @@ export default async function CommunityNewsPage() {
       />
 
       <div className="mt-8 xl:mt-14">
-        <Suspense
-          fallback={
-            <div className="mx-auto min-h-[520px] w-full max-w-7xl px-5" />
-          }
-        >
-          <NewsBoard items={items} />
-        </Suspense>
+        <EditablePageCopyBlock path="/community/news">
+          {(copy) => (
+            <Suspense
+              fallback={
+                <div className="mx-auto min-h-[520px] w-full max-w-7xl px-5" />
+              }
+            >
+              <NewsBoard items={items} copy={copy} />
+            </Suspense>
+          )}
+        </EditablePageCopyBlock>
       </div>
 
       <div className="mb-16 mt-14 xl:mb-20 xl:mt-24">

@@ -1,3 +1,4 @@
+import EditablePageCopyBlock from '@/app/_components/inline-editor/editable-page-copy-block';
 import CustomerVoiceOverview from '@/app/community/customer-voice/_components/customer-voice-overview';
 import CustomerVoicePageHeader from '@/app/community/customer-voice/_components/customer-voice-page-header';
 import type { Metadata } from 'next';
@@ -12,7 +13,9 @@ export default function CustomerVoicePage() {
   return (
     <div>
       <CustomerVoicePageHeader />
-      <CustomerVoiceOverview />
+      <EditablePageCopyBlock path="/community/customer-voice">
+        {(copy) => <CustomerVoiceOverview copy={copy} />}
+      </EditablePageCopyBlock>
     </div>
   );
 }

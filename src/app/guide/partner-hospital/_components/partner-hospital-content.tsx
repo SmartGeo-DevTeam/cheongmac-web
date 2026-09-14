@@ -1,5 +1,6 @@
 'use client';
 
+import ManagedItemEditButton from '@/app/_components/inline-editor/managed-item-edit-button';
 import {
   H2 as TypographyH2,
   P as TypographyP,
@@ -13,6 +14,7 @@ import {
 } from '@/app/_components/ui/content-card';
 import FilterTabs from '@/app/_components/ui/filter-tabs';
 import Pagination from '@/app/_components/ui/pagination';
+import type { InlineContentData } from '@/_lib/inline-content-shared';
 
 import {
   PARTNER_CATEGORY_OPTIONS,
@@ -31,24 +33,25 @@ import {
 
 function PartnershipOverview({
   logos,
+  copy,
 }: {
   logos: PartnerInstitutionLogo[];
+  copy: InlineContentData;
 }) {
   return (
     <section>
       <div>
         <TypographyH2 className="text-[24px] font-bold tracking-[-0.04em] text-[#262C35] xl:text-[34px]">
-          협약기관 현황
+          {copy.overviewTitle}
         </TypographyH2>
         <TypographyP className="mt-3 break-keep text-base leading-[1.7] text-[#8A9096] xl:text-xl">
-          청맥병원과 협약을 맺은 기관을 이용하시면 진료비 감면 등 폭넓은
-          의료·제휴 혜택을 누리실 수 있습니다.
+          {copy.overviewDescription}
         </TypographyP>
       </div>
 
       <div className="relative mt-5 aspect-[165/58] overflow-hidden rounded-xl xl:hidden">
         <Image
-          src="/assets/images/partner-hospital/partnership-handshake.jpg"
+          src={copy.handshakeImage}
           alt="의료 협약을 상징하는 악수"
           fill
           className="object-cover"
@@ -63,6 +66,11 @@ function PartnershipOverview({
             key={institution.id}
             className="relative aspect-[2.5/1] overflow-hidden rounded-lg transition hover:-translate-y-0.5 hover:shadow-[0_8px_20px_rgba(0,0,0,0.05)]"
           >
+            <ManagedItemEditButton
+              pageKey="partner-hospital"
+              itemKey={`logo:${institution.id}`}
+              label={institution.name}
+            />
             <Image
               src={institution.image}
               alt={institution.name}
@@ -80,14 +88,24 @@ function PartnershipOverview({
 function PartnerFilters({
   category,
   onCategoryChange,
+  copy,
 }: {
   category: PartnerCategory;
   onCategoryChange: (category: PartnerCategory) => void;
+  copy: InlineContentData;
 }) {
   return (
     <FilterTabs
       id="partner-hospital-filter-tabs"
-      items={PARTNER_CATEGORY_OPTIONS}
+      items={PARTNER_CATEGORY_OPTIONS.map((option) => ({
+        ...option,
+        label:
+          option.value === 'care'
+            ? copy.categoryCare
+            : option.value === 'support'
+              ? copy.categorySupport
+              : copy.categoryAll,
+      }))}
       value={category}
       onValueChange={onCategoryChange}
       ariaLabel="의료협약기관 분류"
@@ -103,6 +121,7 @@ function PartnerCard({
   agreement,
   phone,
   tags,
+  copy,
 }: {
   id: string | number;
   name: string;
@@ -110,12 +129,19 @@ function PartnerCard({
   agreement: string;
   phone: string;
   tags: string[];
+  copy: InlineContentData;
 }) {
   return (
     <ContentCard
       id={`partner-hospital-card-${id}`}
       variant="partner"
+      className="relative"
     >
+      <ManagedItemEditButton
+        pageKey="partner-hospital"
+        itemKey={`hospital:${id}`}
+        label={name}
+      />
       <ContentCardMedia variant="partner">
         <Image
           src={image}
@@ -142,7 +168,7 @@ function PartnerCard({
         <dl className="mt-4 space-y-3">
           <div className="grid grid-cols-[64px_1fr] gap-3 xl:grid-cols-[78px_1fr] xl:gap-4">
             <dt className="text-sm leading-[1.7] text-[#9BA0A5] xl:text-base">
-              협약내용
+              {copy.agreementLabel}
             </dt>
             <dd className="break-keep text-base leading-[1.65] text-[#454B51] xl:text-lg xl:leading-[1.7]">
               {agreement}
@@ -150,7 +176,7 @@ function PartnerCard({
           </div>
 
           <div className="grid grid-cols-[64px_1fr] gap-3 xl:grid-cols-[78px_1fr] xl:gap-4">
-            <dt className="text-sm text-[#9BA0A5] xl:text-base">전화번호</dt>
+            <dt className="text-sm text-[#9BA0A5] xl:text-base">{copy.phoneLabel}</dt>
             <dd className="text-base font-semibold text-[#333A40] xl:text-lg">
               {phone}
             </dd>
@@ -177,9 +203,11 @@ const PAGE_SIZE = 6;
 export default function PartnerHospitalContent({
   logos,
   hospitals,
+  copy,
 }: {
   logos: PartnerInstitutionLogo[];
   hospitals: PartnerHospital[];
+  copy: InlineContentData;
 }) {
   const [category, setCategory] = useState<PartnerCategory>('all');
   const [query, setQuery] = useState('');
@@ -231,12 +259,13 @@ export default function PartnerHospitalContent({
 
   return (
     <div className="mx-auto w-full max-w-7xl px-5 pb-20 xl:px-0 xl:pb-28">
-      <PartnershipOverview logos={logos} />
+      <PartnershipOverview logos={logos} copy={copy} />
 
       <div className="mt-14 xl:mt-20">
         <PartnerFilters
           category={category}
           onCategoryChange={changeCategory}
+          copy={copy}
         />
 
         <div
@@ -258,7 +287,7 @@ export default function PartnerHospitalContent({
                 type="search"
                 value={query}
                 onChange={updateQuery}
-                placeholder="검색어를 입력하세요"
+                placeholder={copy.searchPlaceholder}
                 className="h-11 w-full rounded-full border border-[#E2E5E7] bg-white pl-4 pr-11 text-sm text-[#30373D] outline-none placeholder:text-[#A7ACB1] focus:border-[#A9C7C0] xl:h-12 xl:text-base"
               />
               <Search
@@ -271,12 +300,12 @@ export default function PartnerHospitalContent({
           {filtered.length > 0 ? (
             <div className="mt-5 grid grid-cols-1 gap-x-5 gap-y-12 xl:mt-7 xl:grid-cols-3 xl:gap-y-16">
               {visibleHospitals.map((item) => (
-                <PartnerCard key={item.id} {...item} />
+                <PartnerCard key={item.id} {...item} copy={copy} />
               ))}
             </div>
           ) : (
             <div className="mt-6 flex min-h-48 items-center justify-center rounded-2xl bg-[#F7F8F8] px-5 text-center text-base text-[#8C9298] xl:text-xl">
-              검색 조건에 맞는 협약기관이 없습니다.
+              {copy.emptyText}
             </div>
           )}
 

@@ -1,5 +1,6 @@
 'use client';
 
+import type { InlineContentData } from '@/_lib/inline-content-shared';
 import {
   H2 as TypographyH2,
   H3 as TypographyH3,
@@ -19,61 +20,35 @@ import {
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
 
-const testimonials = [
-  {
-    title: '박용범 원장님',
-    content:
-      '수술 전부터 퇴원 후 관리까지 세심하게 설명해주셔서 불안했던 마음이 놓였습니다. 정말 감사하다는 마음을 전하고 싶습니다.',
-    author: '한○○님',
-  },
-  {
-    title: '병동 간호사분들 감사합니다',
-    content:
-      '입원 기간 내내 친절한 선생님들이 사소한 것까지 챙겨주셔서 편안히 회복했습니다.',
-    author: '한○○님',
-  },
-  {
-    title: '칭찬합니다',
-    content:
-      '입원 기간 내내 간호사 선생님들이 사소한 것까지 챙겨주셔서 편안히 회복했습니다.',
-    author: '한○○님',
-  },
-  {
-    title: '친절한 안내에 감사드립니다',
-    content:
-      '검사부터 진료까지 차분하게 안내해주셔서 처음 방문했지만 불편함 없이 진료를 받을 수 있었습니다.',
-    author: '이○○님',
-  },
-] as const;
+function buildTestimonials(copy: InlineContentData) {
+  return [
+    { title: copy.testimonial1Title, content: copy.testimonial1Content, author: copy.testimonial1Author },
+    { title: copy.testimonial2Title, content: copy.testimonial2Content, author: copy.testimonial2Author },
+    { title: copy.testimonial3Title, content: copy.testimonial3Content, author: copy.testimonial3Author },
+    { title: copy.testimonial4Title, content: copy.testimonial4Content, author: copy.testimonial4Author },
+  ];
+}
 
-const receiveMethods = [
-  {
-    icon: Send,
-    title: '온라인 접수',
-    description: '현재 페이지에서 작성 (24시간)',
-  },
-  {
-    icon: Phone,
-    title: '전화 접수',
-    description: '051-804-1119 (병원 운영시간 내)',
-  },
-  {
-    icon: MapPin,
-    title: '방문 접수',
-    description: '1층 원무과 · 고객상담실 (병원 운영시간 내)',
-  },
-] as const;
+function buildReceiveMethods(copy: InlineContentData) {
+  return [
+    { icon: Send, title: copy.onlineTitle, description: copy.onlineDescription },
+    { icon: Phone, title: copy.phoneTitle, description: copy.phoneDescription },
+    { icon: MapPin, title: copy.visitTitle, description: copy.visitDescription },
+  ];
+}
 
-const processSteps = [
-  { step: 'STEP 1', text: '고객 의견 접수' },
-  { step: 'STEP 2', text: '관련 부서 검토' },
-  { step: 'STEP 3', text: '결과 회신 및 개선 활동' },
-] as const;
+function buildProcessSteps(copy: InlineContentData) {
+  return [
+    { step: 'STEP 1', text: copy.step1 },
+    { step: 'STEP 2', text: copy.step2 },
+    { step: 'STEP 3', text: copy.step3 },
+  ];
+}
 
 function TestimonialCard({
   item,
 }: {
-  item: (typeof testimonials)[number];
+  item: { title: string; content: string; author: string };
 }) {
   return (
     <article className="flex min-h-[178px] flex-col rounded-[12px] bg-white px-5 py-5 xl:min-h-[238px] xl:rounded-[14px] xl:px-8 xl:py-8">
@@ -90,8 +65,9 @@ function TestimonialCard({
   );
 }
 
-function TestimonialCarousel() {
+function TestimonialCarousel({ copy }: { copy: InlineContentData }) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const testimonials = useMemo(() => buildTestimonials(copy), [copy]);
 
   const desktopItems = useMemo(
     () =>
@@ -115,7 +91,7 @@ function TestimonialCarousel() {
     <section className="bg-[#F5F6F7] py-8 xl:py-16">
       <div className="mx-auto w-full max-w-7xl px-4 xl:px-0">
         <TypographyH2 className="text-[18px] font-bold tracking-[-0.04em] text-[#2C3239] xl:text-[22px]">
-          칭찬합니다
+          {copy.testimonialHeading}
         </TypographyH2>
 
         <div className="relative mt-5 xl:mt-8">
@@ -152,22 +128,22 @@ function TestimonialCarousel() {
   );
 }
 
-function VoiceCtaCards() {
+function VoiceCtaCards({ copy }: { copy: InlineContentData }) {
   return (
     <section className="grid gap-2.5 xl:grid-cols-2 xl:gap-5">
       <article className="relative min-h-[132px] overflow-hidden rounded-[10px] bg-[#DFF4EF] px-5 py-5 xl:min-h-[178px] xl:rounded-[8px] xl:px-8 xl:py-8">
         <div className="relative z-10">
           <TypographyH2 className="text-[18px] font-bold tracking-[-0.045em] text-[#177B68] xl:text-[22px]">
-            감사합니다·칭찬해요
+            {copy.praiseTitle}
           </TypographyH2>
           <TypographyP className="mt-1 text-[11px] tracking-[-0.035em] text-[#4A5B57] xl:text-[13px]">
-            따뜻한 경험이나 따뜻한 마음을 전해주세요
+            {copy.praiseDescription}
           </TypographyP>
           <Link
             href="/community/customer-voice/write?category=praise"
             className="mt-4 inline-flex h-8 items-center justify-center rounded-full bg-white px-5 text-[11px] font-semibold text-[#39444A] xl:mt-5 xl:h-9 xl:text-[12px]"
           >
-            작성하기
+            {copy.writeLabel}
           </Link>
         </div>
         <Mail
@@ -179,16 +155,16 @@ function VoiceCtaCards() {
       <article className="relative min-h-[132px] overflow-hidden rounded-[10px] bg-[#003F34] px-5 py-5 xl:min-h-[178px] xl:rounded-[8px] xl:px-8 xl:py-8">
         <div className="relative z-10">
           <TypographyH2 className="text-[18px] font-bold tracking-[-0.045em] text-white xl:text-[22px]">
-            건의합니다·불만/고충
+            {copy.complaintTitle}
           </TypographyH2>
           <TypographyP className="mt-1 text-[11px] tracking-[-0.035em] text-white/80 xl:text-[13px]">
-            불편했던 점이나 개선 의견을 남겨주세요
+            {copy.complaintDescription}
           </TypographyP>
           <Link
             href="/community/customer-voice/write?category=complaint"
             className="mt-4 inline-flex h-8 items-center justify-center rounded-full bg-white px-5 text-[11px] font-semibold text-[#39444A] xl:mt-5 xl:h-9 xl:text-[12px]"
           >
-            작성하기
+            {copy.writeLabel}
           </Link>
         </div>
         <MessageCircle
@@ -200,11 +176,12 @@ function VoiceCtaCards() {
   );
 }
 
-function ReceiveMethods() {
+function ReceiveMethods({ copy }: { copy: InlineContentData }) {
+  const receiveMethods = buildReceiveMethods(copy);
   return (
     <section className="mt-9 xl:mt-16">
       <TypographyH2 className="text-[18px] font-bold tracking-[-0.04em] text-[#2F353C] xl:text-[22px]">
-        고객의 소리 접수방법
+        {copy.receiveHeading}
       </TypographyH2>
       <div className="mt-4 overflow-hidden rounded-[14px] border border-[#E0E4E7] bg-white px-4 xl:mt-6 xl:rounded-[12px] xl:px-6">
         {receiveMethods.map((item, index) => {
@@ -237,11 +214,12 @@ function ReceiveMethods() {
   );
 }
 
-function Process() {
+function Process({ copy }: { copy: InlineContentData }) {
+  const processSteps = buildProcessSteps(copy);
   return (
     <section className="mt-9 xl:mt-16">
       <TypographyH2 className="text-[18px] font-bold tracking-[-0.04em] text-[#2F353C] xl:text-[22px]">
-        처리절차
+        {copy.processHeading}
       </TypographyH2>
       <div className="mt-4 flex flex-col items-stretch xl:mt-6 xl:flex-row xl:items-center xl:gap-7">
         {processSteps.map((item, index) => (
@@ -275,15 +253,19 @@ function Process() {
   );
 }
 
-export default function CustomerVoiceOverview() {
+export default function CustomerVoiceOverview({
+  copy,
+}: {
+  copy: InlineContentData;
+}) {
   return (
     <>
-      <TestimonialCarousel />
+      <TestimonialCarousel copy={copy} />
 
       <div className="mx-auto w-full max-w-7xl px-4 pb-14 pt-8 xl:px-0 xl:pb-24 xl:pt-16">
-        <VoiceCtaCards />
-        <ReceiveMethods />
-        <Process />
+        <VoiceCtaCards copy={copy} />
+        <ReceiveMethods copy={copy} />
+        <Process copy={copy} />
       </div>
     </>
   );

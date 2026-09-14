@@ -90,6 +90,14 @@ export default function EditableRegion({
     [draft, saved],
   );
 
+  const orderedFields = useMemo(
+    () => [
+      ...fields.filter((field) => field.type !== 'image'),
+      ...fields.filter((field) => field.type === 'image'),
+    ],
+    [fields],
+  );
+
   const setValue = (key: string, value: string) => {
     setMessage('');
     setDraft((current) => ({
@@ -273,27 +281,8 @@ export default function EditableRegion({
               </DialogDescription>
             </DialogHeader>
 
-            {adminHref ? (
-              <div className="rounded-xl border border-[#DCE9E5] bg-[#F4FAF8] p-4">
-                <div className="text-sm font-semibold text-[#285E51]">
-                  연결 데이터 상세 관리
-                </div>
-                <p className="mt-1 text-xs leading-5 text-[#5F756F]">
-                  {adminDescription ??
-                    '목록 추가·삭제·정렬·관계 연결처럼 복잡한 데이터는 관리자 화면에서 수정합니다.'}
-                </p>
-                <Link
-                  href={adminHref}
-                  className="mt-3 inline-flex items-center gap-1.5 rounded-md bg-[#285E51] px-3 py-2 text-sm font-semibold text-white transition hover:bg-[#214F45]"
-                >
-                  {adminLabel}
-                  <ExternalLink className="size-4" />
-                </Link>
-              </div>
-            ) : null}
-
             <div className="space-y-5">
-              {fields.map((field) => {
+              {orderedFields.map((field) => {
                 const value = draft[field.key] ?? '';
 
                 return (
@@ -401,6 +390,25 @@ export default function EditableRegion({
                 );
               })}
             </div>
+
+            {adminHref ? (
+              <div className="rounded-xl border border-[#DCE9E5] bg-[#F4FAF8] p-4">
+                <div className="text-sm font-semibold text-[#285E51]">
+                  연결 데이터 상세 관리
+                </div>
+                <p className="mt-1 text-xs leading-5 text-[#5F756F]">
+                  {adminDescription ??
+                    '목록 추가·삭제·정렬·관계 연결처럼 복잡한 데이터는 관리자 화면에서 수정합니다.'}
+                </p>
+                <Link
+                  href={adminHref}
+                  className="mt-3 inline-flex items-center gap-1.5 rounded-md bg-[#285E51] px-3 py-2 text-sm font-semibold text-white transition hover:bg-[#214F45]"
+                >
+                  {adminLabel}
+                  <ExternalLink className="size-4" />
+                </Link>
+              </div>
+            ) : null}
 
             {message ? (
               <div className="rounded-lg bg-[#F4F4F5] px-4 py-3 text-sm leading-6 text-[#52525B]">

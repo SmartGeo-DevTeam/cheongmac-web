@@ -1,3 +1,4 @@
+import EditablePageCopyBlock from '@/app/_components/inline-editor/editable-page-copy-block';
 import Inner from '@/app/_components/inner';
 import { getNoticeManagedContent } from '@/_lib/managed-pages';
 import type { Metadata } from 'next';
@@ -18,10 +19,15 @@ export default async function NoticePage() {
     <div>
       <NoticePageHeader />
       <Inner usePaddingHorizontal>
-        <NoticeList
-          items={content.notices}
-          doctorLeaves={content.doctorLeaves}
-        />
+        <EditablePageCopyBlock path="/community/notice">
+          {(copy) => (
+            <NoticeList
+              items={content.notices}
+              doctorLeaves={content.doctorLeaves}
+              copy={copy}
+            />
+          )}
+        </EditablePageCopyBlock>
       </Inner>
     </div>
   );

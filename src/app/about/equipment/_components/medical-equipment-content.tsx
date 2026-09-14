@@ -1,5 +1,6 @@
 'use client';
 
+import ManagedItemEditButton from '@/app/_components/inline-editor/managed-item-edit-button';
 import {
   H2 as TypographyH2,
   H3 as TypographyH3,
@@ -12,6 +13,7 @@ import {
   ContentCardTitle,
 } from '@/app/_components/ui/content-card';
 import FilterTabs from '@/app/_components/ui/filter-tabs';
+import type { InlineContentData } from '@/_lib/inline-content-shared';
 
 import {
   EQUIPMENT_CATEGORY_OPTIONS,
@@ -31,16 +33,25 @@ import { useMemo, useRef, useState } from 'react';
 function CategoryTabs({
   value,
   onChange,
+  copy,
 }: {
   value: EquipmentCategory;
   onChange: (category: EquipmentCategory) => void;
+  copy: InlineContentData;
 }) {
+  const labels: Record<EquipmentCategory, string> = {
+    all: copy.categoryAll,
+    imaging: copy.categoryImaging,
+    functional: copy.categoryFunctional,
+    procedure: copy.categoryProcedure,
+    special: copy.categorySpecial,
+  };
   return (
     <FilterTabs
       id="medical-equipment-category-tabs"
       items={EQUIPMENT_CATEGORY_OPTIONS.map((option) => ({
         value: option.value,
-        label: option.label,
+        label: labels[option.value] ?? option.label,
       }))}
       value={value}
       onValueChange={onChange}
@@ -53,9 +64,11 @@ function CategoryTabs({
 function EquipmentCard({
   item,
   onSelect,
+  copy,
 }: {
   item: MedicalEquipment;
   onSelect: (item: MedicalEquipment) => void;
+  copy: InlineContentData;
 }) {
   return (
     <ContentCard
@@ -88,7 +101,7 @@ function EquipmentCard({
           </div>
 
           <span className="hidden shrink-0 items-center justify-center rounded-md border border-[#B8BEC4] px-3 py-1.5 text-sm font-medium text-[#8B9299] transition hover:border-[#929AA2] hover:text-[#666E76] xl:inline-flex">
-            자세히보기
+            {copy.detailLabel}
           </span>
         </ContentCardBody>
       </button>
@@ -99,14 +112,23 @@ function EquipmentCard({
 function AllEquipmentGrid({
   items,
   onSelect,
+  copy,
 }: {
   items: MedicalEquipment[];
   onSelect: (item: MedicalEquipment) => void;
+  copy: InlineContentData;
 }) {
   return (
     <div className="mt-8 grid grid-cols-2 gap-x-3 gap-y-8 xl:mt-12 xl:grid-cols-2 xl:gap-x-5 xl:gap-y-14">
       {items.map((item) => (
-        <EquipmentCard key={item.id} item={item} onSelect={onSelect} />
+        <div key={item.id} className="relative">
+          <EquipmentCard item={item} onSelect={onSelect} copy={copy} />
+          <ManagedItemEditButton
+            pageKey="equipment"
+            itemKey={item.id}
+            label={item.model}
+          />
+        </div>
       ))}
     </div>
   );
@@ -116,17 +138,20 @@ function EquipmentDetail({
   item,
   onPrevious,
   onNext,
+  copy,
 }: {
   item: MedicalEquipment;
   onPrevious?: () => void;
   onNext?: () => void;
+  copy: InlineContentData;
 }) {
   const hasRichDetail = Boolean(
     item.description || item.highlights || item.diseases || item.cases,
   );
 
   return (
-    <div>
+    <div className="relative">
+      <ManagedItemEditButton pageKey="equipment" itemKey={item.id} label={item.model} />
       <div className="relative aspect-[1.9/1] overflow-hidden rounded-xl bg-[#F3F4F5]">
         <Image
           src={item.image}
@@ -206,10 +231,10 @@ function EquipmentDetail({
       {item.diseases ? (
         <section className="mt-12 xl:mt-20">
           <TypographyP managed={false} className="text-sm font-semibold text-[#A2A7AC] xl:text-xl">
-            진단 가능 질환
+            {copy.diseasesEyebrow}
           </TypographyP>
           <TypographyH3 className="mt-1 text-2xl font-bold tracking-[-0.04em] text-[#252B33] xl:text-[32px]">
-            어떤 질환을 알 수 있나요?
+            {copy.diseasesTitle}
           </TypographyH3>
 
           <div className="mt-5 flex flex-wrap gap-2">
@@ -228,10 +253,10 @@ function EquipmentDetail({
       {item.cases ? (
         <section className="mt-12 xl:mt-20">
           <TypographyP managed={false} className="text-sm font-semibold text-[#A2A7AC] xl:text-xl">
-            실제 진단 사례
+            {copy.casesEyebrow}
           </TypographyP>
           <TypographyH3 className="mt-1 text-2xl font-bold tracking-[-0.04em] text-[#252B33] xl:text-[32px]">
-            검사 결과, 이렇게 확인해요
+            {copy.casesTitle}
           </TypographyH3>
 
           <div className="mt-6 grid gap-8 xl:grid-cols-2 xl:gap-x-5 xl:gap-y-10">
@@ -244,7 +269,7 @@ function EquipmentDetail({
                   <div className="grid gap-2">
                     <div className="relative aspect-[1.45/1] overflow-hidden rounded-xl bg-black">
                       <Image
-                        src="/assets/images/medical-equipment/ct-case-dvt-before.jpg"
+                        src={copy.dvtBeforeImage}
                         alt="심부정맥혈전증 치료 전"
                         fill
                         className="object-cover"
@@ -256,7 +281,7 @@ function EquipmentDetail({
                     </div>
                     <div className="relative aspect-[1.45/1] overflow-hidden rounded-xl bg-black">
                       <Image
-                        src="/assets/images/medical-equipment/ct-case-dvt-after.jpg"
+                        src={copy.dvtAfterImage}
                         alt="심부정맥혈전증 치료 후"
                         fill
                         className="object-cover"
@@ -306,11 +331,13 @@ function DesktopCategoryDetail({
   selected,
   onSelect,
   allItems,
+  copy,
 }: {
   category: Exclude<EquipmentCategory, 'all'>;
   selected: MedicalEquipment;
   onSelect: (item: MedicalEquipment) => void;
   allItems: MedicalEquipment[];
+  copy: InlineContentData;
 }) {
   const items = allItems.filter((item) => item.category === category);
   const selectedIndex = items.findIndex((item) => item.id === selected.id);
@@ -332,9 +359,13 @@ function DesktopCategoryDetail({
     <div className="mx-auto mt-14 hidden w-full max-w-[1120px] grid-cols-[220px_minmax(0,1fr)] gap-16 xl:grid">
       <aside className="sticky top-32 self-start pt-1">
         <TypographyP className="mb-5 text-xl font-semibold tracking-[-0.025em] text-[#08715F]">
-          {EQUIPMENT_CATEGORY_OPTIONS.find((option) => option.value === category)
-            ?.label}
-          장비
+          {{
+            imaging: copy.categoryImaging,
+            functional: copy.categoryFunctional,
+            procedure: copy.categoryProcedure,
+            special: copy.categorySpecial,
+          }[category] ?? EQUIPMENT_CATEGORY_OPTIONS.find((option) => option.value === category)?.label}
+          {copy.equipmentSuffix}
         </TypographyP>
 
         <nav aria-label="첨단의료장비 목록" className="flex flex-col gap-3">
@@ -365,6 +396,7 @@ function DesktopCategoryDetail({
           item={selected}
           onPrevious={canCycle ? () => moveSelection(-1) : undefined}
           onNext={canCycle ? () => moveSelection(1) : undefined}
+          copy={copy}
         />
       </div>
     </div>
@@ -376,11 +408,13 @@ function MobileCategoryDetail({
   openId,
   onToggle,
   allItems,
+  copy,
 }: {
   category: Exclude<EquipmentCategory, 'all'>;
   openId: string | null;
   onToggle: (item: MedicalEquipment) => void;
   allItems: MedicalEquipment[];
+  copy: InlineContentData;
 }) {
   const items = allItems.filter((item) => item.category === category);
 
@@ -419,7 +453,7 @@ function MobileCategoryDetail({
 
               {active ? (
                 <div id={panelId} className="px-1 pb-8 pt-5">
-                  <EquipmentDetail item={item} />
+                  <EquipmentDetail item={item} copy={copy} />
                 </div>
               ) : null}
             </div>
@@ -432,8 +466,10 @@ function MobileCategoryDetail({
 
 export default function MedicalEquipmentContent({
   items,
+  copy,
 }: {
   items: MedicalEquipment[];
+  copy: InlineContentData;
 }) {
   const [category, setCategory] = useState<EquipmentCategory>('all');
   const [selectedId, setSelectedId] = useState('ct');
@@ -503,10 +539,10 @@ export default function MedicalEquipmentContent({
       <TypographyH2 id="medical-equipment-list-heading" className="sr-only">
         청맥병원 첨단의료장비 목록
       </TypographyH2>
-      <CategoryTabs value={category} onChange={changeCategory} />
+      <CategoryTabs value={category} onChange={changeCategory} copy={copy} />
 
       {category === 'all' ? (
-        <AllEquipmentGrid items={items} onSelect={selectEquipment} />
+        <AllEquipmentGrid items={items} onSelect={selectEquipment} copy={copy} />
       ) : selected ? (
         <>
           <DesktopCategoryDetail
@@ -514,17 +550,19 @@ export default function MedicalEquipmentContent({
             selected={selected}
             onSelect={selectEquipment}
             allItems={items}
+            copy={copy}
           />
           <MobileCategoryDetail
             category={category}
             openId={mobileOpenId}
             onToggle={toggleMobileEquipment}
             allItems={items}
+            copy={copy}
           />
         </>
       ) : (
         <div className="mt-8 rounded-xl bg-[#F7F8F8] px-5 py-12 text-center text-base text-[#8C9298]">
-          해당 분류의 장비가 없습니다.
+          {copy.emptyText}
         </div>
       )}
     </div>

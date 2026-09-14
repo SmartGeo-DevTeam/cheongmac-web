@@ -1,5 +1,6 @@
 'use client';
 
+import AdminEditButton from '@/app/_components/inline-editor/admin-edit-button';
 import {
   H2 as TypographyH2,
   H3 as TypographyH3,
@@ -7,6 +8,7 @@ import {
 } from '@/app/_components/ui/typography';
 import Inner from '@/app/_components/inner';
 import type { DoctorSummary } from '@/_lib/doctors';
+import type { InlineContentData } from '@/_lib/inline-content-shared';
 import { HeartIcon, Search } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -26,13 +28,24 @@ function departmentMatches(
   return department.includes('혈관외과');
 }
 
-function DoctorCard({ doctor }: { doctor: DoctorSummary }) {
+function DoctorCard({
+  doctor,
+  copy,
+}: {
+  doctor: DoctorSummary;
+  copy: InlineContentData;
+}) {
   const detailHref = `/about/doctors/${doctor.slug}`;
   const mobileImage = doctor.profileImageUrl ?? doctor.coverImageUrl;
   const desktopImage = doctor.coverImageUrl ?? doctor.profileImageUrl;
 
   return (
     <li className="group relative grid cursor-pointer grid-cols-[145px_1fr] gap-x-5 gap-y-10 xl:grid-cols-[302px_1fr]">
+      <AdminEditButton
+        href={`/admin/doctors/${doctor.id}#admin-doctor-basic`}
+        label={`${doctor.name} ${doctor.position}`}
+        className="left-2 right-auto top-2 xl:left-auto xl:right-2"
+      />
       <Link
         id={`doctor-card-${doctor.slug}-card-link`}
         href={detailHref}
@@ -86,11 +99,11 @@ function DoctorCard({ doctor }: { doctor: DoctorSummary }) {
         </div>
 
         <span className="mt-4 block text-sm font-semibold text-[#BBBBBB] xl:mt-6 xl:text-base">
-          전문분야
+          {copy.specialtyLabel}
         </span>
 
         <TypographyP className="break-keep text-[#262C35] xl:mt-2 xl:flex-1 xl:text-xl">
-          {doctor.specialties.join(', ') || '전문분야 준비 중'}
+          {doctor.specialties.join(', ') || copy.emptySpecialtyText || '전문분야 준비 중'}
         </TypographyP>
 
         <div className="mt-8 grid grid-cols-2 gap-x-1 text-sm font-bold text-white xl:mb-6 xl:gap-x-2 xl:text-base">
@@ -99,7 +112,7 @@ function DoctorCard({ doctor }: { doctor: DoctorSummary }) {
             href={detailHref}
             className="pointer-events-auto relative z-20 rounded-full bg-[#8BC9B8] py-2 text-center xl:py-3"
           >
-            상세보기
+            {copy.detailLabel}
           </Link>
 
           <Link
@@ -107,7 +120,7 @@ function DoctorCard({ doctor }: { doctor: DoctorSummary }) {
             href={doctor.reservationHref || '/'}
             className="pointer-events-auto relative z-20 rounded-full bg-[#FD7740] py-2 text-center xl:py-3"
           >
-            예약하기
+            {copy.reservationLabel}
           </Link>
         </div>
       </div>
@@ -117,8 +130,10 @@ function DoctorCard({ doctor }: { doctor: DoctorSummary }) {
 
 export default function DoctorListClient({
   doctors,
+  copy,
 }: {
   doctors: DoctorSummary[];
+  copy: InlineContentData;
 }) {
   const [query, setQuery] = useState('');
   const [department, setDepartment] =
@@ -156,14 +171,14 @@ export default function DoctorListClient({
             aria-pressed="true"
             className="rounded-tl-2xl rounded-tr-2xl border border-b-transparent border-[#FD7740] py-1 text-[#FD7740] xl:py-4"
           >
-            의료진
+            {copy.doctorsTab}
           </button>
           <button
             type="button"
             aria-pressed="false"
             className="border-b border-b-[#FD7740] bg-[#FBFBFB] py-1 text-[#999999] xl:py-4"
           >
-            진료과
+            {copy.departmentsTab}
           </button>
         </div>
       </Inner>
@@ -172,7 +187,7 @@ export default function DoctorListClient({
         <div className="mt-2 bg-[#FBFBFB] py-7 xl:mt-10 xl:bg-transparent xl:py-0">
           <div className="flex items-center gap-2 xl:justify-center xl:gap-5 xl:rounded-xl xl:border xl:border-[#E5E7EB] xl:bg-[#FBFBFB] xl:py-10">
             <span className="hidden xl:block xl:text-[28px] xl:font-bold xl:text-[#767C88]">
-              의료진 검색
+              {copy.searchLabel}
             </span>
 
             <input
@@ -182,7 +197,7 @@ export default function DoctorListClient({
               autoComplete="off"
               value={query}
               onChange={(event) => setQuery(event.target.value)}
-              placeholder="의료진 성명 및 전문분야로 검색해보세요."
+              placeholder={copy.searchPlaceholder}
               className="h-10.5 w-full rounded-lg border border-[#CCCCCC] pl-5 text-sm font-medium xl:h-15 xl:w-3/5 xl:px-5 xl:text-lg"
             />
 
@@ -198,6 +213,11 @@ export default function DoctorListClient({
           <DoctorDepartmentTabs
             value={department}
             onValueChange={setDepartment}
+            labels={{
+              vascular: copy.vascularLabel,
+              radiology: copy.radiologyLabel,
+              anesthesiology: copy.anesthesiologyLabel,
+            }}
           />
         </div>
       </Inner>
@@ -206,30 +226,30 @@ export default function DoctorListClient({
         {filteredDoctors.length ? (
           <ul className="mt-12 grid grid-cols-1 gap-10 xl:mt-15 xl:grid-cols-2 xl:gap-6">
             {filteredDoctors.map((doctor) => (
-              <DoctorCard key={doctor.id} doctor={doctor} />
+              <DoctorCard key={doctor.id} doctor={doctor} copy={copy} />
             ))}
           </ul>
         ) : (
           <div className="mt-12 rounded-xl border border-dashed border-[#D9DDE1] bg-[#FAFAFA] px-5 py-14 text-center text-sm text-[#9298A0] xl:text-lg">
-            조건에 맞는 의료진이 없습니다.
+            {copy.emptyText}
           </div>
         )}
       </Inner>
 
       <Inner usePaddingHorizontal>
         <Link
-          href="/"
+          href={copy.matchingHref}
           className="relative mt-10 block aspect-335/180 w-full overflow-hidden rounded-[14px] px-5 xl:aspect-1280/360"
         >
           <Image
-            src="/assets/doctors/section-matching-mobile.png"
-            alt="지금 나에게 필요한 청맥 의료진은 누구일까?"
+            src={copy.matchingMobileImage}
+            alt={copy.matchingAlt}
             fill
             className="block xl:hidden"
           />
           <Image
-            src="/assets/doctors/section-matching-desktop.png"
-            alt="지금 나에게 필요한 청맥 의료진은 누구일까?"
+            src={copy.matchingDesktopImage}
+            alt={copy.matchingAlt}
             fill
             className="hidden xl:block"
           />
@@ -238,19 +258,19 @@ export default function DoctorListClient({
 
       <Inner>
         <Link
-          href="/"
+          href={copy.messageHref}
           className="relative mt-5 block aspect-375/250 w-full xl:mt-10 xl:aspect-1320/715 xl:px-5"
         >
           <Image
-            src="/assets/doctors/section-message-mobile.png"
-            alt="환자의 아픔을 먼저 듣고, 가장 안전한 길을 제시하겠습니다."
+            src={copy.messageMobileImage}
+            alt={copy.messageAlt}
             fill
             className="block xl:hidden"
           />
           <div className="relative z-10 h-full w-full">
             <Image
-              src="/assets/doctors/section-message-desktop.png"
-              alt="환자의 아픔을 먼저 듣고, 가장 안전한 길을 제시하겠습니다."
+              src={copy.messageDesktopImage}
+              alt={copy.messageAlt}
               fill
               className="hidden xl:block"
             />

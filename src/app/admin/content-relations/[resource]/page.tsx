@@ -205,8 +205,9 @@ export default async function RelatedContentListPage({
         </div>
       ) : null}
 
-      <AdminDataTable
-        columns={columns}
+      <div id="admin-related-content-list" className="scroll-mt-24">
+        <AdminDataTable
+          columns={columns}
         rows={rows}
         basePath={meta.href}
         query={result.query}
@@ -221,7 +222,8 @@ export default async function RelatedContentListPage({
             ? `"${result.query}" 검색 결과가 없습니다.`
             : `등록된 ${meta.label} 데이터가 없습니다.`
         }
-      />
+        />
+      </div>
     </section>
   );
 }

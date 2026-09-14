@@ -321,7 +321,10 @@ export default async function AdminManagedPageEdit({
           </div>
         </div>
 
-        <div className="rounded-xl border border-[#E4E4E7] bg-white p-5 md:p-6">
+        <div
+          id="managed-item-content"
+          className="scroll-mt-24 rounded-xl border border-[#E4E4E7] bg-white p-5 md:p-6"
+        >
           <h2 className="text-base font-semibold text-[#27272A]">
             {typeConfig.label} 내용
           </h2>

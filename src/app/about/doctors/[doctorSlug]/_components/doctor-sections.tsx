@@ -78,7 +78,7 @@ async function DoctorSpecialtiesBlock({
           required: true,
         },
       ]}
-      adminHref={`/admin/content-relations/specialties?doctorId=${doctorId}`}
+      adminHref={`/admin/content-relations/specialties?doctorId=${doctorId}#admin-related-content-list`}
       adminLabel="진료분야 데이터 관리"
     >
       {(content) => (
@@ -122,7 +122,7 @@ async function DoctorCareersBlock({
           required: true,
         },
       ]}
-      adminHref={`/admin/doctors/${doctorId}`}
+      adminHref={`/admin/doctors/${doctorId}#admin-doctor-careers`}
       adminLabel="의료진 기본정보·학력약력 관리"
     >
       {(content) => (
@@ -312,7 +312,7 @@ export async function DoctorScheduleSection({
           rows: 5,
         },
       ]}
-      adminHref={`/admin/content-relations/schedules?doctorId=${doctorId}`}
+      adminHref={`/admin/content-relations/schedules?doctorId=${doctorId}#admin-related-content-list`}
       adminLabel="진료시간표 데이터 관리"
     >
       {(content) => (
@@ -390,7 +390,7 @@ export async function DoctorReviewsSection({
         { key: 'title', label: '영역 제목', type: 'text', required: true },
         { key: 'moreLabel', label: '더보기 버튼 문구', type: 'text' },
       ]}
-      adminHref={`/admin/content-relations/reviews?doctorId=${doctorId}`}
+      adminHref={`/admin/content-relations/reviews?doctorId=${doctorId}#admin-related-content-list`}
       adminLabel="환자 후기 데이터 관리"
     >
       {(content) => (
@@ -442,7 +442,7 @@ export async function DoctorMediaSection({
         { key: 'title', label: '영역 제목', type: 'text', required: true },
         { key: 'moreLabel', label: '더보기 버튼 문구', type: 'text' },
       ]}
-      adminHref={`/admin/content-relations/media?doctorId=${doctorId}`}
+      adminHref={`/admin/content-relations/media?doctorId=${doctorId}#admin-related-content-list`}
       adminLabel="미디어 데이터 관리"
     >
       {(content) => (
@@ -543,7 +543,7 @@ export async function DoctorConsultationsSection({
         { key: 'title', label: '영역 제목', type: 'text', required: true },
         { key: 'moreLabel', label: '더보기 버튼 문구', type: 'text' },
       ]}
-      adminHref={`/admin/content-relations/consultations?doctorId=${doctorId}`}
+      adminHref={`/admin/content-relations/consultations?doctorId=${doctorId}#admin-related-content-list`}
       adminLabel="의학상담 데이터 관리"
     >
       {(content) => (
@@ -654,7 +654,7 @@ export async function DoctorPresentationsSection({
         },
         { key: 'buttonLabel', label: '버튼 문구', type: 'text', required: true },
       ]}
-      adminHref={`/admin/content-relations/presentations?doctorId=${doctorId}`}
+      adminHref={`/admin/content-relations/presentations?doctorId=${doctorId}#admin-related-content-list`}
       adminLabel="발표·연구 데이터 관리"
     >
       {(content) => (

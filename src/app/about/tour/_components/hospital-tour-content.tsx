@@ -1,5 +1,6 @@
 'use client';
 
+import ManagedItemEditButton from '@/app/_components/inline-editor/managed-item-edit-button';
 import {
   H2 as TypographyH2,
   H3 as TypographyH3,
@@ -7,6 +8,7 @@ import {
   Strong as TypographyStrong,
 } from '@/app/_components/ui/typography';
 import FilterTabs from '@/app/_components/ui/filter-tabs';
+import type { InlineContentData } from '@/_lib/inline-content-shared';
 
 import {
   FACILITY_CATEGORY_OPTIONS,
@@ -29,16 +31,18 @@ const INITIAL_VISIBLE_FACILITY_COUNT = 9;
 function HospitalTourTabs({
   activeTab,
   onChange,
+  copy,
 }: {
   activeTab: HospitalTourTab;
   onChange: (tab: HospitalTourTab) => void;
+  copy: InlineContentData;
 }) {
   return (
     <FilterTabs
       id="hospital-tour-view-tabs"
       items={[
-        { value: 'floor' as const, label: '층별안내' },
-        { value: 'facility' as const, label: '시설안내' },
+        { value: 'floor' as const, label: copy.floorTab },
+        { value: 'facility' as const, label: copy.facilityTab },
       ]}
       value={activeTab}
       onValueChange={onChange}
@@ -78,8 +82,10 @@ function FloorCard({ floor, title, details }: FloorGuide) {
 
 function FloorGuideSection({
   floorGuides,
+  copy,
 }: {
   floorGuides: FloorGuide[];
+  copy: InlineContentData;
 }) {
   return (
     <section className="relative left-1/2 mt-8 w-screen -translate-x-1/2 bg-[linear-gradient(180deg,#FFFFFF_0%,#EAF2FD_100%)] xl:mt-16">
@@ -93,14 +99,20 @@ function FloorGuideSection({
           aria-hidden="true"
           className="hidden self-stretch bg-contain bg-bottom bg-no-repeat xl:block"
           style={{
-            backgroundImage:
-              "url('/assets/images/hospital-tour/building.png')",
+            backgroundImage: `url('${copy.buildingImage}')`,
           }}
         />
 
         <div className="space-y-3 py-0 xl:py-12">
           {floorGuides.map((guide) => (
-            <FloorCard key={guide.floor} {...guide} />
+            <div key={guide.floor} className="relative">
+              <FloorCard {...guide} />
+              <ManagedItemEditButton
+                pageKey="tour"
+                itemKey={`floor:${guide.floor}`}
+                label={`${guide.floor} ${guide.title}`}
+              />
+            </div>
           ))}
         </div>
       </div>
@@ -146,9 +158,11 @@ function FacilityCard({
 function FacilitySection({
   onOpen,
   facilityItems,
+  copy,
 }: {
   onOpen: (item: FacilityItem) => void;
   facilityItems: FacilityItem[];
+  copy: InlineContentData;
 }) {
   const [category, setCategory] = useState<FacilityCategory>('all');
   const [query, setQuery] = useState('');
@@ -212,7 +226,7 @@ function FacilitySection({
             type="search"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="찾으려는 시설을 검색하세요."
+            placeholder={copy.facilitySearchPlaceholder}
             className="h-12 w-full rounded-full border border-[#D9DDE1] bg-white pl-5 pr-12 text-base text-[#262C35] outline-none placeholder:text-[#A8ADB3] focus:border-[#8ABFB3] xl:h-14 xl:text-lg"
           />
           <Search
@@ -225,12 +239,19 @@ function FacilitySection({
       {visibleItems.length > 0 ? (
         <div className="mt-6 grid grid-cols-2 gap-3 xl:mt-8 xl:grid-cols-3 xl:gap-5">
           {visibleItems.map((item) => (
-            <FacilityCard key={item.id} item={item} onOpen={onOpen} />
+            <div key={item.id} className="relative">
+              <FacilityCard item={item} onOpen={onOpen} />
+              <ManagedItemEditButton
+                pageKey="tour"
+                itemKey={`facility:${item.id}`}
+                label={item.title}
+              />
+            </div>
           ))}
         </div>
       ) : (
         <div className="mt-8 flex min-h-48 items-center justify-center rounded-2xl bg-[#F7F8F8] px-5 text-center text-base text-[#858B91] xl:text-xl">
-          검색 조건에 맞는 시설이 없습니다.
+          {copy.facilityEmpty}
         </div>
       )}
 
@@ -241,7 +262,7 @@ function FacilitySection({
             onClick={() => setVisibleCount((count) => count + 6)}
             className="inline-flex h-12 items-center gap-2 rounded-full bg-[#F4F5F6] px-7 text-base font-semibold text-[#3F454B] transition hover:bg-[#ECEEEF] xl:h-14 xl:px-8 xl:text-xl"
           >
-            더보기
+            {copy.moreLabel}
             <ChevronDown className="size-5" strokeWidth={1.8} />
           </button>
         </div>
@@ -440,9 +461,11 @@ function FacilityModal({
 export default function HospitalTourContent({
   floorGuides,
   facilityItems,
+  copy,
 }: {
   floorGuides: FloorGuide[];
   facilityItems: FacilityItem[];
+  copy: InlineContentData;
 }) {
   const [activeTab, setActiveTab] = useState<HospitalTourTab>('floor');
   const [selectedFacility, setSelectedFacility] =
@@ -451,14 +474,15 @@ export default function HospitalTourContent({
   return (
     <>
       <div className="mx-auto w-full max-w-7xl px-5 pb-16 xl:px-0 xl:pb-24">
-        <HospitalTourTabs activeTab={activeTab} onChange={setActiveTab} />
+        <HospitalTourTabs activeTab={activeTab} onChange={setActiveTab} copy={copy} />
 
         {activeTab === 'floor' ? (
-          <FloorGuideSection floorGuides={floorGuides} />
+          <FloorGuideSection floorGuides={floorGuides} copy={copy} />
         ) : (
           <FacilitySection
             onOpen={setSelectedFacility}
             facilityItems={facilityItems}
+            copy={copy}
           />
         )}
       </div>

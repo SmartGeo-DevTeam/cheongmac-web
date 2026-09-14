@@ -1,5 +1,6 @@
 'use client';
 
+import AdminEditButton from '@/app/_components/inline-editor/admin-edit-button';
 import {
   H2 as TypographyH2,
   H3 as TypographyH3,
@@ -12,6 +13,7 @@ import UiPagination from '@/app/_components/ui/pagination';
 import type {
   PublicConsultationItem as ConsultationItem,
 } from '@/_lib/consultations';
+import type { InlineContentData } from '@/_lib/inline-content-shared';
 import {
   ArrowDownLeft,
   Link2,
@@ -51,7 +53,13 @@ function buildDetailHref(id: number, returnTo: string) {
   };
 }
 
-function SearchBox({ defaultValue }: { defaultValue: string }) {
+function SearchBox({
+  defaultValue,
+  placeholder,
+}: {
+  defaultValue: string;
+  placeholder: string;
+}) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -76,7 +84,7 @@ function SearchBox({ defaultValue }: { defaultValue: string }) {
         name="q"
         type="search"
         defaultValue={defaultValue}
-        placeholder="검색어를 입력하세요"
+        placeholder={placeholder}
         className="min-w-0 flex-1 bg-transparent text-[11px] tracking-[-0.03em] text-[#3F454C] placeholder:text-[#A9AFB6] xl:text-[13px]"
       />
       <button type="submit" aria-label="의학상담 검색">
@@ -89,28 +97,17 @@ function SearchBox({ defaultValue }: { defaultValue: string }) {
   );
 }
 
-function NoticeBox() {
+function NoticeBox({ copy }: { copy: InlineContentData }) {
   return (
     <section className="mx-auto max-w-7xl rounded-xl bg-[#E7F5F1] px-5 py-5 xl:rounded-[15px] xl:px-14 xl:py-8">
       <TypographyH2 className="flex items-center justify-center gap-2 text-[16px] font-bold tracking-[-0.04em] text-[#167963] xl:text-[20px]">
         <ShieldAlert className="size-5 xl:size-6" strokeWidth={2} />
-        확인해 주세요
+        {copy.noticeTitle}
       </TypographyH2>
       <div className="mt-4 space-y-3 text-[11px] leading-[1.65] tracking-[-0.035em] text-[#4E5D5A] xl:mt-5 xl:text-[13px] xl:leading-[1.7]">
-        <TypographyP>
-          ① 본 상담은 진료를 돕기 위한 보조적인 수단이며, 의료진의 직접 진료에
-          대한 진료를 대신할 수 없습니다. 정확한 진단과 치료 계획은 반드시 병원
-          내원을 통해 확인하시기 바랍니다.
-        </TypographyP>
-        <TypographyP>
-          ② 현재 전문의가 진료와 병행해 직접 답변을 작성하므로, 답변 완료까지
-          일정 시간이 소요될 수 있습니다. 신속한 답변은 정확하고 깊이 있는
-          답변을 드리기 위함이니 너그러운 양해 부탁드립니다.
-        </TypographyP>
-        <TypographyP>
-          ③ 개인정보(성명, 연락처, 환자번호 등)가 포함된 문의나 민감한 상담
-          내용은 비공개 게시물로 작성해 주시기 바랍니다.
-        </TypographyP>
+        <TypographyP>{copy.notice1}</TypographyP>
+        <TypographyP>{copy.notice2}</TypographyP>
+        <TypographyP>{copy.notice3}</TypographyP>
       </div>
     </section>
   );
@@ -136,7 +133,11 @@ function ConsultationCard({
   returnTo: string;
 }) {
   return (
-    <article className="rounded-[10px] border border-[#E2E6E9] bg-white px-4 py-4 xl:rounded-[13px] xl:px-6 xl:py-5">
+    <article className="relative rounded-[10px] border border-[#E2E6E9] bg-white px-4 py-4 xl:rounded-[13px] xl:px-6 xl:py-5">
+      <AdminEditButton
+        href={`/admin/content-relations/consultations/${item.id}#admin-related-content-editor`}
+        label={`의학상담 ${item.title}`}
+      />
       <Link href={buildDetailHref(item.id, returnTo)} className="block">
         <div className="flex items-start justify-between gap-3">
           <CategoryBadge item={item} />
@@ -191,8 +192,10 @@ function ConsultationCard({
 
 export default function ConsultationBoard({
   items,
+  copy,
 }: {
   items: ConsultationItem[];
+  copy: InlineContentData;
 }) {
   const searchParams = useSearchParams();
   const currentPage = parsePage(searchParams.get('page'));
@@ -237,7 +240,7 @@ export default function ConsultationBoard({
 
   return (
     <div className="mx-auto w-full max-w-7xl px-4 pb-14 xl:px-0 xl:pb-24">
-      <NoticeBox />
+      <NoticeBox copy={copy} />
 
       <TypographyH2 id="consultation-list-heading" className="sr-only">
         의학상담 목록
@@ -251,7 +254,7 @@ export default function ConsultationBoard({
           </TypographyStrong>{' '}
           건
         </TypographyP>
-        <SearchBox defaultValue={query} />
+        <SearchBox defaultValue={query} placeholder={copy.searchPlaceholder} />
       </div>
 
       <div className="mt-2 space-y-2.5 xl:hidden">
@@ -275,7 +278,7 @@ export default function ConsultationBoard({
             className: 'hidden min-w-37.5 text-[13px] xl:inline-flex',
           })}
         >
-          <PenLine className="size-4" strokeWidth={1.8} /> 문의글 작성하기
+          <PenLine className="size-4" strokeWidth={1.8} /> {copy.writeLabel}
         </Link>
         <Link
           id="consultation-write-primary-button"
@@ -286,7 +289,7 @@ export default function ConsultationBoard({
             className: 'min-w-35.5 text-[13px] xl:min-w-40',
           })}
         >
-          <PenLine className="size-4" strokeWidth={1.8} /> 문의글 작성하기
+          <PenLine className="size-4" strokeWidth={1.8} /> {copy.writeLabel}
         </Link>
       </div>
 

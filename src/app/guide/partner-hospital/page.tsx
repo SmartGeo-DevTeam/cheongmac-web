@@ -1,3 +1,4 @@
+import EditablePageCopyBlock from '@/app/_components/inline-editor/editable-page-copy-block';
 import NavigationPageHeader from '@/app/_components/ui/navigation-page-header';
 import { getPartnerHospitalManagedContent } from '@/_lib/managed-pages';
 import type { Metadata } from 'next';
@@ -28,10 +29,15 @@ export default async function PartnerHospitalPage() {
         }
       />
 
-      <PartnerHospitalContent
-        logos={content.logos}
-        hospitals={content.hospitals}
-      />
+      <EditablePageCopyBlock path="/guide/partner-hospital">
+        {(copy) => (
+          <PartnerHospitalContent
+            logos={content.logos}
+            hospitals={content.hospitals}
+            copy={copy}
+          />
+        )}
+      </EditablePageCopyBlock>
     </div>
   );
 }

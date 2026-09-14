@@ -23,7 +23,8 @@
     "assets:prune:managed": "tsx scripts/prune-managed-azure-assets.ts",
     "check:typography": "node scripts/check-typography-components.mjs",
     "check:inline-content": "node scripts/check-inline-content-editor.mjs",
-    "check:inline-hybrid": "node scripts/check-inline-editor-hybrid.mjs"
+    "check:inline-hybrid": "node scripts/check-inline-editor-hybrid.mjs",
+    "check:inline-all-pages": "node scripts/check-inline-editor-all-pages.mjs"
   },
   "dependencies": {
     "@better-auth/prisma-adapter": "1.7.3",

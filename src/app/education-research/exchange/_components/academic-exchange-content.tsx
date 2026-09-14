@@ -1,5 +1,6 @@
 'use client';
 
+import ManagedItemEditButton from '@/app/_components/inline-editor/managed-item-edit-button';
 import {
   H2 as TypographyH2,
   P as TypographyP,
@@ -16,6 +17,7 @@ import {
 import EmptyState from '@/app/_components/ui/empty-state';
 import UiPagination from '@/app/_components/ui/pagination';
 import SearchField from '@/app/_components/ui/search-field';
+import type { InlineContentData } from '@/_lib/inline-content-shared';
 
 import {
   type AcademicExchangePost,
@@ -33,36 +35,25 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 function AcademicExchangeIntro({
   heroImages,
+  copy,
 }: {
   heroImages: Array<{ id: string; src: string; alt: string }>;
+  copy: InlineContentData;
 }) {
   return (
     <section className="overflow-hidden bg-[#F4F5F5]">
       <div className="mx-auto grid w-full max-w-7xl gap-8 px-5 py-10 xl:grid-cols-[minmax(0,1fr)_430px] xl:items-center xl:gap-20 xl:px-0 xl:py-24">
         <div>
           <TypographyP managed={false} className="text-sm font-semibold tracking-[-0.015em] text-[#2B9B82] xl:text-base">
-            ACADEMIC EXCHANGE
+            {copy.eyebrow}
           </TypographyP>
 
           <TypographyH2 className="mt-4 break-keep text-[24px] font-bold leading-[1.45] tracking-[-0.045em] text-[#262C35] xl:mt-5 xl:text-[34px] xl:leading-[1.5]">
-            혈관 치료의{' '}
-            <span className="relative inline-block whitespace-nowrap">
-              <span className="relative z-10">올바른 기준</span>
-              <span
-                aria-hidden="true"
-                className="absolute inset-x-0 bottom-[0.08em] h-[0.34em] bg-[#91CDBF]"
-              />
-            </span>
-            을 세우기 위해
-            <br className="hidden xl:block" />
-            청맥병원은 끊임없이 연구하고 소통합니다.
+            <span className="whitespace-pre-line">{copy.introTitle}</span>
           </TypographyH2>
 
           <TypographyP className="mt-7 break-keep text-base leading-[1.8] text-[#4F565D] xl:mt-9 xl:max-w-[680px] xl:text-xl">
-            국내외 의료진과 임상 경험과 치료 노하우를 공유하고,
-            <br className="hidden xl:block" />
-            술기 연수와 교육 프로그램을 지속적으로 운영하며 혈관의학의
-            저변을 함께 넓혀가고 있습니다.
+            <span className="whitespace-pre-line">{copy.introDescription}</span>
           </TypographyP>
         </div>
 
@@ -77,7 +68,13 @@ function AcademicExchangeIntro({
           >
             {heroImages.map((image) => (
               <SwiperSlide key={image.id}>
-                <div className="relative aspect-[666/453] overflow-hidden rounded-[18px] bg-[#E9EBEC]">
+                <div className="relative">
+                  <ManagedItemEditButton
+                    pageKey="exchange"
+                    itemKey={`hero:${image.id}`}
+                    label={image.alt}
+                  />
+                  <div className="relative aspect-[666/453] overflow-hidden rounded-[18px] bg-[#E9EBEC]">
                   <Image
                     src={image.src}
                     alt={image.alt}
@@ -86,6 +83,7 @@ function AcademicExchangeIntro({
                     className="object-cover"
                     sizes="430px"
                   />
+                  </div>
                 </div>
               </SwiperSlide>
             ))}
@@ -101,7 +99,13 @@ function AcademicExchangeIntro({
           >
             {heroImages.map((image) => (
               <SwiperSlide key={image.id}>
-                <div className="relative aspect-[1.47/1] overflow-hidden rounded-xl bg-[#E6E8E9]">
+                <div className="relative">
+                  <ManagedItemEditButton
+                    pageKey="exchange"
+                    itemKey={`hero:${image.id}`}
+                    label={image.alt}
+                  />
+                  <div className="relative aspect-[1.47/1] overflow-hidden rounded-xl bg-[#E6E8E9]">
                   <Image
                     src={image.src}
                     alt={image.alt}
@@ -109,6 +113,7 @@ function AcademicExchangeIntro({
                     className="object-cover"
                     sizes="68vw"
                   />
+                  </div>
                 </div>
               </SwiperSlide>
             ))}
@@ -207,9 +212,11 @@ const PAGE_SIZE = 6;
 export default function AcademicExchangeContent({
   heroImages,
   posts,
+  copy,
 }: {
   heroImages: Array<{ id: string; src: string; alt: string }>;
   posts: AcademicExchangePost[];
+  copy: InlineContentData;
 }) {
   const [query, setQuery] = useState('');
   const [activePage, setActivePage] = useState(1);
@@ -258,7 +265,7 @@ export default function AcademicExchangeContent({
 
   return (
     <>
-      <AcademicExchangeIntro heroImages={heroImages} />
+      <AcademicExchangeIntro heroImages={heroImages} copy={copy} />
 
       <section className="mx-auto w-full max-w-7xl px-5 pb-20 pt-10 xl:px-0 xl:pb-28 xl:pt-16">
         <div
@@ -271,7 +278,7 @@ export default function AcademicExchangeContent({
               size="md"
               value={query}
               onChange={(event) => updateQuery(event.target.value)}
-              placeholder="검색어를 입력하세요"
+              placeholder={copy.searchPlaceholder}
               className="max-w-[190px] xl:max-w-[260px]"
             />
           </BoardToolbar>
@@ -279,15 +286,19 @@ export default function AcademicExchangeContent({
           {filteredPosts.length > 0 ? (
             <div className="mt-6 grid grid-cols-1 gap-y-14 xl:mt-7 xl:grid-cols-3 xl:gap-x-6 xl:gap-y-10">
               {visiblePosts.map((post) => (
-                <AcademicExchangeCard
-                  key={post.id}
-                  post={post}
-                />
+                <div key={post.id} className="relative">
+                  <AcademicExchangeCard post={post} />
+                  <ManagedItemEditButton
+                    pageKey="exchange"
+                    itemKey={`post:${post.id}`}
+                    label={post.title}
+                  />
+                </div>
               ))}
             </div>
           ) : (
             <EmptyState variant="soft" className="mt-8 xl:text-xl">
-              검색 조건에 맞는 학술교류 게시물이 없습니다.
+              {copy.emptyText}
             </EmptyState>
           )}
 

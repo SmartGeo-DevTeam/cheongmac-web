@@ -16,14 +16,19 @@ const ITEMS = [
 export default function DoctorDepartmentTabs({
   value,
   onValueChange,
+  labels,
 }: {
   value: DoctorDepartmentFilter;
   onValueChange: (value: DoctorDepartmentFilter) => void;
+  labels?: Partial<Record<DoctorDepartmentFilter, string>>;
 }) {
   return (
     <FilterTabs
       id="about-doctors-department-tabs"
-      items={ITEMS}
+      items={ITEMS.map((item) => ({
+        ...item,
+        label: labels?.[item.value] ?? item.label,
+      }))}
       value={value}
       onValueChange={onValueChange}
       ariaLabel="의료진 진료과"

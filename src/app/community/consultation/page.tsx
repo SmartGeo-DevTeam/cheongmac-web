@@ -1,5 +1,7 @@
+import EditablePageCopyBlock from '@/app/_components/inline-editor/editable-page-copy-block';
 import ConsultationBoard from '@/app/community/consultation/_components/consultation-board';
 import ConsultationPageHeader from '@/app/community/consultation/_components/consultation-page-header';
+import type { InlineContentData } from '@/_lib/inline-content-shared';
 import { getPublicConsultations } from '@/_lib/consultations';
 import { Skeleton } from '@/_shadcn/ui/skeleton';
 import type { Metadata } from 'next';
@@ -12,9 +14,9 @@ export const metadata: Metadata = {
   description: '혈관질환과 관련한 궁금증을 청맥병원 의료진에게 문의해보세요.',
 };
 
-async function ConsultationBoardData() {
+async function ConsultationBoardData({ copy }: { copy: InlineContentData }) {
   const items = await getPublicConsultations();
-  return <ConsultationBoard items={items} />;
+  return <ConsultationBoard items={items} copy={copy} />;
 }
 
 function ConsultationBoardSkeleton() {
@@ -38,9 +40,13 @@ export default function ConsultationPage() {
   return (
     <div>
       <ConsultationPageHeader />
-      <Suspense fallback={<ConsultationBoardSkeleton />}>
-        <ConsultationBoardData />
-      </Suspense>
+      <EditablePageCopyBlock path="/community/consultation">
+        {(copy) => (
+          <Suspense fallback={<ConsultationBoardSkeleton />}>
+            <ConsultationBoardData copy={copy} />
+          </Suspense>
+        )}
+      </EditablePageCopyBlock>
     </div>
   );
 }

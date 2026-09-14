@@ -1,3 +1,4 @@
+import EditablePageCopyBlock from '@/app/_components/inline-editor/editable-page-copy-block';
 import NavigationPageHeader from '@/app/_components/ui/navigation-page-header';
 import { getSocietyManagedContent } from '@/_lib/managed-pages';
 import type { Metadata } from 'next';
@@ -28,10 +29,15 @@ export default async function SocietyActivitiesPage() {
         }
       />
 
-      <SocietyActivitiesContent
-        featured={content.featured}
-        activities={content.activities}
-      />
+      <EditablePageCopyBlock path="/education-research/society">
+        {(copy) => (
+          <SocietyActivitiesContent
+            featured={content.featured}
+            activities={content.activities}
+            copy={copy}
+          />
+        )}
+      </EditablePageCopyBlock>
     </div>
   );
 }

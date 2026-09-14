@@ -1,3 +1,4 @@
+import EditablePageCopyBlock from '@/app/_components/inline-editor/editable-page-copy-block';
 import NavigationPageHeader from '@/app/_components/ui/navigation-page-header';
 import { getHospitalTourManagedContent } from '@/_lib/managed-pages';
 import type { Metadata } from 'next';
@@ -28,10 +29,15 @@ export default async function HospitalTourPage() {
         }
       />
 
-      <HospitalTourContent
-        floorGuides={content.floorGuides}
-        facilityItems={content.facilityItems}
-      />
+      <EditablePageCopyBlock path="/about/tour">
+        {(copy) => (
+          <HospitalTourContent
+            floorGuides={content.floorGuides}
+            facilityItems={content.facilityItems}
+            copy={copy}
+          />
+        )}
+      </EditablePageCopyBlock>
     </div>
   );
 }

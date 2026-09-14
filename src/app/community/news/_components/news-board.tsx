@@ -1,5 +1,6 @@
 'use client';
 
+import ManagedItemEditButton from '@/app/_components/inline-editor/managed-item-edit-button';
 import {
   H2 as TypographyH2,
 } from '@/app/_components/ui/typography';
@@ -18,6 +19,7 @@ import Pagination from '@/app/_components/ui/pagination';
 import SearchField from '@/app/_components/ui/search-field';
 import { useViewport } from '@/app/_providers/viewport-provider';
 import type { NewsItem } from '@/app/community/news/_data/news';
+import type { InlineContentData } from '@/_lib/inline-content-shared';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -79,7 +81,8 @@ function buildNewsDetailHref(id: number, returnTo: string) {
 
 function DesktopCard({ item, returnTo }: { item: NewsItem; returnTo: string }) {
   return (
-    <ContentCard id={`news-card-desktop-${item.id}`} variant="news">
+    <ContentCard id={`news-card-desktop-${item.id}`} variant="news" className="relative">
+      <ManagedItemEditButton pageKey="news" itemKey={String(item.id)} label={item.title} />
       <Link
         href={buildNewsDetailHref(item.id, returnTo)}
         className="group block outline-none focus-visible:ring-2 focus-visible:ring-[#006553] focus-visible:ring-offset-4"
@@ -112,7 +115,8 @@ function MobileAllCard({
   returnTo: string;
 }) {
   return (
-    <ContentCard id={`news-card-mobile-all-${item.id}`} variant="news">
+    <ContentCard id={`news-card-mobile-all-${item.id}`} variant="news" className="relative">
+      <ManagedItemEditButton pageKey="news" itemKey={String(item.id)} label={item.title} />
       <Link
         href={buildNewsDetailHref(item.id, returnTo)}
         className="block outline-none focus-visible:ring-2 focus-visible:ring-[#006553] focus-visible:ring-offset-4"
@@ -155,7 +159,8 @@ function MobileInsideCard({
   returnTo: string;
 }) {
   return (
-    <ContentCard id={`news-card-mobile-inside-${item.id}`} variant="news-wide">
+    <ContentCard id={`news-card-mobile-inside-${item.id}`} variant="news-wide" className="relative">
+      <ManagedItemEditButton pageKey="news" itemKey={String(item.id)} label={item.title} />
       <Link
         href={buildNewsDetailHref(item.id, returnTo)}
         className="block outline-none focus-visible:ring-2 focus-visible:ring-[#006553] focus-visible:ring-offset-4"
@@ -194,7 +199,9 @@ function MobilePressCard({
     <ContentCard
       id={`news-card-mobile-press-${item.id}`}
       variant="news-horizontal"
+      className="relative"
     >
+      <ManagedItemEditButton pageKey="news" itemKey={String(item.id)} label={item.title} />
       <Link
         href={buildNewsDetailHref(item.id, returnTo)}
         className="grid grid-cols-[96px_minmax(0,1fr)] gap-3 outline-none focus-visible:ring-2 focus-visible:ring-[#006553] focus-visible:ring-offset-4"
@@ -234,8 +241,10 @@ function MobilePressCard({
 
 export default function NewsBoard({
   items,
+  copy,
 }: {
   items: NewsItem[];
+  copy: InlineContentData;
 }) {
   const { isDesktop } = useViewport();
   const router = useRouter();
@@ -333,7 +342,12 @@ export default function NewsBoard({
         id="news-filter-tabs"
         items={CATEGORY_TABS.map((tab) => ({
           value: tab.id,
-          label: tab.label,
+          label:
+            tab.id === 'inside'
+              ? copy.tabInside
+              : tab.id === 'press'
+                ? copy.tabPress
+                : copy.tabAll,
         }))}
         value={category}
         onValueChange={handleCategoryChange}
@@ -349,7 +363,7 @@ export default function NewsBoard({
           ariaLabel="청맥뉴스 검색"
           value={query}
           onChange={(event) => handleQueryChange(event.target.value)}
-          placeholder="검색어를 입력하세요."
+          placeholder={copy.searchPlaceholder}
           className="max-w-[160px] xl:max-w-[220px]"
         />
       </BoardToolbar>
@@ -411,7 +425,7 @@ export default function NewsBoard({
           />
         </>
       ) : (
-        <EmptyState className="mt-12 min-h-[208px]" />
+        <EmptyState className="mt-12 min-h-[208px]">{copy.emptyText}</EmptyState>
       )}
     </section>
   );

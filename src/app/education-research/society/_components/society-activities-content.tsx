@@ -1,11 +1,13 @@
 'use client';
 
+import ManagedItemEditButton from '@/app/_components/inline-editor/managed-item-edit-button';
 import {
   H2 as TypographyH2,
   H3 as TypographyH3,
   P as TypographyP,
 } from '@/app/_components/ui/typography';
 import FilterTabs from '@/app/_components/ui/filter-tabs';
+import type { InlineContentData } from '@/_lib/inline-content-shared';
 
 import {
   type SocietyActivity,
@@ -17,25 +19,19 @@ import { useMemo, useState } from 'react';
 import 'swiper/css';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-function SocietyIntro() {
+function SocietyIntro({ copy }: { copy: InlineContentData }) {
   return (
     <section className="mx-auto w-full max-w-7xl px-5 pb-12 xl:px-0 xl:pb-20">
       <TypographyP managed={false} className="text-sm font-semibold tracking-[-0.015em] text-[#279A82] xl:text-base">
-        SOCIETY ACTIVITIES
+        {copy.eyebrow}
       </TypographyP>
 
       <TypographyH2 className="mt-4 max-w-[1050px] break-keep text-[24px] font-bold leading-[1.48] tracking-[-0.045em] text-[#262C35] xl:mt-5 xl:text-[34px] xl:leading-[1.5]">
-        청맥병원 의료진은 대한혈관외과학회, 대한정맥학회, UIP 세계정맥학회
-        등을 비롯한
-        <br className="hidden xl:block" />
-        국내외 주요 학회의 중심에서 활발히 활동하고 있습니다.
+        <span className="whitespace-pre-line">{copy.introTitle}</span>
       </TypographyH2>
 
       <TypographyP className="mt-7 max-w-[950px] break-keep text-base leading-[1.8] text-[#5B6269] xl:mt-9 xl:text-xl xl:leading-[1.8]">
-        정기 학술대회 참여와 치료 지침서 집필, 학술상 수상을 통해 혈관의학
-        발전에 기여하고,
-        <br className="hidden xl:block" />
-        세계 혈관의학의 최신 흐름을 진료에 반영하기 위해 노력합니다.
+        <span className="whitespace-pre-line">{copy.introDescription}</span>
       </TypographyP>
     </section>
   );
@@ -43,14 +39,16 @@ function SocietyIntro() {
 
 function FeaturedActivities({
   featured,
+  copy,
 }: {
   featured: SocietyFeatured[];
+  copy: InlineContentData;
 }) {
   return (
     <section className="relative overflow-hidden bg-[#006656]">
       <div className="absolute inset-0">
         <Image
-          src="/assets/images/society-activities/spring-conference-2026.png"
+          src={copy.featuredBackgroundImage}
           alt=""
           fill
           className="object-cover opacity-15"
@@ -63,13 +61,13 @@ function FeaturedActivities({
       <div className="relative mx-auto w-full max-w-7xl px-5 py-10 xl:px-0 xl:py-14">
         <div className="relative">
           <TypographyP className="relative z-10 text-base font-semibold text-white xl:text-xl">
-            · 주요 발표 ·
+            {copy.featuredLabel}
           </TypographyP>
           <span
             aria-hidden="true"
             className="absolute left-0 top-7 text-[54px] font-black leading-none tracking-[-0.05em] text-white/5 xl:top-8 xl:text-[82px]"
           >
-            FEATURED
+            {copy.featuredGhost}
           </span>
         </div>
 
@@ -88,7 +86,13 @@ function FeaturedActivities({
           >
             {featured.map((item) => (
               <SwiperSlide key={item.id}>
-                <article className="overflow-hidden rounded-[18px] bg-white/0 xl:grid xl:grid-cols-[430px_minmax(0,1fr)] xl:items-center xl:gap-16">
+                <div className="relative">
+                  <ManagedItemEditButton
+                    pageKey="society"
+                    itemKey={`featured:${item.id}`}
+                    label={item.title}
+                  />
+                  <article className="overflow-hidden rounded-[18px] bg-white/0 xl:grid xl:grid-cols-[430px_minmax(0,1fr)] xl:items-center xl:gap-16">
                   <div className="relative aspect-[1.45/1] overflow-hidden rounded-[16px] bg-black/10 xl:aspect-[1.56/1]">
                     <Image
                       src={item.image}
@@ -116,7 +120,8 @@ function FeaturedActivities({
                       {item.english}
                     </TypographyP>
                   </div>
-                </article>
+                  </article>
+                </div>
               </SwiperSlide>
             ))}
           </Swiper>
@@ -157,6 +162,11 @@ function TimelineItem({
 }) {
   return (
     <article className="relative pl-7 xl:grid xl:grid-cols-[minmax(0,1fr)_340px] xl:gap-14 xl:pl-12">
+      <ManagedItemEditButton
+        pageKey="society"
+        itemKey={`activity:${activity.id}`}
+        label={activity.title}
+      />
       <span className="absolute left-[-4px] top-[7px] size-[9px] rounded-full border-2 border-[#188B78] bg-white xl:left-[-5px] xl:top-2 xl:size-[11px]" />
 
       <div>
@@ -195,9 +205,11 @@ function TimelineItem({
 function SocietyTimeline({
   activities: allActivities,
   years,
+  copy,
 }: {
   activities: SocietyActivity[];
   years: SocietyYear[];
+  copy: InlineContentData;
 }) {
   const [activeYear, setActiveYear] = useState<SocietyYear>(
     years[0] ?? new Date().getFullYear(),
@@ -239,7 +251,7 @@ function SocietyTimeline({
             </div>
           ) : (
             <div className="ml-7 mt-8 rounded-2xl bg-[#F6F7F7] px-5 py-12 text-center text-base text-[#8D9399] xl:ml-12 xl:text-xl">
-              해당 연도의 학회활동 자료를 준비 중입니다.
+              {copy.emptyText}
             </div>
           )}
         </div>
@@ -251,9 +263,11 @@ function SocietyTimeline({
 export default function SocietyActivitiesContent({
   featured,
   activities,
+  copy,
 }: {
   featured: SocietyFeatured[];
   activities: SocietyActivity[];
+  copy: InlineContentData;
 }) {
   const years = Array.from(
     new Set(activities.map((activity) => activity.year)),
@@ -261,9 +275,9 @@ export default function SocietyActivitiesContent({
 
   return (
     <>
-      <SocietyIntro />
-      <FeaturedActivities featured={featured} />
-      <SocietyTimeline activities={activities} years={years} />
+      <SocietyIntro copy={copy} />
+      <FeaturedActivities featured={featured} copy={copy} />
+      <SocietyTimeline activities={activities} years={years} copy={copy} />
     </>
   );
 }

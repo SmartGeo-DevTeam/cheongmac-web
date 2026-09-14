@@ -1,3 +1,4 @@
+import EditablePageCopyBlock from '@/app/_components/inline-editor/editable-page-copy-block';
 import NavigationPageHeader from '@/app/_components/ui/navigation-page-header';
 import { getVisibleDoctorSummaries } from '@/_lib/doctors';
 import type { Metadata } from 'next';
@@ -28,7 +29,9 @@ export default async function AboutDoctors() {
         }
       />
 
-      <DoctorListClient doctors={doctors} />
+      <EditablePageCopyBlock path="/about/doctors">
+        {(copy) => <DoctorListClient doctors={doctors} copy={copy} />}
+      </EditablePageCopyBlock>
     </div>
   );
 }

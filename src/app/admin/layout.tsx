@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
+import AdminHashFocus from './_components/admin-hash-focus';
 import AdminSidebar from './_components/admin-sidebar';
 
 export default async function AdminLayout({
@@ -43,6 +44,7 @@ export default async function AdminLayout({
 
   return (
     <div className="fixed inset-0 z-[100] overflow-hidden bg-[#FAFAFA]">
+      <AdminHashFocus />
       <SidebarProvider>
         <AdminSidebar
           name={session.user.name}
