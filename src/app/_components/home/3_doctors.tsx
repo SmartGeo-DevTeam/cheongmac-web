@@ -255,8 +255,8 @@ export default function HomeDoctors(): React.ReactNode {
             eyebrow="당신의 혈관을 지키는 사람들"
             title={
               <>
-                <TypographyP>대학병원 20년 경험의</TypographyP>
-                <TypographyP>혈관 특화 전문의</TypographyP>
+                <TypographyP managed={false}>대학병원 20년 경험의</TypographyP>
+                <TypographyP managed={false}>혈관 특화 전문의</TypographyP>
               </>
             }
           />
@@ -354,7 +354,7 @@ export default function HomeDoctors(): React.ReactNode {
                   className="mt-5
                 xl:mt-0 xl:flex xl:flex-col xl:justify-center xl:items-start"
                 >
-                  <TypographyP
+                  <TypographyP managed={false}
                     className={`mx-auto w-9/10 break-keep ${jejuMyeongjo.className} text-center text-lg text-[#164534]
                   xl:w-full xl:text-left xl:text-2xl`}
                   >
@@ -370,7 +370,7 @@ export default function HomeDoctors(): React.ReactNode {
                     xl:gap-1.5  
                     "
                     >
-                      <TypographyH2
+                      <TypographyH2 managed={false}
                         className="text-xl text-[#262C35]
                       xl:text-[32px]"
                       >

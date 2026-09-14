@@ -205,13 +205,13 @@ export default function HomeSpecialties(): React.ReactNode {
             }
             description={
               <>
-                <TypographyP>
+                <TypographyP managed={false}>
                   우리 몸 구석구석 닿지 않는 곳 없는 혈관,{' '}
                   <br className="block xl:hidden" />
                   건강의 시작과 끝은 결국 혈관입니다.
                 </TypographyP>
 
-                <TypographyP>청맥은 숨은 근본 문제까지 찾아 해결해드립니다.</TypographyP>
+                <TypographyP managed={false}>청맥은 숨은 근본 문제까지 찾아 해결해드립니다.</TypographyP>
               </>
             }
           />
@@ -309,7 +309,7 @@ export default function HomeSpecialties(): React.ReactNode {
                   containerRef={contRef}
                   progress={scrollYProgress}
                 >
-                  <TypographyH3>{item.title}</TypographyH3>
+                  <TypographyH3 managed={false}>{item.title}</TypographyH3>
 
                   <Image src={item.imageSrc} alt={item.alt} fill />
                 </SpecialtiesItem>

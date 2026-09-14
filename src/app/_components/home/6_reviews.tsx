@@ -90,8 +90,8 @@ export default function HomeReviews() {
           }
           description={
             <>
-              <TypographyP>청맥을 만나고 혈관 건강과 삶의 활력을 되찾은 분들.</TypographyP>
-              <TypographyP>
+              <TypographyP managed={false}>청맥을 만나고 혈관 건강과 삶의 활력을 되찾은 분들.</TypographyP>
+              <TypographyP managed={false}>
                 전문의의 정확한 진단과 치료가 어떤 변화를 만드는지 직접 확인해
                 보세요.
               </TypographyP>
@@ -232,7 +232,7 @@ export default function HomeReviews() {
               className="px-5 pb-5 flex flex-col items-center bg-[#A68E79]
             xl:px-10 xl:justify-center"
             >
-              <TypographyP
+              <TypographyP managed={false}
                 className="mt-8 font-semibold text-[15px] text-white
               xl:text-2xl"
               >
@@ -248,7 +248,7 @@ export default function HomeReviews() {
                 </span>
 
                 <div className="flex items-center font-medium text-white">
-                  <TypographyP>{mainReview.patientName}</TypographyP>
+                  <TypographyP managed={false}>{mainReview.patientName}</TypographyP>
                   <div className="flex items-center">
                     <span>{`(`}</span>
                     <span>{mainReview.age}세</span>
@@ -261,13 +261,13 @@ export default function HomeReviews() {
                 <span className="px-5 py-1.5 rounded-full bg-white font-bold font-sm text-[#394559]">
                   치료정보
                 </span>
-                <TypographyP className="font-medium text-white">{mainReview.treatment}</TypographyP>
+                <TypographyP managed={false} className="font-medium text-white">{mainReview.treatment}</TypographyP>
 
                 <span className="px-5 py-1.5 rounded-full bg-white font-bold font-sm text-[#394559]">
                   담당의사
                 </span>
                 <div className="flex items-center gap-3 font-medium text-white">
-                  <TypographyP>{mainReview.doctorName}</TypographyP>
+                  <TypographyP managed={false}>{mainReview.doctorName}</TypographyP>
                   <div
                     className="hidden relative w-11 h-11 rounded-full overflow-clip
                   xl:block"

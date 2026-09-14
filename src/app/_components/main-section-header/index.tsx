@@ -21,14 +21,14 @@ function MainSectionHeader({
     <div
       className={`mx-auto max-w-7xl w-full ${usePaddingHorizontal ? 'px-5' : ''} ${className}`}
     >
-      <TypographyP
+      <TypographyP managed={false}
         className="font-semibold text-lg
         xl:text-2xl"
       >
         {eyebrow}
       </TypographyP>
 
-      <TypographyH2
+      <TypographyH2 managed={false}
         className="mt-2 break-keep font-extrabold text-3xl
         xl:leading-[120%] xl:text-5xl"
       >
