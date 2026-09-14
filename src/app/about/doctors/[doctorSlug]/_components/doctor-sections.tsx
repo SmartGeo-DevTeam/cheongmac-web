@@ -1,3 +1,5 @@
+import EditableAdminRegion from '@/app/_components/inline-editor/editable-admin-region';
+import EditableContentBlock from '@/app/_components/inline-editor/editable-content-block';
 import {
   H1 as TypographyH1,
   H2 as TypographyH2,
@@ -54,49 +56,93 @@ function DetailInfoBlock({
 
 async function DoctorSpecialtiesBlock({
   doctorId,
+  publicPath,
 }: {
   doctorId: string;
+  publicPath: string;
 }) {
   const specialties = await getDoctorSpecialties(doctorId);
 
   return (
-    <DetailInfoBlock title="전문진료분야">
-      {specialties.length ? (
-        <TypographyP className="text-[#262C35] xl:text-xl">
-          {specialties.map((item) => item.name).join(', ')}
-        </TypographyP>
-      ) : (
-        <TypographyP className="text-[#9AA0A7] xl:text-lg">
-          등록된 전문진료분야가 없습니다.
-        </TypographyP>
+    <EditableContentBlock
+      pageKey={`doctor:${doctorId}`}
+      sectionKey="specialties"
+      label="전문진료분야 영역"
+      publicPath={publicPath}
+      defaults={{ title: '전문진료분야' }}
+      fields={[
+        {
+          key: 'title',
+          label: '영역 제목',
+          type: 'text',
+          required: true,
+        },
+      ]}
+      adminHref={`/admin/content-relations/specialties?doctorId=${doctorId}`}
+      adminLabel="진료분야 데이터 관리"
+    >
+      {(content) => (
+        <DetailInfoBlock title={content.title}>
+          {specialties.length ? (
+            <TypographyP className="text-[#262C35] xl:text-xl">
+              {specialties.map((item) => item.name).join(', ')}
+            </TypographyP>
+          ) : (
+            <TypographyP className="text-[#9AA0A7] xl:text-lg">
+              등록된 전문진료분야가 없습니다.
+            </TypographyP>
+          )}
+        </DetailInfoBlock>
       )}
-    </DetailInfoBlock>
+    </EditableContentBlock>
   );
 }
 
 async function DoctorCareersBlock({
   doctorId,
+  publicPath,
 }: {
   doctorId: string;
+  publicPath: string;
 }) {
   const careers = await getDoctorCareers(doctorId);
 
   return (
-    <DetailInfoBlock title="학력·약력">
-      {careers.length ? (
-        <ul className="list-disc pl-5">
-          {careers.map((career) => (
-            <li key={career.id} className="xl:text-xl xl:leading-[160%]">
-              {career.content}
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <TypographyP className="text-[#9AA0A7] xl:text-lg">
-          등록된 학력·약력이 없습니다.
-        </TypographyP>
+    <EditableContentBlock
+      pageKey={`doctor:${doctorId}`}
+      sectionKey="careers"
+      label="학력·약력 영역"
+      publicPath={publicPath}
+      defaults={{ title: '학력·약력' }}
+      fields={[
+        {
+          key: 'title',
+          label: '영역 제목',
+          type: 'text',
+          required: true,
+        },
+      ]}
+      adminHref={`/admin/doctors/${doctorId}`}
+      adminLabel="의료진 기본정보·학력약력 관리"
+    >
+      {(content) => (
+        <DetailInfoBlock title={content.title}>
+          {careers.length ? (
+            <ul className="list-disc pl-5">
+              {careers.map((career) => (
+                <li key={career.id} className="xl:text-xl xl:leading-[160%]">
+                  {career.content}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <TypographyP className="text-[#9AA0A7] xl:text-lg">
+              등록된 학력·약력이 없습니다.
+            </TypographyP>
+          )}
+        </DetailInfoBlock>
       )}
-    </DetailInfoBlock>
+    </EditableContentBlock>
   );
 }
 
@@ -111,11 +157,15 @@ function DoctorInfoBlockSkeleton() {
 
 export async function DoctorProfileSection({
   doctorId,
+  doctorSlug,
 }: {
   doctorId: string;
+  doctorSlug: string;
 }) {
   const doctor = await getDoctorProfileCore(doctorId);
   if (!doctor) return null;
+
+  const publicPath = `/about/doctors/${doctorSlug}`;
 
   const heroImage =
     doctor.images.cutout ??
@@ -126,7 +176,14 @@ export async function DoctorProfileSection({
     <div className="bg-[#F5F6F8] py-5 xl:py-10">
       <Inner usePaddingHorizontal>
         <div className="grid grid-cols-1 xl:grid-cols-[1fr_1fr] xl:gap-x-12">
-          <div className="rounded-xl bg-white xl:rounded-[14px]">
+          <EditableAdminRegion
+            pageKey={`doctor:${doctorId}`}
+            sectionKey="profile-image"
+            label="의료진 프로필 이미지"
+            publicPath={publicPath}
+            adminHref={`/admin/doctors/${doctorId}`}
+            className="rounded-xl bg-white xl:rounded-[14px]"
+          >
             <div className="relative flex aspect-335/300 w-full items-end justify-center">
               {heroImage ? (
                 <div className="relative h-full aspect-232/382">
@@ -141,46 +198,67 @@ export async function DoctorProfileSection({
                 </div>
               ) : null}
             </div>
-          </div>
+          </EditableAdminRegion>
 
-          <div className="mt-2.5 flex items-center justify-between">
-            <div className="flex flex-col xl:flex-row-reverse xl:items-center xl:gap-2">
-              <span className="text-xs text-[#767C88] xl:relative xl:top-2 xl:text-lg">
-                {doctor.department}
-              </span>
-              <TypographyH1
-                id="doctor-profile-title"
-                className="text-lg font-bold text-[#262C35] xl:text-[34px]"
-              >
-                {doctor.name} {doctor.position}
-              </TypographyH1>
-            </div>
+          <EditableContentBlock
+            pageKey={`doctor:${doctorId}`}
+            sectionKey="profile-core"
+            label="의료진 기본정보 영역"
+            publicPath={publicPath}
+            defaults={{ reservationLabel: '진료 예약하기' }}
+            fields={[
+              {
+                key: 'reservationLabel',
+                label: '예약 버튼 문구',
+                type: 'text',
+                required: true,
+              },
+            ]}
+            adminHref={`/admin/doctors/${doctorId}`}
+            adminLabel="이름·진료과·직책·예약 URL 관리"
+            className="mt-2.5 flex items-center justify-between"
+          >
+            {(content) => (
+              <>
+                <div className="flex flex-col xl:flex-row-reverse xl:items-center xl:gap-2">
+                  <span className="text-xs text-[#767C88] xl:relative xl:top-2 xl:text-lg">
+                    {doctor.department}
+                  </span>
+                  <TypographyH1
+                    id="doctor-profile-title"
+                    className="text-lg font-bold text-[#262C35] xl:text-[34px]"
+                  >
+                    {doctor.name} {doctor.position}
+                  </TypographyH1>
+                </div>
 
-            <div className="flex items-center gap-2.5 xl:gap-5">
-              <button
-                id={`doctor-${doctor.slug}-favorite`}
-                type="button"
-                aria-label={`${doctor.name} 관심 의료진`}
-              >
-                <HeartIcon color="#B2AFAC" className="size-5 xl:size-8" />
-              </button>
-              <Link
-                id={`doctor-${doctor.slug}-reservation`}
-                href={doctor.reservationHref || '/'}
-                className="rounded-full bg-[#FD7740] px-5 py-2 text-sm font-bold text-white xl:px-10 xl:py-3 xl:text-xl"
-              >
-                진료 예약하기
-              </Link>
-            </div>
-          </div>
+                <div className="flex items-center gap-2.5 xl:gap-5">
+                  <button
+                    id={`doctor-${doctor.slug}-favorite`}
+                    type="button"
+                    aria-label={`${doctor.name} 관심 의료진`}
+                  >
+                    <HeartIcon color="#B2AFAC" className="size-5 xl:size-8" />
+                  </button>
+                  <Link
+                    id={`doctor-${doctor.slug}-reservation`}
+                    href={doctor.reservationHref || '/'}
+                    className="rounded-full bg-[#FD7740] px-5 py-2 text-sm font-bold text-white xl:px-10 xl:py-3 xl:text-xl"
+                  >
+                    {content.reservationLabel}
+                  </Link>
+                </div>
+              </>
+            )}
+          </EditableContentBlock>
 
           <div className="mt-5 space-y-5 xl:col-start-2 xl:row-start-1 xl:mt-9 xl:space-y-7">
             <Suspense fallback={<DoctorInfoBlockSkeleton />}>
-              <DoctorSpecialtiesBlock doctorId={doctorId} />
+              <DoctorSpecialtiesBlock doctorId={doctorId} publicPath={publicPath} />
             </Suspense>
 
             <Suspense fallback={<DoctorInfoBlockSkeleton />}>
-              <DoctorCareersBlock doctorId={doctorId} />
+              <DoctorCareersBlock doctorId={doctorId} publicPath={publicPath} />
             </Suspense>
           </div>
         </div>
@@ -208,270 +286,424 @@ function ScheduleBadge({ status }: { status: string }) {
 
 export async function DoctorScheduleSection({
   doctorId,
+  doctorSlug,
 }: {
   doctorId: string;
+  doctorSlug: string;
 }) {
   const rows = await getDoctorSchedule(doctorId);
+  const publicPath = `/about/doctors/${doctorSlug}`;
 
   return (
-    <Inner usePaddingHorizontal>
-      <div>
-        <TypographyH2 id="doctor-schedule-heading" className="sr-only">
-          진료시간표
-        </TypographyH2>
+    <EditableContentBlock
+      pageKey={`doctor:${doctorId}`}
+      sectionKey="schedule"
+      label="진료시간표 영역"
+      publicPath={publicPath}
+      defaults={{
+        notice:
+          '*진료시간표는 상황에 따라 변경될 수 있으니, 내원 전 꼭 병원에 문의해주시길 바랍니다.\n*토요일 진료는 예약 및 내원 시 확인 부탁드립니다. (일요일, 공휴일은 휴진입니다.)',
+      }}
+      fields={[
+        {
+          key: 'notice',
+          label: '진료시간표 안내문',
+          type: 'editor',
+          rows: 5,
+        },
+      ]}
+      adminHref={`/admin/content-relations/schedules?doctorId=${doctorId}`}
+      adminLabel="진료시간표 데이터 관리"
+    >
+      {(content) => (
+        <Inner usePaddingHorizontal>
+          <div>
+            <TypographyH2 id="doctor-schedule-heading" className="sr-only">
+              진료시간표
+            </TypographyH2>
 
-        {rows.length ? (
-          <div className="overflow-hidden rounded-md border border-[#DCE3E1] bg-white xl:mx-auto">
-            <div className="grid grid-cols-[44px_repeat(6,minmax(0,1fr))] bg-[#347F6D] text-center text-xs font-bold text-white xl:grid-cols-[90px_repeat(6,minmax(0,1fr))] xl:text-lg">
-              <div className="py-3 xl:py-4">시간</div>
-              {scheduleDays.map((day) => (
-                <div key={day.key} className="py-3 xl:py-4">
-                  {day.label}
+            {rows.length ? (
+              <div className="overflow-hidden rounded-md border border-[#DCE3E1] bg-white xl:mx-auto">
+                <div className="grid grid-cols-[44px_repeat(6,minmax(0,1fr))] bg-[#347F6D] text-center text-xs font-bold text-white xl:grid-cols-[90px_repeat(6,minmax(0,1fr))] xl:text-lg">
+                  <div className="py-3 xl:py-4">시간</div>
+                  {scheduleDays.map((day) => (
+                    <div key={day.key} className="py-3 xl:py-4">
+                      {day.label}
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
 
-            {rows.map((row) => (
-              <div
-                key={row.id}
-                className="grid grid-cols-[44px_repeat(6,minmax(0,1fr))] items-center border-t border-[#EEF0F2] py-2 text-center text-xs xl:grid-cols-[90px_repeat(6,minmax(0,1fr))] xl:py-4 xl:text-lg"
-              >
-                <div className="font-bold text-[#222222]">{row.label}</div>
-                {scheduleDays.map((day) => (
-                  <div key={day.key} className="flex justify-center">
-                    <ScheduleBadge status={row[day.key]} />
+                {rows.map((row) => (
+                  <div
+                    key={row.id}
+                    className="grid grid-cols-[44px_repeat(6,minmax(0,1fr))] items-center border-t border-[#EEF0F2] py-2 text-center text-xs xl:grid-cols-[90px_repeat(6,minmax(0,1fr))] xl:py-4 xl:text-lg"
+                  >
+                    <div className="font-bold text-[#222222]">{row.label}</div>
+                    {scheduleDays.map((day) => (
+                      <div key={day.key} className="flex justify-center">
+                        <ScheduleBadge status={row[day.key]} />
+                      </div>
+                    ))}
                   </div>
                 ))}
               </div>
-            ))}
-          </div>
-        ) : (
-          <div className="rounded-xl border border-dashed border-[#D9DDE1] bg-white px-5 py-10 text-center text-sm text-[#9AA0A7]">
-            등록된 진료시간표가 없습니다.
-          </div>
-        )}
+            ) : (
+              <div className="rounded-xl border border-dashed border-[#D9DDE1] bg-white px-5 py-10 text-center text-sm text-[#9AA0A7]">
+                등록된 진료시간표가 없습니다.
+              </div>
+            )}
 
-        <TypographyP managed={false} className="mt-3 break-keep text-xs leading-5 text-[#999999] xl:mx-auto xl:mt-4 xl:text-sm xl:leading-[180%]">
-          *진료시간표는 상황에 따라 변경될 수 있으니, 내원 전 꼭 병원에
-          문의해주시길 바랍니다.
-          <br />
-          *토요일 진료는 예약 및 내원 시 확인 부탁드립니다. (일요일, 공휴일은
-          휴진입니다.)
-        </TypographyP>
-      </div>
-    </Inner>
+            <TypographyP
+              managed={false}
+              className="mt-3 whitespace-pre-line break-keep text-xs leading-5 text-[#999999] xl:mx-auto xl:mt-4 xl:text-sm xl:leading-[180%]"
+            >
+              {content.notice}
+            </TypographyP>
+          </div>
+        </Inner>
+      )}
+    </EditableContentBlock>
   );
 }
 
 export async function DoctorReviewsSection({
   doctorId,
+  doctorSlug,
 }: {
   doctorId: string;
+  doctorSlug: string;
 }) {
   const reviews = await getDoctorReviews(doctorId);
+  const publicPath = `/about/doctors/${doctorSlug}`;
 
   return (
-    <section className="mt-10 xl:relative xl:mx-auto xl:mt-15 xl:max-w-7xl">
-      <DoctorSectionHead title="환자 후기" moreHref="/" moreLabel="후기 더보기" />
-      <DoctorReviewCarousel
-        reviews={reviews.map((review) => ({
-          id: review.id,
-          imageUrl: review.imageUrl,
-          patientName: review.patientName,
-          age: review.age,
-          gender: review.gender,
-          treatment: review.treatment,
-        }))}
-      />
-    </section>
+    <EditableContentBlock
+      pageKey={`doctor:${doctorId}`}
+      sectionKey="reviews"
+      label="환자 후기 영역"
+      publicPath={publicPath}
+      defaults={{
+        title: '환자 후기',
+        moreLabel: '후기 더보기',
+      }}
+      fields={[
+        { key: 'title', label: '영역 제목', type: 'text', required: true },
+        { key: 'moreLabel', label: '더보기 버튼 문구', type: 'text' },
+      ]}
+      adminHref={`/admin/content-relations/reviews?doctorId=${doctorId}`}
+      adminLabel="환자 후기 데이터 관리"
+    >
+      {(content) => (
+        <section className="mt-10 xl:relative xl:mx-auto xl:mt-15 xl:max-w-7xl">
+          <DoctorSectionHead
+            title={content.title}
+            moreHref="/"
+            moreLabel={content.moreLabel}
+          />
+          <DoctorReviewCarousel
+            reviews={reviews.map((review) => ({
+              id: review.id,
+              imageUrl: review.imageUrl,
+              patientName: review.patientName,
+              age: review.age,
+              gender: review.gender,
+              treatment: review.treatment,
+            }))}
+          />
+        </section>
+      )}
+    </EditableContentBlock>
   );
 }
 
 export async function DoctorMediaSection({
   doctorId,
+  doctorSlug,
 }: {
   doctorId: string;
+  doctorSlug: string;
 }) {
   const media = await getDoctorMedia(doctorId);
   const featured = media.find((item) => item.isFeatured) ?? media[0];
   const others = media.filter((item) => item.id !== featured?.id).slice(0, 3);
+  const publicPath = `/about/doctors/${doctorSlug}`;
 
   return (
-    <section className="mt-15 xl:relative xl:mx-auto xl:max-w-7xl">
-      <DoctorSectionHead title="미디어" moreHref="/" moreLabel="영상 더보기" />
+    <EditableContentBlock
+      pageKey={`doctor:${doctorId}`}
+      sectionKey="media"
+      label="미디어 영역"
+      publicPath={publicPath}
+      defaults={{
+        title: '미디어',
+        moreLabel: '영상 더보기',
+      }}
+      fields={[
+        { key: 'title', label: '영역 제목', type: 'text', required: true },
+        { key: 'moreLabel', label: '더보기 버튼 문구', type: 'text' },
+      ]}
+      adminHref={`/admin/content-relations/media?doctorId=${doctorId}`}
+      adminLabel="미디어 데이터 관리"
+    >
+      {(content) => (
+        <section className="mt-15 xl:relative xl:mx-auto xl:max-w-7xl">
+          <DoctorSectionHead
+            title={content.title}
+            moreHref="/"
+            moreLabel={content.moreLabel}
+          />
 
-      <div className="mt-5 flex flex-col gap-3 px-5 xl:ml-80 xl:mt-0 xl:gap-6 xl:px-0">
-        {featured ? (
-          <Link
-            href={featured.linkUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="relative inline-block aspect-video w-full overflow-hidden rounded-lg bg-[#E7E9EB] xl:rounded-[20px]"
-          >
-            {featured.thumbnailUrl ? (
-              <Image
-                src={featured.thumbnailUrl}
-                alt={featured.title}
-                fill
-                className="object-cover"
-                sizes="(min-width: 1280px) 900px, 100vw"
-              />
-            ) : null}
-          </Link>
-        ) : (
-          <div className="grid aspect-video place-items-center rounded-xl border border-dashed border-[#D9DDE1] bg-white text-sm text-[#9AA0A7]">
-            등록된 미디어가 없습니다.
-          </div>
-        )}
-
-        {others.length ? (
-          <div className="grid grid-cols-3 gap-2 xl:gap-5">
-            {others.map((item) => (
+          <div className="mt-5 flex flex-col gap-3 px-5 xl:ml-80 xl:mt-0 xl:gap-6 xl:px-0">
+            {featured ? (
               <Link
-                key={item.id}
-                href={item.linkUrl}
+                href={featured.linkUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="relative aspect-video w-full overflow-hidden rounded-lg bg-[#E7E9EB] xl:rounded-[20px]"
+                className="relative inline-block aspect-video w-full overflow-hidden rounded-lg bg-[#E7E9EB] xl:rounded-[20px]"
               >
-                {item.thumbnailUrl ? (
+                {featured.thumbnailUrl ? (
                   <Image
-                    src={item.thumbnailUrl}
-                    alt={item.title}
+                    src={featured.thumbnailUrl}
+                    alt={featured.title}
                     fill
                     className="object-cover"
-                    sizes="(min-width: 1280px) 300px, 33vw"
+                    sizes="(min-width: 1280px) 900px, 100vw"
                   />
                 ) : null}
               </Link>
-            ))}
-          </div>
-        ) : null}
-      </div>
+            ) : (
+              <div className="grid aspect-video place-items-center rounded-xl border border-dashed border-[#D9DDE1] bg-white text-sm text-[#9AA0A7]">
+                등록된 미디어가 없습니다.
+              </div>
+            )}
 
-      {media.length ? (
-        <Link
-          href="/"
-          className="hidden xl:mx-auto xl:mt-9 xl:flex xl:items-center xl:justify-end xl:gap-2.5 xl:px-5"
-        >
-          <span className="text-xl font-bold text-[#FD7740]">영상 더보기</span>
-          <ArrowRight size={20} color="#FD7740" />
-        </Link>
-      ) : null}
-    </section>
+            {others.length ? (
+              <div className="grid grid-cols-3 gap-2 xl:gap-5">
+                {others.map((item) => (
+                  <Link
+                    key={item.id}
+                    href={item.linkUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="relative aspect-video w-full overflow-hidden rounded-lg bg-[#E7E9EB] xl:rounded-[20px]"
+                  >
+                    {item.thumbnailUrl ? (
+                      <Image
+                        src={item.thumbnailUrl}
+                        alt={item.title}
+                        fill
+                        className="object-cover"
+                        sizes="(min-width: 1280px) 300px, 33vw"
+                      />
+                    ) : null}
+                  </Link>
+                ))}
+              </div>
+            ) : null}
+          </div>
+
+          {media.length ? (
+            <Link
+              href="/"
+              className="hidden xl:mx-auto xl:mt-9 xl:flex xl:items-center xl:justify-end xl:gap-2.5 xl:px-5"
+            >
+              <span className="text-xl font-bold text-[#FD7740]">
+                {content.moreLabel}
+              </span>
+              <ArrowRight size={20} color="#FD7740" />
+            </Link>
+          ) : null}
+        </section>
+      )}
+    </EditableContentBlock>
   );
 }
 
 export async function DoctorConsultationsSection({
   doctorId,
+  doctorSlug,
 }: {
   doctorId: string;
+  doctorSlug: string;
 }) {
   const consultations = await getDoctorConsultations(doctorId);
+  const publicPath = `/about/doctors/${doctorSlug}`;
 
   return (
-    <section className="mt-15 xl:relative xl:mx-auto xl:max-w-7xl">
-      <DoctorSectionHead
-        title="의학 상담"
-        moreHref="/community/consultation"
-        moreLabel="상담 더보기"
-      />
+    <EditableContentBlock
+      pageKey={`doctor:${doctorId}`}
+      sectionKey="consultations"
+      label="의학 상담 영역"
+      publicPath={publicPath}
+      defaults={{
+        title: '의학 상담',
+        moreLabel: '상담 더보기',
+      }}
+      fields={[
+        { key: 'title', label: '영역 제목', type: 'text', required: true },
+        { key: 'moreLabel', label: '더보기 버튼 문구', type: 'text' },
+      ]}
+      adminHref={`/admin/content-relations/consultations?doctorId=${doctorId}`}
+      adminLabel="의학상담 데이터 관리"
+    >
+      {(content) => (
+        <section className="mt-15 xl:relative xl:mx-auto xl:max-w-7xl">
+          <DoctorSectionHead
+            title={content.title}
+            moreHref="/community/consultation"
+            moreLabel={content.moreLabel}
+          />
 
-      <div className="mt-5 space-y-2.5 px-5 xl:ml-80 xl:mt-0 xl:px-0">
-        {consultations.length ? (
-          consultations.map((item) => (
-            <Link
-              id={`doctor-consultation-${item.id}`}
-              key={item.id}
-              href={`/community/consultation/${item.id}`}
-              className="block rounded-xl border border-[#E1E5E8] bg-white px-4 py-4 transition hover:border-[#B9CFC9] hover:bg-[#FCFDFD] xl:px-6 xl:py-5"
-            >
-              <div className="flex items-start justify-between gap-4">
-                <div className="min-w-0">
-                  <TypographyP managed={false} className="text-xs font-medium text-[#6D8E86] xl:text-sm">
-                    {item.categoryPrimary}
-                    {item.categorySecondary ? ` · ${item.categorySecondary}` : ''}
-                  </TypographyP>
-                  <TypographyH3 managed={false} className="mt-2 flex items-center gap-1.5 break-keep text-base font-semibold text-[#252B33] xl:text-xl">
-                    {item.isPrivate ? (
-                      <LockKeyhole className="size-4 shrink-0" />
-                    ) : null}
-                    <span>{item.title}</span>
-                    {item.hasLinkIcon ? (
-                      <Link2 className="size-4 shrink-0" />
-                    ) : null}
-                  </TypographyH3>
-                </div>
-                <time className="shrink-0 text-xs text-[#A0A6AC] xl:text-sm">
-                  {new Intl.DateTimeFormat('ko-KR', {
-                    timeZone: 'Asia/Seoul',
-                    year: 'numeric',
-                    month: '2-digit',
-                    day: '2-digit',
-                  })
-                    .format(item.publishedAt)
-                    .replaceAll(' ', '')}
-                </time>
+          <div className="mt-5 space-y-2.5 px-5 xl:ml-80 xl:mt-0 xl:px-0">
+            {consultations.length ? (
+              consultations.map((item) => (
+                <Link
+                  id={`doctor-consultation-${item.id}`}
+                  key={item.id}
+                  href={`/community/consultation/${item.id}`}
+                  className="block rounded-xl border border-[#E1E5E8] bg-white px-4 py-4 transition hover:border-[#B9CFC9] hover:bg-[#FCFDFD] xl:px-6 xl:py-5"
+                >
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="min-w-0">
+                      <TypographyP
+                        managed={false}
+                        className="text-xs font-medium text-[#6D8E86] xl:text-sm"
+                      >
+                        {item.categoryPrimary}
+                        {item.categorySecondary
+                          ? ` · ${item.categorySecondary}`
+                          : ''}
+                      </TypographyP>
+                      <TypographyH3
+                        managed={false}
+                        className="mt-2 flex items-center gap-1.5 break-keep text-base font-semibold text-[#252B33] xl:text-xl"
+                      >
+                        {item.isPrivate ? (
+                          <LockKeyhole className="size-4 shrink-0" />
+                        ) : null}
+                        <span>{item.title}</span>
+                        {item.hasLinkIcon ? (
+                          <Link2 className="size-4 shrink-0" />
+                        ) : null}
+                      </TypographyH3>
+                    </div>
+                    <time className="shrink-0 text-xs text-[#A0A6AC] xl:text-sm">
+                      {new Intl.DateTimeFormat('ko-KR', {
+                        timeZone: 'Asia/Seoul',
+                        year: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit',
+                      })
+                        .format(item.publishedAt)
+                        .replaceAll(' ', '')}
+                    </time>
+                  </div>
+                </Link>
+              ))
+            ) : (
+              <div className="rounded-xl border border-dashed border-[#D9DDE1] bg-white px-5 py-10 text-center text-sm text-[#9AA0A7]">
+                이 의료진과 연결된 의학상담이 없습니다.
               </div>
-            </Link>
-          ))
-        ) : (
-          <div className="rounded-xl border border-dashed border-[#D9DDE1] bg-white px-5 py-10 text-center text-sm text-[#9AA0A7]">
-            이 의료진과 연결된 의학상담이 없습니다.
+            )}
           </div>
-        )}
-      </div>
-    </section>
+        </section>
+      )}
+    </EditableContentBlock>
   );
 }
 
 export async function DoctorPresentationsSection({
   doctorId,
+  doctorSlug,
 }: {
   doctorId: string;
+  doctorSlug: string;
 }) {
   const items = await getDoctorPresentations(doctorId);
+  const publicPath = `/about/doctors/${doctorSlug}`;
 
   return (
-    <section className="bg-[linear-gradient(to_bottom,#FFFFFF_0%,#FFEAE2_66%,#FFFFFF_100%)] pb-15 pt-20">
-      <div className="px-5 text-center text-[#333333]">
-        <TypographyH2 className="text-[26px] font-bold xl:text-[34px]">
-          끊임없이 연구하여 <br className="block xl:hidden" />
-          의료계가 인정한 전문성
-        </TypographyH2>
+    <EditableContentBlock
+      pageKey={`doctor:${doctorId}`}
+      sectionKey="presentations"
+      label="연구·발표 영역"
+      publicPath={publicPath}
+      defaults={{
+        headlineLine1: '끊임없이 연구하여',
+        headlineLine2: '의료계가 인정한 전문성',
+        descriptionLine1:
+          '논문 발표와 전문 서적 집필, 국내외 학술 활동 및 수상을 통해',
+        descriptionLine2:
+          '의료계에서도 인정받는 전문성을 이어가고 있습니다.',
+        buttonLabel: '의료진 전체보기',
+      }}
+      fields={[
+        { key: 'headlineLine1', label: '제목 1줄', type: 'text', required: true },
+        { key: 'headlineLine2', label: '제목 2줄', type: 'text', required: true },
+        {
+          key: 'descriptionLine1',
+          label: '설명 1줄',
+          type: 'text',
+          required: true,
+        },
+        {
+          key: 'descriptionLine2',
+          label: '설명 2줄',
+          type: 'text',
+          required: true,
+        },
+        { key: 'buttonLabel', label: '버튼 문구', type: 'text', required: true },
+      ]}
+      adminHref={`/admin/content-relations/presentations?doctorId=${doctorId}`}
+      adminLabel="발표·연구 데이터 관리"
+    >
+      {(content) => (
+        <section className="bg-[linear-gradient(to_bottom,#FFFFFF_0%,#FFEAE2_66%,#FFFFFF_100%)] pb-15 pt-20">
+          <div className="px-5 text-center text-[#333333]">
+            <TypographyH2 className="text-[26px] font-bold xl:text-[34px]">
+              {content.headlineLine1}{' '}
+              <br className="block xl:hidden" />
+              {content.headlineLine2}
+            </TypographyH2>
 
-        <TypographyP managed={false} className="mt-3 text-sm xl:mt-5 xl:text-xl">
-          논문 발표와 전문 서적 집필, 국내외 학술 활동 및 수상을 통해
-          <br className="hidden xl:block" />
-          의료계에서도 인정받는 전문성을 이어가고 있습니다.
-        </TypographyP>
-      </div>
-
-      <DoctorPresentationMarquee
-        items={items.map((item) => ({
-          id: item.id,
-          title: item.title,
-          imageUrl: item.imageUrl,
-          linkUrl: item.linkUrl,
-        }))}
-      />
-
-      {!items.length ? (
-        <div className="mx-auto mt-10 max-w-3xl px-5">
-          <div className="rounded-xl border border-dashed border-[#D9DDE1] bg-white px-5 py-10 text-center text-sm text-[#9AA0A7]">
-            등록된 발표·연구 이력이 없습니다.
+            <TypographyP
+              managed={false}
+              className="mt-3 text-sm xl:mt-5 xl:text-xl"
+            >
+              {content.descriptionLine1}
+              <br className="hidden xl:block" />
+              {content.descriptionLine2}
+            </TypographyP>
           </div>
-        </div>
-      ) : null}
 
-      <div className="mb-15 mt-10 flex justify-center px-5 xl:mb-20 xl:mt-15">
-        <Link
-          href="/about/doctors"
-          className="rounded-full border border-[#E5E7EB] bg-white px-5 py-2 text-sm font-bold text-[#262C35] xl:px-10 xl:py-3 xl:text-xl"
-        >
-          의료진 전체보기
-        </Link>
-      </div>
-    </section>
+          <DoctorPresentationMarquee
+            items={items.map((item) => ({
+              id: item.id,
+              title: item.title,
+              imageUrl: item.imageUrl,
+              linkUrl: item.linkUrl,
+            }))}
+          />
+
+          {!items.length ? (
+            <div className="mx-auto mt-10 max-w-3xl px-5">
+              <div className="rounded-xl border border-dashed border-[#D9DDE1] bg-white px-5 py-10 text-center text-sm text-[#9AA0A7]">
+                등록된 발표·연구 이력이 없습니다.
+              </div>
+            </div>
+          ) : null}
+
+          <div className="mb-15 mt-10 flex justify-center px-5 xl:mb-20 xl:mt-15">
+            <Link
+              href="/about/doctors"
+              className="rounded-full border border-[#E5E7EB] bg-white px-5 py-2 text-sm font-bold text-[#262C35] xl:px-10 xl:py-3 xl:text-xl"
+            >
+              {content.buttonLabel}
+            </Link>
+          </div>
+        </section>
+      )}
+    </EditableContentBlock>
   );
 }
+

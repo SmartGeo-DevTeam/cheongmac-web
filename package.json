@@ -22,7 +22,8 @@
     "assets:migrate": "tsx scripts/migrate-public-assets-to-azure.ts",
     "assets:prune:managed": "tsx scripts/prune-managed-azure-assets.ts",
     "check:typography": "node scripts/check-typography-components.mjs",
-    "check:inline-content": "node scripts/check-inline-content-editor.mjs"
+    "check:inline-content": "node scripts/check-inline-content-editor.mjs",
+    "check:inline-hybrid": "node scripts/check-inline-editor-hybrid.mjs"
   },
   "dependencies": {
     "@better-auth/prisma-adapter": "1.7.3",

@@ -23,12 +23,14 @@ import {
 import { Input } from '@/_shadcn/ui/input';
 import { Textarea } from '@/_shadcn/ui/textarea';
 import {
+  ExternalLink,
   ImagePlus,
   RotateCcw,
   Save,
   Settings2,
   UploadCloud,
 } from 'lucide-react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
   useEffect,
@@ -47,9 +49,12 @@ export default function EditableRegion({
   sectionKey,
   label,
   publicPath,
-  fields,
-  data,
+  fields = [],
+  data = {},
   persisted = false,
+  adminHref,
+  adminLabel = '관리자에서 상세 수정',
+  adminDescription,
   className,
   children,
 }: {
@@ -57,9 +62,12 @@ export default function EditableRegion({
   sectionKey: string;
   label: string;
   publicPath: string;
-  fields: readonly InlineContentField[];
-  data: InlineContentData;
+  fields?: readonly InlineContentField[];
+  data?: InlineContentData;
   persisted?: boolean;
+  adminHref?: string;
+  adminLabel?: string;
+  adminDescription?: string;
   className?: string;
   children: ReactNode;
 }) {
@@ -76,6 +84,7 @@ export default function EditableRegion({
     setDraft(cloneData(data));
   }, [data]);
 
+  const hasInlineFields = fields.length > 0;
   const isDirty = useMemo(
     () => JSON.stringify(saved) !== JSON.stringify(draft),
     [draft, saved],
@@ -90,6 +99,8 @@ export default function EditableRegion({
   };
 
   const save = () => {
+    if (!hasInlineFields) return;
+
     setMessage('');
 
     startTransition(async () => {
@@ -116,6 +127,8 @@ export default function EditableRegion({
   };
 
   const reset = () => {
+    if (!hasInlineFields) return;
+
     if (
       !window.confirm(
         '이 영역을 코드에 정의된 기본 콘텐츠로 되돌릴까요?',
@@ -178,215 +191,261 @@ export default function EditableRegion({
   };
 
   const showEditor = canEdit && editMode;
+  const showControl =
+    showEditor && (hasInlineFields || Boolean(adminHref));
+
+  const editControlClassName =
+    'absolute right-3 top-3 z-[65] hidden size-9 items-center justify-center rounded-full border border-cm-orange/25 bg-white text-cm-orange shadow-[0_5px_18px_rgba(0,0,0,0.14)] transition hover:bg-[#FFF6EF] group-hover/cms:flex focus-visible:flex';
 
   return (
     <div
       className={cn(
         'relative',
-        showEditor &&
+        showControl &&
           'group/cms outline outline-1 outline-dashed outline-transparent hover:outline-cm-orange/60',
         className,
       )}
-      data-cm-editable={showEditor ? 'true' : undefined}
-      data-cm-page-key={showEditor ? pageKey : undefined}
-      data-cm-section-key={showEditor ? sectionKey : undefined}
+      data-cm-editable={showControl ? 'true' : undefined}
+      data-cm-page-key={showControl ? pageKey : undefined}
+      data-cm-section-key={showControl ? sectionKey : undefined}
+      data-cm-edit-kind={
+        showControl
+          ? hasInlineFields
+            ? adminHref
+              ? 'hybrid'
+              : 'inline'
+            : 'admin'
+          : undefined
+      }
     >
       {children}
 
-      {showEditor ? (
-        <button
-          type="button"
-          onClick={() => {
-            setDraft(cloneData(saved));
-            setMessage('');
-            setOpen(true);
-          }}
-          className="absolute right-3 top-3 z-[65] hidden size-9 items-center justify-center rounded-full border border-cm-orange/25 bg-white text-cm-orange shadow-[0_5px_18px_rgba(0,0,0,0.14)] transition hover:bg-[#FFF6EF] group-hover/cms:flex focus-visible:flex"
-          aria-label={`${label} 수정`}
-          title={`${label} 수정`}
-        >
-          <Settings2 className="size-4.5" />
-        </button>
+      {showControl ? (
+        hasInlineFields ? (
+          <button
+            type="button"
+            onClick={() => {
+              setDraft(cloneData(saved));
+              setMessage('');
+              setOpen(true);
+            }}
+            className={editControlClassName}
+            aria-label={`${label} 수정`}
+            title={`${label} 수정`}
+          >
+            <Settings2 className="size-4.5" />
+          </button>
+        ) : adminHref ? (
+          <Link
+            href={adminHref}
+            className={editControlClassName}
+            aria-label={`${label} 관리자에서 수정`}
+            title={`${label} 관리자에서 수정`}
+          >
+            <Settings2 className="size-4.5" />
+          </Link>
+        ) : null
       ) : null}
 
-      <Dialog
-        open={open}
-        onOpenChange={(next) => {
-          if (isPending) return;
+      {hasInlineFields ? (
+        <Dialog
+          open={open}
+          onOpenChange={(next) => {
+            if (isPending) return;
 
-          if (!next && isDirty) {
-            const confirmed = window.confirm(
-              '저장하지 않은 변경사항이 있습니다. 닫을까요?',
-            );
-
-            if (!confirmed) return;
-          }
-
-          setOpen(next);
-        }}
-      >
-        <DialogContent className="max-h-[88vh] max-w-2xl overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>{label} 수정</DialogTitle>
-            <DialogDescription>
-              문구는 한 글자 단위까지 자유롭게 수정할 수 있습니다.
-              저장하면 DB에 기록되고 현재 페이지에 바로 반영됩니다.
-            </DialogDescription>
-          </DialogHeader>
-
-          <div className="space-y-5">
-            {fields.map((field) => {
-              const value = draft[field.key] ?? '';
-
-              return (
-                <label
-                  key={field.key}
-                  className="block space-y-2"
-                >
-                  <div>
-                    <span className="text-sm font-semibold text-[#27272A]">
-                      {field.label}
-                    </span>
-                    {field.description ? (
-                      <p className="mt-1 text-xs leading-5 text-[#71717A]">
-                        {field.description}
-                      </p>
-                    ) : null}
-                  </div>
-
-                  {field.type === 'textarea' ||
-                  field.type === 'editor' ? (
-                    <Textarea
-                      value={value}
-                      required={field.required}
-                      rows={
-                        field.rows ??
-                        (field.type === 'editor' ? 12 : 5)
-                      }
-                      onChange={(event) =>
-                        setValue(field.key, event.target.value)
-                      }
-                      placeholder={field.placeholder}
-                      className={cn(
-                        field.type === 'editor' &&
-                          'min-h-64 leading-7',
-                      )}
-                    />
-                  ) : field.type === 'image' ? (
-                    <div className="space-y-3">
-                      {value ? (
-                        <div
-                          className="h-40 w-full rounded-lg border border-[#E4E4E7] bg-[#F7F7F8] bg-contain bg-center bg-no-repeat"
-                          style={{
-                            backgroundImage: `url("${value.replaceAll(
-                              '"',
-                              '%22',
-                            )}")`,
-                          }}
-                          aria-label={`${field.label} 미리보기`}
-                        />
-                      ) : (
-                        <div className="grid h-32 place-items-center rounded-lg border border-dashed border-[#D4D4D8] bg-[#FAFAFA] text-[#A1A1AA]">
-                          <ImagePlus className="size-6" />
-                        </div>
-                      )}
-
-                      <Input
-                        value={value}
-                        onChange={(event) =>
-                          setValue(
-                            field.key,
-                            event.target.value,
-                          )
-                        }
-                        placeholder={
-                          field.placeholder ??
-                          '이미지 URL 또는 /assets/...'
-                        }
-                      />
-
-                      <label className="inline-flex cursor-pointer items-center gap-2 rounded-md border border-[#E4E4E7] bg-white px-3 py-2 text-sm font-medium text-[#52525B] transition hover:bg-[#F4F4F5]">
-                        <UploadCloud className="size-4" />
-                        이미지 업로드
-                        <input
-                          type="file"
-                          accept="image/png,image/jpeg,image/webp,image/gif,image/avif"
-                          className="sr-only"
-                          disabled={isPending}
-                          onChange={(event) => {
-                            const file =
-                              event.target.files?.[0];
-
-                            if (file) {
-                              uploadImage(field, file);
-                            }
-
-                            event.currentTarget.value = '';
-                          }}
-                        />
-                      </label>
-                    </div>
-                  ) : (
-                    <Input
-                      type={
-                        field.type === 'url' ? 'url' : 'text'
-                      }
-                      value={value}
-                      required={field.required}
-                      onChange={(event) =>
-                        setValue(field.key, event.target.value)
-                      }
-                      placeholder={field.placeholder}
-                    />
-                  )}
-                </label>
+            if (!next && isDirty) {
+              const confirmed = window.confirm(
+                '저장하지 않은 변경사항이 있습니다. 닫을까요?',
               );
-            })}
-          </div>
 
-          {message ? (
-            <div className="rounded-lg bg-[#F4F4F5] px-4 py-3 text-sm leading-6 text-[#52525B]">
-              {message}
+              if (!confirmed) return;
+            }
+
+            setOpen(next);
+          }}
+        >
+          <DialogContent className="max-h-[88vh] max-w-2xl overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>{label} 수정</DialogTitle>
+              <DialogDescription>
+                문구는 한 글자 단위까지 자유롭게 수정할 수 있습니다.
+                저장하면 DB에 기록되고 현재 페이지에 바로 반영됩니다.
+              </DialogDescription>
+            </DialogHeader>
+
+            {adminHref ? (
+              <div className="rounded-xl border border-[#DCE9E5] bg-[#F4FAF8] p-4">
+                <div className="text-sm font-semibold text-[#285E51]">
+                  연결 데이터 상세 관리
+                </div>
+                <p className="mt-1 text-xs leading-5 text-[#5F756F]">
+                  {adminDescription ??
+                    '목록 추가·삭제·정렬·관계 연결처럼 복잡한 데이터는 관리자 화면에서 수정합니다.'}
+                </p>
+                <Link
+                  href={adminHref}
+                  className="mt-3 inline-flex items-center gap-1.5 rounded-md bg-[#285E51] px-3 py-2 text-sm font-semibold text-white transition hover:bg-[#214F45]"
+                >
+                  {adminLabel}
+                  <ExternalLink className="size-4" />
+                </Link>
+              </div>
+            ) : null}
+
+            <div className="space-y-5">
+              {fields.map((field) => {
+                const value = draft[field.key] ?? '';
+
+                return (
+                  <label
+                    key={field.key}
+                    className="block space-y-2"
+                  >
+                    <div>
+                      <span className="text-sm font-semibold text-[#27272A]">
+                        {field.label}
+                      </span>
+                      {field.description ? (
+                        <p className="mt-1 text-xs leading-5 text-[#71717A]">
+                          {field.description}
+                        </p>
+                      ) : null}
+                    </div>
+
+                    {field.type === 'textarea' ||
+                    field.type === 'editor' ? (
+                      <Textarea
+                        value={value}
+                        required={field.required}
+                        rows={
+                          field.rows ??
+                          (field.type === 'editor' ? 12 : 5)
+                        }
+                        onChange={(event) =>
+                          setValue(field.key, event.target.value)
+                        }
+                        placeholder={field.placeholder}
+                        className={cn(
+                          field.type === 'editor' &&
+                            'min-h-64 leading-7',
+                        )}
+                      />
+                    ) : field.type === 'image' ? (
+                      <div className="space-y-3">
+                        {value ? (
+                          <div
+                            className="h-40 w-full rounded-lg border border-[#E4E4E7] bg-[#F7F7F8] bg-contain bg-center bg-no-repeat"
+                            style={{
+                              backgroundImage: `url("${value.replaceAll(
+                                '"',
+                                '%22',
+                              )}")`,
+                            }}
+                            aria-label={`${field.label} 미리보기`}
+                          />
+                        ) : (
+                          <div className="grid h-32 place-items-center rounded-lg border border-dashed border-[#D4D4D8] bg-[#FAFAFA] text-[#A1A1AA]">
+                            <ImagePlus className="size-6" />
+                          </div>
+                        )}
+
+                        <Input
+                          value={value}
+                          onChange={(event) =>
+                            setValue(
+                              field.key,
+                              event.target.value,
+                            )
+                          }
+                          placeholder={
+                            field.placeholder ??
+                            '이미지 URL 또는 /assets/...'
+                          }
+                        />
+
+                        <label className="inline-flex cursor-pointer items-center gap-2 rounded-md border border-[#E4E4E7] bg-white px-3 py-2 text-sm font-medium text-[#52525B] transition hover:bg-[#F4F4F5]">
+                          <UploadCloud className="size-4" />
+                          이미지 업로드
+                          <input
+                            type="file"
+                            accept="image/png,image/jpeg,image/webp,image/gif,image/avif"
+                            className="sr-only"
+                            disabled={isPending}
+                            onChange={(event) => {
+                              const file =
+                                event.target.files?.[0];
+
+                              if (file) {
+                                uploadImage(field, file);
+                              }
+
+                              event.currentTarget.value = '';
+                            }}
+                          />
+                        </label>
+                      </div>
+                    ) : (
+                      <Input
+                        type={
+                          field.type === 'url' ? 'url' : 'text'
+                        }
+                        value={value}
+                        required={field.required}
+                        onChange={(event) =>
+                          setValue(field.key, event.target.value)
+                        }
+                        placeholder={field.placeholder}
+                      />
+                    )}
+                  </label>
+                );
+              })}
             </div>
-          ) : null}
 
-          <DialogFooter className="sm:justify-between">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={reset}
-              disabled={isPending || !persisted}
-              title={
-                persisted
-                  ? 'DB 수정값을 삭제하고 코드 기본값으로 되돌립니다.'
-                  : '현재 기본 콘텐츠를 사용 중입니다.'
-              }
-            >
-              <RotateCcw className="size-4" />
-              기본값으로
-            </Button>
+            {message ? (
+              <div className="rounded-lg bg-[#F4F4F5] px-4 py-3 text-sm leading-6 text-[#52525B]">
+                {message}
+              </div>
+            ) : null}
 
-            <div className="flex justify-end gap-2">
+            <DialogFooter className="sm:justify-between">
               <Button
                 type="button"
                 variant="outline"
-                disabled={isPending}
-                onClick={() => setOpen(false)}
+                onClick={reset}
+                disabled={isPending || !persisted}
+                title={
+                  persisted
+                    ? 'DB 수정값을 삭제하고 코드 기본값으로 되돌립니다.'
+                    : '현재 기본 콘텐츠를 사용 중입니다.'
+                }
               >
-                취소
+                <RotateCcw className="size-4" />
+                기본값으로
               </Button>
-              <Button
-                type="button"
-                disabled={isPending || !isDirty}
-                onClick={save}
-              >
-                <Save className="size-4" />
-                {isPending ? '저장 중...' : '저장'}
-              </Button>
-            </div>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+
+              <div className="flex justify-end gap-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  disabled={isPending}
+                  onClick={() => setOpen(false)}
+                >
+                  취소
+                </Button>
+                <Button
+                  type="button"
+                  disabled={isPending || !isDirty}
+                  onClick={save}
+                >
+                  <Save className="size-4" />
+                  {isPending ? '저장 중...' : '저장'}
+                </Button>
+              </div>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      ) : null}
     </div>
   );
 }

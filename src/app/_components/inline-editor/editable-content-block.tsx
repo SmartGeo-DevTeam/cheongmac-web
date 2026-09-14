@@ -13,6 +13,9 @@ export default async function EditableContentBlock({
   publicPath,
   defaults,
   fields,
+  adminHref,
+  adminLabel,
+  adminDescription,
   className,
   children,
 }: {
@@ -22,6 +25,9 @@ export default async function EditableContentBlock({
   publicPath: string;
   defaults: InlineContentData;
   fields: readonly InlineContentField[];
+  adminHref?: string;
+  adminLabel?: string;
+  adminDescription?: string;
   className?: string;
   children: (data: InlineContentData) => ReactNode;
 }) {
@@ -40,6 +46,9 @@ export default async function EditableContentBlock({
       fields={fields}
       data={content.data}
       persisted={content.persisted}
+      adminHref={adminHref}
+      adminLabel={adminLabel}
+      adminDescription={adminDescription}
       className={className}
     >
       {children(content.data)}

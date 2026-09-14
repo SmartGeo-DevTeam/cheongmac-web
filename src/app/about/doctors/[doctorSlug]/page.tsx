@@ -38,29 +38,29 @@ export default async function DoctorDetailPage({
       />
 
       <Suspense fallback={<DoctorProfileSkeleton />}>
-        <DoctorProfileSection doctorId={doctor.id} />
+        <DoctorProfileSection doctorId={doctor.id} doctorSlug={doctorSlug} />
       </Suspense>
 
       <section className="bg-[#F5F5F5] pb-10 pt-5 xl:pb-15">
         <Suspense fallback={<DoctorScheduleSkeleton />}>
-          <DoctorScheduleSection doctorId={doctor.id} />
+          <DoctorScheduleSection doctorId={doctor.id} doctorSlug={doctorSlug} />
         </Suspense>
 
         <Suspense fallback={<DoctorCardsSkeleton />}>
-          <DoctorReviewsSection doctorId={doctor.id} />
+          <DoctorReviewsSection doctorId={doctor.id} doctorSlug={doctorSlug} />
         </Suspense>
 
         <Suspense fallback={<DoctorCardsSkeleton />}>
-          <DoctorMediaSection doctorId={doctor.id} />
+          <DoctorMediaSection doctorId={doctor.id} doctorSlug={doctorSlug} />
         </Suspense>
 
         <Suspense fallback={<DoctorListSkeleton />}>
-          <DoctorConsultationsSection doctorId={doctor.id} />
+          <DoctorConsultationsSection doctorId={doctor.id} doctorSlug={doctorSlug} />
         </Suspense>
       </section>
 
       <Suspense fallback={<DoctorCardsSkeleton />}>
-        <DoctorPresentationsSection doctorId={doctor.id} />
+        <DoctorPresentationsSection doctorId={doctor.id} doctorSlug={doctorSlug} />
       </Suspense>
     </div>
   );
