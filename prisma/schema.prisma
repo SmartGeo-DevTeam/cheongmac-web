@@ -594,3 +594,18 @@ model TypographySetting {
   @@map("typography_setting")
 }
 
+model PageContentBlock {
+  id         String   @id @default(cuid())
+  pageKey    String
+  sectionKey String
+  label      String?
+  data       Json
+  version    Int      @default(1)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([pageKey, sectionKey])
+  @@index([pageKey])
+  @@map("page_content_block")
+}
+

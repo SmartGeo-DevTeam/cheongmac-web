@@ -12,6 +12,7 @@ import UserActivityTracker from "@/app/_components/user-activity-tracker";
 import { NavigationProvider } from "@/app/_providers/navigation-provider";
 import { ScrollDirectionProvider } from "@/app/_providers/scroll-direction-provider";
 import { ViewportProvider } from "@/app/_providers/viewport-provider";
+import { InlineEditProvider } from "@/app/_providers/inline-edit-provider";
 import type { Metadata } from "next";
 import "./globals.css";
 
@@ -44,8 +45,9 @@ export default async function RootLayout({
       style={getTypographyCssVariables(typographySettings)}
     >
       <body>
-        <NavigationProvider navigation={primaryNavigation}>
-          <ViewportProvider>
+        <InlineEditProvider>
+          <NavigationProvider navigation={primaryNavigation}>
+            <ViewportProvider>
             <UserActivityTracker />
 
             <ScrollDirectionProvider>
@@ -61,8 +63,9 @@ export default async function RootLayout({
             </main>
             <Footer />
             <AccountDock />
-          </ViewportProvider>
-        </NavigationProvider>
+            </ViewportProvider>
+          </NavigationProvider>
+        </InlineEditProvider>
       </body>
     </html>
   );

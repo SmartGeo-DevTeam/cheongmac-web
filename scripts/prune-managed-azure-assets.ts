@@ -93,14 +93,16 @@ async function main() {
   });
 
   try {
-    const [doctorImages, managedItems] = await Promise.all([
+    const [doctorImages, managedItems, contentBlocks] = await Promise.all([
       prisma.doctorImage.findMany({ select: { url: true } }),
       prisma.managedPageItem.findMany({ select: { data: true } }),
+      prisma.pageContentBlock.findMany({ select: { data: true } }),
     ]);
 
     const strings = new Set<string>();
     for (const image of doctorImages) collectStrings(image.url, strings);
     for (const item of managedItems) collectStrings(item.data, strings);
+    for (const block of contentBlocks) collectStrings(block.data, strings);
 
     const referenced = new Set(
       Array.from(strings)

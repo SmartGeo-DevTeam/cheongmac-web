@@ -2,6 +2,8 @@
 
 import { authClient } from '@/_lib/auth-client';
 import { canAccessAdmin, canEditContent } from '@/_lib/roles';
+import { useInlineEditMode } from '@/app/_providers/inline-edit-provider';
+import { PenLine } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -10,6 +12,7 @@ export default function AccountDock() {
   const pathname = usePathname();
   const router = useRouter();
   const { data: session, isPending, refetch } = authClient.useSession();
+  const { editMode, toggleEditMode } = useInlineEditMode();
   const [isHydrated, setIsHydrated] = useState(false);
   const sessionUserId = session?.user.id;
 
@@ -65,13 +68,30 @@ export default function AccountDock() {
           </span>
 
           {canEditContent(role) ? (
-            <Link
-              id="account-dock-content"
-              href="/admin/content"
-              className="rounded-xl bg-[#EEF5F1] px-3 py-2 text-sm font-semibold text-cm-green"
-            >
-              콘텐츠 편집
-            </Link>
+            <>
+              <button
+                id="account-dock-inline-edit"
+                type="button"
+                onClick={toggleEditMode}
+                aria-pressed={editMode}
+                className={`inline-flex items-center gap-1.5 rounded-xl px-3 py-2 text-sm font-semibold transition ${
+                  editMode
+                    ? 'bg-cm-orange text-white'
+                    : 'bg-[#FFF4EC] text-cm-orange hover:bg-[#FFE9D8]'
+                }`}
+              >
+                <PenLine className="size-4" />
+                {editMode ? '화면 편집 ON' : '화면 편집'}
+              </button>
+
+              <Link
+                id="account-dock-content"
+                href="/admin/content"
+                className="rounded-xl bg-[#EEF5F1] px-3 py-2 text-sm font-semibold text-cm-green"
+              >
+                콘텐츠 관리
+              </Link>
+            </>
           ) : null}
 
           {canAccessAdmin(role) ? (
