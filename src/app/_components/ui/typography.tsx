@@ -4,11 +4,88 @@ import type {
   CSSProperties,
 } from 'react';
 
+export type HeadingVariant =
+  | 'default'
+  | 'display'
+  | 'section'
+  | 'subsection'
+  | 'accent'
+  | 'muted';
+
+export type ParagraphVariant =
+  | 'default'
+  | 'body'
+  | 'lead'
+  | 'muted'
+  | 'caption'
+  | 'accent'
+  | 'note';
+
+export type InlineVariant =
+  | 'default'
+  | 'semibold'
+  | 'bold'
+  | 'accent'
+  | 'muted'
+  | 'highlight';
+
+const headingVariantClassNames: Record<HeadingVariant, string> = {
+  default: '',
+  display: 'break-keep font-extrabold tracking-[-0.05em]',
+  section: 'break-keep font-bold tracking-[-0.04em]',
+  subsection: 'break-keep font-semibold tracking-[-0.035em]',
+  accent:
+    'break-keep font-bold tracking-[-0.04em] text-cm-green',
+  muted:
+    'break-keep font-semibold tracking-[-0.03em] text-[#687078]',
+};
+
+const paragraphVariantClassNames: Record<ParagraphVariant, string> = {
+  default: '',
+  body: 'font-normal tracking-[-0.025em] text-[#40464E]',
+  lead:
+    'break-keep font-medium tracking-[-0.035em] text-[#252B33]',
+  muted:
+    'font-normal tracking-[-0.02em] text-[#737A82]',
+  caption:
+    'font-normal tracking-[-0.02em] text-[#9AA0A6]',
+  accent:
+    'font-medium tracking-[-0.03em] text-cm-green',
+  note:
+    'break-keep font-normal tracking-[-0.02em] text-[#60676F]',
+};
+
+const inlineVariantClassNames: Record<InlineVariant, string> = {
+  default: '',
+  semibold: 'font-semibold',
+  bold: 'font-bold',
+  accent: 'font-semibold text-cm-green',
+  muted: 'font-medium text-[#737A82]',
+  highlight:
+    'rounded-[0.2em] bg-[#FFF3E8] px-[0.18em] font-semibold text-cm-orange',
+};
+
 type ManagedTypographyProps = {
   /** DB의 전역 font-size / line-height 적용 여부 */
   managed?: boolean;
   /** 태그 전체 글자색. 문장 일부만 바꿀 때는 Text를 사용합니다. */
   color?: CSSProperties['color'];
+};
+
+type HeadingVariantProps = {
+  /**
+   * font-size / line-height는 DB 설정을 유지하면서
+   * 굵기·자간·색상 등의 표현만 조금씩 바꾸는 프리셋입니다.
+   */
+  variant?: HeadingVariant;
+};
+
+type ParagraphVariantProps = {
+  /**
+   * font-size / line-height는 DB 설정을 유지하면서
+   * 본문 성격에 맞는 굵기·자간·색상 프리셋을 적용합니다.
+   */
+  variant?: ParagraphVariant;
 };
 
 function mergeColor(
@@ -20,22 +97,30 @@ function mergeColor(
 }
 
 export type H1Props = ComponentPropsWithoutRef<'h1'> &
-  ManagedTypographyProps;
+  ManagedTypographyProps &
+  HeadingVariantProps;
 export type H2Props = ComponentPropsWithoutRef<'h2'> &
-  ManagedTypographyProps;
+  ManagedTypographyProps &
+  HeadingVariantProps;
 export type H3Props = ComponentPropsWithoutRef<'h3'> &
-  ManagedTypographyProps;
+  ManagedTypographyProps &
+  HeadingVariantProps;
 export type H4Props = ComponentPropsWithoutRef<'h4'> &
-  ManagedTypographyProps;
+  ManagedTypographyProps &
+  HeadingVariantProps;
 export type H5Props = ComponentPropsWithoutRef<'h5'> &
-  ManagedTypographyProps;
+  ManagedTypographyProps &
+  HeadingVariantProps;
 export type H6Props = ComponentPropsWithoutRef<'h6'> &
-  ManagedTypographyProps;
+  ManagedTypographyProps &
+  HeadingVariantProps;
 export type PProps = ComponentPropsWithoutRef<'p'> &
-  ManagedTypographyProps;
+  ManagedTypographyProps &
+  ParagraphVariantProps;
 
 export function H1({
   managed = true,
+  variant = 'default',
   color,
   className,
   style,
@@ -44,7 +129,11 @@ export function H1({
   return (
     <h1
       {...props}
-      className={cn(managed && 'cm-typography-h1', className)}
+      className={cn(
+        managed && 'cm-typography-h1',
+        headingVariantClassNames[variant],
+        className,
+      )}
       style={mergeColor(style, color)}
     />
   );
@@ -52,6 +141,7 @@ export function H1({
 
 export function H2({
   managed = true,
+  variant = 'default',
   color,
   className,
   style,
@@ -60,7 +150,11 @@ export function H2({
   return (
     <h2
       {...props}
-      className={cn(managed && 'cm-typography-h2', className)}
+      className={cn(
+        managed && 'cm-typography-h2',
+        headingVariantClassNames[variant],
+        className,
+      )}
       style={mergeColor(style, color)}
     />
   );
@@ -68,6 +162,7 @@ export function H2({
 
 export function H3({
   managed = true,
+  variant = 'default',
   color,
   className,
   style,
@@ -76,7 +171,11 @@ export function H3({
   return (
     <h3
       {...props}
-      className={cn(managed && 'cm-typography-h3', className)}
+      className={cn(
+        managed && 'cm-typography-h3',
+        headingVariantClassNames[variant],
+        className,
+      )}
       style={mergeColor(style, color)}
     />
   );
@@ -84,6 +183,7 @@ export function H3({
 
 export function H4({
   managed = true,
+  variant = 'default',
   color,
   className,
   style,
@@ -92,7 +192,11 @@ export function H4({
   return (
     <h4
       {...props}
-      className={cn(managed && 'cm-typography-h4', className)}
+      className={cn(
+        managed && 'cm-typography-h4',
+        headingVariantClassNames[variant],
+        className,
+      )}
       style={mergeColor(style, color)}
     />
   );
@@ -100,6 +204,7 @@ export function H4({
 
 export function H5({
   managed = true,
+  variant = 'default',
   color,
   className,
   style,
@@ -108,7 +213,11 @@ export function H5({
   return (
     <h5
       {...props}
-      className={cn(managed && 'cm-typography-h5', className)}
+      className={cn(
+        managed && 'cm-typography-h5',
+        headingVariantClassNames[variant],
+        className,
+      )}
       style={mergeColor(style, color)}
     />
   );
@@ -116,6 +225,7 @@ export function H5({
 
 export function H6({
   managed = true,
+  variant = 'default',
   color,
   className,
   style,
@@ -124,7 +234,11 @@ export function H6({
   return (
     <h6
       {...props}
-      className={cn(managed && 'cm-typography-h6', className)}
+      className={cn(
+        managed && 'cm-typography-h6',
+        headingVariantClassNames[variant],
+        className,
+      )}
       style={mergeColor(style, color)}
     />
   );
@@ -132,6 +246,7 @@ export function H6({
 
 export function P({
   managed = true,
+  variant = 'default',
   color,
   className,
   style,
@@ -140,7 +255,11 @@ export function P({
   return (
     <p
       {...props}
-      className={cn(managed && 'cm-typography-p', className)}
+      className={cn(
+        managed && 'cm-typography-p',
+        paragraphVariantClassNames[variant],
+        className,
+      )}
       style={mergeColor(style, color)}
     />
   );
@@ -148,14 +267,26 @@ export function P({
 
 export type StrongProps = ComponentPropsWithoutRef<'strong'> & {
   color?: CSSProperties['color'];
+  variant?: InlineVariant;
 };
 
 export function Strong({
+  variant = 'default',
   color,
+  className,
   style,
   ...props
 }: StrongProps) {
-  return <strong {...props} style={mergeColor(style, color)} />;
+  return (
+    <strong
+      {...props}
+      className={cn(
+        inlineVariantClassNames[variant],
+        className,
+      )}
+      style={mergeColor(style, color)}
+    />
+  );
 }
 
 /**
@@ -169,17 +300,24 @@ export function Bold(props: StrongProps) {
 export type TextProps = ComponentPropsWithoutRef<'span'> & {
   color?: CSSProperties['color'];
   weight?: CSSProperties['fontWeight'];
+  variant?: InlineVariant;
 };
 
 export function Text({
+  variant = 'default',
   color,
   weight,
+  className,
   style,
   ...props
 }: TextProps) {
   return (
     <span
       {...props}
+      className={cn(
+        inlineVariantClassNames[variant],
+        className,
+      )}
       style={{
         ...style,
         ...(color ? { color } : {}),

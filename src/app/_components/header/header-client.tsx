@@ -125,6 +125,7 @@ export default function HeaderClient({
                   <Link
                     key={item.id}
                     href={item.href}
+                    onClick={closeDesktopLnb}
                     onMouseEnter={() => setHoveredPrimaryId(item.id)}
                     onFocus={() => setHoveredPrimaryId(item.id)}
                     className={`relative px-7 flex items-center tracking-[-4%] font-medium text-lg cursor-pointer transition ${

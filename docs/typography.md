@@ -93,3 +93,62 @@ export default function Example() {
   기존 디자인을 그대로 유지하는 문구
 </P>
 ```
+
+## Variant 프리셋
+
+DB에서 관리하는 `font-size`와 `line-height`는 그대로 유지하면서,
+화면별로 굵기·자간·색상 정도를 조금씩 달리할 수 있도록 variant를 제공합니다.
+
+### H1~H6
+
+- `default`
+- `display`
+- `section`
+- `subsection`
+- `accent`
+- `muted`
+
+```tsx
+<H1 variant="display">대표 제목</H1>
+<H2 variant="section">섹션 제목</H2>
+<H3 variant="accent">강조 소제목</H3>
+```
+
+### P
+
+- `default`
+- `body`
+- `lead`
+- `muted`
+- `caption`
+- `accent`
+- `note`
+
+```tsx
+<P variant="lead">조금 더 강조되는 도입 문장입니다.</P>
+<P variant="body">일반 본문입니다.</P>
+<P variant="muted">보조 설명입니다.</P>
+```
+
+### Strong / Bold / Text
+
+- `default`
+- `semibold`
+- `bold`
+- `accent`
+- `muted`
+- `highlight`
+
+```tsx
+<P>
+  일반 문장 안에서
+  <Strong variant="bold"> 굵게</Strong>,
+  <Text color="#FA6805"> 임의 색상</Text>,
+  <Text variant="accent"> 프리셋 강조색</Text>,
+  <Text variant="highlight"> 하이라이트</Text>
+  를 함께 사용할 수 있습니다.
+</P>
+```
+
+`color` prop은 variant보다 인라인 스타일 우선순위가 높기 때문에
+variant를 사용하면서도 특정 문구에 원하는 색상을 직접 지정할 수 있습니다.
