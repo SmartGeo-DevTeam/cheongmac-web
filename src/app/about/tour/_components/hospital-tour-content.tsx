@@ -131,7 +131,7 @@ function FacilityCard({
     <button
       type="button"
       onClick={() => onOpen(item)}
-      className="group overflow-hidden rounded-xl border border-[#DDE1E4] bg-white text-left transition hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(0,0,0,0.07)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B7463]/40"
+      className="group w-full overflow-hidden rounded-xl border border-[#DDE1E4] bg-white text-left transition hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(0,0,0,0.07)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B7463]/40"
     >
       <div className="relative aspect-[4/3] overflow-hidden bg-[#F2F3F4]">
         <Image

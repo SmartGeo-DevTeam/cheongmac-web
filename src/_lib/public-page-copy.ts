@@ -2,6 +2,7 @@ import type {
   InlineContentData,
   InlineContentField,
 } from '@/_lib/inline-content-shared';
+import { HOME_PAGE_COPY_CONFIG } from '@/_lib/home-page-copy';
 
 export type PublicPageCopyConfig = {
   label: string;
@@ -10,6 +11,7 @@ export type PublicPageCopyConfig = {
 };
 
 export const PUBLIC_PAGE_COPY = {
+  '/': HOME_PAGE_COPY_CONFIG,
   '/about/doctors': {
     label: '의료진 목록 페이지 고정 문구',
     defaults: {
@@ -146,6 +148,7 @@ export const PUBLIC_PAGE_COPY = {
         '혈관 치료의 올바른 기준을 세우기 위해\n청맥병원은 끊임없이 연구하고 소통합니다.',
       introDescription:
         '국내외 의료진과 임상 경험과 치료 노하우를 공유하고,\n술기 연수와 교육 프로그램을 지속적으로 운영하며 혈관의학의 저변을 함께 넓혀가고 있습니다.',
+      introAccentText: '올바른 기준',
       searchPlaceholder: '검색어를 입력하세요',
       emptyText: '검색 조건에 맞는 학술교류 게시물이 없습니다.',
     },
@@ -153,6 +156,12 @@ export const PUBLIC_PAGE_COPY = {
       { key: 'eyebrow', label: '영문 보조제목', type: 'text' },
       { key: 'introTitle', label: '소개 제목', type: 'editor', rows: 4 },
       { key: 'introDescription', label: '소개 설명', type: 'editor', rows: 4 },
+      {
+        key: 'introAccentText',
+        label: '소개 제목 강조 문구',
+        type: 'text',
+        description: '제목 안에서 초록색 밑줄 포인트를 줄 정확한 문구를 입력합니다.',
+      },
       { key: 'searchPlaceholder', label: '검색창 안내문', type: 'text' },
       { key: 'emptyText', label: '검색 결과 없음 문구', type: 'text' },
     ],

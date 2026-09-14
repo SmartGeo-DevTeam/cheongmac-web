@@ -18,6 +18,15 @@ function isMissingTable(error: unknown) {
   );
 }
 
+function isDatabaseUnavailable(error: unknown) {
+  return Boolean(
+    error &&
+      typeof error === 'object' &&
+      'code' in error &&
+      (error as { code?: unknown }).code === 'P1001',
+  );
+}
+
 function stringData(value: unknown): InlineContentData {
   const record = asRecord(value);
   const result: InlineContentData = {};
@@ -67,7 +76,7 @@ export async function getPageContentBlock(
     };
   } catch (error) {
     // 코드 배포 후 migration이 이어지는 순서에서도 공개 페이지는 기존 문구를 유지합니다.
-    if (isMissingTable(error)) {
+    if (isMissingTable(error) || isDatabaseUnavailable(error)) {
       return { data: { ...defaults }, persisted: false };
     }
 

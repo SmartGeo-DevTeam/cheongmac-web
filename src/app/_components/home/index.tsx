@@ -7,18 +7,32 @@ import HomeReviews from './6_reviews';
 import HomeNotice from './7_notice';
 import HomeInfo from './8_info';
 import HomePartners from './9_partners';
+import { getPageContentBlock } from '@/_lib/page-content-blocks';
+import { getPublicPageCopyConfig } from '@/_lib/public-page-copy';
 
-export default function HomeSections() {
+export default async function HomeSections() {
+  const config = getPublicPageCopyConfig('/');
+  const content = await getPageContentBlock(
+    'page-copy',
+    '/',
+    config.defaults,
+  );
+
+  const copyProps = {
+    copy: content.data,
+    persisted: content.persisted,
+  };
+
   return (
     <>
-      <HomeCover />
-      <HomeSpecialties />
-      <HomeDoctors />
+      <HomeCover {...copyProps} />
+      <HomeSpecialties {...copyProps} />
+      <HomeDoctors {...copyProps} />
       <HomeBanners />
-      <HomeName />
-      <HomeReviews />
+      <HomeName {...copyProps} />
+      <HomeReviews {...copyProps} />
       <HomeNotice />
-      <HomeInfo />
+      <HomeInfo {...copyProps} />
       <HomePartners />
     </>
   );

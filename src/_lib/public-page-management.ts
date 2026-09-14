@@ -7,6 +7,11 @@ export type PublicPageManagement = {
 };
 
 const MANAGEMENT: Record<PublicPageCopyPath, PublicPageManagement> = {
+  '/': {
+    href: '/admin/common/page-copy?path=%2F',
+    label: '메인페이지 문구 전체 관리',
+    description: '메인페이지의 고정 문구를 섹션별 또는 한 화면에서 관리합니다.',
+  },
   '/about/doctors': {
     href: '/admin/doctors',
     label: '의료진 전체 관리',

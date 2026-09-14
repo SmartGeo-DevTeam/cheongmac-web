@@ -1,11 +1,14 @@
 'use client';
 
+import EditablePageCopyRegion from '@/app/_components/inline-editor/editable-page-copy-region';
 import {
   H3 as TypographyH3,
   P as TypographyP,
 } from '@/app/_components/ui/typography';
 import FadeInUp from '@/app/_components/fade-in-up';
 import MainSectionHeader from '@/app/_components/main-section-header';
+import { HOME_COPY_FIELD_KEYS } from '@/_lib/home-page-copy';
+import type { InlineContentData } from '@/_lib/inline-content-shared';
 import {
   motion,
   useScroll,
@@ -159,7 +162,13 @@ function SpecialtiesItem({
   );
 }
 
-export default function HomeSpecialties(): React.ReactNode {
+export default function HomeSpecialties({
+  copy,
+  persisted,
+}: {
+  copy: InlineContentData;
+  persisted: boolean;
+}): React.ReactNode {
   const contRef = useRef<HTMLDivElement | null>(null);
 
   const { scrollYProgress } = useScroll({
@@ -178,7 +187,14 @@ export default function HomeSpecialties(): React.ReactNode {
   );
 
   return (
-    <FadeInUp>
+    <EditablePageCopyRegion
+      path="/"
+      copy={copy}
+      persisted={persisted}
+      label="메인 진료분야 문구"
+      fieldKeys={HOME_COPY_FIELD_KEYS.specialties}
+    >
+      <FadeInUp>
       <section className="bg-[linear-gradient(to_bottom,#FFFFFF_0%,#F6F2EF_100%)]">
         <div
           className="
@@ -196,22 +212,20 @@ export default function HomeSpecialties(): React.ReactNode {
           "
         >
           <MainSectionHeader
-            eyebrow="진료분야"
+            eyebrow={copy.specialtiesEyebrow}
             title={
               <>
-                <span className="block">혈관 질환 전 영역을</span>
-                <span className="block">책임집니다</span>
+                <span className="block">{copy.specialtiesTitle1}</span>
+                <span className="block">{copy.specialtiesTitle2}</span>
               </>
             }
             description={
               <>
                 <TypographyP managed={false}>
-                  우리 몸 구석구석 닿지 않는 곳 없는 혈관,{' '}
-                  <br className="block xl:hidden" />
-                  건강의 시작과 끝은 결국 혈관입니다.
+                  {copy.specialtiesDescription1}
                 </TypographyP>
 
-                <TypographyP managed={false}>청맥은 숨은 근본 문제까지 찾아 해결해드립니다.</TypographyP>
+                <TypographyP managed={false}>{copy.specialtiesDescription2}</TypographyP>
               </>
             }
           />
@@ -301,23 +315,31 @@ export default function HomeSpecialties(): React.ReactNode {
                 xl:[&>li>a>h3]:text-3xl
               "
             >
-              {specialties.map((item, index) => (
-                <SpecialtiesItem
-                  key={item.title}
-                  index={index}
-                  href={item.href}
-                  containerRef={contRef}
-                  progress={scrollYProgress}
-                >
-                  <TypographyH3 managed={false}>{item.title}</TypographyH3>
+              {specialties.map((item, index) => {
+                const displayTitle =
+                  copy[`specialty${index + 1}Title`] || item.title;
 
-                  <Image src={item.imageSrc} alt={item.alt} fill />
-                </SpecialtiesItem>
-              ))}
+                return (
+                  <SpecialtiesItem
+                    key={item.href}
+                    index={index}
+                    href={item.href}
+                    containerRef={contRef}
+                    progress={scrollYProgress}
+                  >
+                    <TypographyH3 managed={false}>
+                      {displayTitle}
+                    </TypographyH3>
+
+                    <Image src={item.imageSrc} alt={item.alt} fill />
+                  </SpecialtiesItem>
+                );
+              })}
             </ul>
           </div>
         </div>
       </section>
-    </FadeInUp>
+      </FadeInUp>
+    </EditablePageCopyRegion>
   );
 }

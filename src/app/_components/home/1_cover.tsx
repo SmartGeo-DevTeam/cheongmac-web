@@ -1,5 +1,6 @@
 'use client';
 
+import EditablePageCopyRegion from '@/app/_components/inline-editor/editable-page-copy-region';
 import {
   H1 as TypographyH1,
   H2 as TypographyH2,
@@ -7,6 +8,8 @@ import {
 } from '@/app/_components/ui/typography';
 import { openMacGptSearch } from '@/app/_components/mac-gpt-search';
 import { useViewport } from '@/app/_providers/viewport-provider';
+import { HOME_COPY_FIELD_KEYS } from '@/_lib/home-page-copy';
+import type { InlineContentData } from '@/_lib/inline-content-shared';
 import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -49,41 +52,37 @@ type CoverPopup = {
   mobileOrder: number;
 };
 
-const COVER_POPUPS: CoverPopup[] = [
-  {
-    id: 'may-clinic',
-    title: '5월 진료 안내',
-    lines: ['5월 1일 (금) 노동절 정상진료', '5월 25일 (월) 대체공휴일 휴진'],
-    bgClassName: 'bg-[#3270C3]',
-    icon: '➕',
-    desktopOrder: 1,
-    mobileOrder: 1,
-  },
-  {
-    id: 'same-day-green',
-    title: '당일 진료 접수 안내',
-    lines: [
-      '오전 11시까지 / 오후 4시까지',
-      '접수하시면 당일 진료가 가능합니다.',
-    ],
-    bgClassName: 'bg-[#767E93]',
-    icon: '🗓️',
-    desktopOrder: 2,
-    mobileOrder: 3,
-  },
-  {
-    id: 'same-day-blue',
-    title: '당일 진료 접수 안내',
-    lines: [
-      '오전 11시까지 / 오후 4시까지',
-      '접수하시면 당일 진료가 가능합니다.',
-    ],
-    bgClassName: 'bg-[#4F8D76]',
-    icon: '🗓️',
-    desktopOrder: 3,
-    mobileOrder: 2,
-  },
-];
+function getCoverPopups(copy: InlineContentData): CoverPopup[] {
+  return [
+    {
+      id: 'may-clinic',
+      title: copy.coverPopup1Title,
+      lines: [copy.coverPopup1Line1, copy.coverPopup1Line2],
+      bgClassName: 'bg-[#3270C3]',
+      icon: '➕',
+      desktopOrder: 1,
+      mobileOrder: 1,
+    },
+    {
+      id: 'same-day-green',
+      title: copy.coverPopup2Title,
+      lines: [copy.coverPopup2Line1, copy.coverPopup2Line2],
+      bgClassName: 'bg-[#767E93]',
+      icon: '🗓️',
+      desktopOrder: 2,
+      mobileOrder: 3,
+    },
+    {
+      id: 'same-day-blue',
+      title: copy.coverPopup3Title,
+      lines: [copy.coverPopup3Line1, copy.coverPopup3Line2],
+      bgClassName: 'bg-[#4F8D76]',
+      icon: '🗓️',
+      desktopOrder: 3,
+      mobileOrder: 2,
+    },
+  ];
+}
 
 function getLocalDateKey() {
   const now = new Date();
@@ -94,11 +93,15 @@ function getLocalDateKey() {
   return `${year}-${month}-${date}`;
 }
 
-function getOrderedPopups(dismissedIds: string[], mode: 'desktop' | 'mobile') {
+function getOrderedPopups(
+  popups: CoverPopup[],
+  dismissedIds: string[],
+  mode: 'desktop' | 'mobile',
+) {
   const dismissedSet = new Set(dismissedIds);
   const orderKey = mode === 'desktop' ? 'desktopOrder' : 'mobileOrder';
 
-  return [...COVER_POPUPS]
+  return [...popups]
     .filter((popup) => !dismissedSet.has(popup.id))
     .sort((a, b) => a[orderKey] - b[orderKey])
     .slice(0, 3);
@@ -169,9 +172,11 @@ function PopupCard({
 function HomeCoverPopups({
   isMobile,
   onMobilePopupsClosed,
+  copy,
 }: {
   isMobile: boolean;
   onMobilePopupsClosed: () => void;
+  copy: InlineContentData;
 }) {
   const mobileLayerRef = useRef<HTMLDivElement | null>(null);
   const mobileCardRefs = useRef<Record<string, HTMLDivElement | null>>({});
@@ -188,14 +193,19 @@ function HomeCoverPopups({
   const [isInitialMobileLayoutReady, setIsInitialMobileLayoutReady] =
     useState(false);
 
+  const coverPopups = useMemo(
+    () => getCoverPopups(copy),
+    [copy],
+  );
+
   const desktopPopups = useMemo(
-    () => getOrderedPopups(dismissedIds, 'desktop'),
-    [dismissedIds],
+    () => getOrderedPopups(coverPopups, dismissedIds, 'desktop'),
+    [coverPopups, dismissedIds],
   );
 
   const mobilePopups = useMemo(
-    () => getOrderedPopups(dismissedIds, 'mobile'),
-    [dismissedIds],
+    () => getOrderedPopups(coverPopups, dismissedIds, 'mobile'),
+    [coverPopups, dismissedIds],
   );
 
   useEffect(() => {
@@ -232,9 +242,9 @@ function HomeCoverPopups({
     const hiddenDate = window.localStorage.getItem(HOME_POPUP_HIDE_KEY);
 
     if (hiddenDate === getLocalDateKey()) {
-      setDismissedIds(COVER_POPUPS.map((popup) => popup.id));
+      setDismissedIds(coverPopups.map((popup) => popup.id));
     }
-  }, []);
+  }, [coverPopups]);
 
   useEffect(() => {
     if (
@@ -386,7 +396,7 @@ function HomeCoverPopups({
 
   const handleHideToday = () => {
     window.localStorage.setItem(HOME_POPUP_HIDE_KEY, getLocalDateKey());
-    setDismissedIds(COVER_POPUPS.map((popup) => popup.id));
+    setDismissedIds(coverPopups.map((popup) => popup.id));
   };
 
   if (desktopPopups.length === 0 && mobilePopups.length === 0) {
@@ -542,7 +552,7 @@ function HomeCoverPopups({
                     }}
                   >
                     <TypographyP managed={false} className="text-[15px] font-medium text-white/80">
-                      {countdown}초 후 팝업이 닫힙니다.
+                      {countdown}{copy.coverPopupCountdownSuffix}
                     </TypographyP>
 
                     <div className="flex items-center justify-center gap-2">
@@ -551,7 +561,7 @@ function HomeCoverPopups({
                         onClick={handleCloseMobilePopups}
                         className="rounded-full bg-white px-4 py-2 text-[14px] font-bold text-neutral-900"
                       >
-                        바로 닫기
+                        {copy.coverPopupCloseNow}
                       </button>
 
                       <button
@@ -559,7 +569,7 @@ function HomeCoverPopups({
                         onClick={handleHideToday}
                         className="rounded-full bg-white/15 px-4 py-2 text-[14px] font-semibold text-white backdrop-blur-sm"
                       >
-                        오늘 하루 보지 않기
+                        {copy.coverPopupHideToday}
                       </button>
                     </div>
                   </motion.div>
@@ -573,7 +583,13 @@ function HomeCoverPopups({
   );
 }
 
-export default function HomeCover() {
+export default function HomeCover({
+  copy,
+  persisted,
+}: {
+  copy: InlineContentData;
+  persisted: boolean;
+}) {
   const { isMobile } = useViewport();
 
   const swiperRef = useRef<SwiperType | null>(null);
@@ -616,8 +632,15 @@ export default function HomeCover() {
   }, [canStartSwiperAutoplay]);
 
   return (
-    <section
-      className="relative overflow-hidden px-2 xl:px-0"
+    <EditablePageCopyRegion
+      path="/"
+      copy={copy}
+      persisted={persisted}
+      label="메인 커버·팝업 문구"
+      fieldKeys={HOME_COPY_FIELD_KEYS.cover}
+    >
+      <section
+        className="relative overflow-hidden px-2 xl:px-0"
       style={{
         height:
           initialCoverHeight === null ? '78vh' : `${initialCoverHeight}px`,
@@ -665,16 +688,16 @@ export default function HomeCover() {
               className="order-1 flex flex-col items-center text-4xl leading-[125%] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)]
               xl:order-2 xl:mt-14 xl:flex-row xl:gap-1.75 xl:text-6xl"
             >
-              <span>혈관의 모든 정답,</span>
-              <span className="font-extrabold">청맥에 있습니다</span>
+              <span>{copy.coverSlide1TitleLead}</span>
+              <span className="font-extrabold">{copy.coverSlide1TitleStrong}</span>
             </TypographyH1>
 
             <div
               className="order-2 mt-5 flex flex-col items-center leading-[150%] break-keep text-center text-[15px] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)]
               xl:order-3 xl:gap-1 xl:text-2xl"
             >
-              <TypographyP managed={false}>더 스마트해진 혈관 특화 의료 혁신의 시작.</TypographyP>
-              <TypographyP managed={false}>증상부터 치료까지 AI가 빠르고 정확한 길을 안내합니다.</TypographyP>
+              <TypographyP managed={false}>{copy.coverSlide1Description1}</TypographyP>
+              <TypographyP managed={false}>{copy.coverSlide1Description2}</TypographyP>
             </div>
 
             <button
@@ -690,7 +713,7 @@ export default function HomeCover() {
                 height={22}
         unoptimized
       />
-              <span>맥GPT에게 물어보기→</span>
+              <span>{copy.coverSlide1Button}</span>
             </button>
           </div>
         </SwiperSlide>
@@ -701,16 +724,16 @@ export default function HomeCover() {
             xl:pb-[3%] xl:rounded-none xl:bg-[url('/assets/images/home-cover-desktop-2.png')]"
           >
             <TypographyH2 managed={false} className="flex flex-col items-center text-4xl leading-[125%] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)] xl:flex-row xl:gap-1.75 xl:text-6xl">
-              <span>혈관을 잘 아는 의사,</span>
-              <span className="font-extrabold">청맥에 있습니다</span>
+              <span>{copy.coverSlide2TitleLead}</span>
+              <span className="font-extrabold">{copy.coverSlide2TitleStrong}</span>
             </TypographyH2>
 
             <div
               className="mt-5 flex flex-col items-center leading-[150%] break-keep text-center text-[15px] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)]
               xl:text-2xl"
             >
-              <TypographyP managed={false}>오직 혈관질환에 집중한 전문의 협진으로</TypographyP>
-              <TypographyP managed={false}>깊이 있는 진료, 정밀한 치료를 약속드립니다.</TypographyP>
+              <TypographyP managed={false}>{copy.coverSlide2Description1}</TypographyP>
+              <TypographyP managed={false}>{copy.coverSlide2Description2}</TypographyP>
             </div>
 
             <Link
@@ -718,7 +741,7 @@ export default function HomeCover() {
               href="/"
               className="mt-3 rounded-full border border-white px-4 py-1 text-[15px] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)] xl:mt-6 xl:text-lg"
             >
-              맞춤 의료진 찾기→
+              {copy.coverSlide2Button}
             </Link>
           </div>
         </SwiperSlide>
@@ -729,16 +752,16 @@ export default function HomeCover() {
             xl:pb-[3%] xl:rounded-none xl:bg-[url('/assets/images/home-cover-desktop-3.png')]"
           >
             <TypographyH2 managed={false} className="flex flex-col items-center text-4xl leading-[125%] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)] xl:flex-row xl:gap-1.75 xl:text-6xl">
-              <span>대한정맥학회도</span>
-              <span className="font-extrabold">인정한 청맥의 전문성</span>
+              <span>{copy.coverSlide3TitleLead}</span>
+              <span className="font-extrabold">{copy.coverSlide3TitleStrong}</span>
             </TypographyH2>
 
             <div
               className="mt-5 flex flex-col items-center leading-[150%] break-keep text-center text-[15px] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)]
               xl:text-2xl"
             >
-              <TypographyP managed={false}>2026 대한정맥학회 학술연구비 지원 대상 선정!</TypographyP>
-              <TypographyP managed={false}>차별화된 전문성으로 혈관 진료의 발전을 선도합니다.</TypographyP>
+              <TypographyP managed={false}>{copy.coverSlide3Description1}</TypographyP>
+              <TypographyP managed={false}>{copy.coverSlide3Description2}</TypographyP>
             </div>
 
             <Link
@@ -746,7 +769,7 @@ export default function HomeCover() {
               href="/"
               className="mt-3 rounded-full border border-white px-4 py-1 text-[15px] text-white [text-shadow:0_1px_5px_rgba(25,39,66,0.6)] xl:mt-6 xl:text-lg"
             >
-              자세히 보기→
+              {copy.coverSlide3Button}
             </Link>
           </div>
         </SwiperSlide>
@@ -755,7 +778,9 @@ export default function HomeCover() {
       <HomeCoverPopups
         isMobile={isMobile}
         onMobilePopupsClosed={handleMobilePopupsClosed}
+        copy={copy}
       />
-    </section>
+      </section>
+    </EditablePageCopyRegion>
   );
 }

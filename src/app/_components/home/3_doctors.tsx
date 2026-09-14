@@ -1,5 +1,6 @@
 'use client';
 
+import EditablePageCopyRegion from '@/app/_components/inline-editor/editable-page-copy-region';
 import {
   H2 as TypographyH2,
   P as TypographyP,
@@ -13,6 +14,8 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { jejuMyeongjo } from '@/_lib/fonts';
 import FadeInUp from '@/app/_components/fade-in-up';
 import MainSectionHeader from '@/app/_components/main-section-header';
+import { HOME_COPY_FIELD_KEYS } from '@/_lib/home-page-copy';
+import type { InlineContentData } from '@/_lib/inline-content-shared';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import 'swiper/css';
 import 'swiper/css/effect-cards';
@@ -155,7 +158,13 @@ const doctors: Doctor[] = [
   },
 ];
 
-export default function HomeDoctors(): React.ReactNode {
+export default function HomeDoctors({
+  copy,
+  persisted,
+}: {
+  copy: InlineContentData;
+  persisted: boolean;
+}): React.ReactNode {
   const swiperRef = useRef<SwiperType | null>(null);
 
   const [activeCategory, setActiveCategory] = useState<DoctorCategory>('전체');
@@ -247,16 +256,23 @@ export default function HomeDoctors(): React.ReactNode {
   if (!activeDoctor) return null;
 
   return (
-    <section className="py-20 bg-[#F6F2EF] xl:py-25">
+    <EditablePageCopyRegion
+      path="/"
+      copy={copy}
+      persisted={persisted}
+      label="메인 의료진 문구"
+      fieldKeys={HOME_COPY_FIELD_KEYS.doctors}
+    >
+      <section className="py-20 bg-[#F6F2EF] xl:py-25">
       <FadeInUp>
         <div className="mx-auto max-w-7xl w-full">
           <MainSectionHeader
             usePaddingHorizontal
-            eyebrow="당신의 혈관을 지키는 사람들"
+            eyebrow={copy.doctorsEyebrow}
             title={
               <>
-                <TypographyP managed={false}>대학병원 20년 경험의</TypographyP>
-                <TypographyP managed={false}>혈관 특화 전문의</TypographyP>
+                <TypographyP managed={false}>{copy.doctorsTitle1}</TypographyP>
+                <TypographyP managed={false}>{copy.doctorsTitle2}</TypographyP>
               </>
             }
           />
@@ -281,7 +297,7 @@ export default function HomeDoctors(): React.ReactNode {
                     className="font-semibold text-[15px] text-[#FD7740]
                   xl:text-lg"
                   >
-                    의료진 모두 보기
+                    {copy.doctorsViewAll}
                   </span>
                   <ArrowRight size={20} color="#FD7740" />
                 </div>
@@ -345,6 +361,7 @@ export default function HomeDoctors(): React.ReactNode {
                       <DoctorPhotoCard
                         doctor={doctor}
                         isActive={index === safeActiveIndex}
+                        copy={copy}
                       />
                     </SwiperSlide>
                   ))}
@@ -358,7 +375,7 @@ export default function HomeDoctors(): React.ReactNode {
                     className={`mx-auto w-9/10 break-keep ${jejuMyeongjo.className} text-center text-lg text-[#164534]
                   xl:w-full xl:text-left xl:text-2xl`}
                   >
-                    “{activeDoctor.quote}”
+                    “{copy[`doctorQuote${activeDoctor.id}`] || activeDoctor.quote}”
                   </TypographyP>
 
                   <div
@@ -387,7 +404,7 @@ export default function HomeDoctors(): React.ReactNode {
                       className="py-0.5 px-2.5 rounded-full bg-[#AE8F82] text-sm text-white
                     xl:text-[15px]"
                     >
-                      {activeDoctor.category} 전문의
+                      {activeDoctor.category} {copy.doctorsSpecialistSuffix}
                     </span>
                   </div>
 
@@ -452,7 +469,7 @@ export default function HomeDoctors(): React.ReactNode {
               type="button"
               onClick={handlePrev}
               disabled={!canGoPrev}
-              aria-label="이전 의료진"
+              aria-label={copy.doctorsPrevAria}
               className={canGoPrev ? 'text-[#666666]' : 'text-[#D0D0D0]'}
             >
               <ArrowLeft />
@@ -468,7 +485,7 @@ export default function HomeDoctors(): React.ReactNode {
               type="button"
               onClick={handleNext}
               disabled={!canGoNext}
-              aria-label="다음 의료진"
+              aria-label={copy.doctorsNextAria}
               className={canGoNext ? 'text-[#666666]' : 'text-[#D0D0D0]'}
             >
               <ArrowRight />
@@ -476,16 +493,19 @@ export default function HomeDoctors(): React.ReactNode {
           </div>
         </div>
       </FadeInUp>
-    </section>
+      </section>
+    </EditablePageCopyRegion>
   );
 }
 
 function DoctorPhotoCard({
   doctor,
   isActive,
+  copy,
 }: {
   doctor: Doctor;
   isActive: boolean;
+  copy: InlineContentData;
 }): React.ReactNode {
   const [gifRestartKey, setGifRestartKey] = useState(0);
 
@@ -531,7 +551,7 @@ function DoctorPhotoCard({
             className="py-3 bg-[#319681]
             xl:py-5"
           >
-            휴진일정
+            {copy.doctorsSchedule}
           </Link>
 
           <Link
@@ -541,7 +561,7 @@ function DoctorPhotoCard({
             className="py-3 bg-[#045545]
             xl:py-5"
           >
-            예약하기
+            {copy.doctorsReservation}
           </Link>
         </div>
       </div>

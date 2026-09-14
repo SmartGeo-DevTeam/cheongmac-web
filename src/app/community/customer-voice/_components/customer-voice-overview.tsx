@@ -1,5 +1,6 @@
 'use client';
 
+import EditablePageCopyRegion from '@/app/_components/inline-editor/editable-page-copy-region';
 import type { InlineContentData } from '@/_lib/inline-content-shared';
 import {
   H2 as TypographyH2,
@@ -255,18 +256,73 @@ function Process({ copy }: { copy: InlineContentData }) {
 
 export default function CustomerVoiceOverview({
   copy,
+  persisted,
 }: {
   copy: InlineContentData;
+  persisted: boolean;
 }) {
   return (
     <>
-      <TestimonialCarousel copy={copy} />
+      <EditablePageCopyRegion
+        path="/community/customer-voice"
+        copy={copy}
+        persisted={persisted}
+        label="고객의 소리 칭찬 후기 영역"
+        fieldKeys={[
+          'testimonialHeading',
+          'testimonialPrevLabel',
+          'testimonialNextLabel',
+          'testimonial1Title',
+          'testimonial1Content',
+          'testimonial1Author',
+          'testimonial2Title',
+          'testimonial2Content',
+          'testimonial2Author',
+          'testimonial3Title',
+          'testimonial3Content',
+          'testimonial3Author',
+          'testimonial4Title',
+          'testimonial4Content',
+          'testimonial4Author',
+        ]}
+      >
+        <TestimonialCarousel copy={copy} />
+      </EditablePageCopyRegion>
 
-      <div className="mx-auto w-full max-w-7xl px-4 pb-14 pt-8 xl:px-0 xl:pb-24 xl:pt-16">
-        <VoiceCtaCards copy={copy} />
-        <ReceiveMethods copy={copy} />
-        <Process copy={copy} />
-      </div>
+      <EditablePageCopyRegion
+        path="/community/customer-voice"
+        copy={copy}
+        persisted={persisted}
+        label="고객의 소리 접수·처리 안내"
+        className="mx-auto w-full max-w-7xl"
+        fieldKeys={[
+          'praiseTitle',
+          'praiseDescription',
+          'complaintTitle',
+          'complaintDescription',
+          'writeLabel',
+          'receiveHeading',
+          'onlineTitle',
+          'onlineDescription',
+          'phoneTitle',
+          'phoneDescription',
+          'visitTitle',
+          'visitDescription',
+          'processHeading',
+          'step1Label',
+          'step1',
+          'step2Label',
+          'step2',
+          'step3Label',
+          'step3',
+        ]}
+      >
+        <div className="mx-auto w-full max-w-7xl px-4 pb-14 pt-8 xl:px-0 xl:pb-24 xl:pt-16">
+          <VoiceCtaCards copy={copy} />
+          <ReceiveMethods copy={copy} />
+          <Process copy={copy} />
+        </div>
+      </EditablePageCopyRegion>
     </>
   );
 }

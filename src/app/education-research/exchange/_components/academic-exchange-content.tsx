@@ -33,6 +33,37 @@ import 'swiper/css/pagination';
 import { Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
+function AccentIntroTitle({
+  text,
+  accent,
+}: {
+  text: string;
+  accent: string;
+}) {
+  const normalizedAccent = accent.trim();
+
+  if (!normalizedAccent || !text.includes(normalizedAccent)) {
+    return <span className="whitespace-pre-line">{text}</span>;
+  }
+
+  const parts = text.split(normalizedAccent);
+
+  return (
+    <span className="whitespace-pre-line">
+      {parts.map((part, index) => (
+        <span key={`${part}-${index}`}>
+          {part}
+          {index < parts.length - 1 ? (
+            <span className="inline-block border-b-[2px] border-[#83CDBF] pb-[0.06em] font-extrabold text-[#087461] xl:border-b-[3px]">
+              {normalizedAccent}
+            </span>
+          ) : null}
+        </span>
+      ))}
+    </span>
+  );
+}
+
 function AcademicExchangeIntro({
   heroImages,
   copy,
@@ -49,7 +80,10 @@ function AcademicExchangeIntro({
           </TypographyP>
 
           <TypographyH2 className="mt-4 break-keep text-[24px] font-bold leading-[1.45] tracking-[-0.045em] text-[#262C35] xl:mt-5 xl:text-[34px] xl:leading-[1.5]">
-            <span className="whitespace-pre-line">{copy.introTitle}</span>
+            <AccentIntroTitle
+              text={copy.introTitle}
+              accent={copy.introAccentText}
+            />
           </TypographyH2>
 
           <TypographyP className="mt-7 break-keep text-base leading-[1.8] text-[#4F565D] xl:mt-9 xl:max-w-[680px] xl:text-xl">

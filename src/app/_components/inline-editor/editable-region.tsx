@@ -58,6 +58,7 @@ export default function EditableRegion({
   secondaryAdminHref,
   secondaryAdminLabel = '정적 문구·링크 관리자',
   secondaryAdminDescription,
+  allowReset = true,
   className,
   children,
 }: {
@@ -74,6 +75,7 @@ export default function EditableRegion({
   secondaryAdminHref?: string;
   secondaryAdminLabel?: string;
   secondaryAdminDescription?: string;
+  allowReset?: boolean;
   className?: string;
   children: ReactNode;
 }) {
@@ -141,7 +143,7 @@ export default function EditableRegion({
   };
 
   const reset = () => {
-    if (!hasInlineFields) return;
+    if (!hasInlineFields || !allowReset) return;
 
     if (
       !window.confirm(
@@ -314,7 +316,7 @@ export default function EditableRegion({
                         required={field.required}
                         rows={
                           field.rows ??
-                          (field.type === 'editor' ? 12 : 5)
+                          (field.type === 'editor' ? 5 : 4)
                         }
                         onChange={(event) =>
                           setValue(field.key, event.target.value)
@@ -322,7 +324,7 @@ export default function EditableRegion({
                         placeholder={field.placeholder}
                         className={cn(
                           field.type === 'editor' &&
-                            'min-h-64 leading-7',
+                            'min-h-[96px] max-h-[240px] leading-7',
                         )}
                       />
                     ) : field.type === 'image' ? (
@@ -445,11 +447,13 @@ export default function EditableRegion({
                 type="button"
                 variant="outline"
                 onClick={reset}
-                disabled={isPending || !persisted}
+                disabled={isPending || !persisted || !allowReset}
                 title={
-                  persisted
-                    ? 'DB 수정값을 삭제하고 코드 기본값으로 되돌립니다.'
-                    : '현재 기본 콘텐츠를 사용 중입니다.'
+                  !allowReset
+                    ? '부분 영역에서는 전체 페이지 초기화를 지원하지 않습니다. 정적 문구 관리자에서 초기화해주세요.'
+                    : persisted
+                      ? 'DB 수정값을 삭제하고 코드 기본값으로 되돌립니다.'
+                      : '현재 기본 콘텐츠를 사용 중입니다.'
                 }
               >
                 <RotateCcw className="size-4" />

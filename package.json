@@ -26,7 +26,8 @@
     "check:inline-hybrid": "node scripts/check-inline-editor-hybrid.mjs",
     "check:inline-all-pages": "node scripts/check-inline-editor-all-pages.mjs",
     "check:inline-cms-v2": "node scripts/check-inline-cms-v2.mjs",
-    "cms:seed-page-copy": "tsx scripts/seed-page-copy.ts"
+    "cms:seed-page-copy": "tsx scripts/seed-page-copy.ts",
+    "check:inline-cms-v3": "node scripts/check-inline-cms-v3.mjs"
   },
   "dependencies": {
     "@better-auth/prisma-adapter": "1.7.3",
