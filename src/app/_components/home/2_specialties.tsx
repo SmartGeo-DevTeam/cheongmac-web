@@ -1,12 +1,15 @@
 'use client';
 
+import CollectionAdminEditButton from '@/app/_components/inline-editor/collection-admin-edit-button';
 import EditablePageCopyRegion from '@/app/_components/inline-editor/editable-page-copy-region';
+import ManagedItemEditButton from '@/app/_components/inline-editor/managed-item-edit-button';
 import {
   H3 as TypographyH3,
   P as TypographyP,
 } from '@/app/_components/ui/typography';
 import FadeInUp from '@/app/_components/fade-in-up';
 import MainSectionHeader from '@/app/_components/main-section-header';
+import type { HomeSpecialtyCard } from '@/_lib/home-section-content';
 import { HOME_COPY_FIELD_KEYS } from '@/_lib/home-page-copy';
 import type { InlineContentData } from '@/_lib/inline-content-shared';
 import {
@@ -19,69 +22,16 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
-const specialties = [
-  {
-    title: '하지정맥류',
-    href: '/specialties/leg-varicose-veins',
-    imageSrc: '/assets/images/home-specialty-leg-varicose-veins.png',
-    alt: 'leg-varicose-veins-bg',
-  },
-  {
-    title: '동맥경화',
-    href: '/specialties/arteriosclerosis',
-    imageSrc: '/assets/images/home-specialty-arteriosclerosis.png',
-    alt: 'arteriosclerosis-bg',
-  },
-  {
-    title: '골반정맥류',
-    href: '/specialties/pelvic-varicose-veins',
-    imageSrc: '/assets/images/home-specialty-pelvic-varicose-veins.png',
-    alt: 'pelvic-varicose-veins-bg',
-  },
-  {
-    title: '정계정맥류',
-    href: '/specialties/varicocele',
-    imageSrc: '/assets/images/home-specialty-varicocele.png',
-    alt: 'varicocele-bg',
-  },
-  {
-    title: '희귀특수질환',
-    href: '/specialties/rare-special-diseases',
-    imageSrc: '/assets/images/home-specialty-rare-special-diseases.png',
-    alt: 'rare-special-diseases-bg',
-  },
-  {
-    title: '투석혈관',
-    href: '/specialties/dialysis-access',
-    imageSrc: '/assets/images/home-specialty-dialysis-access.png',
-    alt: 'dialysis-access-bg',
-  },
-  {
-    title: '고압산소치료',
-    href: '/specialties/hyperbaric-oxygen-therapy',
-    imageSrc: '/assets/images/home-specialty-hyperbaric-oxygen-therapy.png',
-    alt: 'hyperbaric-oxygen-therapy-bg',
-  },
-  {
-    title: '혈관검진',
-    href: '/specialties/vascular-screening',
-    imageSrc: '/assets/images/home-specialty-vascular-screening.png',
-    alt: 'vascular-screening-bg',
-  },
-] as const;
-
 function SpecialtiesItem({
+  item,
   index,
   containerRef,
   progress,
-  href,
-  children,
 }: {
+  item: HomeSpecialtyCard;
   index: number;
   containerRef: React.RefObject<HTMLDivElement | null>;
   progress: MotionValue<number>;
-  href: string;
-  children: React.ReactNode;
 }): React.ReactNode {
   const itemRef = useRef<HTMLLIElement | null>(null);
   const [range, setRange] = useState<{ start: number; end: number }>({
@@ -101,11 +51,16 @@ function SpecialtiesItem({
 
       const topInCont = itemRect.top - contRect.top;
       const bottomInCont = itemRect.bottom - contRect.top;
-
       const contHeight = contRect.height || 1;
 
-      const start = Math.max(0, Math.min(1, topInCont / contHeight - 0.15));
-      const end = Math.max(0, Math.min(1, bottomInCont / contHeight - 0.05));
+      const start = Math.max(
+        0,
+        Math.min(1, topInCont / contHeight - 0.15),
+      );
+      const end = Math.max(
+        0,
+        Math.min(1, bottomInCont / contHeight - 0.05),
+      );
 
       setRange({ start, end: Math.max(start + 0.01, end) });
     };
@@ -113,10 +68,8 @@ function SpecialtiesItem({
     calc();
 
     const ro = new ResizeObserver(() => calc());
-
     ro.observe(contEl);
     ro.observe(itemEl);
-
     window.addEventListener('resize', calc);
 
     return () => {
@@ -125,16 +78,13 @@ function SpecialtiesItem({
     };
   }, [containerRef]);
 
-  const isLeft = useMemo(() => {
-    switch (index % 2) {
-      case 0:
-        return true;
-      default:
-        return false;
-    }
-  }, [index]);
+  const isLeft = useMemo(() => index % 2 === 0, [index]);
 
-  const opacity = useTransform(progress, [range.start, range.end], [0, 1]);
+  const opacity = useTransform(
+    progress,
+    [range.start, range.end],
+    [0, 1],
+  );
 
   const x = useTransform(
     progress,
@@ -142,7 +92,11 @@ function SpecialtiesItem({
     [isLeft ? -50 : 50, 0],
   );
 
-  const y = useTransform(progress, [range.start, range.end], [50, 0]);
+  const y = useTransform(
+    progress,
+    [range.start, range.end],
+    [50, 0],
+  );
 
   return (
     <motion.li
@@ -151,13 +105,20 @@ function SpecialtiesItem({
       style={{ opacity, x, y }}
     >
       <Link
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer"
+        href={item.href || '/'}
+        target={item.openInNewTab ? '_blank' : undefined}
+        rel={item.openInNewTab ? 'noopener noreferrer' : undefined}
         className="relative block size-full"
       >
-        {children}
+        <TypographyH3 managed={false}>{item.title}</TypographyH3>
+        <Image src={item.imageSrc} alt={item.alt} fill />
       </Link>
+
+      <ManagedItemEditButton
+        pageKey="home"
+        itemKey={item.itemKey}
+        label={item.title}
+      />
     </motion.li>
   );
 }
@@ -165,9 +126,11 @@ function SpecialtiesItem({
 export default function HomeSpecialties({
   copy,
   persisted,
+  items,
 }: {
   copy: InlineContentData;
   persisted: boolean;
+  items: HomeSpecialtyCard[];
 }): React.ReactNode {
   const contRef = useRef<HTMLDivElement | null>(null);
 
@@ -177,9 +140,7 @@ export default function HomeSpecialties({
   });
 
   const lineScaleY = useTransform(scrollYProgress, [0, 1], [0, 1]);
-
   const dotTop = useTransform(scrollYProgress, [0, 1], ['0%', '100%']);
-
   const dotOpacity = useTransform(
     scrollYProgress,
     [0, 0.03, 0.82, 0.95],
@@ -195,150 +156,147 @@ export default function HomeSpecialties({
       fieldKeys={HOME_COPY_FIELD_KEYS.specialties}
     >
       <FadeInUp>
-      <section className="bg-[linear-gradient(to_bottom,#FFFFFF_0%,#F6F2EF_100%)]">
-        <div
-          className="
-            overflow-x-hidden
-            px-5
-            pt-20
-            pb-15
-            text-[#262C35]
-            xl:mx-auto
-            xl:w-full
-            xl:max-w-240
-            xl:overflow-visible
-            xl:pt-32
-            xl:pb-20
-          "
-        >
-          <MainSectionHeader
-            eyebrow={copy.specialtiesEyebrow}
-            title={
-              <>
-                <span className="block">{copy.specialtiesTitle1}</span>
-                <span className="block">{copy.specialtiesTitle2}</span>
-              </>
-            }
-            description={
-              <>
-                <TypographyP managed={false}>
-                  {copy.specialtiesDescription1}
-                </TypographyP>
-
-                <TypographyP managed={false}>{copy.specialtiesDescription2}</TypographyP>
-              </>
-            }
-          />
-
+        <section className="bg-[linear-gradient(to_bottom,#FFFFFF_0%,#F6F2EF_100%)]">
           <div
-            ref={contRef}
             className="
-              relative
-              mt-5
-              xl:mt-36
+              overflow-x-hidden
+              px-5
+              pt-20
+              pb-15
+              text-[#262C35]
+              xl:mx-auto
+              xl:w-full
+              xl:max-w-240
+              xl:overflow-visible
+              xl:pt-32
+              xl:pb-20
             "
           >
-            <div className="absolute left-1/2 top-0 h-full w-0.75 -translate-x-1/2 overflow-visible">
-              <motion.div
-                className="
-                  absolute
-                  left-0
-                  top-0
-                  h-full
-                  w-full
-                  origin-top
-                  bg-[linear-gradient(180deg,#D9D9D900_0%,#FD77404D_97%,#DECCC500_100%)]
-                  will-change-transform
-                "
-                style={{
-                  scaleY: lineScaleY,
-                }}
-              />
+            <MainSectionHeader
+              eyebrow={copy.specialtiesEyebrow}
+              title={
+                <>
+                  <span className="block">{copy.specialtiesTitle1}</span>
+                  <span className="block">{copy.specialtiesTitle2}</span>
+                </>
+              }
+              description={
+                <>
+                  <TypographyP managed={false}>
+                    {copy.specialtiesDescription1}
+                  </TypographyP>
+                  <TypographyP managed={false}>
+                    {copy.specialtiesDescription2}
+                  </TypographyP>
+                </>
+              }
+            />
 
-              <motion.div
-                className="
-                  absolute
-                  left-1/2
-                  w-3
-                  aspect-square
-                  will-change-transform
-                  xl:w-6
-                "
-                style={{
-                  top: dotTop,
-                  x: '-50%',
-                  y: '-50%',
-                  opacity: dotOpacity,
-                }}
-              >
-                <img
-                  src="/assets/brand/symbol.svg"
-                  alt=""
-                  aria-hidden="true"
-                  className="
-                    size-3
-                    xl:size-6
-                  "
-                />
-              </motion.div>
-            </div>
-
-            <ul
+            <div
+              ref={contRef}
               className="
-                flex
-                flex-wrap
-                gap-x-5
-                pb-15
-
-                [&>li]:relative
-                [&>li]:aspect-square
-                [&>li]:w-[calc((100%-1.25rem)/2)]
-                [&>li]:overflow-clip
-                [&>li]:rounded-2xl
-                [&>li]:even:top-15
-                [&>li:nth-child(n+3)]:mt-4
-
-                [&>li>a>h3]:absolute
-                [&>li>a>h3]:bottom-2.5
-                [&>li>a>h3]:left-4
-                [&>li>a>h3]:z-10
-                [&>li>a>h3]:text-sm
-                [&>li>a>h3]:font-extrabold
-                [&>li>a>h3]:text-white
-
-                [&>li>a>img]:object-cover
-
-                xl:gap-x-21
-                xl:[&>li]:w-[calc((100%-5.25rem)/2)]
-                xl:[&>li>a>h3]:bottom-8
-                xl:[&>li>a>h3]:left-10
-                xl:[&>li>a>h3]:text-3xl
+                group/cms-collection
+                relative
+                mt-5
+                xl:mt-36
               "
             >
-              {specialties.map((item, index) => {
-                const displayTitle =
-                  copy[`specialty${index + 1}Title`] || item.title;
+              <CollectionAdminEditButton
+                href="/admin/pages/home?type=specialty"
+                label="메인 진료분야 카드"
+              />
 
-                return (
+              <div className="absolute left-1/2 top-0 h-full w-0.75 -translate-x-1/2 overflow-visible">
+                <motion.div
+                  className="
+                    absolute
+                    left-0
+                    top-0
+                    h-full
+                    w-full
+                    origin-top
+                    bg-[linear-gradient(180deg,#D9D9D900_0%,#FD77404D_97%,#DECCC500_100%)]
+                    will-change-transform
+                  "
+                  style={{ scaleY: lineScaleY }}
+                />
+
+                <motion.div
+                  className="
+                    absolute
+                    left-1/2
+                    w-3
+                    aspect-square
+                    will-change-transform
+                    xl:w-6
+                  "
+                  style={{
+                    top: dotTop,
+                    x: '-50%',
+                    y: '-50%',
+                    opacity: dotOpacity,
+                  }}
+                >
+                  <img
+                    src="/assets/brand/symbol.svg"
+                    alt=""
+                    aria-hidden="true"
+                    className="size-3 xl:size-6"
+                  />
+                </motion.div>
+              </div>
+
+              <ul
+                className="
+                  flex
+                  flex-wrap
+                  gap-x-5
+                  pb-15
+
+                  [&>li]:relative
+                  [&>li]:aspect-square
+                  [&>li]:w-[calc((100%-1.25rem)/2)]
+                  [&>li]:overflow-clip
+                  [&>li]:rounded-2xl
+                  [&>li]:even:top-15
+                  [&>li:nth-child(n+3)]:mt-4
+
+                  [&>li>a>h3]:absolute
+                  [&>li>a>h3]:bottom-2.5
+                  [&>li>a>h3]:left-4
+                  [&>li>a>h3]:z-10
+                  [&>li>a>h3]:text-sm
+                  [&>li>a>h3]:font-extrabold
+                  [&>li>a>h3]:text-white
+
+                  [&>li>a>img]:object-cover
+
+                  xl:gap-x-21
+                  xl:[&>li]:w-[calc((100%-5.25rem)/2)]
+                  xl:[&>li>a>h3]:bottom-8
+                  xl:[&>li>a>h3]:left-10
+                  xl:[&>li>a>h3]:text-3xl
+                "
+              >
+                {items.map((item, index) => (
                   <SpecialtiesItem
-                    key={item.href}
+                    key={item.itemKey}
+                    item={item}
                     index={index}
-                    href={item.href}
                     containerRef={contRef}
                     progress={scrollYProgress}
-                  >
-                    <TypographyH3 managed={false}>
-                      {displayTitle}
-                    </TypographyH3>
+                  />
+                ))}
+              </ul>
 
-                    <Image src={item.imageSrc} alt={item.alt} fill />
-                  </SpecialtiesItem>
-                );
-              })}
-            </ul>
+              {!items.length ? (
+                <div className="rounded-2xl border border-dashed border-[#D8D8D8] bg-white/60 px-5 py-10 text-center text-sm text-[#7A7A7A]">
+                  관리자에서 메인페이지에 노출할 진료분야 카드를 활성화해주세요.
+                </div>
+              ) : null}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
       </FadeInUp>
     </EditablePageCopyRegion>
   );

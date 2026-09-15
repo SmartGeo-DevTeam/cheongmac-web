@@ -336,6 +336,27 @@ export async function saveManagedPageItem(
     }
   }
 
+  if (
+    pageKey === 'home' &&
+    itemType === 'middle-banner' &&
+    isVisible
+  ) {
+    const visibleMiddleBannerCount = await prisma.managedPageItem.count({
+      where: {
+        pageKey: 'home',
+        itemType: 'middle-banner',
+        isVisible: true,
+        ...(id === 'new' ? {} : { id: { not: id } }),
+      },
+    });
+
+    if (visibleMiddleBannerCount >= 1) {
+      throw new Error(
+        '메인 중간 배너는 1개만 활성화할 수 있습니다. 기존 배너를 먼저 비활성화해주세요.',
+      );
+    }
+  }
+
   await prisma.$transaction(async (tx) => {
     let targetId: string;
 

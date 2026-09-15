@@ -224,14 +224,6 @@ export const HOME_COPY_FIELD_KEYS = {
     'specialtiesDescription1',
     'specialtiesDescription1Tail',
     'specialtiesDescription2',
-    'specialty1Title',
-    'specialty2Title',
-    'specialty3Title',
-    'specialty4Title',
-    'specialty5Title',
-    'specialty6Title',
-    'specialty7Title',
-    'specialty8Title',
   ],
   doctors: [
     'doctorsEyebrow',
@@ -318,10 +310,6 @@ export const HOME_PAGE_COPY_FIELDS: readonly InlineContentField[] = [
   text('specialtiesDescription1', '진료분야 - 설명 1 첫 문장'),
   text('specialtiesDescription1Tail', '진료분야 - 설명 1 둘째 문장'),
   textarea('specialtiesDescription2', '진료분야 - 설명 2'),
-  ...Array.from({ length: 8 }, (_, index) =>
-    text(`specialty${index + 1}Title`, `진료분야 ${index + 1} - 표시명`),
-  ),
-
   text('doctorsEyebrow', '의료진 - 보조 제목'),
   text('doctorsTitle1', '의료진 - 제목 1'),
   text('doctorsTitle2', '의료진 - 제목 2'),

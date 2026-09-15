@@ -1,5 +1,6 @@
 export const MANAGED_PAGE_KEYS = [
   'home',
+  'common-content-banners',
   'tour',
   'equipment',
   'exchange',
@@ -68,7 +69,7 @@ export const MANAGED_PAGE_CONFIGS: Record<
     publicHref: '/',
     groupLabel: '메인페이지',
     description:
-      '메인 커버 슬라이드와 팝업을 관리합니다. 슬라이드와 팝업은 사용자 화면의 편집 모드에서도 빠르게 수정할 수 있습니다.',
+      '메인 커버 슬라이드, 팝업, 진료분야 카드와 중간 배너를 관리합니다. 사용자 화면의 편집 모드에서도 각 항목을 빠르게 수정할 수 있습니다.',
     itemTypes: [
       {
         value: 'slide',
@@ -201,6 +202,143 @@ export const MANAGED_PAGE_CONFIGS: Record<
             label: '모바일 노출 순서',
             type: 'number',
             required: true,
+          },
+          visibilityField,
+        ],
+      },
+      {
+        value: 'specialty',
+        label: '진료분야 카드',
+        titleField: 'title',
+        summaryField: 'href',
+        imageFields: ['imageSrc'],
+        fields: [
+          {
+            key: 'title',
+            label: '표시명',
+            type: 'text',
+            required: true,
+          },
+          {
+            key: 'href',
+            label: '연결 경로',
+            type: 'text',
+            required: true,
+            placeholder: '예: /specialties/leg-varicose-veins',
+          },
+          {
+            key: 'imageSrc',
+            label: '대표 이미지',
+            type: 'text',
+            required: true,
+          },
+          {
+            key: 'alt',
+            label: '이미지 대체 텍스트',
+            type: 'text',
+            required: true,
+          },
+          {
+            key: 'openInNewTab',
+            label: '새 창으로 열기',
+            type: 'checkbox',
+          },
+          visibilityField,
+        ],
+      },
+      {
+        value: 'middle-banner',
+        label: '중간 배너',
+        titleField: 'desktopAlt',
+        summaryField: 'href',
+        imageFields: ['mobileImage', 'desktopImage'],
+        fields: [
+          {
+            key: 'href',
+            label: '연결 경로',
+            type: 'text',
+            required: true,
+            placeholder: '예: /community/notice 또는 https://...',
+          },
+          {
+            key: 'mobileImage',
+            label: '모바일 이미지',
+            type: 'text',
+            required: true,
+          },
+          {
+            key: 'desktopImage',
+            label: 'PC 이미지',
+            type: 'text',
+            required: true,
+          },
+          {
+            key: 'mobileAlt',
+            label: '모바일 이미지 대체 텍스트',
+            type: 'text',
+            required: true,
+          },
+          {
+            key: 'desktopAlt',
+            label: 'PC 이미지 대체 텍스트',
+            type: 'text',
+            required: true,
+          },
+          {
+            key: 'openInNewTab',
+            label: '새 창으로 열기',
+            type: 'checkbox',
+          },
+          visibilityField,
+        ],
+      },
+    ],
+  },
+
+  'common-content-banners': {
+    key: 'common-content-banners',
+    label: '공통 콘텐츠 배너',
+    publicHref: '/',
+    groupLabel: '공통',
+    description:
+      '여러 사용자 페이지의 원하는 위치에서 재사용할 수 있는 공통 이미지 배너를 관리합니다.',
+    itemTypes: [
+      {
+        value: 'content-banner',
+        label: '공통 콘텐츠 배너',
+        titleField: 'alt',
+        summaryField: 'href',
+        imageFields: ['mobileImage', 'desktopImage'],
+        fields: [
+          {
+            key: 'href',
+            label: '연결 경로',
+            type: 'text',
+            required: true,
+            placeholder: '예: /community/notice 또는 https://...',
+          },
+          {
+            key: 'mobileImage',
+            label: '모바일 이미지',
+            type: 'text',
+            required: true,
+          },
+          {
+            key: 'desktopImage',
+            label: 'PC 이미지',
+            type: 'text',
+            required: true,
+          },
+          {
+            key: 'alt',
+            label: '이미지 대체 텍스트',
+            type: 'text',
+            required: true,
+          },
+          {
+            key: 'openInNewTab',
+            label: '새 창으로 열기',
+            type: 'checkbox',
           },
           visibilityField,
         ],

@@ -1,6 +1,15 @@
 import 'server-only';
 
 import {
+  buildHomeSpecialtiesFromLegacy,
+  DEFAULT_COMMON_CONTENT_BANNERS,
+  DEFAULT_HOME_MIDDLE_BANNERS,
+  DEFAULT_HOME_SPECIALTIES,
+  type CommonContentBanner,
+  type HomeMiddleBanner,
+  type HomeSpecialtyCard,
+} from '@/_lib/home-section-content';
+import {
   buildHomeCoverContentFromLegacy,
   DEFAULT_HOME_COVER_POPUPS,
   DEFAULT_HOME_COVER_SLIDES,
@@ -125,8 +134,37 @@ function seedRows(
           data: inputJson(item),
           sortOrder: 100 + index,
         })),
+        ...buildHomeSpecialtiesFromLegacy(legacyCopy).map((item, index) => ({
+          itemKey: item.itemKey,
+          itemType: 'specialty',
+          title: item.title,
+          summary: item.href,
+          imageUrls: [item.imageSrc],
+          data: inputJson(item),
+          sortOrder: 200 + index,
+        })),
+        ...DEFAULT_HOME_MIDDLE_BANNERS.map((item, index) => ({
+          itemKey: item.itemKey,
+          itemType: 'middle-banner',
+          title: item.desktopAlt,
+          summary: item.href,
+          imageUrls: [item.mobileImage, item.desktopImage],
+          data: inputJson(item),
+          sortOrder: 300 + index,
+        })),
       ];
     }
+
+    case 'common-content-banners':
+      return DEFAULT_COMMON_CONTENT_BANNERS.map((item, index) => ({
+        itemKey: item.itemKey,
+        itemType: 'content-banner',
+        title: item.alt,
+        summary: item.href,
+        imageUrls: [item.mobileImage, item.desktopImage],
+        data: inputJson(item),
+        sortOrder: index,
+      }));
 
     case 'tour':
       return [
@@ -299,10 +337,12 @@ function seedRows(
 export async function ensureManagedPageSeeded(pageKey: ManagedPageKey) {
   const state = await prisma.managedPageSeed.findUnique({
     where: { pageKey },
-    select: { pageKey: true },
+    select: { pageKey: true, version: true },
   });
 
-  if (state) return;
+  const targetVersion = pageKey === 'home' ? 2 : 1;
+
+  if (state && state.version >= targetVersion) return;
 
   let legacyCopy: Record<string, unknown> = {};
 
@@ -320,7 +360,15 @@ export async function ensureManagedPageSeeded(pageKey: ManagedPageKey) {
     legacyCopy = record(legacy?.data);
   }
 
-  const rows = seedRows(pageKey, legacyCopy);
+  let rows = seedRows(pageKey, legacyCopy);
+
+  // Phase 2에서 home seed(version 1)가 이미 생성된 사이트는
+  // 기존 슬라이드/팝업을 다시 만들지 않고 새 유형만 보강합니다.
+  if (pageKey === 'home' && state?.version === 1) {
+    rows = rows.filter((row) =>
+      ['specialty', 'middle-banner'].includes(row.itemType),
+    );
+  }
 
   await prisma.$transaction(async (tx) => {
     await tx.managedPageItem.createMany({
@@ -341,8 +389,8 @@ export async function ensureManagedPageSeeded(pageKey: ManagedPageKey) {
 
     await tx.managedPageSeed.upsert({
       where: { pageKey },
-      create: { pageKey, version: 1 },
-      update: { version: 1 },
+      create: { pageKey, version: targetVersion },
+      update: { version: targetVersion },
     });
   });
 }
@@ -417,6 +465,112 @@ export async function getHomeCoverManagedContent(): Promise<{
         slides: DEFAULT_HOME_COVER_SLIDES,
         popups: DEFAULT_HOME_COVER_POPUPS,
       };
+    }
+
+    throw error;
+  }
+}
+
+export async function getHomeSpecialtiesManagedContent(): Promise<
+  HomeSpecialtyCard[]
+> {
+  try {
+    const rows = await publicRows('home');
+
+    return rows
+      .filter((row) => row.itemType === 'specialty')
+      .map((row) => {
+        const data = record(row.data);
+
+        return {
+          itemKey: row.itemKey,
+          id: String(
+            data.id ?? row.itemKey.replace(/^specialty:/, ''),
+          ),
+          title: String(data.title ?? row.title),
+          href: String(data.href ?? row.summary ?? '/'),
+          imageSrc: String(data.imageSrc ?? row.imageUrls[0] ?? ''),
+          alt: String(data.alt ?? row.title),
+          openInNewTab: Boolean(data.openInNewTab),
+        } satisfies HomeSpecialtyCard;
+      });
+  } catch (error) {
+    if (isManagedDatabaseFallbackError(error)) {
+      return DEFAULT_HOME_SPECIALTIES;
+    }
+
+    throw error;
+  }
+}
+
+export async function getHomeMiddleBannersManagedContent(): Promise<
+  HomeMiddleBanner[]
+> {
+  try {
+    const rows = await publicRows('home');
+
+    return rows
+      .filter((row) => row.itemType === 'middle-banner')
+      .map((row) => {
+        const data = record(row.data);
+
+        return {
+          itemKey: row.itemKey,
+          id: String(
+            data.id ?? row.itemKey.replace(/^middle-banner:/, ''),
+          ),
+          href: String(data.href ?? row.summary ?? '/'),
+          mobileImage: String(
+            data.mobileImage ?? row.imageUrls[0] ?? '',
+          ),
+          desktopImage: String(
+            data.desktopImage ?? row.imageUrls[1] ?? row.imageUrls[0] ?? '',
+          ),
+          mobileAlt: String(data.mobileAlt ?? row.title),
+          desktopAlt: String(data.desktopAlt ?? row.title),
+          openInNewTab: Boolean(data.openInNewTab),
+        } satisfies HomeMiddleBanner;
+      });
+  } catch (error) {
+    if (isManagedDatabaseFallbackError(error)) {
+      return DEFAULT_HOME_MIDDLE_BANNERS;
+    }
+
+    throw error;
+  }
+}
+
+export async function getCommonContentBannersManagedContent(): Promise<
+  CommonContentBanner[]
+> {
+  try {
+    const rows = await publicRows('common-content-banners');
+
+    return rows
+      .filter((row) => row.itemType === 'content-banner')
+      .map((row) => {
+        const data = record(row.data);
+
+        return {
+          itemKey: row.itemKey,
+          id: String(
+            data.id ??
+              row.itemKey.replace(/^common-content-banner:/, ''),
+          ),
+          href: String(data.href ?? row.summary ?? '/'),
+          mobileImage: String(
+            data.mobileImage ?? row.imageUrls[0] ?? '',
+          ),
+          desktopImage: String(
+            data.desktopImage ?? row.imageUrls[1] ?? row.imageUrls[0] ?? '',
+          ),
+          alt: String(data.alt ?? row.title),
+          openInNewTab: Boolean(data.openInNewTab),
+        } satisfies CommonContentBanner;
+      });
+  } catch (error) {
+    if (isManagedDatabaseFallbackError(error)) {
+      return DEFAULT_COMMON_CONTENT_BANNERS;
     }
 
     throw error;

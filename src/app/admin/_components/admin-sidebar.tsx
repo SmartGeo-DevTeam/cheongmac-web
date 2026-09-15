@@ -97,6 +97,20 @@ export default function AdminSidebar({
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton
+                  href="/admin/pages/common-content-banners"
+                  active={
+                    menuActive(
+                      pathname,
+                      '/admin/pages/common-content-banners',
+                    )
+                  }
+                >
+                  <PanelBottom className="size-4" />
+                  공통 콘텐츠 배너
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton
                   href="/admin/common/bottom-banners"
                   active={menuActive(pathname, '/admin/common/bottom-banners')}
                 >

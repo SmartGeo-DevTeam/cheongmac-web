@@ -7,21 +7,28 @@ import HomeReviews from './6_reviews';
 import HomeNotice from './7_notice';
 import HomeInfo from './8_info';
 import HomePartners from './9_partners';
+import {
+  getHomeCoverManagedContent,
+  getHomeMiddleBannersManagedContent,
+  getHomeSpecialtiesManagedContent,
+} from '@/_lib/managed-pages';
 import { getPageContentBlock } from '@/_lib/page-content-blocks';
 import { getPublicPageCopyConfig } from '@/_lib/public-page-copy';
-import { getHomeCoverManagedContent } from '@/_lib/managed-pages';
 
 export default async function HomeSections() {
   const config = getPublicPageCopyConfig('/');
 
-  const [content, homeCover] = await Promise.all([
-    getPageContentBlock(
-      'page-copy',
-      '/',
-      config.defaults,
-    ),
-    getHomeCoverManagedContent(),
-  ]);
+  const content = await getPageContentBlock(
+    'page-copy',
+    '/',
+    config.defaults,
+  );
+
+  // 첫 조회에서 home ManagedPageItem seed version을 올린 뒤
+  // 각 영역은 같은 canonical data를 읽습니다.
+  const homeCover = await getHomeCoverManagedContent();
+  const homeSpecialties = await getHomeSpecialtiesManagedContent();
+  const homeBanners = await getHomeMiddleBannersManagedContent();
 
   const copyProps = {
     copy: content.data,
@@ -35,9 +42,12 @@ export default async function HomeSections() {
         slides={homeCover.slides}
         popups={homeCover.popups}
       />
-      <HomeSpecialties {...copyProps} />
+      <HomeSpecialties
+        {...copyProps}
+        items={homeSpecialties}
+      />
       <HomeDoctors {...copyProps} />
-      <HomeBanners />
+      <HomeBanners items={homeBanners} />
       <HomeName {...copyProps} />
       <HomeReviews {...copyProps} />
       <HomeNotice />
