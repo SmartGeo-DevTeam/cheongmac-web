@@ -1,86 +1,121 @@
 'use client';
 
+import AdminEditButton from '@/app/_components/inline-editor/admin-edit-button';
+import CollectionAdminEditButton from '@/app/_components/inline-editor/collection-admin-edit-button';
 import EditablePageCopyRegion from '@/app/_components/inline-editor/editable-page-copy-region';
 import {
   P as TypographyP,
 } from '@/app/_components/ui/typography';
 import FadeInUp from '@/app/_components/fade-in-up';
 import MainSectionHeader from '@/app/_components/main-section-header';
+import type { HomeReview } from '@/_lib/home-reviews';
 import { HOME_COPY_FIELD_KEYS } from '@/_lib/home-page-copy';
 import type { InlineContentData } from '@/_lib/inline-content-shared';
 import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import {
+  useMemo,
+  useState,
+} from 'react';
 
-const reviewCategories = [
-  '골반정맥류',
-  '정계정맥류',
-  '하지정맥류',
-  '자궁근종',
-  '투석혈관',
-  '당뇨발',
-] as const;
+function isExternalHref(href: string) {
+  return /^https?:\/\//i.test(href);
+}
 
-const mainReview = {
-  beforeImageSrc: '/assets/images/home-review-before-1.png',
-  afterImageSrc: '/assets/images/home-review-after-1.png',
-  beforeImageAlt: 'beforeImage',
-  afterImageAlt: 'afterImage',
-  quote: '거짓말처럼 나아서 너무 신기합니다.',
-  patientName: '김*숙 님',
-  age: 34,
-  gender: '여성',
-  treatment: '레이저 정맥 폐쇄술 + 경화요법',
-  doctorName: '박용범 원장',
-  doctorImageSrc: '/assets/doctors/bak-avatar.png',
-  doctorImageAlt: 'bak',
-};
+function reviewHref(review: HomeReview) {
+  if (review.linkUrl?.trim()) return review.linkUrl;
 
-const videoReviews = [
-  {
-    id: 1,
-    imageSrc: '/assets/images/home-review-patient-1.gif',
-    imageAlt: 'patient-1',
-    patientName: 'ㅇㅇㅇ님',
-    gender: '남성',
-    age: 42,
-    keywords: ['만성신부전증', '동맥경화', '관련키워드'],
-    title: '50m도 걷기 힘들었었습니다..',
-  },
-  {
-    id: 2,
-    imageSrc: '/assets/images/home-review-patient-2.gif',
-    imageAlt: 'patient-2',
-    patientName: 'ㅇㅇㅇ님',
-    gender: '남성',
-    age: 42,
-    keywords: ['만성신부전증', '동맥경화', '관련키워드'],
-    title: '50m도 걷기 힘들었었습니다..',
-  },
-  {
-    id: 3,
-    imageSrc: '/assets/images/home-review-patient-3.gif',
-    imageAlt: 'patient-3',
-    patientName: 'ㅇㅇㅇ님',
-    gender: '남성',
-    age: 42,
-    keywords: ['만성신부전증', '동맥경화', '관련키워드'],
-    title: '50m도 걷기 힘들었었습니다..',
-  },
-] as const;
+  const doctor = review.doctors[0];
+  if (doctor) return `/about/doctors/${doctor.slug}`;
+
+  return '/community/cases';
+}
+
+function reviewTitle(review: HomeReview) {
+  const firstLine = review.content
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .find(Boolean);
+
+  const title =
+    firstLine ||
+    review.treatment ||
+    `${review.patientName}님의 치료후기`;
+
+  return title.length > 80
+    ? `${title.slice(0, 80)}…`
+    : title;
+}
+
+function imageForCard(review: HomeReview) {
+  return (
+    review.imageUrl ??
+    review.afterImageUrl ??
+    review.beforeImageUrl
+  );
+}
 
 export default function HomeReviews({
   copy,
   persisted,
+  reviews,
 }: {
   copy: InlineContentData;
   persisted: boolean;
+  reviews: HomeReview[];
 }) {
-  const [activeCategory, setActiveCategory] =
-    useState<(typeof reviewCategories)[number]>('골반정맥류');
+  const categories = useMemo(() => {
+    return Array.from(
+      new Set(
+        reviews
+          .map((review) => review.category.trim())
+          .filter(Boolean),
+      ),
+    );
+  }, [reviews]);
 
-  const [isAfterVisible, setIsAfterVisible] = useState(false);
+  const [activeCategory, setActiveCategory] = useState(
+    categories[0] ?? '전체',
+  );
+  const [isAfterVisible, setIsAfterVisible] =
+    useState(false);
+
+  const categoryReviews = useMemo(() => {
+    if (!reviews.length) return [];
+
+    if (
+      activeCategory === '전체' ||
+      !categories.includes(activeCategory)
+    ) {
+      return reviews;
+    }
+
+    return reviews.filter(
+      (review) => review.category === activeCategory,
+    );
+  }, [activeCategory, categories, reviews]);
+
+  const mainReview =
+    categoryReviews[0] ?? reviews[0] ?? null;
+
+  const smallReviews = useMemo(() => {
+    if (!mainReview) return [];
+
+    const preferred = categoryReviews.filter(
+      (review) => review.id !== mainReview.id,
+    );
+    const rest = reviews.filter(
+      (review) =>
+        review.id !== mainReview.id &&
+        !preferred.some(
+          (preferredReview) =>
+            preferredReview.id === review.id,
+        ),
+    );
+
+    return [...preferred, ...rest].slice(0, 3);
+  }, [categoryReviews, mainReview, reviews]);
 
   return (
     <EditablePageCopyRegion
@@ -91,314 +126,466 @@ export default function HomeReviews({
       fieldKeys={HOME_COPY_FIELD_KEYS.reviews}
     >
       <FadeInUp>
-      <section
-        className="mt-15 max-w-7xl
-    xl:mx-auto"
-      >
-        <MainSectionHeader
-          usePaddingHorizontal
-          eyebrow={copy.reviewsEyebrow}
-          title={
-            <>
-              <span className="block">{copy.reviewsTitle1}</span>
-              <span className="block">{copy.reviewsTitle2}</span>
-            </>
-          }
-          description={
-            <>
-              <TypographyP managed={false}>{copy.reviewsDescription1}</TypographyP>
-              <TypographyP managed={false}>
-                {copy.reviewsDescription2}
-              </TypographyP>
-            </>
-          }
-        />
+        <section className="group/cms-collection relative mt-15 max-w-7xl xl:mx-auto">
+          <CollectionAdminEditButton
+            href="/admin/content-relations/reviews"
+            label="메인 치료후기"
+          />
 
-        <div
-          className="mt-10 pl-5
-        xl:mt-8 xl:flex xl:justify-between xl:items-center"
-        >
-          <ul
-            className="pr-5 py-1 flex items-center gap-2 rounded-[10px] bg-[#F7F7F7] whitespace-nowrap overflow-scroll
-            "
-          >
-            {reviewCategories.map((category, categoryIndex) => {
-              const isActive = activeCategory === category;
-
-              return (
-                <li key={category}>
-                  <button
-                    type="button"
-                    onClick={() => setActiveCategory(category)}
-                    className={`px-4 py-2 rounded-[10px] font-semibold text-[15px]
-                      ${isActive ? 'bg-[#1B705B] text-white' : 'bg-transparent text-[#1B705B]'}
-                      `}
-                  >
-                    {copy[`reviewCategory${categoryIndex + 1}`] || category}
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
-
-          <div
-            className="hidden
-          xl:flex"
-          >
-            <div className="pr-5 self-end">
-              <Link
-                target="_blank"
-                rel="noopener noreferrer"
-                href={`/`}
-                className="self-end
-              xl:flex xl:items-center"
-              >
-                <span
-                  className="font-semibold text-[15px] text-[#D3BBA2]
-                xl:hidden"
-                >
-                  {copy.reviewsAllMobile}
+          <MainSectionHeader
+            usePaddingHorizontal
+            eyebrow={copy.reviewsEyebrow}
+            title={
+              <>
+                <span className="block">
+                  {copy.reviewsTitle1}
                 </span>
-                <div
-                  className="hidden
-                  xl:px-5 xl:py-2.5 xl:flex xl:items-center xl:gap-2"
-                >
-                  <span className="font-bold text-[#93755B]">
-                    {copy.reviewsMoreCases}
-                  </span>
-                  <ArrowRight size={20} color="#93755B" />
-                </div>
-              </Link>
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-4 px-5">
-          <div
-            className="flex flex-col rounded-xl overflow-clip
-          xl:grid xl:grid-cols-[6fr_4fr] xl:items-stretch"
-          >
-            <div
-              className="relative w-full aspect-square
-            xl:flex xl:aspect-auto xl:h-full"
-            >
-              {/* Mobile: 터치 시 after 이미지 fade toggle */}
-              <button
-                type="button"
-                onClick={() => setIsAfterVisible((prev) => !prev)}
-                className="relative block w-full h-full xl:hidden"
-                aria-label="치료 전후 사진 보기"
-              >
-                <Image
-                  src={mainReview.beforeImageSrc}
-                  alt={mainReview.beforeImageAlt}
-                  fill
-                  className="object-cover"
-                />
-
-                <Image
-                  src={mainReview.afterImageSrc}
-                  alt={mainReview.afterImageAlt}
-                  fill
-                  className={`object-cover transition-opacity duration-500 ease-out
-                  ${isAfterVisible ? 'opacity-100' : 'opacity-0'}
-                  `}
-                />
-
-                <TypographyP managed={false} className="absolute left-1/2 top-5 -translate-x-1/2 px-3 py-1.5 rounded-sm bg-black font-bold text-sm text-white">
-                  {copy.reviewsImageHint}
+                <span className="block">
+                  {copy.reviewsTitle2}
+                </span>
+              </>
+            }
+            description={
+              <>
+                <TypographyP managed={false}>
+                  {copy.reviewsDescription1}
                 </TypographyP>
-              </button>
+                <TypographyP managed={false}>
+                  {copy.reviewsDescription2}
+                </TypographyP>
+              </>
+            }
+          />
 
-              {/* Desktop: before / after 둘 다 항상 노출 */}
-              <div className="hidden w-full h-full xl:flex">
-                <div className="relative w-1/2 h-full">
-                  <Image
-                    src={mainReview.beforeImageSrc}
-                    alt={mainReview.beforeImageAlt}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
+          {reviews.length ? (
+            <>
+              <div className="mt-10 pl-5 xl:mt-8 xl:flex xl:items-center xl:justify-between">
+                {categories.length ? (
+                  <ul className="flex items-center gap-2 overflow-scroll whitespace-nowrap rounded-[10px] bg-[#F7F7F7] py-1 pr-5">
+                    {categories.map((category) => {
+                      const isActive =
+                        activeCategory === category;
 
-                <div className="relative w-1/2 h-full">
-                  <Image
-                    src={mainReview.afterImageSrc}
-                    alt={mainReview.afterImageAlt}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-              </div>
+                      return (
+                        <li key={category}>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setActiveCategory(category);
+                              setIsAfterVisible(false);
+                            }}
+                            className={`rounded-[10px] px-4 py-2 text-[15px] font-semibold ${
+                              isActive
+                                ? 'bg-[#1B705B] text-white'
+                                : 'bg-transparent text-[#1B705B]'
+                            }`}
+                          >
+                            {category}
+                          </button>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                ) : (
+                  <div />
+                )}
 
-              <div
-                className="hidden
-              xl:flex xl:absolute xl:left-1/2 xl:top-1/2 xl:-translate-x-1/2 xl:-translate-y-1/2 xl:w-12.5 xl:h-12.5"
-              >
-                <Image
-                  src="/assets/icons/review-more.svg"
-                  alt="more-btn"
-                  fill
-                />
-              </div>
-            </div>
-
-            <div
-              className="px-5 pb-5 flex flex-col items-center bg-[#A68E79]
-            xl:px-10 xl:justify-center"
-            >
-              <TypographyP managed={false}
-                className="mt-8 font-semibold text-[15px] text-white
-              xl:text-2xl"
-              >
-                "{copy.reviewsMainQuote}"
-              </TypographyP>
-
-              <div
-                className="mt-4 w-full grid grid-cols-[auto_1fr] items-center gap-x-3 gap-y-4
-              xl:mt-5"
-              >
-                <span className="px-5 py-1.5 rounded-full bg-white font-bold font-sm text-[#394559]">
-                  {copy.reviewsPatientInfoLabel}
-                </span>
-
-                <div className="flex items-center font-medium text-white">
-                  <TypographyP managed={false}>{copy.reviewsPatientName}</TypographyP>
-                  <div className="flex items-center">
-                    <span>{`(`}</span>
-                    <span>{copy.reviewsPatientAge}세</span>
-                    <span>·</span>
-                    <span>{copy.reviewsPatientGender}</span>
-                    <span>{`)`}</span>
+                <div className="hidden xl:flex">
+                  <div className="self-end pr-5">
+                    <Link
+                      href="/community/cases"
+                      className="self-end xl:flex xl:items-center"
+                    >
+                      <div className="hidden xl:flex xl:items-center xl:gap-2 xl:px-5 xl:py-2.5">
+                        <span className="font-bold text-[#93755B]">
+                          {copy.reviewsMoreCases}
+                        </span>
+                        <ArrowRight
+                          size={20}
+                          color="#93755B"
+                        />
+                      </div>
+                    </Link>
                   </div>
                 </div>
+              </div>
 
-                <span className="px-5 py-1.5 rounded-full bg-white font-bold font-sm text-[#394559]">
-                  {copy.reviewsTreatmentInfoLabel}
-                </span>
-                <TypographyP managed={false} className="font-medium text-white">{copy.reviewsTreatmentValue}</TypographyP>
-
-                <span className="px-5 py-1.5 rounded-full bg-white font-bold font-sm text-[#394559]">
-                  {copy.reviewsDoctorLabel}
-                </span>
-                <div className="flex items-center gap-3 font-medium text-white">
-                  <TypographyP managed={false}>{copy.reviewsDoctorName}</TypographyP>
-                  <div
-                    className="hidden relative w-11 h-11 rounded-full overflow-clip
-                  xl:block"
-                  >
-                    <Image
-                      src={mainReview.doctorImageSrc}
-                      alt={mainReview.doctorImageAlt}
-                      fill
+              {mainReview ? (
+                <div className="mt-4 px-5">
+                  <div className="relative flex flex-col overflow-clip rounded-xl xl:grid xl:grid-cols-[6fr_4fr] xl:items-stretch">
+                    <AdminEditButton
+                      href={`/admin/content-relations/reviews/${mainReview.id}`}
+                      label={`${mainReview.patientName} 치료후기`}
+                      className="right-3 top-3"
                     />
+
+                    <MainReviewImages
+                      review={mainReview}
+                      isAfterVisible={isAfterVisible}
+                      onToggle={() =>
+                        setIsAfterVisible(
+                          (visible) => !visible,
+                        )
+                      }
+                      imageHint={copy.reviewsImageHint}
+                    />
+
+                    <div className="flex flex-col items-center bg-[#A68E79] px-5 pb-5 xl:justify-center xl:px-10">
+                      <TypographyP
+                        managed={false}
+                        className="mt-8 text-[15px] font-semibold text-white xl:text-2xl"
+                      >
+                        &quot;
+                        {reviewTitle(mainReview)}
+                        &quot;
+                      </TypographyP>
+
+                      <div className="mt-4 grid w-full grid-cols-[auto_1fr] items-center gap-x-3 gap-y-4 xl:mt-5">
+                        <span className="rounded-full bg-white px-5 py-1.5 font-bold text-[#394559]">
+                          {copy.reviewsPatientInfoLabel}
+                        </span>
+
+                        <div className="flex items-center font-medium text-white">
+                          <TypographyP managed={false}>
+                            {mainReview.patientName}
+                          </TypographyP>
+                          {mainReview.age ||
+                          mainReview.gender ? (
+                            <div className="flex items-center">
+                              <span>(</span>
+                              {mainReview.age ? (
+                                <span>
+                                  {mainReview.age}세
+                                </span>
+                              ) : null}
+                              {mainReview.age &&
+                              mainReview.gender ? (
+                                <span>·</span>
+                              ) : null}
+                              {mainReview.gender ? (
+                                <span>
+                                  {mainReview.gender}
+                                </span>
+                              ) : null}
+                              <span>)</span>
+                            </div>
+                          ) : null}
+                        </div>
+
+                        <span className="rounded-full bg-white px-5 py-1.5 font-bold text-[#394559]">
+                          {copy.reviewsTreatmentInfoLabel}
+                        </span>
+                        <TypographyP
+                          managed={false}
+                          className="font-medium text-white"
+                        >
+                          {mainReview.treatment || '-'}
+                        </TypographyP>
+
+                        <span className="rounded-full bg-white px-5 py-1.5 font-bold text-[#394559]">
+                          {copy.reviewsDoctorLabel}
+                        </span>
+
+                        <ReviewDoctor
+                          review={mainReview}
+                        />
+                      </div>
+
+                      <div className="mt-5 flex flex-col items-center xl:mt-15">
+                        <TypographyP
+                          managed={false}
+                          className="break-keep text-center text-xs font-medium text-white xl:text-sm"
+                        >
+                          {copy.reviewsLegalNote}
+                        </TypographyP>
+                        <Link
+                          href="/signin"
+                          className="mt-3 inline-block rounded-full bg-[#93755B] px-15 py-2.5 text-[15px] font-bold text-white xl:mt-5 xl:py-3 xl:text-lg"
+                        >
+                          {copy.reviewsLoginLabel}
+                        </Link>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
+              ) : null}
 
-              <div
-                className="mt-5 flex flex-col items-center
-              xl:mt-15"
-              >
-                <TypographyP managed={false}
-                  className="break-keep text-center font-medium text-xs text-white
-                xl:text-sm
-              "
-                >
-                  {copy.reviewsLegalNote}
-                </TypographyP>
+              <div className="mt-5 px-5">
                 <Link
-                  target="_blank"
-                  href={`/`}
-                  className="mt-3 px-15 py-2.5 inline-block rounded-full bg-[#93755B] font-bold text-white text-[15px]
-                xl:mt-5 xl:py-3 xl:text-lg"
+                  href="/community/cases"
+                  className="mx-auto flex w-8/10 items-center justify-center gap-1.5 rounded-full border border-[#93755B] py-2.5 text-sm font-semibold text-[#93755B] xl:hidden"
                 >
-                  {copy.reviewsLoginLabel}
+                  <span>{copy.reviewsMoreCases}</span>
+                  <ArrowRight size={18} />
                 </Link>
               </div>
-            </div>
-          </div>
-        </div>
 
-        <div className="mt-5 px-5">
-          <Link
-            target="_blank"
-            href={`/`}
-            className="mx-auto py-2.5 w-8/10 flex justify-center items-center gap-1.5 rounded-full border border-[#93755B] font-semibold text-sm text-[#93755B]
-          xl:hidden"
-          >
-            <span>{copy.reviewsMoreCases}</span>
-            <ArrowRight size={18} />
-          </Link>
-        </div>
-
-        <div
-          className="mt-20 px-5 flex gap-4 overflow-x-scroll
-        xl:justify-center xl:gap-6"
-        >
-          {videoReviews.map((review, index) => (
-            <Link
-              target="_blank"
-              href={`/`}
-              key={review.id}
-              className={index === 1 ? 'mt-10' : undefined}
-            >
-              <div
-                className="relative w-50 aspect-3/4
-              xl:w-[13vw]"
-              >
-                <Image
-                  src={review.imageSrc}
-                  alt={review.imageAlt}
-                  fill
-                  unoptimized
-                  className="rounded-xl object-cover"
-                />
-                <div className="hidden! absolute left-1/2 bottom-3 -translate-x-1/2 items-center whitespace-nowrap font-bold text-sm text-white">
-                  <span>{review.patientName}</span>
-                  <span>{review.gender}</span>
-                  <span>{review.age}세</span>
+              {smallReviews.length ? (
+                <div className="mt-20 flex gap-4 overflow-x-scroll px-5 xl:justify-center xl:gap-6">
+                  {smallReviews.map(
+                    (review, index) => (
+                      <ReviewCard
+                        key={review.id}
+                        review={review}
+                        offset={index === 1}
+                      />
+                    ),
+                  )}
                 </div>
-              </div>
+              ) : null}
 
-              <div
-                className="mt-2 flex justify-center items-center gap-1.5
-              xl:mt-3"
-              >
-                {review.keywords.map((keyword, keywordIndex) => (
-                  <span
-                    key={keyword}
-                    className="px-1 py-0.5 rounded-sm bg-[#8BC9B8] font-bold text-xs text-white
-                  xl:px-2 xl:py-1 xl:text-sm"
+              {smallReviews.length ? (
+                <div className="mt-10 px-5">
+                  <Link
+                    href="/community/cases"
+                    className="mx-auto flex w-8/10 items-center justify-center gap-1.5 rounded-full border border-[#93755B] py-2.5 text-sm font-semibold text-[#93755B] xl:hidden"
                   >
-                    {copy[`videoReview${review.id}Keyword${keywordIndex + 1}`] || keyword}
-                  </span>
-                ))}
-              </div>
-
-              <TypographyP managed={false}
-                className="mt-1.5 font-bold
-              xl:mt-3 xl:text-center xl:text-[26px]"
-              >
-                {copy[`videoReview${review.id}Title`] || review.title}
-              </TypographyP>
-            </Link>
-          ))}
-        </div>
-
-        <div className="mt-10 px-5">
-          <Link
-            target="_blank"
-            href={`/`}
-            className="mx-auto py-2.5 w-8/10 flex justify-center items-center gap-1.5 rounded-full border border-[#93755B] font-semibold text-sm text-[#93755B]
-          xl:hidden"
-          >
-            <span>{copy.reviewsMoreVideos}</span>
-            <ArrowRight size={18} />
-          </Link>
-        </div>
-      </section>
+                    <span>{copy.reviewsMoreVideos}</span>
+                    <ArrowRight size={18} />
+                  </Link>
+                </div>
+              ) : null}
+            </>
+          ) : (
+            <div className="mx-5 mt-8 rounded-xl border border-dashed border-[#D9D9DD] bg-[#FAFAFA] px-5 py-10 text-center">
+              <p className="text-sm font-medium text-[#52525B]">
+                메인페이지에 노출 중인 치료후기가
+                없습니다.
+              </p>
+              <p className="mt-2 text-xs leading-5 text-[#8A8A91]">
+                관리자 환자 후기에서 원하는 항목의
+                ‘메인페이지 노출’을 체크하면 이 영역에
+                표시됩니다.
+              </p>
+            </div>
+          )}
+        </section>
       </FadeInUp>
     </EditablePageCopyRegion>
+  );
+}
+
+function MainReviewImages({
+  review,
+  isAfterVisible,
+  onToggle,
+  imageHint,
+}: {
+  review: HomeReview;
+  isAfterVisible: boolean;
+  onToggle: () => void;
+  imageHint: string;
+}) {
+  const before =
+    review.beforeImageUrl ?? review.imageUrl;
+  const after =
+    review.afterImageUrl ??
+    review.imageUrl ??
+    review.beforeImageUrl;
+
+  const hasBeforeAfter =
+    Boolean(before) &&
+    Boolean(after) &&
+    before !== after;
+
+  if (!before && !after) {
+    return (
+      <div className="grid aspect-square w-full place-items-center bg-[#F3F3F3] text-sm text-[#A1A1AA] xl:aspect-auto xl:h-full">
+        후기 이미지를 등록해주세요.
+      </div>
+    );
+  }
+
+  if (!hasBeforeAfter) {
+    const source = before ?? after!;
+
+    return (
+      <div className="relative aspect-square w-full xl:aspect-auto xl:h-full">
+        <Image
+          src={source}
+          alt={`${review.patientName} 치료후기`}
+          fill
+          unoptimized={source
+            .toLowerCase()
+            .includes('.gif')}
+          className="object-cover"
+        />
+      </div>
+    );
+  }
+
+  return (
+    <div className="relative aspect-square w-full xl:flex xl:aspect-auto xl:h-full">
+      <button
+        type="button"
+        onClick={onToggle}
+        className="relative block h-full w-full xl:hidden"
+        aria-label="치료 전후 사진 보기"
+      >
+        <Image
+          src={before!}
+          alt={`${review.patientName} 치료 전`}
+          fill
+          className="object-cover"
+        />
+        <Image
+          src={after!}
+          alt={`${review.patientName} 치료 후`}
+          fill
+          className={`object-cover transition-opacity duration-500 ease-out ${
+            isAfterVisible
+              ? 'opacity-100'
+              : 'opacity-0'
+          }`}
+        />
+        <TypographyP
+          managed={false}
+          className="absolute left-1/2 top-5 -translate-x-1/2 rounded-sm bg-black px-3 py-1.5 text-sm font-bold text-white"
+        >
+          {imageHint}
+        </TypographyP>
+      </button>
+
+      <div className="hidden h-full w-full xl:flex">
+        <div className="relative h-full w-1/2">
+          <Image
+            src={before!}
+            alt={`${review.patientName} 치료 전`}
+            fill
+            className="object-cover"
+          />
+        </div>
+        <div className="relative h-full w-1/2">
+          <Image
+            src={after!}
+            alt={`${review.patientName} 치료 후`}
+            fill
+            className="object-cover"
+          />
+        </div>
+      </div>
+
+      <div className="hidden xl:absolute xl:left-1/2 xl:top-1/2 xl:flex xl:h-12.5 xl:w-12.5 xl:-translate-x-1/2 xl:-translate-y-1/2">
+        <Image
+          src="/assets/icons/review-more.svg"
+          alt=""
+          aria-hidden="true"
+          fill
+        />
+      </div>
+    </div>
+  );
+}
+
+function ReviewDoctor({
+  review,
+}: {
+  review: HomeReview;
+}) {
+  const doctor = review.doctors[0];
+
+  if (!doctor) {
+    return (
+      <TypographyP
+        managed={false}
+        className="font-medium text-white"
+      >
+        -
+      </TypographyP>
+    );
+  }
+
+  return (
+    <div className="flex items-center gap-3 font-medium text-white">
+      <TypographyP managed={false}>
+        {doctor.name} {doctor.position}
+      </TypographyP>
+
+      {doctor.avatarUrl ? (
+        <div className="relative hidden h-11 w-11 overflow-clip rounded-full xl:block">
+          <Image
+            src={doctor.avatarUrl}
+            alt={`${doctor.name} ${doctor.position}`}
+            fill
+            className="object-cover"
+          />
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function ReviewCard({
+  review,
+  offset,
+}: {
+  review: HomeReview;
+  offset: boolean;
+}) {
+  const source = imageForCard(review);
+  const href = reviewHref(review);
+  const external = isExternalHref(href);
+
+  return (
+    <div
+      className={`relative shrink-0 ${
+        offset ? 'mt-10' : ''
+      }`}
+    >
+      <AdminEditButton
+        href={`/admin/content-relations/reviews/${review.id}`}
+        label={`${review.patientName} 치료후기`}
+      />
+
+      <Link
+        href={href}
+        target={external ? '_blank' : undefined}
+        rel={
+          external
+            ? 'noopener noreferrer'
+            : undefined
+        }
+      >
+        <div className="relative aspect-3/4 w-50 xl:w-[13vw]">
+          {source ? (
+            <Image
+              src={source}
+              alt={`${review.patientName} 치료후기`}
+              fill
+              unoptimized={source
+                .toLowerCase()
+                .includes('.gif')}
+              className="rounded-xl object-cover"
+            />
+          ) : (
+            <div className="grid h-full place-items-center rounded-xl bg-[#F3F3F3] px-4 text-center text-xs text-[#A1A1AA]">
+              후기 이미지를 등록해주세요.
+            </div>
+          )}
+        </div>
+
+        {review.keywords.length ? (
+          <div className="mt-2 flex flex-wrap items-center justify-center gap-1.5 xl:mt-3">
+            {review.keywords
+              .slice(0, 3)
+              .map((keyword) => (
+                <span
+                  key={keyword}
+                  className="rounded-sm bg-[#8BC9B8] px-1 py-0.5 text-xs font-bold text-white xl:px-2 xl:py-1 xl:text-sm"
+                >
+                  {keyword}
+                </span>
+              ))}
+          </div>
+        ) : null}
+
+        <TypographyP
+          managed={false}
+          className="mt-1.5 line-clamp-2 font-bold xl:mt-3 xl:text-center xl:text-[26px]"
+        >
+          {reviewTitle(review)}
+        </TypographyP>
+      </Link>
+    </div>
   );
 }

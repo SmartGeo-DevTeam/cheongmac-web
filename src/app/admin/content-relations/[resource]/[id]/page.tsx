@@ -118,6 +118,19 @@ function VisibilityFields({
         사용자 페이지 노출
       </label>
 
+      {resource === 'reviews' ? (
+        <label className="inline-flex items-center gap-2 text-xs font-semibold text-[#006651]">
+          <input
+            id="related-content-home-visible"
+            name="isHomeVisible"
+            type="checkbox"
+            defaultChecked={checked(values, 'isHomeVisible')}
+            className="size-4 accent-[#006651]"
+          />
+          메인페이지 노출
+        </label>
+      ) : null}
+
       {resource === 'media' ? (
         <label className="inline-flex items-center gap-2 text-xs text-[#52525B]">
           <input
@@ -306,16 +319,44 @@ function ResourceFields({
               values={values}
             />
           </div>
+
+          <Field
+            label="메인 분류"
+            name="category"
+            values={values}
+            placeholder="예: 하지정맥류"
+          />
           <Field
             label="치료정보"
             name="treatment"
             values={values}
           />
+
           <Field
-            label="후기 이미지 URL"
+            label="대표/카드 이미지 URL"
             name="imageUrl"
             values={values}
+            placeholder="/assets/... 또는 https://..."
           />
+          <Field
+            label="치료 전 이미지 URL"
+            name="beforeImageUrl"
+            values={values}
+            placeholder="메인 전후사진 사용 시 입력"
+          />
+          <Field
+            label="치료 후 이미지 URL"
+            name="afterImageUrl"
+            values={values}
+            placeholder="메인 전후사진 사용 시 입력"
+          />
+          <Field
+            label="후기 링크 URL"
+            name="linkUrl"
+            values={values}
+            placeholder="비우면 연결 의료진 페이지로 이동"
+          />
+
           <Field
             label="후기일"
             name="reviewedAt"
@@ -327,6 +368,13 @@ function ResourceFields({
             name="sortOrder"
             values={values}
             type="number"
+          />
+
+          <TextareaField
+            label="메인 카드 키워드"
+            name="keywordsText"
+            values={values}
+            placeholder={'한 줄에 하나씩 입력하거나 쉼표(,)로 구분'}
           />
           <TextareaField
             label="후기 내용"

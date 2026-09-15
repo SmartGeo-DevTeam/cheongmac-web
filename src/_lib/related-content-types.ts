@@ -86,7 +86,7 @@ export const RELATED_CONTENT_META: Record<
     label: '환자 후기',
     singularLabel: '환자 후기',
     description:
-      '환자 후기를 독립 데이터로 관리하고 관련 의료진을 연결합니다.',
+      '환자 후기를 하나의 DB에서 관리하고 관련 의료진을 연결합니다. 메인페이지 노출을 체크한 후기는 메인 치료후기 영역에도 함께 사용됩니다.',
     href: '/admin/content-relations/reviews',
     groupId: 'patient-communication',
     groupLabel: '환자 소통',

@@ -425,9 +425,15 @@ model DoctorReview {
   age         Int?
   gender      String?
   treatment   String?
-  content     String?   @db.Text
-  imageUrl    String?
-  reviewedAt  DateTime?
+  content        String?   @db.Text
+  category       String?
+  imageUrl       String?
+  beforeImageUrl String?
+  afterImageUrl  String?
+  linkUrl        String?
+  keywords       String[]  @default([])
+  isHomeVisible  Boolean   @default(false)
+  reviewedAt     DateTime?
   sortOrder   Int       @default(0)
   isVisible   Boolean   @default(true)
   createdAt   DateTime  @default(now())
@@ -437,6 +443,7 @@ model DoctorReview {
 
   @@index([sortOrder])
   @@index([isVisible, sortOrder])
+  @@index([isHomeVisible, sortOrder])
   @@map("doctor_review")
 }
 

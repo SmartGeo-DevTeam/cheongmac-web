@@ -19,6 +19,7 @@ export type RelatedContentListItem = {
   title: string;
   summary: string;
   isVisible: boolean;
+  isHomeVisible?: boolean;
   doctors: RelatedDoctorSummary[];
 };
 
@@ -323,6 +324,7 @@ export async function getRelatedContentPage(
         and.push({
           OR: [
             { patientName: { contains: query, mode: 'insensitive' } },
+            { category: { contains: query, mode: 'insensitive' } },
             { gender: { contains: query, mode: 'insensitive' } },
             { treatment: { contains: query, mode: 'insensitive' } },
             { content: { contains: query, mode: 'insensitive' } },
@@ -365,10 +367,11 @@ export async function getRelatedContentPage(
         items: rows.map((row) => ({
           id: row.id,
           title: row.patientName,
-          summary: [row.treatment, dateInput(row.reviewedAt)]
+          summary: [row.category, row.treatment, dateInput(row.reviewedAt)]
             .filter(Boolean)
             .join(' · '),
           isVisible: row.isVisible,
+          isHomeVisible: row.isHomeVisible,
           doctors: row.doctors.map((link) => doctorSummary(link.doctor)),
         })),
       });
@@ -533,6 +536,13 @@ export async function getRelatedContentEditorData(
       values: {
         isVisible: true,
         sortOrder: 0,
+        ...(resource === 'reviews'
+          ? {
+              category: '',
+              keywordsText: '',
+              isHomeVisible: false,
+            }
+          : {}),
         ...(resource === 'media'
           ? { kind: 'VIDEO', linkUrl: '/', isFeatured: false }
           : {}),
@@ -645,12 +655,18 @@ export async function getRelatedContentEditorData(
           patientName: row.patientName,
           age: row.age ?? '',
           gender: row.gender ?? '',
+          category: row.category ?? '',
           treatment: row.treatment ?? '',
           content: row.content ?? '',
           imageUrl: row.imageUrl ?? '',
+          beforeImageUrl: row.beforeImageUrl ?? '',
+          afterImageUrl: row.afterImageUrl ?? '',
+          linkUrl: row.linkUrl ?? '',
+          keywordsText: row.keywords.join('\n'),
           reviewedAt: dateInput(row.reviewedAt),
           sortOrder: row.sortOrder,
           isVisible: row.isVisible,
+          isHomeVisible: row.isHomeVisible,
         },
       };
     }

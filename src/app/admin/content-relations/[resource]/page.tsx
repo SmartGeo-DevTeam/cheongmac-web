@@ -142,15 +142,22 @@ export default async function RelatedContentListPage({
         </div>
       ),
       status: (
-        <span
-          className={`inline-flex whitespace-nowrap rounded-full px-2 py-1 text-[11px] font-medium ${
-            item.isVisible
-              ? 'bg-[#DCFCE7] text-[#166534]'
-              : 'bg-[#F4F4F5] text-[#71717A]'
-          }`}
-        >
-          {item.isVisible ? '노출' : '미노출'}
-        </span>
+        <div className="flex flex-wrap gap-1">
+          <span
+            className={`inline-flex whitespace-nowrap rounded-full px-2 py-1 text-[11px] font-medium ${
+              item.isVisible
+                ? 'bg-[#DCFCE7] text-[#166534]'
+                : 'bg-[#F4F4F5] text-[#71717A]'
+            }`}
+          >
+            {item.isVisible ? '노출' : '미노출'}
+          </span>
+          {resource === 'reviews' && item.isHomeVisible ? (
+            <span className="inline-flex whitespace-nowrap rounded-full bg-[#E6F4F0] px-2 py-1 text-[11px] font-semibold text-[#006651]">
+              메인
+            </span>
+          ) : null}
+        </div>
       ),
       actions: (
         <div className="flex min-w-[80px] justify-end">

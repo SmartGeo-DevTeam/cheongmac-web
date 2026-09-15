@@ -57,6 +57,17 @@ function lines(value: FormDataEntryValue | null) {
     .slice(0, 200);
 }
 
+function keywordValues(value: FormDataEntryValue | null) {
+  return Array.from(
+    new Set(
+      clean(value, 5000)
+        .split(/[\r\n,]+/)
+        .map((item) => item.trim())
+        .filter(Boolean),
+    ),
+  ).slice(0, 20);
+}
+
 function checkbox(formData: FormData, name: string) {
   return formData.get(name) === 'on';
 }
@@ -110,6 +121,10 @@ function refreshRelatedContent(resource: RelatedContentResource) {
   revalidatePath(RELATED_CONTENT_META[resource].href);
   revalidatePath('/admin/doctors');
   revalidatePath('/about/doctors', 'layout');
+
+  if (resource === 'reviews') {
+    revalidatePath('/');
+  }
 
   if (resource === 'consultations') {
     revalidatePath('/community/consultation', 'layout');
@@ -271,12 +286,18 @@ export async function saveRelatedContent(
           patientName,
           age: ageRaw >= 0 && ageRaw <= 130 ? ageRaw : null,
           gender: optional(formData.get('gender'), 30),
+          category: optional(formData.get('category'), 120),
           treatment: optional(formData.get('treatment'), 500),
           content: optional(formData.get('content'), 10000),
           imageUrl: optional(formData.get('imageUrl'), 1000),
+          beforeImageUrl: optional(formData.get('beforeImageUrl'), 1000),
+          afterImageUrl: optional(formData.get('afterImageUrl'), 1000),
+          linkUrl: optional(formData.get('linkUrl'), 1000),
+          keywords: keywordValues(formData.get('keywordsText')),
           reviewedAt: dateValue(formData.get('reviewedAt')),
           sortOrder: Math.max(0, integer(formData.get('sortOrder'))),
           isVisible: checkbox(formData, 'isVisible'),
+          isHomeVisible: checkbox(formData, 'isHomeVisible'),
         };
 
         const entity =
