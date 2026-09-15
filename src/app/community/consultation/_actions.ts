@@ -88,28 +88,65 @@ export async function submitMedicalConsultation(
     .map((paragraph) => paragraph.trim())
     .filter(Boolean);
 
-  const created = await prisma.medicalConsultation.create({
-    data: {
-      categoryPrimary,
-      categorySecondary,
-      title,
-      question,
-      imageUrl: null,
-      isPrivate: visibility === 'private',
-      hasLinkIcon: false,
-      answerDate: null,
-      publishedAt: new Date(),
-      isVisible: visibility !== 'private',
-      sortOrder: 0,
-      patientName,
-      phone: `${phonePrefix}-${phoneMiddle}-${phoneLast}`,
-      birthDate,
-      phoneConsultRequested: phoneConsult === 'yes',
-      postPasswordHash: hashPostPassword(postPassword),
-      attachmentName,
-      attachmentUrl,
-    },
-    select: { id: true },
+  const created = await prisma.$transaction(async (tx) => {
+    const item = await tx.medicalConsultation.create({
+      data: {
+        categoryPrimary,
+        categorySecondary,
+        title,
+        question,
+        imageUrl: null,
+        isPrivate: visibility === 'private',
+        hasLinkIcon: false,
+        answerDate: null,
+        publishedAt: new Date(),
+        isVisible: visibility !== 'private',
+        sortOrder: 0,
+        patientName,
+        phone: `${phonePrefix}-${phoneMiddle}-${phoneLast}`,
+        birthDate,
+        phoneConsultRequested: phoneConsult === 'yes',
+        postPasswordHash: hashPostPassword(postPassword),
+        attachmentName,
+        attachmentUrl,
+      },
+      select: { id: true },
+    });
+
+    await tx.adminAuditLog.create({
+      data: {
+        actorId: null,
+        actorName: patientName,
+        action: 'PUBLIC_MEDICAL_CONSULTATION_CREATE',
+        targetType: 'MedicalConsultation',
+        targetId: String(item.id),
+        source: 'PUBLIC_FORM',
+        sourcePath: '/community/consultation/write',
+        operation: 'CREATE',
+        afterData: {
+          categoryPrimary,
+          categorySecondary,
+          title,
+          isPrivate: visibility === 'private',
+          phoneConsultRequested: phoneConsult === 'yes',
+          attachmentName,
+        },
+        changedFields: [
+          'categoryPrimary',
+          'categorySecondary',
+          'title',
+          'question',
+          'isPrivate',
+          'patientName',
+          'phone',
+          'birthDate',
+          'phoneConsultRequested',
+          'attachment',
+        ],
+      },
+    });
+
+    return item;
   });
 
   return {

@@ -209,18 +209,29 @@ model ContentRevision {
 }
 
 model AdminAuditLog {
-  id         String   @id @default(cuid())
-  actorId    String
-  action     String
-  targetType String
-  targetId   String?
-  metadata   Json?
-  createdAt  DateTime @default(now())
+  id            String   @id @default(cuid())
+  actorId       String?
+  actorName     String?
+  actorEmail    String?
+  actorRole     String?
+  action        String
+  targetType    String
+  targetId      String?
+  source        String?
+  sourcePath    String?
+  operation     String?
+  beforeData    Json?
+  afterData     Json?
+  changedFields String[] @default([])
+  metadata      Json?
+  createdAt     DateTime @default(now())
 
-  actor User @relation("AuditActor", fields: [actorId], references: [id], onDelete: Restrict)
+  actor User? @relation("AuditActor", fields: [actorId], references: [id], onDelete: SetNull)
 
   @@index([actorId, createdAt])
   @@index([targetType, targetId])
+  @@index([createdAt])
+  @@index([source, createdAt])
   @@map("admin_audit_log")
 }
 

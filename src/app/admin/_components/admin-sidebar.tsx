@@ -22,6 +22,7 @@ import {
   FileText,
   Handshake,
   HeartPulse,
+  History,
   Hospital,
   LayoutDashboard,
   ListTree,
@@ -79,6 +80,15 @@ export default function AdminSidebar({
                 </SidebarMenuButton>
               </SidebarMenuItem>
             ) : null}
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                href="/admin/history"
+                active={menuActive(pathname, '/admin/history')}
+              >
+                <History className="size-4" />
+                변경 이력
+              </SidebarMenuButton>
+            </SidebarMenuItem>
           </SidebarMenu>
         </SidebarGroup>
 
@@ -136,11 +146,38 @@ export default function AdminSidebar({
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton
-                href="/admin/pages/home"
-                active={menuActive(pathname, '/admin/pages/home')}
+                href="/admin/home/cover-slides"
+                active={menuActive(pathname, '/admin/home/cover-slides')}
               >
                 <Clapperboard className="size-4" />
-                커버 슬라이드·팝업
+                커버 슬라이드
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                href="/admin/home/popups"
+                active={menuActive(pathname, '/admin/home/popups')}
+              >
+                <Bell className="size-4" />
+                메인 팝업
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                href="/admin/home/specialties"
+                active={menuActive(pathname, '/admin/home/specialties')}
+              >
+                <HeartPulse className="size-4" />
+                진료분야 카드
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                href="/admin/home/middle-banner"
+                active={menuActive(pathname, '/admin/home/middle-banner')}
+              >
+                <PanelBottom className="size-4" />
+                중간 배너
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>

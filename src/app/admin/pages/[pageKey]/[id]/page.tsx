@@ -7,6 +7,7 @@ import { ManagedAssetField } from './managed-asset-field';
 import {
   getManagedPageEditorItem,
 } from '@/_lib/managed-pages';
+import { homeAdminItemHref } from '@/_lib/home-admin-sections';
 import {
   getManagedItemTypeConfig,
   getManagedPageConfig,
@@ -16,7 +17,7 @@ import {
 } from '@/_lib/page-management-config';
 import { ArrowLeft, Save, Trash2 } from 'lucide-react';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 
 export const dynamic = 'force-dynamic';
 
@@ -233,13 +234,14 @@ export default async function AdminManagedPageEdit({
   const typeConfig = getManagedItemTypeConfig(pageKey, itemType);
   if (!typeConfig) notFound();
 
+  if (pageKey === 'home') {
+    redirect(homeAdminItemHref(itemType, id));
+  }
+
   const data = dataRecord(item?.data);
   const action = saveManagedPageItem.bind(null, pageKey, id, itemType);
 
-  const homeDeleteLocked =
-    Boolean(item?.isVisible) &&
-    pageKey === 'home' &&
-    ['slide', 'popup'].includes(itemType);
+  const homeDeleteLocked = false;
 
   return (
     <section className="space-y-6 pb-12">
@@ -298,7 +300,7 @@ export default async function AdminManagedPageEdit({
                 htmlFor="managed-item-key"
                 className="mb-1.5 block text-xs font-medium text-[#52525B]"
               >
-                관리용 ID
+                URL 식별자
                 <span className="ml-1 text-red-500">*</span>
               </label>
               <input
@@ -317,7 +319,7 @@ export default async function AdminManagedPageEdit({
                 className={`${inputClass} ${item ? 'bg-[#F4F4F5] text-[#71717A]' : ''}`}
               />
               <p className="mt-1.5 text-[11px] leading-5 text-[#8A8A91]">
-                공지사항·치료사례·청맥뉴스는 상세 URL 식별자로도 사용되며, 등록 후에는 변경할 수 없습니다.
+                상세 페이지 주소에 사용되는 식별자이며, 등록 후에는 변경할 수 없습니다.
               </p>
             </div>
 

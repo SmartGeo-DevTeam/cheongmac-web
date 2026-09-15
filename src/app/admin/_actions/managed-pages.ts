@@ -1,6 +1,7 @@
 'use server';
 
 import { getCurrentSession, isActiveMember } from '@/_lib/auth-session';
+import { homeAdminListHref } from '@/_lib/home-admin-sections';
 import {
   deleteManagedAzureAssets,
   isManagedAzureAssetUrl,
@@ -216,6 +217,28 @@ export async function uploadManagedPageAsset(
       fieldKey,
     ]);
 
+    await prisma.adminAuditLog.create({
+      data: {
+        actorId: actor.id,
+        action: 'MANAGED_PAGE_ASSET_UPLOAD',
+        targetType: 'ManagedPageAsset',
+        targetId: id === 'new' ? null : id,
+        source: 'ADMIN_PAGE',
+        sourcePath:
+          pageKey === 'home'
+            ? homeAdminListHref(itemType)
+            : `/admin/pages/${pageKey}`,
+        operation: 'UPLOAD',
+        afterData: {
+          pageKey,
+          itemType,
+          fieldKey,
+          url: uploaded.url,
+        },
+        changedFields: [fieldKey],
+      },
+    });
+
     return {
       ok: true,
       success: 'Azure Blob에 이미지를 업로드했습니다.',
@@ -257,7 +280,17 @@ export async function saveManagedPageItem(
       ? null
       : await prisma.managedPageItem.findFirst({
           where: { id, pageKey },
-          select: { data: true, itemKey: true },
+          select: {
+            data: true,
+            itemKey: true,
+            itemType: true,
+            title: true,
+            summary: true,
+            category: true,
+            imageUrls: true,
+            sortOrder: true,
+            isVisible: true,
+          },
         });
 
   if (id !== 'new' && !existing) {
@@ -421,6 +454,34 @@ export async function saveManagedPageItem(
             : 'MANAGED_PAGE_ITEM_UPDATE',
         targetType: `ManagedPageItem:${pageKey}`,
         targetId,
+        source: 'ADMIN_PAGE',
+        sourcePath:
+          pageKey === 'home'
+            ? homeAdminListHref(itemType)
+            : `/admin/pages/${pageKey}`,
+        operation: id === 'new' ? 'CREATE' : 'UPDATE',
+        beforeData: existing
+          ? ({
+              title: existing.title,
+              summary: existing.summary,
+              category: existing.category,
+              data: existing.data,
+              sortOrder: existing.sortOrder,
+              isVisible: existing.isVisible,
+            } as Prisma.InputJsonValue)
+          : undefined,
+        afterData: {
+          title,
+          summary: summary || null,
+          category: category || null,
+          data,
+          sortOrder,
+          isVisible,
+        } as Prisma.InputJsonValue,
+        changedFields:
+          id === 'new'
+            ? ['title', 'summary', 'category', 'data', 'sortOrder', 'isVisible']
+            : [],
         metadata: {
           pageKey,
           itemKey,
@@ -437,7 +498,11 @@ export async function saveManagedPageItem(
   );
 
   revalidateManagedPage(pageKey, itemKey);
-  redirect(`/admin/pages/${pageKey}`);
+  redirect(
+    pageKey === 'home'
+      ? homeAdminListHref(itemType)
+      : `/admin/pages/${pageKey}`,
+  );
 }
 
 export async function deleteManagedPageItem(
@@ -482,9 +547,22 @@ export async function deleteManagedPageItem(
         action: 'MANAGED_PAGE_ITEM_DELETE',
         targetType: `ManagedPageItem:${pageKey}`,
         targetId: id,
+        source: 'ADMIN_PAGE',
+        sourcePath:
+          pageKey === 'home'
+            ? homeAdminListHref(existing.itemType)
+            : `/admin/pages/${pageKey}`,
+        operation: 'DELETE',
+        beforeData: {
+          title: existing.title,
+          data: existing.data,
+          isVisible: existing.isVisible,
+        } as Prisma.InputJsonValue,
+        changedFields: ['title', 'data', 'isVisible'],
         metadata: {
           pageKey,
           itemKey: existing.itemKey,
+          itemType: existing.itemType,
           title: existing.title,
         },
       },
@@ -494,5 +572,9 @@ export async function deleteManagedPageItem(
   await deleteManagedAzureAssets(collectManagedAssetUrls(existing.data));
 
   revalidateManagedPage(pageKey, existing.itemKey);
-  redirect(`/admin/pages/${pageKey}`);
+  redirect(
+    pageKey === 'home'
+      ? homeAdminListHref(existing.itemType)
+      : `/admin/pages/${pageKey}`,
+  );
 }

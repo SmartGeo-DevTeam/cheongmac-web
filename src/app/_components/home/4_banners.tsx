@@ -18,7 +18,7 @@ export default function HomeBanners({
     return (
       <section className="group/cms-collection relative mt-10 px-5 xl:mt-15">
         <CollectionAdminEditButton
-          href="/admin/pages/home?type=middle-banner"
+          href="/admin/home/middle-banner"
           label="메인 중간 배너"
         />
         <div className="mx-auto grid min-h-32 w-full max-w-7xl place-items-center rounded-2xl border border-dashed border-[#D8D8D8] bg-[#FAFAFA] px-5 text-center text-sm text-[#7A7A7A]">
@@ -32,7 +32,7 @@ export default function HomeBanners({
     <FadeInUp>
       <section className="group/cms-collection relative mt-10 px-5 xl:mt-15">
         <CollectionAdminEditButton
-          href="/admin/pages/home?type=middle-banner"
+          href="/admin/home/middle-banner"
           label="메인 중간 배너"
         />
 

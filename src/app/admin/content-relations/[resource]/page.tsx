@@ -113,9 +113,6 @@ export default async function RelatedContentListPage({
           <p className="truncate font-semibold text-[#27272A]">
             {item.title}
           </p>
-          <p className="mt-1 truncate text-[11px] text-[#A1A1AA]">
-            ID {item.id}
-          </p>
         </div>
       ),
       summary: (

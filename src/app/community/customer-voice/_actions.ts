@@ -66,18 +66,50 @@ export async function submitCustomerVoice(
     }
   }
 
-  const created = await prisma.customerVoiceSubmission.create({
-    data: {
-      category,
-      title,
-      content,
-      attachmentName,
-      attachmentUrl,
-      name,
-      phone: `${phonePrefix}-${phoneMiddle}-${phoneLast}`,
-      status: 'RECEIVED',
-    },
-    select: { id: true },
+  const created = await prisma.$transaction(async (tx) => {
+    const item = await tx.customerVoiceSubmission.create({
+      data: {
+        category,
+        title,
+        content,
+        attachmentName,
+        attachmentUrl,
+        name,
+        phone: `${phonePrefix}-${phoneMiddle}-${phoneLast}`,
+        status: 'RECEIVED',
+      },
+      select: { id: true },
+    });
+
+    await tx.adminAuditLog.create({
+      data: {
+        actorId: null,
+        actorName: name,
+        action: 'PUBLIC_CUSTOMER_VOICE_CREATE',
+        targetType: 'CustomerVoiceSubmission',
+        targetId: item.id,
+        source: 'PUBLIC_FORM',
+        sourcePath: '/community/customer-voice/write',
+        operation: 'CREATE',
+        afterData: {
+          category,
+          title,
+          attachmentName,
+          status: 'RECEIVED',
+        },
+        changedFields: [
+          'category',
+          'title',
+          'content',
+          'attachment',
+          'name',
+          'phone',
+          'status',
+        ],
+      },
+    });
+
+    return item;
   });
 
   return {

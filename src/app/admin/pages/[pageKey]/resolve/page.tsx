@@ -1,4 +1,5 @@
 import { getManagedPageConfig, isManagedPageKey } from '@/_lib/page-management-config';
+import { homeAdminItemHref } from '@/_lib/home-admin-sections';
 import { ensureManagedPageSeeded } from '@/_lib/managed-pages';
 import { prisma } from '@/_lib/prisma';
 import { notFound, redirect } from 'next/navigation';
@@ -40,10 +41,17 @@ export default async function ManagedPageItemResolver({
     },
     select: {
       id: true,
+      itemType: true,
     },
   });
 
   if (!item) notFound();
+
+  if (pageKey === 'home') {
+    redirect(
+      `${homeAdminItemHref(item.itemType, item.id)}#${encodeURIComponent(focus)}`,
+    );
+  }
 
   redirect(
     `/admin/pages/${encodeURIComponent(pageKey)}/${encodeURIComponent(item.id)}#${encodeURIComponent(focus)}`,

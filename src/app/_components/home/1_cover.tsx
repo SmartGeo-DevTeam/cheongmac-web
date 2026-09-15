@@ -363,6 +363,12 @@ function HomeCoverPopups({
 
   return (
     <>
+      <CollectionAdminEditButton
+        href="/admin/home/popups"
+        label="메인 팝업"
+        className="right-3 top-3"
+      />
+
       {desktopPopups.length > 0 ? (
         <div className="pointer-events-none absolute inset-x-0 bottom-36 z-20 hidden justify-center px-5 xl:flex">
           <motion.div className="flex w-full justify-center gap-4">
@@ -723,8 +729,8 @@ export default function HomeCover({
         }}
       >
         <CollectionAdminEditButton
-          href="/admin/pages/home"
-          label="메인 커버 슬라이드·팝업"
+          href="/admin/home/cover-slides"
+          label="커버 슬라이드"
           className="left-3 right-auto"
         />
 

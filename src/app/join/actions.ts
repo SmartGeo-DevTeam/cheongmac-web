@@ -54,6 +54,16 @@ export async function completeMembership(
   const phone = formatPhone(phoneDigits);
 
   await prisma.$transaction(async (tx) => {
+    const before = await tx.user.findUnique({
+      where: { id: session.user.id },
+      select: {
+        name: true,
+        phone: true,
+        membershipStatus: true,
+        onboardingCompletedAt: true,
+      },
+    });
+
     await tx.user.update({
       where: { id: session.user.id },
       data: {
@@ -96,6 +106,41 @@ export async function completeMembership(
         acceptedAt: completedAt,
       },
       update: { acceptedAt: completedAt },
+    });
+
+    await tx.adminAuditLog.create({
+      data: {
+        actorId: session.user.id,
+        action: 'MEMBERSHIP_COMPLETE',
+        targetType: 'UserMembership',
+        targetId: session.user.id,
+        source: 'PUBLIC_FORM',
+        sourcePath: '/join',
+        operation: 'UPDATE',
+        beforeData: before
+          ? {
+              name: before.name,
+              phone: before.phone,
+              membershipStatus: before.membershipStatus,
+              onboardingCompletedAt:
+                before.onboardingCompletedAt?.toISOString() ?? null,
+            }
+          : undefined,
+        afterData: {
+          name,
+          phone,
+          membershipStatus: 'ACTIVE',
+          onboardingCompletedAt: completedAt.toISOString(),
+        },
+        changedFields: [
+          'name',
+          'phone',
+          'membershipStatus',
+          'onboardingCompletedAt',
+          'termsConsent',
+          'privacyConsent',
+        ],
+      },
     });
   });
 

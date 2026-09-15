@@ -26,6 +26,7 @@ const delegatedChecks = [
   'scripts/check-inline-editor-hybrid.mjs',
   'scripts/check-inline-editor-all-pages.mjs',
   'scripts/check-collection-admin-links-final.mjs',
+  'scripts/check-admin-audit-history.mjs',
   'scripts/check-inline-cms-v2.mjs',
   'scripts/check-inline-cms-v3.mjs',
   'scripts/check-home-cover-managed.mjs',

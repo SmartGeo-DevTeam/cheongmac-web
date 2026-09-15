@@ -280,6 +280,11 @@ export async function saveInlineManagedItem(input: {
         itemType: true,
         data: true,
         imageUrls: true,
+        title: true,
+        summary: true,
+        category: true,
+        sortOrder: true,
+        isVisible: true,
       },
     });
 
@@ -408,11 +413,31 @@ export async function saveInlineManagedItem(input: {
           action: 'INLINE_MANAGED_PAGE_ITEM_UPDATE',
           targetType: `ManagedPageItem:${pageKey}`,
           targetId: item.id,
+          source: 'INLINE_EDITOR',
+          sourcePath: config.publicHref,
+          operation: 'UPDATE',
+          beforeData: {
+            title: item.title,
+            summary: item.summary,
+            category: item.category,
+            data: item.data,
+            sortOrder: item.sortOrder,
+            isVisible: item.isVisible,
+          } as Prisma.InputJsonValue,
+          afterData: {
+            title,
+            summary: summary || null,
+            category: category || null,
+            data,
+            sortOrder,
+            isVisible: Boolean(input.isVisible),
+          } as Prisma.InputJsonValue,
           metadata: {
             pageKey,
             itemKey: item.itemKey,
             itemType: item.itemType,
             title,
+            publicPath: config.publicHref,
           },
         },
       });

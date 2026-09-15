@@ -202,7 +202,7 @@ export default function HomeSpecialties({
               "
             >
               <CollectionAdminEditButton
-                href="/admin/pages/home?type=specialty"
+                href="/admin/home/specialties"
                 label="메인 진료분야 카드"
               />
 

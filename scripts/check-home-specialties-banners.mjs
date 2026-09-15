@@ -13,12 +13,12 @@ const checks = [
   ['src/app/_components/home/2_specialties.tsx', 'pageKey="home"'],
   [
     'src/app/_components/home/2_specialties.tsx',
-    'href="/admin/pages/home?type=specialty"',
+    'href="/admin/home/specialties"',
   ],
   ['src/app/_components/home/4_banners.tsx', 'pageKey="home"'],
   [
     'src/app/_components/home/4_banners.tsx',
-    'href="/admin/pages/home?type=middle-banner"',
+    'href="/admin/home/middle-banner"',
   ],
   [
     'src/app/_components/common-content-banners/index.tsx',

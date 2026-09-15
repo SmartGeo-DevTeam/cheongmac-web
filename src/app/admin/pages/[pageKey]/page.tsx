@@ -11,7 +11,7 @@ import {
 } from '@/_lib/page-management-config';
 import { ExternalLink, PencilLine, Plus } from 'lucide-react';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 
 export const dynamic = 'force-dynamic';
 
@@ -55,6 +55,10 @@ export default async function AdminManagedPageList({
 
   if (!isManagedPageKey(pageKey)) notFound();
 
+  if (pageKey === 'home') {
+    redirect('/admin/home/cover-slides');
+  }
+
   const config = getManagedPageConfig(pageKey);
   const itemType = first(queryParams.type)?.trim() || undefined;
   const query = first(queryParams.q)?.trim() ?? '';
@@ -92,9 +96,6 @@ export default async function AdminManagedPageList({
         title: (
           <div className="min-w-0">
             <p className="truncate font-semibold text-[#27272A]">{item.title}</p>
-            <p className="mt-1 truncate text-[11px] text-[#A1A1AA]">
-              {item.itemKey}
-            </p>
           </div>
         ),
         summary: (
@@ -213,7 +214,7 @@ export default async function AdminManagedPageList({
         pageSize={result.pageSize}
         total={result.total}
         totalPages={result.totalPages}
-        searchPlaceholder={`${config.label} 제목, 분류, ID 검색`}
+        searchPlaceholder={`${config.label} 제목, 요약, 분류 검색`}
         extraParams={{ type: itemType }}
         emptyText={
           result.query

@@ -31,7 +31,11 @@ const checks = [
   ],
   [
     'src/app/_components/home/1_cover.tsx',
-    'href="/admin/pages/home"',
+    'href="/admin/home/cover-slides"',
+  ],
+  [
+    'src/app/_components/home/1_cover.tsx',
+    'href="/admin/home/popups"',
   ],
   [
     'src/app/admin/_actions/managed-pages.ts',

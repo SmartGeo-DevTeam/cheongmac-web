@@ -185,6 +185,14 @@ export async function saveInlineContentBlock(input: {
             : 'INLINE_CONTENT_CREATE',
           targetType: 'PageContentBlock',
           targetId: saved.id,
+          source: 'INLINE_EDITOR',
+          sourcePath: publicPath,
+          operation: existing ? 'UPDATE' : 'CREATE',
+          beforeData: existing
+            ? (existing.data as Prisma.InputJsonValue)
+            : undefined,
+          afterData: data as Prisma.InputJsonValue,
+          changedFields: existing ? [] : Object.keys(data),
           metadata: {
             pageKey,
             sectionKey,
@@ -278,6 +286,16 @@ export async function resetInlineContentBlock(input: {
           action: 'INLINE_CONTENT_RESET',
           targetType: 'PageContentBlock',
           targetId: existing.id,
+          source: 'INLINE_EDITOR',
+          sourcePath: publicPath,
+          operation: 'RESET',
+          beforeData: existing.data as Prisma.InputJsonValue,
+          changedFields:
+            existing.data &&
+            typeof existing.data === 'object' &&
+            !Array.isArray(existing.data)
+              ? Object.keys(existing.data as Record<string, unknown>)
+              : [],
           metadata: {
             pageKey,
             sectionKey,
@@ -367,6 +385,24 @@ export async function uploadInlineContentImage(
       sectionKey,
       fieldKey,
     ]);
+
+    await prisma.adminAuditLog.create({
+      data: {
+        actorId: actor.id,
+        action: 'INLINE_CONTENT_ASSET_UPLOAD',
+        targetType: 'PageContentAsset',
+        targetId: null,
+        source: 'INLINE_EDITOR',
+        operation: 'UPLOAD',
+        afterData: {
+          pageKey,
+          sectionKey,
+          fieldKey,
+          url: uploaded.url,
+        },
+        changedFields: [fieldKey],
+      },
+    });
 
     return {
       ok: true,
