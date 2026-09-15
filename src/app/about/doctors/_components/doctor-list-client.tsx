@@ -1,5 +1,6 @@
 'use client';
 
+import CollectionAdminEditButton from '@/app/_components/inline-editor/collection-admin-edit-button';
 import AdminEditButton from '@/app/_components/inline-editor/admin-edit-button';
 import {
   H2 as TypographyH2,
@@ -159,7 +160,14 @@ export default function DoctorListClient({
   }, [department, doctors, query]);
 
   return (
-    <section aria-labelledby="doctor-list-heading">
+    <section
+      aria-labelledby="doctor-list-heading"
+      className="group/cms-collection relative"
+    >
+      <CollectionAdminEditButton
+        href="/admin/doctors"
+        label="의료진"
+      />
       <TypographyH2 id="doctor-list-heading" className="sr-only">
         {copy.doctorListHeading}
       </TypographyH2>

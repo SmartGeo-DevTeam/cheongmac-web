@@ -1,5 +1,6 @@
 'use client';
 
+import CollectionAdminEditButton from '@/app/_components/inline-editor/collection-admin-edit-button';
 import ManagedItemEditButton from '@/app/_components/inline-editor/managed-item-edit-button';
 import {
   H2 as TypographyH2,
@@ -159,7 +160,11 @@ export default function TreatmentCaseList({
   };
 
   return (
-    <PageContainer className="pb-20 xl:pb-28">
+    <PageContainer className="group/cms-collection relative pb-20 xl:pb-28">
+      <CollectionAdminEditButton
+        href="/admin/pages/cases"
+        label="치료사례"
+      />
       <div className="flex flex-col">
         <TypographyH2 id="treatment-case-list-heading" className="sr-only">
           {copy.listHeading}

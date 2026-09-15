@@ -1,5 +1,6 @@
 'use client';
 
+import CollectionAdminEditButton from '@/app/_components/inline-editor/collection-admin-edit-button';
 import ManagedItemEditButton from '@/app/_components/inline-editor/managed-item-edit-button';
 import {
   H2 as TypographyH2,
@@ -534,8 +535,12 @@ export default function MedicalEquipmentContent({
   return (
     <div
       ref={contentTopRef}
-      className="mx-auto w-full max-w-7xl scroll-mt-28 px-5 pb-20 xl:px-0 xl:pb-28"
+      className="group/cms-collection relative mx-auto w-full max-w-7xl scroll-mt-28 px-5 pb-20 xl:px-0 xl:pb-28"
     >
+      <CollectionAdminEditButton
+        href="/admin/pages/equipment"
+        label="첨단의료장비"
+      />
       <TypographyH2 id="medical-equipment-list-heading" className="sr-only">
         청맥병원 첨단의료장비 목록
       </TypographyH2>

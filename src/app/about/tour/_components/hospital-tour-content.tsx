@@ -1,5 +1,6 @@
 'use client';
 
+import CollectionAdminEditButton from '@/app/_components/inline-editor/collection-admin-edit-button';
 import ManagedItemEditButton from '@/app/_components/inline-editor/managed-item-edit-button';
 import {
   H2 as TypographyH2,
@@ -473,7 +474,11 @@ export default function HospitalTourContent({
 
   return (
     <>
-      <div className="mx-auto w-full max-w-7xl px-5 pb-16 xl:px-0 xl:pb-24">
+      <div className="group/cms-collection relative mx-auto w-full max-w-7xl px-5 pb-16 xl:px-0 xl:pb-24">
+        <CollectionAdminEditButton
+          href="/admin/pages/tour"
+          label="병원 둘러보기"
+        />
         <HospitalTourTabs activeTab={activeTab} onChange={setActiveTab} copy={copy} />
 
         {activeTab === 'floor' ? (

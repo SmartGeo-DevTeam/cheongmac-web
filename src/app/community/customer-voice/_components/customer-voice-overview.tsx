@@ -1,5 +1,6 @@
 'use client';
 
+import CollectionAdminEditButton from '@/app/_components/inline-editor/collection-admin-edit-button';
 import EditablePageCopyRegion from '@/app/_components/inline-editor/editable-page-copy-region';
 import type { InlineContentData } from '@/_lib/inline-content-shared';
 import {
@@ -268,6 +269,7 @@ export default function CustomerVoiceOverview({
         copy={copy}
         persisted={persisted}
         label="고객의 소리 칭찬 후기 영역"
+        className="group/cms-collection relative"
         fieldKeys={[
           'testimonialHeading',
           'testimonialPrevLabel',
@@ -286,6 +288,10 @@ export default function CustomerVoiceOverview({
           'testimonial4Author',
         ]}
       >
+        <CollectionAdminEditButton
+          href="/admin/customer-voice"
+          label="고객의 소리"
+        />
         <TestimonialCarousel copy={copy} />
       </EditablePageCopyRegion>
 

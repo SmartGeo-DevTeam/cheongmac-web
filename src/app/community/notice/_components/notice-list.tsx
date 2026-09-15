@@ -1,5 +1,6 @@
 'use client';
 
+import CollectionAdminEditButton from '@/app/_components/inline-editor/collection-admin-edit-button';
 import ManagedItemEditButton from '@/app/_components/inline-editor/managed-item-edit-button';
 import {
   H2 as TypographyH2,
@@ -219,7 +220,11 @@ export default function NoticeList({
   const noticeHref = (id: string) => `${pathname.replace(/\/$/, '')}/${id}`;
 
   return (
-    <div className="mx-auto w-full max-w-7xl pb-20 xl:pb-28">
+    <div className="group/cms-collection relative mx-auto w-full max-w-7xl pb-20 xl:pb-28">
+      <CollectionAdminEditButton
+        href="/admin/pages/notice"
+        label="공지사항"
+      />
       <section>
         <TypographyH2 className="text-base font-bold tracking-[-0.035em] text-[#272C31] xl:text-2xl">
           {copy.majorHeading}

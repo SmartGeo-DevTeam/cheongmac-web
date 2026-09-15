@@ -1,5 +1,6 @@
 'use client';
 
+import CollectionAdminEditButton from '@/app/_components/inline-editor/collection-admin-edit-button';
 import AdminEditButton from '@/app/_components/inline-editor/admin-edit-button';
 import {
   H2 as TypographyH2,
@@ -239,7 +240,11 @@ export default function ConsultationBoard({
   );
 
   return (
-    <div className="mx-auto w-full max-w-7xl px-4 pb-14 xl:px-0 xl:pb-24">
+    <div className="group/cms-collection relative mx-auto w-full max-w-7xl px-4 pb-14 xl:px-0 xl:pb-24">
+      <CollectionAdminEditButton
+        href="/admin/content-relations/consultations"
+        label="의학상담"
+      />
       <NoticeBox copy={copy} />
 
       <TypographyH2 id="consultation-list-heading" className="sr-only">

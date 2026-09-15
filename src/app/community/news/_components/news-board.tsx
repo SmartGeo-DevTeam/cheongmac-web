@@ -1,5 +1,6 @@
 'use client';
 
+import CollectionAdminEditButton from '@/app/_components/inline-editor/collection-admin-edit-button';
 import ManagedItemEditButton from '@/app/_components/inline-editor/managed-item-edit-button';
 import {
   H2 as TypographyH2,
@@ -333,8 +334,12 @@ export default function NewsBoard({
     <section
       ref={sectionRef}
       aria-labelledby="news-list-heading"
-      className="mx-auto w-full max-w-7xl px-5"
+      className="group/cms-collection relative mx-auto w-full max-w-7xl px-5"
     >
+      <CollectionAdminEditButton
+        href="/admin/pages/news"
+        label="청맥뉴스"
+      />
       <TypographyH2 id="news-list-heading" className="sr-only">
         청맥뉴스 목록
       </TypographyH2>

@@ -1,5 +1,6 @@
 'use client';
 
+import CollectionAdminEditButton from '@/app/_components/inline-editor/collection-admin-edit-button';
 import ManagedItemEditButton from '@/app/_components/inline-editor/managed-item-edit-button';
 import {
   H2 as TypographyH2,
@@ -258,7 +259,11 @@ export default function PartnerHospitalContent({
   };
 
   return (
-    <div className="mx-auto w-full max-w-7xl px-5 pb-20 xl:px-0 xl:pb-28">
+    <div className="group/cms-collection relative mx-auto w-full max-w-7xl px-5 pb-20 xl:px-0 xl:pb-28">
+      <CollectionAdminEditButton
+        href="/admin/pages/partner-hospital"
+        label="의료협약병원"
+      />
       <PartnershipOverview logos={logos} copy={copy} />
 
       <div className="mt-14 xl:mt-20">
