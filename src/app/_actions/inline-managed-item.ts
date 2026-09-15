@@ -159,6 +159,10 @@ function revalidateManagedPage(pageKey: ManagedPageKey, itemKey: string) {
   if (['cases', 'notice', 'news'].includes(pageKey)) {
     revalidatePath(`${config.publicHref}/${itemKey}`);
   }
+
+  if (pageKey === 'notice') {
+    revalidatePath('/');
+  }
 }
 
 export async function getInlineManagedItem(

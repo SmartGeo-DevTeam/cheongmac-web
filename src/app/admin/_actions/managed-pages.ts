@@ -144,6 +144,10 @@ function revalidateManagedPage(pageKey: ManagedPageKey, itemKey?: string) {
   if (itemKey && ['cases', 'notice', 'news'].includes(pageKey)) {
     revalidatePath(`${config.publicHref}/${itemKey}`);
   }
+
+  if (pageKey === 'notice') {
+    revalidatePath('/');
+  }
 }
 
 export async function uploadManagedPageAsset(

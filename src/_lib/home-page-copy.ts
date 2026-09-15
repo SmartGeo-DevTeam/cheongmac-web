@@ -117,60 +117,6 @@ export const HOME_PAGE_COPY_DEFAULTS: InlineContentData = {
   infoEyebrow: '알려드립니다',
   infoTitle: '청맥병원 소식',
   infoMoreLabel: '더보기',
-
-  info1Category: '공지사항',
-  info1Date: '2026-05-22',
-  info1Title: '5월 휴진 안내',
-  info1Description:
-    '5월 25일 대체공휴일 휴진 5월 25일 대체공휴일 휴진',
-
-  info2Category: '연구학회',
-  info2Date: '2026-05-22',
-  info2Title: '박용범 원장 대한정맥학회',
-  info2Description:
-    '대한정맥학회 춘계대회에서 박용범원장이 ABC를 주제로 발표',
-
-  info3Category: '원내소식',
-  info3Date: '2026-05-22',
-  info3Title: '하지정맥류 수술 50,000',
-  info3Description:
-    '하지정맥류 수술 50,000례 달성을 기념하여 원내 행사가 진행',
-
-  info4Category: '공지사항',
-  info4Date: '2026-05-22',
-  info4Title: '5월 휴진 안내',
-  info4Description:
-    '5월 25일 대체공휴일 휴진 5월 25일 대체공휴일 휴진',
-
-  info5Category: '연구학회',
-  info5Date: '2026-05-22',
-  info5Title: '박용범 원장 대한정맥학회',
-  info5Description:
-    '대한정맥학회 춘계대회에서 박용범원장이 ABC를 주제로 발표',
-
-  info6Category: '연구학회',
-  info6Date: '2026-05-22',
-  info6Title: '박용범 원장 대한정맥학회',
-  info6Description:
-    '대한정맥학회 춘계대회에서 박용범원장이 ABC를 주제로 발표',
-
-  info7Category: '원내소식',
-  info7Date: '2026-05-22',
-  info7Title: '하지정맥류 수술 50,000',
-  info7Description:
-    '하지정맥류 수술 50,000례 달성을 기념하여 원내 행사가 진행',
-
-  info8Category: '공지사항',
-  info8Date: '2026-05-22',
-  info8Title: '5월 휴진 안내',
-  info8Description:
-    '5월 25일 대체공휴일 휴진 5월 25일 대체공휴일 휴진',
-
-  info9Category: '연구학회',
-  info9Date: '2026-05-22',
-  info9Title: '박용범 원장 대한정맥학회',
-  info9Description:
-    '대한정맥학회 춘계대회에서 박용범원장이 ABC를 주제로 발표',
 };
 
 export const HOME_COPY_FIELD_KEYS = {
@@ -218,15 +164,6 @@ export const HOME_COPY_FIELD_KEYS = {
     'infoEyebrow',
     'infoTitle',
     'infoMoreLabel',
-    ...Array.from({ length: 9 }, (_, index) => {
-      const number = index + 1;
-      return [
-        `info${number}Category`,
-        `info${number}Date`,
-        `info${number}Title`,
-        `info${number}Description`,
-      ];
-    }).flat(),
   ],
 } as const;
 
@@ -269,15 +206,6 @@ export const HOME_PAGE_COPY_FIELDS: readonly InlineContentField[] = [
   text('infoEyebrow', '병원소식 - 보조 제목'),
   text('infoTitle', '병원소식 - 제목'),
   text('infoMoreLabel', '병원소식 - 더보기'),
-  ...Array.from({ length: 9 }, (_, index) => {
-    const n = index + 1;
-    return [
-      text(`info${n}Category`, `병원소식 ${n} - 분류`),
-      text(`info${n}Date`, `병원소식 ${n} - 날짜`),
-      text(`info${n}Title`, `병원소식 ${n} - 제목`),
-      textarea(`info${n}Description`, `병원소식 ${n} - 설명`, 2),
-    ];
-  }).flat(),
 ];
 
 export const HOME_PAGE_COPY_CONFIG = {
