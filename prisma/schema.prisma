@@ -266,6 +266,7 @@ model Doctor {
   position        String
   department      String
   bio             String?  @db.Text
+  homeQuote       String?  @db.Text
   reservationHref String   @default("/")
   displayOrder    Int      @default(0)
   isVisible       Boolean  @default(true)

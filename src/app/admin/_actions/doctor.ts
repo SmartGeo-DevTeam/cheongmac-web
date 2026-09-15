@@ -30,6 +30,7 @@ export type DoctorAdminPayload = {
   position: string;
   department: string;
   bio: string;
+  homeQuote: string;
   reservationHref: string;
   displayOrder: number;
   isVisible: boolean;
@@ -173,6 +174,7 @@ export async function createDoctor(input: {
     return doctor;
   });
 
+  revalidatePath('/');
   revalidatePath('/admin/doctors');
 
   return {
@@ -251,6 +253,7 @@ export async function saveDoctor(
         position,
         department,
         bio: optional(input.bio, 10000),
+        homeQuote: optional(input.homeQuote, 10000),
         reservationHref,
         displayOrder: Number.isFinite(input.displayOrder)
           ? Math.max(0, Math.trunc(input.displayOrder))
@@ -384,6 +387,7 @@ export async function saveDoctor(
       .filter((url) => url && !nextImageUrls.has(url)),
   );
 
+  revalidatePath('/');
   revalidatePath('/about/doctors');
   revalidatePath(`/about/doctors/${slug}`);
   if (current.slug !== slug) {
@@ -521,6 +525,7 @@ export async function uploadDoctorImage(
     await deleteManagedAzureAssets([previous.url]);
   }
 
+  revalidatePath('/');
   revalidatePath('/about/doctors');
   revalidatePath(`/about/doctors/${doctor.slug}`);
   revalidatePath(`/admin/doctors/${doctorId}`);
@@ -588,6 +593,7 @@ export async function deleteDoctorImage(
 
   if (previous?.url) await deleteManagedAzureAssets([previous.url]);
 
+  revalidatePath('/');
   revalidatePath('/about/doctors');
   revalidatePath(`/about/doctors/${doctor.slug}`);
   revalidatePath(`/admin/doctors/${doctorId}`);

@@ -7,6 +7,7 @@ import HomeReviews from './6_reviews';
 import HomeNotice from './7_notice';
 import HomeInfo from './8_info';
 import HomePartners from './9_partners';
+import { getHomeDoctors } from '@/_lib/doctors';
 import {
   getHomeCoverManagedContent,
   getHomeMiddleBannersManagedContent,
@@ -24,11 +25,12 @@ export default async function HomeSections() {
     config.defaults,
   );
 
-  // 첫 조회에서 home ManagedPageItem seed version을 올린 뒤
-  // 각 영역은 같은 canonical data를 읽습니다.
+  // 메인 전용 collection은 ManagedPageItem, 의료진은 Doctor DB를
+  // canonical source로 사용합니다.
   const homeCover = await getHomeCoverManagedContent();
   const homeSpecialties = await getHomeSpecialtiesManagedContent();
   const homeBanners = await getHomeMiddleBannersManagedContent();
+  const homeDoctors = await getHomeDoctors();
 
   const copyProps = {
     copy: content.data,
@@ -46,7 +48,10 @@ export default async function HomeSections() {
         {...copyProps}
         items={homeSpecialties}
       />
-      <HomeDoctors {...copyProps} />
+      <HomeDoctors
+        {...copyProps}
+        doctors={homeDoctors}
+      />
       <HomeBanners items={homeBanners} />
       <HomeName {...copyProps} />
       <HomeReviews {...copyProps} />

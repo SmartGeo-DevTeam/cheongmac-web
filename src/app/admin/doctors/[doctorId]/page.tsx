@@ -67,6 +67,7 @@ export default async function AdminDoctorDetailPage({
     position: doctor.position,
     department: doctor.department,
     bio: doctor.bio ?? '',
+    homeQuote: doctor.homeQuote ?? '',
     reservationHref: doctor.reservationHref,
     displayOrder: doctor.displayOrder,
     isVisible: doctor.isVisible,

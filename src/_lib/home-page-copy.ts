@@ -91,18 +91,6 @@ export const HOME_PAGE_COPY_DEFAULTS: InlineContentData = {
   doctorsReservation: '예약하기',
   doctorsPrevAria: '이전 의료진',
   doctorsNextAria: '다음 의료진',
-  doctorQuote1:
-    '끊임없는 연구를 통해 환자분들의 치유에 앞장서겠습니다',
-  doctorQuote2:
-    '정확한 진단과 섬세한 치료로 혈관 건강을 지키겠습니다',
-  doctorQuote3:
-    '영상 진단의 정확도를 높여 치료의 방향을 세우겠습니다',
-  doctorQuote4:
-    '환자분의 통증과 회복 과정을 세심하게 살피겠습니다',
-  doctorQuote5:
-    '환자에게 꼭 필요한 치료만 정직하게 제안하겠습니다',
-  doctorQuote6:
-    '작은 이상도 놓치지 않는 진단으로 함께하겠습니다',
 
   // 5. Marquee
   marqueeText: 'CHEONGMAC VASCULAR HOSPITAL',
@@ -235,12 +223,6 @@ export const HOME_COPY_FIELD_KEYS = {
     'doctorsReservation',
     'doctorsPrevAria',
     'doctorsNextAria',
-    'doctorQuote1',
-    'doctorQuote2',
-    'doctorQuote3',
-    'doctorQuote4',
-    'doctorQuote5',
-    'doctorQuote6',
   ],
   marquee: ['marqueeText'],
   reviews: [
@@ -319,10 +301,6 @@ export const HOME_PAGE_COPY_FIELDS: readonly InlineContentField[] = [
   text('doctorsReservation', '의료진 - 예약 버튼'),
   text('doctorsPrevAria', '의료진 - 이전 접근성 문구'),
   text('doctorsNextAria', '의료진 - 다음 접근성 문구'),
-  ...Array.from({ length: 6 }, (_, index) =>
-    textarea(`doctorQuote${index + 1}`, `의료진 ${index + 1} - 인용문`, 2),
-  ),
-
   text('marqueeText', '영문 롤링 문구'),
 
   text('reviewsEyebrow', '치료후기 - 보조 제목'),

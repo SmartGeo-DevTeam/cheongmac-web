@@ -1,4 +1,8 @@
 import { prisma } from '@/_lib/prisma';
+import {
+  DEFAULT_HOME_DOCTORS,
+  type HomeDoctor,
+} from '@/_lib/home-doctors';
 
 export const DOCTOR_IMAGE_KINDS = [
   'COVER',
@@ -30,6 +34,70 @@ function imageUrl(
   )?.url;
 
   return value ?? null;
+}
+
+function isDoctorDatabaseFallbackError(error: unknown) {
+  const code =
+    error && typeof error === 'object' && 'code' in error
+      ? String((error as { code?: unknown }).code ?? '')
+      : '';
+
+  return code === 'P1001' || code === 'P2021' || code === 'P2022';
+}
+
+export async function getHomeDoctors(): Promise<HomeDoctor[]> {
+  try {
+    const doctors = await prisma.doctor.findMany({
+      where: { isVisible: true },
+      orderBy: [{ displayOrder: 'asc' }, { name: 'asc' }],
+      include: {
+        images: {
+          orderBy: { sortOrder: 'asc' },
+          select: { kind: true, url: true },
+        },
+        careers: {
+          where: { isVisible: true },
+          orderBy: { sortOrder: 'asc' },
+          take: 4,
+          select: { content: true },
+        },
+      },
+    });
+
+    return doctors.map((doctor) => {
+      const profileImage =
+        imageUrl(doctor.images, 'PROFILE') ??
+        imageUrl(doctor.images, 'COVER') ??
+        imageUrl(doctor.images, 'CUTOUT');
+
+      return {
+        id: doctor.id,
+        slug: doctor.slug,
+        name: doctor.name,
+        position: doctor.position,
+        department: doctor.department,
+        homeQuote:
+          doctor.homeQuote?.trim() ||
+          doctor.bio?.trim() ||
+          `${doctor.name} ${doctor.position}`,
+        motionImageUrl:
+          imageUrl(doctor.images, 'MOTION') ?? profileImage,
+        profileImageUrl: profileImage,
+        reservationHref:
+          doctor.reservationHref || '/reservation',
+        detailHref: `/about/doctors/${doctor.slug}`,
+        histories: doctor.careers
+          .map((career) => career.content.trim())
+          .filter(Boolean),
+      } satisfies HomeDoctor;
+    });
+  } catch (error) {
+    if (isDoctorDatabaseFallbackError(error)) {
+      return DEFAULT_HOME_DOCTORS;
+    }
+
+    throw error;
+  }
 }
 
 export async function getVisibleDoctorSummaries(): Promise<DoctorSummary[]> {
@@ -99,6 +167,7 @@ export async function getDoctorProfileCore(doctorId: string) {
         position: true,
         department: true,
         bio: true,
+        homeQuote: true,
         reservationHref: true,
       },
     }),

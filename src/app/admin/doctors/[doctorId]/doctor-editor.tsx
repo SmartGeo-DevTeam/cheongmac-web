@@ -273,7 +273,7 @@ export default function DoctorEditor({
       <Section
         id="admin-doctor-basic"
         title="기본정보"
-        description="의료진 URL, 이름, 직책, 진료과, 소개, 예약 링크와 노출 순서를 관리합니다."
+        description="의료진 URL, 이름, 직책, 진료과, 소개, 메인페이지 인용문, 예약 링크와 노출 순서를 관리합니다."
       >
         <div className="grid gap-4 md:grid-cols-2">
           <div>
@@ -386,6 +386,24 @@ export default function DoctorEditor({
                 patch('bio', event.target.value)
               }
             />
+          </div>
+
+          <div className="md:col-span-2">
+            <Label htmlFor="admin-doctor-home-quote">
+              메인페이지 인용문
+            </Label>
+            <Textarea
+              id="admin-doctor-home-quote"
+              name="doctorHomeQuote"
+              value={data.homeQuote}
+              onChange={(event) =>
+                patch('homeQuote', event.target.value)
+              }
+              placeholder="메인 의료진 영역에 표시할 한 문장"
+            />
+            <p className="mt-1.5 text-[11px] leading-5 text-[#8A8A91]">
+              비워두면 소개 문구를 메인페이지 인용문으로 사용합니다.
+            </p>
           </div>
 
           <label className="inline-flex items-center gap-2 text-xs text-[#52525B]">
