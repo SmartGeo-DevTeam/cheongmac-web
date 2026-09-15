@@ -7,7 +7,7 @@ const checks = [
   ['src/app/_components/home/index.tsx', "getPublicPageCopyConfig('/')"],
   ['src/app/page.tsx', "dynamic = 'force-dynamic'"],
   ['src/app/_components/inline-editor/editable-page-copy-region.tsx', 'allowReset={false}'],
-  ['src/app/_components/home/1_cover.tsx', '메인 커버·팝업 문구'],
+  ['src/app/_components/home/1_cover.tsx', '메인 팝업 공통 문구'],
   ['src/app/_components/home/2_specialties.tsx', '메인 진료분야 문구'],
   ['src/app/_components/home/3_doctors.tsx', '메인 의료진 문구'],
   ['src/app/_components/home/5_name.tsx', '메인 영문 롤링 문구'],

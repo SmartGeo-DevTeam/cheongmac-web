@@ -20,11 +20,19 @@ function forbidText(file, token, message) {
   }
 }
 
-requireText(
-  'next.config.ts',
-  "bodySizeLimit: '12mb'",
-  '기존 의료진 10MB 업로드와 사용자 폼 첨부파일을 위해 Server Action body limit가 필요합니다.',
+const nextConfig = read('next.config.ts');
+const bodySizeLimitMatch = nextConfig.match(
+  /bodySizeLimit:\s*['\"](\d+)mb['\"]/,
 );
+const bodySizeLimitMb = bodySizeLimitMatch
+  ? Number(bodySizeLimitMatch[1])
+  : 0;
+
+if (!Number.isFinite(bodySizeLimitMb) || bodySizeLimitMb < 12) {
+  errors.push(
+    'next.config.ts: 기존 의료진 10MB 업로드와 사용자 폼 첨부파일을 위해 Server Action body limit가 최소 12MB 이상이어야 합니다.',
+  );
+}
 
 requireText(
   '.env.example',

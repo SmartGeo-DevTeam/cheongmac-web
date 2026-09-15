@@ -1,4 +1,7 @@
-import type { InlineContentData } from '@/_lib/inline-content-shared';
+import {
+  pickInlineContentData,
+  type InlineContentData,
+} from '@/_lib/inline-content-shared';
 import { getPageContentBlock } from '@/_lib/page-content-blocks';
 import {
   getPublicPageCopyConfig,
@@ -23,6 +26,11 @@ export default async function EditablePageCopyBlock({
     config.defaults,
   );
 
+  const normalizedData = pickInlineContentData(
+    content.data,
+    config.fields,
+  );
+
   return (
     <EditableRegion
       pageKey="page-copy"
@@ -30,7 +38,7 @@ export default async function EditablePageCopyBlock({
       label={config.label}
       publicPath={path}
       fields={config.fields}
-      data={content.data}
+      data={normalizedData}
       persisted={content.persisted}
       adminHref={management.href}
       adminLabel={management.label}
@@ -42,7 +50,7 @@ export default async function EditablePageCopyBlock({
       secondaryAdminLabel="정적 문구·링크 관리자"
       secondaryAdminDescription="이 페이지의 고정 문구·링크·아이콘 이미지는 공통 정적 콘텐츠 관리자에서도 한 번에 수정할 수 있습니다."
     >
-      {children(content.data)}
+      {children(normalizedData)}
     </EditableRegion>
   );
 }

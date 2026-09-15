@@ -3,6 +3,7 @@ import {
   PUBLIC_PAGE_COPY,
   type PublicPageCopyPath,
 } from '@/_lib/public-page-copy';
+import { pickInlineContentData } from '@/_lib/inline-content-shared';
 import { getPageContentBlock } from '@/_lib/page-content-blocks';
 import PageCopyAdminClient from './page-copy-admin-client';
 
@@ -33,7 +34,7 @@ export default async function AdminPageCopyPage({
         path,
         label: config.label,
         fields: config.fields,
-        data: content.data,
+        data: pickInlineContentData(content.data, config.fields),
         persisted: content.persisted,
       };
     }),

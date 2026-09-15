@@ -26,38 +26,7 @@ const textarea = (
 });
 
 export const HOME_PAGE_COPY_DEFAULTS: InlineContentData = {
-  // 1. Cover
-  coverSlide1TitleLead: '혈관의 모든 정답,',
-  coverSlide1TitleStrong: '청맥에 있습니다',
-  coverSlide1Description1: '더 스마트해진 혈관 특화 의료 혁신의 시작.',
-  coverSlide1Description2:
-    '증상부터 치료까지 AI가 빠르고 정확한 길을 안내합니다.',
-  coverSlide1Button: '맥GPT에게 물어보기→',
-
-  coverSlide2TitleLead: '혈관을 잘 아는 의사,',
-  coverSlide2TitleStrong: '청맥에 있습니다',
-  coverSlide2Description1: '오직 혈관질환에 집중한 전문의 협진으로',
-  coverSlide2Description2:
-    '깊이 있는 진료, 정밀한 치료를 약속드립니다.',
-  coverSlide2Button: '맞춤 의료진 찾기→',
-
-  coverSlide3TitleLead: '대한정맥학회도',
-  coverSlide3TitleStrong: '인정한 청맥의 전문성',
-  coverSlide3Description1:
-    '2026 대한정맥학회 학술연구비 지원 대상 선정!',
-  coverSlide3Description2:
-    '차별화된 전문성으로 혈관 진료의 발전을 선도합니다.',
-  coverSlide3Button: '자세히 보기→',
-
-  coverPopup1Title: '5월 진료 안내',
-  coverPopup1Line1: '5월 1일 (금) 노동절 정상진료',
-  coverPopup1Line2: '5월 25일 (월) 대체공휴일 휴진',
-  coverPopup2Title: '당일 진료 접수 안내',
-  coverPopup2Line1: '오전 11시까지 / 오후 4시까지',
-  coverPopup2Line2: '접수하시면 당일 진료가 가능합니다.',
-  coverPopup3Title: '당일 진료 접수 안내',
-  coverPopup3Line1: '오전 11시까지 / 오후 4시까지',
-  coverPopup3Line2: '접수하시면 당일 진료가 가능합니다.',
+  // 1. Cover controls
   coverPopupCountdownSuffix: '초 후 팝업이 닫힙니다.',
   coverPopupCloseNow: '바로 닫기',
   coverPopupHideToday: '오늘 하루 보지 않기',
@@ -72,15 +41,6 @@ export const HOME_PAGE_COPY_DEFAULTS: InlineContentData = {
     '건강의 시작과 끝은 결국 혈관입니다.',
   specialtiesDescription2:
     '청맥은 숨은 근본 문제까지 찾아 해결해드립니다.',
-  specialty1Title: '하지정맥류',
-  specialty2Title: '동맥경화',
-  specialty3Title: '골반정맥류',
-  specialty4Title: '정계정맥류',
-  specialty5Title: '희귀특수질환',
-  specialty6Title: '투석혈관',
-  specialty7Title: '고압산소치료',
-  specialty8Title: '혈관검진',
-
   // 3. Doctors
   doctorsEyebrow: '당신의 혈관을 지키는 사람들',
   doctorsTitle1: '대학병원 20년 경험의',

@@ -1,6 +1,9 @@
 'use client';
 
-import type { InlineContentData } from '@/_lib/inline-content-shared';
+import {
+  pickInlineContentData,
+  type InlineContentData,
+} from '@/_lib/inline-content-shared';
 import {
   getPublicPageCopyConfig,
   type PublicPageCopyPath,
@@ -31,6 +34,11 @@ export default function EditablePageCopyRegion({
     fieldKeySet.has(field.key),
   );
 
+  const normalizedCopy = pickInlineContentData(
+    copy,
+    config.fields,
+  );
+
   return (
     <EditableRegion
       pageKey="page-copy"
@@ -38,7 +46,7 @@ export default function EditablePageCopyRegion({
       label={label}
       publicPath={path}
       fields={fields}
-      data={copy}
+      data={normalizedCopy}
       persisted={persisted}
       allowReset={false}
       className={className}

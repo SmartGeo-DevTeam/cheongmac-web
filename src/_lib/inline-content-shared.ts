@@ -19,6 +19,17 @@ export type InlineContentField = {
   required?: boolean;
 };
 
+export function pickInlineContentData(
+  data: InlineContentData,
+  fields: readonly InlineContentField[],
+): InlineContentData {
+  const allowedKeys = new Set(fields.map((field) => field.key));
+
+  return Object.fromEntries(
+    Object.entries(data).filter(([key]) => allowedKeys.has(key)),
+  );
+}
+
 export type InlineContentSaveResult = {
   ok: boolean;
   error?: string;
