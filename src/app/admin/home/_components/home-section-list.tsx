@@ -122,11 +122,15 @@ export default async function HomeSectionList({
 
         <div className="divide-y divide-[#E4E4E7]">
           {result.items.length ? (
-            result.items.map((item) => (
+            result.items.map((item, index) => (
               <div
                 key={item.id}
-                className="grid gap-3 px-4 py-4 md:grid-cols-[minmax(0,1fr)_100px_110px_90px] md:items-center"
+                className="grid gap-3 px-4 py-4 md:grid-cols-[64px_minmax(0,1fr)_100px_110px_90px] md:items-center"
               >
+                <div className="text-center text-xs tabular-nums text-[#A1A1AA]">
+                  {(result.page - 1) * result.pageSize + index + 1}
+                </div>
+
                 <div className="min-w-0">
                   <p className="truncate font-semibold text-[#27272A]">
                     {item.title}

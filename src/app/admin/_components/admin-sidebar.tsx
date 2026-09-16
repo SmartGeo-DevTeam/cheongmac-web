@@ -19,7 +19,6 @@ import {
   Building2,
   CalendarClock,
   Clapperboard,
-  FileText,
   Handshake,
   HeartPulse,
   History,
@@ -80,15 +79,6 @@ export default function AdminSidebar({
                 </SidebarMenuButton>
               </SidebarMenuItem>
             ) : null}
-            <SidebarMenuItem>
-              <SidebarMenuButton
-                href="/admin/history"
-                active={menuActive(pathname, '/admin/history')}
-              >
-                <History className="size-4" />
-                변경 이력
-              </SidebarMenuButton>
-            </SidebarMenuItem>
           </SidebarMenu>
         </SidebarGroup>
 
@@ -212,15 +202,6 @@ export default function AdminSidebar({
         <SidebarGroup>
           <SidebarGroupLabel>콘텐츠</SidebarGroupLabel>
           <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton
-                href="/admin/content"
-                active={menuActive(pathname, '/admin/content')}
-              >
-                <FileText className="size-4" />
-                콘텐츠 관리
-              </SidebarMenuButton>
-            </SidebarMenuItem>
             <SidebarMenuItem>
               <SidebarMenuButton
                 href="/admin/common/page-copy"
@@ -428,6 +409,20 @@ export default function AdminSidebar({
               >
                 <Clapperboard className="size-4" />
                 미디어
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarGroup>
+        <SidebarGroup>
+          <SidebarGroupLabel>히스토리</SidebarGroupLabel>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                href="/admin/history"
+                active={menuActive(pathname, '/admin/history')}
+              >
+                <History className="size-4" />
+                변경 이력
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>

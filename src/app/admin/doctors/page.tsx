@@ -65,11 +65,15 @@ export default async function AdminDoctorsPage() {
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
-            {doctors.map((doctor) => (
+            {doctors.map((doctor, index) => (
               <article
                 key={doctor.id}
-                className="flex flex-col gap-4 rounded-xl border border-[#E4E4E7] p-4 lg:flex-row lg:items-center lg:justify-between"
+                className="grid gap-4 rounded-xl border border-[#E4E4E7] p-4 lg:grid-cols-[48px_minmax(0,1fr)_auto] lg:items-center"
               >
+                <div className="flex size-9 items-center justify-center rounded-full bg-[#F4F4F5] text-xs font-semibold tabular-nums text-[#71717A]">
+                  {index + 1}
+                </div>
+
                 <div className="min-w-0">
                   <div className="flex flex-wrap items-center gap-2">
                     <h2 className="text-base font-semibold text-[#27272A]">

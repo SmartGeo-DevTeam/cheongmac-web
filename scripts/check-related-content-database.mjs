@@ -149,11 +149,24 @@ requireText(
   '관리자 Data Table에 페이지네이션이 필요합니다.',
 );
 
-requireText(
-  'src/app/admin/_components/admin-data-table.tsx',
-  'min-w-[1040px]',
-  '관리자 Data Table은 좁은 화면에서 내부 버튼이 찌그러지지 않도록 최소 폭과 가로 스크롤을 유지해야 합니다.',
-);
+{
+  const adminDataTableSource = read(
+    'src/app/admin/_components/admin-data-table.tsx',
+  );
+  const minWidthMatches = [
+    ...adminDataTableSource.matchAll(/min-w-\[(\d+)px\]/g),
+  ];
+  const maxMinWidth = minWidthMatches.reduce(
+    (max, match) => Math.max(max, Number(match[1] ?? 0)),
+    0,
+  );
+
+  if (maxMinWidth < 1040) {
+    errors.push(
+      'src/app/admin/_components/admin-data-table.tsx: 관리자 Data Table은 좁은 화면에서 내부 버튼이 찌그러지지 않도록 최소 폭 1040px 이상과 가로 스크롤을 유지해야 합니다.',
+    );
+  }
+}
 
 requireText(
   'src/app/admin/content-relations/[resource]/page.tsx',

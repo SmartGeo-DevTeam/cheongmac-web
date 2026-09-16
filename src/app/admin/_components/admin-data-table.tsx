@@ -66,6 +66,7 @@ export default function AdminDataTable({
   searchPlaceholder = '검색어를 입력하세요.',
   extraParams = {},
   emptyText = '검색 결과가 없습니다.',
+  showIndex = true,
 }: {
   columns: AdminDataTableColumn[];
   rows: AdminDataTableRow[];
@@ -78,8 +79,10 @@ export default function AdminDataTable({
   searchPlaceholder?: string;
   extraParams?: Record<string, string | undefined>;
   emptyText?: string;
+  showIndex?: boolean;
 }) {
   const pages = visiblePages(page, totalPages);
+  const columnCount = columns.length + (showIndex ? 1 : 0);
 
   return (
     <div className="space-y-4">
@@ -147,9 +150,17 @@ export default function AdminDataTable({
 
       <div className="overflow-hidden rounded-xl border border-[#E4E4E7] bg-white">
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[1040px] table-fixed border-collapse text-left">
+          <table className="w-full min-w-[1100px] table-fixed border-collapse text-left">
             <thead className="bg-[#FAFAFA]">
               <tr>
+                {showIndex ? (
+                  <th
+                    scope="col"
+                    className="w-[68px] min-w-[68px] border-b border-[#ECECEF] px-3 py-3 text-center text-xs font-semibold text-[#71717A]"
+                  >
+                    번호
+                  </th>
+                ) : null}
                 {columns.map((column) => (
                   <th
                     key={column.key}
@@ -163,23 +174,35 @@ export default function AdminDataTable({
             </thead>
 
             <tbody className="divide-y divide-[#ECECEF]">
-              {rows.map((row) => (
-                <tr key={row.id} className="align-middle hover:bg-[#FCFCFC]">
-                  {columns.map((column) => (
-                    <td
-                      key={`${row.id}-${column.key}`}
-                      className={`px-5 py-4 text-sm text-[#52525B] ${column.className ?? ''}`}
-                    >
-                      {row.cells[column.key] ?? null}
-                    </td>
-                  ))}
-                </tr>
-              ))}
+              {rows.map((row, rowIndex) => {
+                const rowNumber = (page - 1) * pageSize + rowIndex + 1;
+
+                return (
+                  <tr
+                    key={row.id}
+                    className="align-middle hover:bg-[#FCFCFC]"
+                  >
+                    {showIndex ? (
+                      <td className="w-[68px] min-w-[68px] px-3 py-4 text-center text-xs tabular-nums text-[#A1A1AA]">
+                        {rowNumber}
+                      </td>
+                    ) : null}
+                    {columns.map((column) => (
+                      <td
+                        key={`${row.id}-${column.key}`}
+                        className={`px-5 py-4 text-sm text-[#52525B] ${column.className ?? ''}`}
+                      >
+                        {row.cells[column.key] ?? null}
+                      </td>
+                    ))}
+                  </tr>
+                );
+              })}
 
               {!rows.length ? (
                 <tr>
                   <td
-                    colSpan={columns.length}
+                    colSpan={columnCount}
                     className="px-5 py-16 text-center text-sm text-[#A1A1AA]"
                   >
                     {emptyText}

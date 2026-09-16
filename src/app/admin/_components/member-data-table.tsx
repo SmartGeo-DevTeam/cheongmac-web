@@ -483,6 +483,9 @@ export default function MemberDataTable({
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id} className="bg-[#FAFAFA] hover:bg-[#FAFAFA]">
+                <TableHead className="w-[64px] min-w-[64px] text-center">
+                  번호
+                </TableHead>
                 {headerGroup.headers.map((header) => (
                   <TableHead key={header.id}>
                     {header.isPlaceholder
@@ -495,19 +498,30 @@ export default function MemberDataTable({
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id}>
-                  {row.getVisibleCells().map((cell) => (
+              table.getRowModel().rows.map((row, rowIndex) => {
+                const pagination = table.getState().pagination;
+                const pageRowNumber =
+                  pagination.pageIndex * pagination.pageSize +
+                  rowIndex +
+                  1;
+
+                return (
+                  <TableRow key={row.id}>
+                    <TableCell className="w-[64px] min-w-[64px] text-center text-xs tabular-nums text-[#A1A1AA]">
+                      {pageRowNumber}
+                    </TableCell>
+                    {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
-                  ))}
-                </TableRow>
-              ))
+                    ))}
+                  </TableRow>
+                );
+              })
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={columns.length}
+                  colSpan={columns.length + 1}
                   className="h-32 text-center text-sm text-[#A1A1AA]"
                 >
                   {emptyMessage}
