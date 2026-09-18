@@ -34,7 +34,8 @@
     "check:about-introduction": "node scripts/check-about-introduction-page.mjs",
     "check:membership-session": "node scripts/check-membership-session-guard.mjs",
     "check:about-specialty-swiper": "node scripts/check-about-specialty-swiper.mjs",
-    "check:about-stories-collage": "node scripts/check-about-stories-collage.mjs"
+    "check:about-stories-collage": "node scripts/check-about-stories-collage.mjs",
+    "check:about-why-cheongmac": "node scripts/check-about-why-cheongmac.mjs"
   },
   "dependencies": {
     "@better-auth/prisma-adapter": "1.7.3",

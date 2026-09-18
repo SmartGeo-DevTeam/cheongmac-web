@@ -56,12 +56,12 @@ export const PUBLIC_PAGE_COPY = {
       storiesImageFlowers: 'https://cheongmacmedia.blob.core.windows.net/assets/managed/inline/page-copy/about-introduction/storiesImageFlowers/5da1ffa4eaa8810f16b7bd4cfcdbff9d4a2c0a54a40531f6c8069c7b770a52b9.png',
       storiesImageProcedure: 'https://cheongmacmedia.blob.core.windows.net/assets/managed/inline/page-copy/about-introduction/storiesImageProcedure/aa3fd7e7842028755873195103560b9cf1dc134f9daaf8283061d4b54385fa72.png',
 
-      whyEyebrow: 'WHY CHEONGMAC',
+      whyEyebrow: '믿음을 증명하는 실력',
       whyTitle: 'WHY 청맥',
       whyDescription:
-        '치료 기술만으로 좋은 병원이 완성되지는 않습니다.\n청맥이 혈관진료의 기준을 지켜온 이유를 소개합니다.',
-      whyCenterImage: '/about-introduction/why-center.webp',
-      whyCenterAlt: '청맥병원',
+        '깊이 있는 전문성과 체계적인 의료 시스템부터 결과로 증명해온 경험까지.\n청맥이 자신 있는 이유는 분명합니다.',
+      whyCenterImage: 'https://cheongmacmedia.blob.core.windows.net/assets/managed/inline/page-copy/about-introduction/whyCenterImage/3f33798b4d795bf98a2c9e1a19ced75297240077861f6de8ac9927fb3175b310.png',
+      whyCenterAlt: '청맥병원 건물 전경',
 
       promiseEyebrow: 'CHEONGMAC PROMISE',
       promiseTitle: '청맥이 드리는 약속',

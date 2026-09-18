@@ -7,6 +7,7 @@ import EditablePageCopyRegion from '@/app/_components/inline-editor/editable-pag
 import ManagedItemEditButton from '@/app/_components/inline-editor/managed-item-edit-button';
 import SpecialtyPrinciplesSwiper from './specialty-principles-swiper';
 import StoriesCollage from './stories-collage';
+import WhyCheongmacSection from './why-cheongmac-section';
 import { useInlineEditMode } from '@/app/_providers/inline-edit-provider';
 import {
   H2 as TypographyH2,
@@ -171,9 +172,6 @@ function IntroTab({
   quickLinks: AboutIntroductionQuickLink[];
   overviewRows: AboutIntroductionOverviewRow[];
 }) {
-  const leftWhy = whyPoints.filter((item) => item.side === 'left');
-  const rightWhy = whyPoints.filter((item) => item.side === 'right');
-
   return (
     <>
       <EditablePageCopyRegion
@@ -371,82 +369,10 @@ function IntroTab({
         ]}
         className="group/cms-collection relative"
       >
-        <section className="py-20 xl:py-32">
-          <CollectionAdminEditButton
-            href="/admin/pages/about-introduction?type=why-point"
-            label="WHY 청맥 이유"
-            className="right-5 top-5"
-          />
-          <div className="mx-auto max-w-6xl px-5 xl:px-0">
-            <div className="text-center">
-              <SectionEyebrow>{copy.whyEyebrow}</SectionEyebrow>
-              <TypographyH2
-                managed={false}
-                className="mt-3 text-2xl font-bold tracking-[-0.04em] text-[#262C35] xl:text-[34px]"
-              >
-                {copy.whyTitle}
-              </TypographyH2>
-              <TypographyP
-                managed={false}
-                className="mx-auto mt-3 max-w-2xl whitespace-pre-line text-sm leading-7 text-[#72777D] xl:text-base"
-              >
-                {copy.whyDescription}
-              </TypographyP>
-            </div>
-
-            <div className="mt-12 grid items-center gap-8 xl:grid-cols-[1fr_300px_1fr] xl:gap-10">
-              <div className="space-y-4">
-                {leftWhy.map((item) => (
-                  <article
-                    key={item.itemKey}
-                    className="relative rounded-full border border-[#E5E7E9] bg-white px-5 py-4 text-center shadow-[0_6px_22px_rgba(0,0,0,0.035)]"
-                  >
-                    <TypographyP managed={false} className="text-sm font-bold text-[#FD7740] xl:text-base">
-                      {item.title}
-                    </TypographyP>
-                    <TypographyP managed={false} className="mt-1 text-xs leading-5 text-[#747A80]">
-                      {item.description}
-                    </TypographyP>
-                    <ManagedItemEditButton
-                      pageKey="about-introduction"
-                      itemKey={item.itemKey}
-                      label={item.title}
-                    />
-                  </article>
-                ))}
-              </div>
-
-              <div className="mx-auto overflow-hidden rounded-full border-[10px] border-[#FFF1EB] p-2 shadow-[0_0_0_1px_#FD7740]">
-                <img
-                  src={copy.whyCenterImage}
-                  alt={copy.whyCenterAlt}
-                  className="aspect-square w-[220px] rounded-full object-cover xl:w-[260px]"
-                />
-              </div>
-
-              <div className="space-y-4">
-                {rightWhy.map((item) => (
-                  <article
-                    key={item.itemKey}
-                    className="relative rounded-full border border-[#E5E7E9] bg-white px-5 py-4 text-center shadow-[0_6px_22px_rgba(0,0,0,0.035)]"
-                  >
-                    <TypographyP managed={false} className="text-sm font-bold text-[#FD7740] xl:text-base">
-                      {item.title}
-                    </TypographyP>
-                    <TypographyP managed={false} className="mt-1 text-xs leading-5 text-[#747A80]">
-                      {item.description}
-                    </TypographyP>
-                    <ManagedItemEditButton
-                      pageKey="about-introduction"
-                      itemKey={item.itemKey}
-                      label={item.title}
-                    />
-                  </article>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
+        <WhyCheongmacSection
+          copy={copy}
+          whyPoints={whyPoints}
+        />
       </EditablePageCopyRegion>
 
       <EditablePageCopyRegion
