@@ -29,6 +29,7 @@ const delegatedChecks = [
   'scripts/check-admin-audit-history.mjs',
   'scripts/check-admin-list-history-ui.mjs',
   'scripts/check-about-introduction-page.mjs',
+  'scripts/check-membership-session-guard.mjs',
   'scripts/check-inline-cms-v2.mjs',
   'scripts/check-inline-cms-v3.mjs',
   'scripts/check-home-cover-managed.mjs',

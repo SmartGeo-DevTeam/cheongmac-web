@@ -20,7 +20,11 @@ export default async function SignIn({ searchParams }: PageProps) {
   }
 
   if (session) {
-    redirect(`/join?callbackURL=${encodeURIComponent(callbackURL)}`);
+    redirect(
+      `/signout?callbackURL=${encodeURIComponent(
+        `/signin?callbackURL=${encodeURIComponent(callbackURL)}`,
+      )}&reason=membership_incomplete`,
+    );
   }
 
   return (

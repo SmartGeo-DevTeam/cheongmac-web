@@ -42,7 +42,14 @@ export default function AccountDock() {
     return null;
   }
 
-  const isActive = session.user.membershipStatus === 'ACTIVE';
+  const isActive =
+    session.user.membershipStatus === 'ACTIVE' &&
+    Boolean(session.user.onboardingCompletedAt);
+
+  if (!isActive) {
+    return null;
+  }
+
   const role = session.user.role;
 
   return (

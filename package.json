@@ -31,7 +31,8 @@
     "check:inline-cms-final": "node scripts/check-inline-cms-final-audit.mjs",
     "check:audit-history": "node scripts/check-admin-audit-history.mjs",
     "check:admin-list-history-ui": "node scripts/check-admin-list-history-ui.mjs",
-    "check:about-introduction": "node scripts/check-about-introduction-page.mjs"
+    "check:about-introduction": "node scripts/check-about-introduction-page.mjs",
+    "check:membership-session": "node scripts/check-membership-session-guard.mjs"
   },
   "dependencies": {
     "@better-auth/prisma-adapter": "1.7.3",

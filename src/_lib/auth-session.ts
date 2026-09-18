@@ -12,5 +12,8 @@ export async function getCurrentSession(): Promise<AuthSession | null> {
 }
 
 export function isActiveMember(session: AuthSession | null) {
-  return session?.user.membershipStatus === 'ACTIVE';
+  return (
+    session?.user.membershipStatus === 'ACTIVE' &&
+    Boolean(session.user.onboardingCompletedAt)
+  );
 }

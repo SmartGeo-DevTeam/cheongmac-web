@@ -69,7 +69,7 @@ export default function SignInPanel({ callbackURL, error }: Props) {
       ) : null}
 
       <p className="mt-7 break-keep text-center text-xs leading-5 text-[#999999]">
-        최초 로그인 시 본명·연락처 확인 및 필수 약관 동의 후 홈페이지 회원으로 전환됩니다.
+        소셜 인증만으로는 로그인 상태가 유지되지 않습니다. 최초 1회 본명·연락처 확인 및 필수 약관 동의까지 완료해야 홈페이지 회원으로 로그인됩니다.
       </p>
     </div>
   );
