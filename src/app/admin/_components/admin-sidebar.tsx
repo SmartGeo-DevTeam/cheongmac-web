@@ -219,6 +219,18 @@ export default function AdminSidebar({
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton
+                href="/admin/pages/about-introduction"
+                active={menuActive(
+                  pathname,
+                  '/admin/pages/about-introduction',
+                )}
+              >
+                <Hospital className="size-4" />
+                청맥병원 소개
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton
                 href="/admin/doctors"
                 active={menuActive(pathname, '/admin/doctors')}
               >

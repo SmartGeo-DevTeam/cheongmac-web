@@ -1,6 +1,8 @@
 import fs from 'node:fs';
 
 const checks = [
+  ['src/app/about/introduction/page.tsx', "getPageContentBlock("],
+  ['src/app/about/introduction/_components/about-introduction-content.tsx', 'EditablePageCopyRegion'],
   ['src/app/about/doctors/page.tsx', 'EditablePageCopyBlock path="/about/doctors"'],
   ['src/app/about/tour/page.tsx', 'EditablePageCopyBlock path="/about/tour"'],
   ['src/app/about/equipment/page.tsx', 'EditablePageCopyBlock path="/about/equipment"'],
@@ -86,6 +88,7 @@ for (const token of [
 const publicCopy = fs.readFileSync('src/_lib/public-page-copy.ts', 'utf8');
 
 for (const path of [
+  '/about/introduction',
   '/about/doctors',
   '/about/tour',
   '/about/equipment',
@@ -184,5 +187,5 @@ for (const token of [
 }
 
 console.log(
-  'INLINE_EDITOR_ALL_PAGES_CHECK_OK — 10개 공개 페이지 / 관계형 아이템 / 고객의 소리 v3 subregion / 관리자 hash focus 연결 확인',
+  'INLINE_EDITOR_ALL_PAGES_CHECK_OK — 11개 공개 페이지 / 관계형 아이템 / 고객의 소리 v3 subregion / 관리자 hash focus 연결 확인',
 );

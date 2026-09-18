@@ -66,6 +66,7 @@ for (const field of [
 }
 
 const pages = [
+  ['src/app/about/introduction/page.tsx', 'getAboutIntroductionManagedContent'],
   ['src/app/about/tour/page.tsx', 'getHospitalTourManagedContent'],
   ['src/app/about/equipment/page.tsx', 'getMedicalEquipmentManagedContent'],
   ['src/app/education-research/exchange/page.tsx', 'getAcademicExchangeManagedContent'],
@@ -148,6 +149,7 @@ requireText(
 );
 
 for (const menu of [
+  '청맥병원 소개',
   '의료진/진료과',
   '병원 둘러보기',
   '첨단의료장비',

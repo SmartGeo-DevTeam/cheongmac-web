@@ -12,6 +12,132 @@ export type PublicPageCopyConfig = {
 
 export const PUBLIC_PAGE_COPY = {
   '/': HOME_PAGE_COPY_CONFIG,
+
+  '/about/introduction': {
+    label: '청맥병원 소개 고정 문구·이미지',
+    defaults: {
+      tabIntro: '병원소개',
+      tabHistory: '연혁',
+      tabContribution: '사회공헌',
+
+      introEyebrow: 'CHEONGMAC HOSPITAL',
+      introTitle1: '혈관을 깊이 이해하고',
+      introTitle2: '환자의 삶을 더 넓게 헤아리는 진료',
+      introStatementLead: '이곳은',
+      introStatementAccent: '대한민국 혈관특별시',
+      introStatementTail: '청맥병원입니다.',
+
+      buildingImage: '/about-introduction/building.webp',
+      buildingAlt: '청맥병원 건물',
+      buildingDescription:
+        '한 사람의 혈관 건강은 곧 그 사람의 삶과 연결되어 있습니다.\n청맥병원은 혈관질환에 집중해 온 경험을 바탕으로 정확한 진단과 환자에게 필요한 치료를 고민합니다.\n\n혈관을 깊이 이해하고 환자의 일상을 함께 살피는 진료, 그것이 청맥이 걸어온 길이자 앞으로도 지켜갈 기준입니다.',
+
+      specialtiesEyebrow: 'VASCULAR SPECIALTY',
+      specialtiesTitle: '정확한 진료로, 필요한 치료만',
+      specialtiesDescription:
+        '혈관질환은 원인과 진행 정도가 모두 다릅니다.\n청맥은 환자 한 분 한 분의 상태를 정확히 확인하고 필요한 치료를 제안합니다.',
+
+      storiesEyebrow: 'CHEONGMAC STORIES',
+      storiesTitle: '치료를 넘어,\n사람에게 남은 이야기',
+      storiesImage: '/about-introduction/story-collage.webp',
+      storiesImageAlt: '청맥병원 의료진과 환자들의 이야기',
+
+      whyEyebrow: 'WHY CHEONGMAC',
+      whyTitle: 'WHY 청맥',
+      whyDescription:
+        '치료 기술만으로 좋은 병원이 완성되지는 않습니다.\n청맥이 혈관진료의 기준을 지켜온 이유를 소개합니다.',
+      whyCenterImage: '/about-introduction/why-center.webp',
+      whyCenterAlt: '청맥병원',
+
+      promiseEyebrow: 'CHEONGMAC PROMISE',
+      promiseTitle: '청맥이 드리는 약속',
+      promiseBackgroundImage: '/about-introduction/building.webp',
+
+      quickLinksTitle: '관련 링크 바로가기',
+
+      overviewTitle: '청맥병원 개요',
+      overviewImage: '/about-introduction/building.webp',
+      overviewImageAlt: '청맥병원 전경',
+
+      historyHeroImage: '/assets/news/fifty-thousand.webp',
+      historyHeroAlt: '청맥병원 하지정맥류 수술 5만례 달성',
+      historySectionTitle: '청맥병원이 걸어온 길',
+      historyGrowthLabel: '2018~2026',
+      historyRootLabel: '2010~2017',
+      historyFutureLabel: '2027~현재',
+      historyEmptyText: '해당 기간의 연혁을 준비 중입니다.',
+
+      contributionRecentTitle: '최근 소식',
+      contributionMoreLabel: '더보기',
+      contributionEyebrow: '마음을 나누는 일, 나눔으로 잇는 청맥의 사회공헌',
+      contributionTitle:
+        '우리의 작은 실천이 모여\n따뜻한 세상을\n연결한다고 믿습니다.',
+      contributionHeroImage: '/about-introduction/contribution-hero.webp',
+      contributionHeroAlt: '여러 사람이 하트 모형을 함께 들고 있는 모습',
+      contributionActivitiesTitle: '사회 공헌 활동',
+      contributionActivitiesDescription:
+        '꾸준한 지역사회와 함께하는 청맥의 사회공헌 활동을 소개합니다.',
+    },
+    fields: [
+      { key: 'tabIntro', label: '탭 - 병원소개', type: 'text' },
+      { key: 'tabHistory', label: '탭 - 연혁', type: 'text' },
+      { key: 'tabContribution', label: '탭 - 사회공헌', type: 'text' },
+
+      { key: 'introEyebrow', label: '소개 영문 보조제목', type: 'text' },
+      { key: 'introTitle1', label: '소개 제목 1', type: 'text' },
+      { key: 'introTitle2', label: '소개 제목 2', type: 'text' },
+      { key: 'introStatementLead', label: '강조문장 앞 문구', type: 'text' },
+      { key: 'introStatementAccent', label: '강조문장 주황 포인트', type: 'text' },
+      { key: 'introStatementTail', label: '강조문장 뒤 문구', type: 'text' },
+
+      { key: 'buildingImage', label: '병원소개 건물 이미지', type: 'image' },
+      { key: 'buildingAlt', label: '건물 이미지 대체문구', type: 'text' },
+      { key: 'buildingDescription', label: '병원소개 본문', type: 'editor', rows: 8 },
+
+      { key: 'specialtiesEyebrow', label: '혈관 전문진료 보조제목', type: 'text' },
+      { key: 'specialtiesTitle', label: '혈관 전문진료 제목', type: 'text' },
+      { key: 'specialtiesDescription', label: '혈관 전문진료 설명', type: 'editor', rows: 5 },
+
+      { key: 'storiesEyebrow', label: '청맥 이야기 보조제목', type: 'text' },
+      { key: 'storiesTitle', label: '청맥 이야기 제목', type: 'editor', rows: 3 },
+      { key: 'storiesImage', label: '청맥 이야기 콜라주 이미지', type: 'image' },
+      { key: 'storiesImageAlt', label: '청맥 이야기 이미지 대체문구', type: 'text' },
+
+      { key: 'whyEyebrow', label: 'WHY 청맥 보조제목', type: 'text' },
+      { key: 'whyTitle', label: 'WHY 청맥 제목', type: 'text' },
+      { key: 'whyDescription', label: 'WHY 청맥 설명', type: 'editor', rows: 4 },
+      { key: 'whyCenterImage', label: 'WHY 청맥 중앙 이미지', type: 'image' },
+      { key: 'whyCenterAlt', label: 'WHY 청맥 이미지 대체문구', type: 'text' },
+
+      { key: 'promiseEyebrow', label: '청맥의 약속 보조제목', type: 'text' },
+      { key: 'promiseTitle', label: '청맥의 약속 제목', type: 'text' },
+      { key: 'promiseBackgroundImage', label: '청맥의 약속 배경 이미지', type: 'image' },
+
+      { key: 'quickLinksTitle', label: '관련 링크 제목', type: 'text' },
+
+      { key: 'overviewTitle', label: '병원 개요 제목', type: 'text' },
+      { key: 'overviewImage', label: '병원 개요 이미지', type: 'image' },
+      { key: 'overviewImageAlt', label: '병원 개요 이미지 대체문구', type: 'text' },
+
+      { key: 'historyHeroImage', label: '연혁 대표 이미지', type: 'image' },
+      { key: 'historyHeroAlt', label: '연혁 이미지 대체문구', type: 'text' },
+      { key: 'historySectionTitle', label: '연혁 제목', type: 'text' },
+      { key: 'historyGrowthLabel', label: '연혁 구간 2018~2026', type: 'text' },
+      { key: 'historyRootLabel', label: '연혁 구간 2010~2017', type: 'text' },
+      { key: 'historyFutureLabel', label: '연혁 구간 2027~현재', type: 'text' },
+      { key: 'historyEmptyText', label: '연혁 자료 없음 문구', type: 'text' },
+
+      { key: 'contributionRecentTitle', label: '사회공헌 최근소식 제목', type: 'text' },
+      { key: 'contributionMoreLabel', label: '사회공헌 더보기 문구', type: 'text' },
+      { key: 'contributionEyebrow', label: '사회공헌 보조문구', type: 'text' },
+      { key: 'contributionTitle', label: '사회공헌 소개 제목', type: 'editor', rows: 5 },
+      { key: 'contributionHeroImage', label: '사회공헌 대표 이미지', type: 'image' },
+      { key: 'contributionHeroAlt', label: '사회공헌 이미지 대체문구', type: 'text' },
+      { key: 'contributionActivitiesTitle', label: '사회공헌 활동 제목', type: 'text' },
+      { key: 'contributionActivitiesDescription', label: '사회공헌 활동 설명', type: 'editor', rows: 4 },
+    ],
+  },
+
   '/about/doctors': {
     label: '의료진 목록 페이지 고정 문구',
     defaults: {

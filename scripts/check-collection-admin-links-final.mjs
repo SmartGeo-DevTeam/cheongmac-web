@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 
 const targets = [
+  ['src/app/about/introduction/_components/about-introduction-content.tsx', '/admin/pages/about-introduction', '청맥병원 소개'],
   ['src/app/about/tour/_components/hospital-tour-content.tsx', '/admin/pages/tour', '병원 둘러보기'],
   ['src/app/about/equipment/_components/medical-equipment-content.tsx', '/admin/pages/equipment', '첨단의료장비'],
   ['src/app/about/doctors/_components/doctor-list-client.tsx', '/admin/doctors', '의료진'],

@@ -1,6 +1,7 @@
 export const MANAGED_PAGE_KEYS = [
   'home',
   'common-content-banners',
+  'about-introduction',
   'tour',
   'equipment',
   'exchange',
@@ -339,6 +340,212 @@ export const MANAGED_PAGE_CONFIGS: Record<
             key: 'openInNewTab',
             label: '새 창으로 열기',
             type: 'checkbox',
+          },
+          visibilityField,
+        ],
+      },
+    ],
+  },
+
+
+  'about-introduction': {
+    key: 'about-introduction',
+    label: '청맥병원 소개',
+    publicHref: '/about/introduction',
+    groupLabel: '병원 소개',
+    description:
+      '청맥병원 소개, WHY 청맥, 약속, 개요, 연혁과 사회공헌 활동을 관리합니다. 고정 문구와 이미지는 사용자 화면 콘텐츠 편집에서도 섹션별로 수정할 수 있습니다.',
+    itemTypes: [
+      {
+        value: 'specialty-card',
+        label: '혈관 전문진료 카드',
+        titleField: 'title',
+        summaryField: 'description',
+        imageFields: ['image'],
+        fields: [
+          {
+            key: 'title',
+            label: '제목',
+            type: 'text',
+            required: true,
+          },
+          {
+            key: 'description',
+            label: '설명',
+            type: 'textarea',
+          },
+          {
+            key: 'image',
+            label: '이미지',
+            type: 'text',
+            required: true,
+          },
+          visibilityField,
+        ],
+      },
+      {
+        value: 'why-point',
+        label: 'WHY 청맥 이유',
+        titleField: 'title',
+        summaryField: 'description',
+        categoryField: 'side',
+        fields: [
+          {
+            key: 'title',
+            label: '제목',
+            type: 'text',
+            required: true,
+          },
+          {
+            key: 'description',
+            label: '설명',
+            type: 'textarea',
+          },
+          {
+            key: 'side',
+            label: '배치',
+            type: 'select',
+            required: true,
+            options: [
+              { value: 'left', label: '왼쪽' },
+              { value: 'right', label: '오른쪽' },
+            ],
+          },
+          visibilityField,
+        ],
+      },
+      {
+        value: 'promise',
+        label: '청맥의 약속',
+        titleField: 'title',
+        summaryField: 'description',
+        fields: [
+          {
+            key: 'numberLabel',
+            label: '순서 표기',
+            type: 'text',
+            required: true,
+            placeholder: '예: 하나.',
+          },
+          {
+            key: 'title',
+            label: '제목',
+            type: 'text',
+            required: true,
+          },
+          {
+            key: 'description',
+            label: '설명',
+            type: 'textarea',
+          },
+          visibilityField,
+        ],
+      },
+      {
+        value: 'quick-link',
+        label: '관련 링크',
+        titleField: 'label',
+        summaryField: 'href',
+        fields: [
+          {
+            key: 'label',
+            label: '표시명',
+            type: 'text',
+            required: true,
+          },
+          {
+            key: 'href',
+            label: '연결 경로',
+            type: 'text',
+            required: true,
+            placeholder: '예: /about/doctors',
+          },
+          visibilityField,
+        ],
+      },
+      {
+        value: 'overview-row',
+        label: '병원 개요',
+        titleField: 'label',
+        summaryField: 'value',
+        fields: [
+          {
+            key: 'label',
+            label: '항목명',
+            type: 'text',
+            required: true,
+          },
+          {
+            key: 'value',
+            label: '내용',
+            type: 'textarea',
+            required: true,
+          },
+          visibilityField,
+        ],
+      },
+      {
+        value: 'history-year',
+        label: '연혁',
+        titleField: 'year',
+        summaryField: 'details',
+        categoryField: 'period',
+        fields: [
+          {
+            key: 'period',
+            label: '연혁 구간',
+            type: 'select',
+            required: true,
+            options: [
+              { value: 'growth', label: '2018~2026' },
+              { value: 'root', label: '2010~2017' },
+              { value: 'future', label: '2027~현재' },
+            ],
+          },
+          {
+            key: 'year',
+            label: '연도',
+            type: 'number',
+            required: true,
+          },
+          {
+            key: 'title',
+            label: '연도 보조 제목',
+            type: 'text',
+          },
+          {
+            key: 'details',
+            label: '주요 내용',
+            type: 'lines',
+            required: true,
+            description: '한 줄에 한 항목씩 입력합니다.',
+          },
+          visibilityField,
+        ],
+      },
+      {
+        value: 'contribution-activity',
+        label: '사회공헌 활동',
+        titleField: 'title',
+        summaryField: 'description',
+        imageFields: ['image'],
+        fields: [
+          {
+            key: 'title',
+            label: '활동명',
+            type: 'text',
+            required: true,
+          },
+          {
+            key: 'description',
+            label: '설명',
+            type: 'textarea',
+          },
+          {
+            key: 'image',
+            label: '활동 이미지',
+            type: 'text',
+            required: true,
           },
           visibilityField,
         ],

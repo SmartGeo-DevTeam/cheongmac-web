@@ -17,6 +17,22 @@ import {
   type HomeCoverSlide,
 } from '@/_lib/home-cover-content';
 import {
+  ABOUT_INTRO_CONTRIBUTION_ACTIVITIES,
+  ABOUT_INTRO_HISTORY_YEARS,
+  ABOUT_INTRO_OVERVIEW_ROWS,
+  ABOUT_INTRO_PROMISES,
+  ABOUT_INTRO_QUICK_LINKS,
+  ABOUT_INTRO_SPECIALTY_CARDS,
+  ABOUT_INTRO_WHY_POINTS,
+  type AboutIntroductionContributionActivity,
+  type AboutIntroductionHistoryYear,
+  type AboutIntroductionOverviewRow,
+  type AboutIntroductionPromise,
+  type AboutIntroductionQuickLink,
+  type AboutIntroductionSpecialtyCard,
+  type AboutIntroductionWhyPoint,
+} from '@/app/about/introduction/_data';
+import {
   FACILITY_ITEMS,
   FLOOR_GUIDES,
   type FacilityItem,
@@ -59,6 +75,7 @@ import {
 } from '@/app/guide/partner-hospital/_data';
 import { Prisma } from '@/generated/prisma/client';
 import {
+  getManagedPageConfig,
   type ManagedPageKey,
 } from '@/_lib/page-management-config';
 import { prisma } from '@/_lib/prisma';
@@ -165,6 +182,71 @@ function seedRows(
         data: inputJson(item),
         sortOrder: index,
       }));
+
+
+    case 'about-introduction':
+      return [
+        ...ABOUT_INTRO_SPECIALTY_CARDS.map((item, index) => ({
+          itemKey: item.itemKey,
+          itemType: 'specialty-card',
+          title: item.title,
+          summary: item.description,
+          imageUrls: [item.image],
+          data: inputJson(item),
+          sortOrder: index,
+        })),
+        ...ABOUT_INTRO_WHY_POINTS.map((item, index) => ({
+          itemKey: item.itemKey,
+          itemType: 'why-point',
+          title: item.title,
+          summary: item.description,
+          category: item.side,
+          data: inputJson(item),
+          sortOrder: 100 + index,
+        })),
+        ...ABOUT_INTRO_PROMISES.map((item, index) => ({
+          itemKey: item.itemKey,
+          itemType: 'promise',
+          title: item.title,
+          summary: item.description,
+          data: inputJson(item),
+          sortOrder: 200 + index,
+        })),
+        ...ABOUT_INTRO_QUICK_LINKS.map((item, index) => ({
+          itemKey: item.itemKey,
+          itemType: 'quick-link',
+          title: item.label,
+          summary: item.href,
+          data: inputJson(item),
+          sortOrder: 300 + index,
+        })),
+        ...ABOUT_INTRO_OVERVIEW_ROWS.map((item, index) => ({
+          itemKey: item.itemKey,
+          itemType: 'overview-row',
+          title: item.label,
+          summary: item.value,
+          data: inputJson(item),
+          sortOrder: 400 + index,
+        })),
+        ...ABOUT_INTRO_HISTORY_YEARS.map((item, index) => ({
+          itemKey: item.itemKey,
+          itemType: 'history-year',
+          title: String(item.year),
+          summary: item.details.join(' · '),
+          category: item.period,
+          data: inputJson(item),
+          sortOrder: 500 + index,
+        })),
+        ...ABOUT_INTRO_CONTRIBUTION_ACTIVITIES.map((item, index) => ({
+          itemKey: item.itemKey,
+          itemType: 'contribution-activity',
+          title: item.title,
+          summary: item.description ?? '',
+          imageUrls: [item.image],
+          data: inputJson(item),
+          sortOrder: 600 + index,
+        })),
+      ];
 
     case 'tour':
       return [
@@ -392,6 +474,31 @@ export async function ensureManagedPageSeeded(pageKey: ManagedPageKey) {
       create: { pageKey, version: targetVersion },
       update: { version: targetVersion },
     });
+
+    await tx.adminAuditLog.create({
+      data: {
+        actorId: null,
+        actorName: 'SYSTEM',
+        action: 'MANAGED_PAGE_SEED',
+        targetType: 'ManagedPageSeed',
+        targetId: pageKey,
+        source: 'SYSTEM',
+        sourcePath: getManagedPageConfig(pageKey).publicHref,
+        operation: state ? 'UPDATE' : 'CREATE',
+        beforeData: state
+          ? {
+              pageKey,
+              version: state.version,
+            }
+          : undefined,
+        afterData: {
+          pageKey,
+          version: targetVersion,
+          seededItemCount: rows.length,
+        },
+        changedFields: ['version', 'seededItems'],
+      },
+    });
   });
 }
 
@@ -575,6 +682,114 @@ export async function getCommonContentBannersManagedContent(): Promise<
 
     throw error;
   }
+}
+
+
+export async function getAboutIntroductionManagedContent(): Promise<{
+  specialtyCards: AboutIntroductionSpecialtyCard[];
+  whyPoints: AboutIntroductionWhyPoint[];
+  promises: AboutIntroductionPromise[];
+  quickLinks: AboutIntroductionQuickLink[];
+  overviewRows: AboutIntroductionOverviewRow[];
+  historyYears: AboutIntroductionHistoryYear[];
+  contributionActivities: AboutIntroductionContributionActivity[];
+}> {
+  const rows = await publicRows('about-introduction');
+
+  return {
+    specialtyCards: rows
+      .filter((row) => row.itemType === 'specialty-card')
+      .map((row) => {
+        const data = record(row.data);
+        return {
+          itemKey: row.itemKey,
+          title: String(data.title ?? row.title),
+          description: String(data.description ?? row.summary ?? ''),
+          image: String(data.image ?? row.imageUrls[0] ?? ''),
+        };
+      }),
+    whyPoints: rows
+      .filter((row) => row.itemType === 'why-point')
+      .map((row) => {
+        const data = record(row.data);
+        return {
+          itemKey: row.itemKey,
+          title: String(data.title ?? row.title),
+          description: String(data.description ?? row.summary ?? ''),
+          side:
+            data.side === 'right' || row.category === 'right'
+              ? 'right'
+              : 'left',
+        };
+      }),
+    promises: rows
+      .filter((row) => row.itemType === 'promise')
+      .map((row) => {
+        const data = record(row.data);
+        return {
+          itemKey: row.itemKey,
+          numberLabel: String(data.numberLabel ?? ''),
+          title: String(data.title ?? row.title),
+          description: String(data.description ?? row.summary ?? ''),
+        };
+      }),
+    quickLinks: rows
+      .filter((row) => row.itemType === 'quick-link')
+      .map((row) => {
+        const data = record(row.data);
+        return {
+          itemKey: row.itemKey,
+          label: String(data.label ?? row.title),
+          href: String(data.href ?? row.summary ?? '/'),
+        };
+      }),
+    overviewRows: rows
+      .filter((row) => row.itemType === 'overview-row')
+      .map((row) => {
+        const data = record(row.data);
+        return {
+          itemKey: row.itemKey,
+          label: String(data.label ?? row.title),
+          value: String(data.value ?? row.summary ?? ''),
+        };
+      }),
+    historyYears: rows
+      .filter((row) => row.itemType === 'history-year')
+      .map((row) => {
+        const data = record(row.data);
+        const period =
+          data.period === 'root' || data.period === 'future'
+            ? data.period
+            : row.category === 'root' || row.category === 'future'
+              ? row.category
+              : 'growth';
+
+        return {
+          itemKey: row.itemKey,
+          period,
+          year: Number(data.year ?? row.title),
+          title:
+            typeof data.title === 'string' && data.title
+              ? data.title
+              : undefined,
+          details: strings(data.details),
+        } satisfies AboutIntroductionHistoryYear;
+      }),
+    contributionActivities: rows
+      .filter((row) => row.itemType === 'contribution-activity')
+      .map((row) => {
+        const data = record(row.data);
+        return {
+          itemKey: row.itemKey,
+          title: String(data.title ?? row.title),
+          description:
+            typeof data.description === 'string' && data.description
+              ? data.description
+              : undefined,
+          image: String(data.image ?? row.imageUrls[0] ?? ''),
+        };
+      }),
+  };
 }
 
 export async function getHospitalTourManagedContent(): Promise<{

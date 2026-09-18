@@ -66,6 +66,7 @@ requireText(
 );
 
 const navigationHeaderFiles = [
+  'src/app/about/introduction/page.tsx',
   'src/app/about/doctors/page.tsx',
   'src/app/about/doctors/[doctorSlug]/page.tsx',
   'src/app/about/equipment/page.tsx',
@@ -139,6 +140,13 @@ forbidText(
   'src/app/_components/ui/breadcrumb.tsx',
   "from '@/_lib/navigation'",
   'Breadcrumb Client Component는 server navigation.ts를 import하면 안 됩니다.',
+);
+
+
+requireText(
+  'prisma/migrations/20260918_000013_about_introduction_page/migration.sql',
+  "'/about/introduction'",
+  '청맥병원 소개 LNB 데이터 migration이 필요합니다.',
 );
 
 if (errors.length) {
