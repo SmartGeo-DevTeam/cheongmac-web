@@ -57,49 +57,49 @@ export const ABOUT_INTRO_SPECIALTY_CARDS: AboutIntroductionSpecialtyCard[] = [
     title: '환자 중심',
     description:
       '질환만을 보지 않고, 환자의 건강과 삶의 질을 함께 살펴 꼭 맞는 치료 방향을 제시합니다.',
-    image: '/assets/images/hospital-tour/consulting-room.jpg',
+    image: 'https://cheongmacmedia.blob.core.windows.net/assets/managed/pages/about-introduction/specialty-card/specialty-patient-centered/image/b5d8884b637d830ad2a4187eb9f674cffc8384ad6db8042851ab20d735708fd2.png',
   },
   {
     itemKey: 'specialty-vein',
     title: '정확한 진단',
     description:
       '20년 이상 임상 경험과 체계적인 진단 시스템을 바탕으로 질환의 원인과 상태를 정확하게 짚어냅니다.',
-    image: '/assets/images/medical-equipment/logiq-p9-pro.png',
+    image: 'https://cheongmacmedia.blob.core.windows.net/assets/managed/pages/about-introduction/specialty-card/specialty-vein/image/7cec316b1938ee7108f614b8e0eea59ed263ce4e993e6bb5244d89e2c9d69df2.png',
   },
   {
     itemKey: 'specialty:root-cause',
     title: '근본 원인 치료',
     description:
       '당장의 증상 완화에 머물지 않고, 재발과 합병증까지 막는 근본적인 원인 해결에 집중합니다.',
-    image: '/assets/images/medical-equipment/ct.png',
+    image: 'https://cheongmacmedia.blob.core.windows.net/assets/managed/pages/about-introduction/specialty-card/specialty-root-cause/image/6b8e908053dfc2c9d02332ffaf79dc9d22c2d22b07cc09daf728fe86a5583751.png',
   },
   {
     itemKey: 'specialty:diagnosis',
     title: '정직한 진료',
     description:
       '과잉 진료 없이 공인된 학회 가이드라인에 따라 내 가족에게 권할 꼭 필요한 치료만 실천합니다.',
-    image: '/assets/images/hospital-tour/hybrid-or.jpg',
+    image: 'https://cheongmacmedia.blob.core.windows.net/assets/managed/pages/about-introduction/specialty-card/specialty-diagnosis/image/d3c823553b31b94c858f0d204824092b926a49457ea074d13b7d91bf514eaca8.png',
   },
   {
     itemKey: 'specialty:safety',
     title: '안전 우선 원칙',
     description:
       '외과·영상의학·마취과 전문의의 유기적인 다학제 협진으로 가장 안전한 치료 환경을 구축합니다.',
-    image: '/assets/images/hospital-tour/hyperbaric.jpg',
+    image: 'https://cheongmacmedia.blob.core.windows.net/assets/managed/pages/about-introduction/specialty-card/specialty-safety/image/5e574ae820e2dc07042fec3d49219d8b1ba4259d8397362d74e5fd3de5491f97.png',
   },
   {
     itemKey: 'specialty:expertise',
     title: '검증된 전문성',
     description:
       '풍부한 임상 경험과 끊임없는 최신 의학 연구를 토대로 환자 맞춤형 치료를 선보입니다.',
-    image: '/assets/doctors/byun-headshot-mobile.png',
+    image: 'https://cheongmacmedia.blob.core.windows.net/assets/managed/pages/about-introduction/specialty-card/specialty-expertise/image/f78bfc62053174407e245cdd07abcf85c21a1d80d2d4536e256b9758b0b04116.png',
   },
   {
     itemKey: 'specialty:lifetime',
     title: '평생 책임 관리',
     description:
       '치료에서 끝내지 않고, 건강한 일상을 온전히 되찾을 때까지 곁에서 지속 관리합니다.',
-    image: '/assets/images/hospital-tour/waiting-room.jpg',
+    image: 'https://cheongmacmedia.blob.core.windows.net/assets/managed/pages/about-introduction/specialty-card/specialty-lifetime/image/3dfdf6ebb7bf3bd2100b4ff5c2c10769b4b8e599440ee4d228ae2f4a786a6b58.png',
   },
 ];
 

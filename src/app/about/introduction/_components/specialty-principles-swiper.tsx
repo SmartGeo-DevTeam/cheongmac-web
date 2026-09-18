@@ -27,29 +27,22 @@ export default function SpecialtyPrinciplesSwiper({
 
   if (items.length === 0) return null;
 
-  const shouldLoop = items.length >= 5;
-
   const moveTo = (index: number) => {
     const swiper = swiperRef.current;
     if (!swiper) return;
-
-    if (shouldLoop) {
-      swiper.slideToLoop(index);
-      return;
-    }
-
     swiper.slideTo(index);
   };
 
   return (
     <div
       data-specialty-principles-swiper
-      className="mx-auto mt-10 w-full max-w-[300px] md:mt-12 md:max-w-[820px] xl:mt-14 xl:max-w-[1180px]"
+      className="mx-auto mt-10 w-full max-w-[243px] md:mt-12 md:max-w-[540px] lg:max-w-[780px] xl:mt-14 xl:max-w-[940px]"
     >
       <Swiper
         slidesPerView={1}
         centeredSlides
-        loop={shouldLoop}
+        initialSlide={0}
+        loop={false}
         spaceBetween={18}
         speed={620}
         grabCursor
@@ -90,42 +83,39 @@ export default function SpecialtyPrinciplesSwiper({
                 data-specialty-card
                 data-active={active ? 'true' : 'false'}
                 onClick={() => moveTo(index)}
-                className={`relative mx-auto h-[390px] w-full cursor-pointer overflow-hidden rounded-[24px] bg-white text-[#263039] transition-[transform,opacity,box-shadow] duration-500 ease-out sm:h-[405px] xl:h-[420px] ${
+                className={`relative mx-auto aspect-[243/311] w-full cursor-pointer overflow-hidden rounded-[22px] text-[#263039] transition-[transform,opacity,box-shadow] duration-500 ease-out ${
                   active
                     ? 'scale-100 opacity-100 shadow-[0_24px_54px_rgba(0,0,0,0.26)]'
-                    : 'scale-[0.94] opacity-80 shadow-[0_14px_32px_rgba(0,0,0,0.14)]'
+                    : 'scale-[0.96] opacity-90 shadow-[0_14px_32px_rgba(0,0,0,0.14)]'
                 }`}
               >
-                <div className="relative z-10 px-6 pb-3 pt-7 xl:px-7 xl:pt-8">
+                <img
+                  src={item.image}
+                  alt=""
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+
+                <div className="relative z-10 px-6 pt-6 xl:px-6 xl:pt-6">
                   <TypographyP
                     managed={false}
-                    className="text-[13px] font-bold tracking-[0.02em] text-[#CCD1D5] xl:text-sm"
+                    className="text-[12px] font-bold tracking-[0.02em] text-[#C7CDD2]"
                   >
                     {numberLabel}
                   </TypographyP>
 
                   <TypographyH3
                     managed={false}
-                    className="mt-1 break-keep text-[23px] font-bold leading-[1.2] tracking-[-0.045em] text-[#137D69] xl:text-[25px]"
+                    className="mt-1 break-keep text-[21px] font-bold leading-[1.18] tracking-[-0.045em] text-[#137D69] xl:text-[22px]"
                   >
                     {item.title}
                   </TypographyH3>
 
                   <TypographyP
                     managed={false}
-                    className="mt-4 break-keep text-[13px] font-medium leading-[1.8] tracking-[-0.025em] text-[#4F565D] xl:text-[14px] xl:leading-[1.85]"
+                    className="mt-4 break-keep text-[12px] font-medium leading-[1.72] tracking-[-0.025em] text-[#4F565D] xl:text-[12.5px]"
                   >
                     {item.description}
                   </TypographyP>
-                </div>
-
-                <div className="absolute inset-x-0 bottom-0 h-[43%] overflow-hidden bg-[#F4F6F7]">
-                  <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-14 bg-gradient-to-b from-white to-transparent" />
-                  <img
-                    src={item.image}
-                    alt=""
-                    className="h-full w-full object-cover"
-                  />
                 </div>
 
                 <ManagedItemEditButton
