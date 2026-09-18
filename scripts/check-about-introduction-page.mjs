@@ -44,8 +44,41 @@ for (const token of [
   "'history'",
   "'contribution'",
   'href={`/community/news/${item.id}`}',
+  'const INTRO_SPLASH_SECONDS = 2;',
+  'INTRO_SPLASH_DURATION_MS',
+  'INTRO_SPLASH_FADE_MS',
+  'function IntroSplash({',
+  'fixed inset-0 z-[200]',
+  "setSplashPhase('fading')",
+  "setSplashPhase('hidden')",
+  'document.documentElement.style.overflow',
+  'useInlineEditMode',
+  '2초 인트로 다시 보기',
 ]) {
   requireToken(component, token);
+}
+
+
+const introComponentSource = read(component);
+const introTabStart = introComponentSource.indexOf('function IntroTab({');
+const specialtyStart = introComponentSource.indexOf(
+  'label="혈관 전문진료 영역"',
+);
+const introTabLead = introComponentSource.slice(
+  introTabStart,
+  specialtyStart,
+);
+
+if (
+  introTabLead.includes(
+    '<SectionEyebrow>{copy.introEyebrow}</SectionEyebrow>',
+  ) ||
+  introTabLead.includes('{copy.introTitle1}')
+) {
+  console.error(
+    '❌ ABOUT_INTRODUCTION_CHECK 인트로 타이틀이 본문에 중복으로 쌓여 있습니다. full viewport splash에만 표시되어야 합니다.',
+  );
+  process.exit(1);
 }
 
 if (read(component).includes('NEWS_ITEMS')) {
@@ -134,5 +167,5 @@ requireToken(
 );
 
 console.log(
-  'ABOUT_INTRODUCTION_CHECK_OK — 청맥병원 소개 반응형 UI / ManagedPageItem DB / canonical 청맥뉴스 재사용 / 섹션별 인라인 편집 / 관리자·LNB 연결 확인',
+  'ABOUT_INTRODUCTION_CHECK_OK — 청맥병원 소개 2초 full viewport 인트로·fade / 반응형 UI / ManagedPageItem DB / canonical 청맥뉴스 재사용 / 섹션별 인라인 편집 / 관리자·LNB 연결 확인',
 );

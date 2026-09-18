@@ -5,6 +5,7 @@
 import CollectionAdminEditButton from '@/app/_components/inline-editor/collection-admin-edit-button';
 import EditablePageCopyRegion from '@/app/_components/inline-editor/editable-page-copy-region';
 import ManagedItemEditButton from '@/app/_components/inline-editor/managed-item-edit-button';
+import { useInlineEditMode } from '@/app/_providers/inline-edit-provider';
 import {
   H2 as TypographyH2,
   H3 as TypographyH3,
@@ -13,7 +14,12 @@ import {
 import type { InlineContentData } from '@/_lib/inline-content-shared';
 import { ArrowRight, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
-import { useMemo, useState, type ReactNode } from 'react';
+import {
+  useEffect,
+  useMemo,
+  useState,
+  type ReactNode,
+} from 'react';
 import type {
   AboutIntroductionContributionActivity,
   AboutIntroductionHistoryPeriod,
@@ -49,11 +55,59 @@ const HISTORY_PERIODS: Array<{
   { value: 'future', copyKey: 'historyFutureLabel' },
 ];
 
+const INTRO_SPLASH_SECONDS = 2;
+const INTRO_SPLASH_DURATION_MS =
+  INTRO_SPLASH_SECONDS * 1000;
+const INTRO_SPLASH_FADE_MS = 700;
+
+type IntroSplashPhase =
+  | 'visible'
+  | 'fading'
+  | 'hidden';
+
 function SectionEyebrow({ children }: { children: ReactNode }) {
   return (
     <TypographyP managed={false} className="text-center text-xs font-semibold uppercase tracking-[0.18em] text-[#1A8E7A] xl:text-sm">
       {children}
     </TypographyP>
+  );
+}
+
+
+function IntroSplash({
+  copy,
+  phase,
+}: {
+  copy: InlineContentData;
+  phase: IntroSplashPhase;
+}) {
+  if (phase === 'hidden') return null;
+
+  return (
+    <div
+      data-about-intro-splash
+      data-phase={phase}
+      className={`fixed inset-0 z-[200] flex h-screen min-h-[100dvh] w-screen items-center justify-center bg-white px-5 text-center transition-opacity ease-out motion-reduce:transition-none ${
+        phase === 'fading'
+          ? 'pointer-events-none opacity-0'
+          : 'opacity-100'
+      }`}
+      style={{
+        transitionDuration: `${INTRO_SPLASH_FADE_MS}ms`,
+      }}
+    >
+      <div className="mx-auto w-full max-w-5xl">
+        <SectionEyebrow>{copy.introEyebrow}</SectionEyebrow>
+        <TypographyH2
+          managed={false}
+          className="mt-4 break-keep text-[30px] font-bold leading-[1.45] tracking-[-0.05em] text-[#262C35] sm:text-[38px] xl:text-[48px]"
+        >
+          {copy.introTitle1}
+          <br />
+          {copy.introTitle2}
+        </TypographyH2>
+      </div>
+    </div>
   );
 }
 
@@ -123,39 +177,24 @@ function IntroTab({
         path="/about/introduction"
         copy={copy}
         persisted={persisted}
-        label="병원소개 첫 문장"
+        label="대한민국 혈관특별시 소개 문구"
         fieldKeys={[
-          'introEyebrow',
-          'introTitle1',
-          'introTitle2',
           'introStatementLead',
           'introStatementAccent',
           'introStatementTail',
         ]}
         className="relative"
       >
-        <section className="mx-auto max-w-5xl px-5 pb-16 pt-20 text-center xl:pb-28 xl:pt-32">
-          <SectionEyebrow>{copy.introEyebrow}</SectionEyebrow>
-          <TypographyH2
-            managed={false}
-            className="mt-3 break-keep text-2xl font-bold leading-[1.45] tracking-[-0.04em] text-[#262C35] xl:text-[38px]"
-          >
-            {copy.introTitle1}
-            <br />
-            {copy.introTitle2}
-          </TypographyH2>
-
-          <div className="mt-20 xl:mt-32">
-            <TypographyP managed={false} className="text-base font-semibold text-[#262C35] xl:text-xl">
-              {copy.introStatementLead}
-            </TypographyP>
-            <TypographyP managed={false} className="mx-auto mt-2 w-fit bg-[#FD7740] px-3 py-1.5 text-xl font-bold tracking-[-0.04em] text-white xl:text-[34px]">
-              {copy.introStatementAccent}
-            </TypographyP>
-            <TypographyP managed={false} className="mt-2 text-xl font-bold tracking-[-0.04em] text-[#262C35] xl:text-[34px]">
-              {copy.introStatementTail}
-            </TypographyP>
-          </div>
+        <section className="mx-auto max-w-5xl px-5 pb-16 pt-20 text-center xl:pb-28 xl:pt-28">
+          <TypographyP managed={false} className="text-base font-semibold text-[#262C35] xl:text-xl">
+            {copy.introStatementLead}
+          </TypographyP>
+          <TypographyP managed={false} className="mx-auto mt-2 w-fit bg-[#FD7740] px-3 py-1.5 text-xl font-bold tracking-[-0.04em] text-white xl:text-[34px]">
+            {copy.introStatementAccent}
+          </TypographyP>
+          <TypographyP managed={false} className="mt-2 text-xl font-bold tracking-[-0.04em] text-[#262C35] xl:text-[34px]">
+            {copy.introStatementTail}
+          </TypographyP>
         </section>
       </EditablePageCopyRegion>
 
@@ -875,14 +914,102 @@ export default function AboutIntroductionContent({
   latestNews: LatestNewsItem[];
 }) {
   const [activeTab, setActiveTab] = useState<AboutTab>('intro');
+  const { canEdit, editMode } = useInlineEditMode();
+  const [splashRun, setSplashRun] = useState(0);
+  const [splashPhase, setSplashPhase] =
+    useState<IntroSplashPhase>('visible');
+
+  useEffect(() => {
+    setSplashPhase('visible');
+
+    const fadeTimer = window.setTimeout(() => {
+      setSplashPhase('fading');
+    }, INTRO_SPLASH_DURATION_MS);
+
+    const hideTimer = window.setTimeout(() => {
+      setSplashPhase('hidden');
+    }, INTRO_SPLASH_DURATION_MS + INTRO_SPLASH_FADE_MS);
+
+    return () => {
+      window.clearTimeout(fadeTimer);
+      window.clearTimeout(hideTimer);
+    };
+  }, [splashRun]);
+
+  useEffect(() => {
+    if (splashPhase === 'hidden') return;
+
+    const htmlOverflow =
+      document.documentElement.style.overflow;
+    const bodyOverflow =
+      document.body.style.overflow;
+
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.documentElement.style.overflow =
+        htmlOverflow;
+      document.body.style.overflow = bodyOverflow;
+    };
+  }, [splashPhase]);
 
   return (
-    <div className="relative">
-      <EditablePageCopyRegion
-        path="/about/introduction"
+    <>
+      <IntroSplash
         copy={copy}
-        persisted={copyPersisted}
-        label="청맥병원 소개 탭"
+        phase={splashPhase}
+      />
+
+      <div className="relative">
+        {canEdit &&
+        editMode &&
+        splashPhase === 'hidden' ? (
+          <EditablePageCopyRegion
+            path="/about/introduction"
+            copy={copy}
+            persisted={copyPersisted}
+            label="인트로 화면 문구"
+            fieldKeys={[
+              'introEyebrow',
+              'introTitle1',
+              'introTitle2',
+            ]}
+            className="mx-auto mt-5 w-full max-w-7xl px-5 xl:px-0"
+          >
+            <div className="flex flex-col gap-3 rounded-xl border border-dashed border-cm-orange/35 bg-[#FFF9F5] p-4 sm:flex-row sm:items-center sm:justify-between">
+              <div className="min-w-0">
+                <TypographyP
+                  managed={false}
+                  className="text-xs font-semibold text-cm-orange"
+                >
+                  인트로 화면 편집
+                </TypographyP>
+                <TypographyP
+                  managed={false}
+                  className="mt-1 break-keep text-sm font-semibold text-[#3F3F46]"
+                >
+                  {copy.introTitle1} {copy.introTitle2}
+                </TypographyP>
+              </div>
+              <button
+                type="button"
+                onClick={() =>
+                  setSplashRun((current) => current + 1)
+                }
+                className="shrink-0 rounded-lg border border-cm-orange/25 bg-white px-3 py-2 text-xs font-semibold text-cm-orange hover:bg-[#FFF2E8]"
+              >
+                2초 인트로 다시 보기
+              </button>
+            </div>
+          </EditablePageCopyRegion>
+        ) : null}
+
+        <EditablePageCopyRegion
+          path="/about/introduction"
+          copy={copy}
+          persisted={copyPersisted}
+          label="청맥병원 소개 탭"
         fieldKeys={['tabIntro', 'tabHistory', 'tabContribution']}
         className="relative"
       >
@@ -923,6 +1050,7 @@ export default function AboutIntroductionContent({
           contributionActivities={contributionActivities}
         />
       ) : null}
-    </div>
+      </div>
+    </>
   );
 }
