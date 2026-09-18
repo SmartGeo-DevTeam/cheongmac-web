@@ -30,6 +30,7 @@ const delegatedChecks = [
   'scripts/check-admin-list-history-ui.mjs',
   'scripts/check-about-introduction-page.mjs',
   'scripts/check-about-specialty-swiper.mjs',
+  'scripts/check-about-stories-collage.mjs',
   'scripts/check-membership-session-guard.mjs',
   'scripts/check-inline-cms-v2.mjs',
   'scripts/check-inline-cms-v3.mjs',

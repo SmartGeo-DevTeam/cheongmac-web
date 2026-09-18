@@ -46,10 +46,15 @@ export const PUBLIC_PAGE_COPY = {
       specialtiesDescription:
         '청맥병원은 의료의 시작이자 중심을 사람에 둔\n이인위본 정신과 의료윤리를 바탕으로\n다음 7가지 원칙을 고집합니다.',
 
-      storiesEyebrow: 'CHEONGMAC STORIES',
+      storiesEyebrow: '청맥이 만난 사람들',
       storiesTitle: '치료를 넘어,\n사람에게 남은 이야기',
-      storiesImage: '/about-introduction/story-collage.webp',
-      storiesImageAlt: '청맥병원 의료진과 환자들의 이야기',
+      storiesImageTeam: 'https://cheongmacmedia.blob.core.windows.net/assets/managed/inline/page-copy/about-introduction/storiesImageTeam/55a5d3671fef87cf3927ee98c78fb1af0b705e6314d4bb048cfabf994c2182a3.png',
+      storiesImageSurgeon: 'https://cheongmacmedia.blob.core.windows.net/assets/managed/inline/page-copy/about-introduction/storiesImageSurgeon/5c880f14fc98ed6ee2554269c153b05d0002bd03a9c75d2767cce1bbe9cd1b8c.png',
+      storiesImageCalligraphy: 'https://cheongmacmedia.blob.core.windows.net/assets/managed/inline/page-copy/about-introduction/storiesImageCalligraphy/7cbb26806a52d38730c3bfc7b5f652d0f8f872f634f4b87873199c9e4b5605ff.png',
+      storiesImageBandage: 'https://cheongmacmedia.blob.core.windows.net/assets/managed/inline/page-copy/about-introduction/storiesImageBandage/d0f069fff9bc8d50ad4b988445c04b6205ba01d959974c8581119ca8f9f4f54c.png',
+      storiesImageConsultation: 'https://cheongmacmedia.blob.core.windows.net/assets/managed/inline/page-copy/about-introduction/storiesImageConsultation/c6586bad8650b139c50cb9ef55ccfaa510cf5ab49ffba2ee6d6753359cd767ab.png',
+      storiesImageFlowers: 'https://cheongmacmedia.blob.core.windows.net/assets/managed/inline/page-copy/about-introduction/storiesImageFlowers/5da1ffa4eaa8810f16b7bd4cfcdbff9d4a2c0a54a40531f6c8069c7b770a52b9.png',
+      storiesImageProcedure: 'https://cheongmacmedia.blob.core.windows.net/assets/managed/inline/page-copy/about-introduction/storiesImageProcedure/aa3fd7e7842028755873195103560b9cf1dc134f9daaf8283061d4b54385fa72.png',
 
       whyEyebrow: 'WHY CHEONGMAC',
       whyTitle: 'WHY 청맥',
@@ -115,8 +120,13 @@ export const PUBLIC_PAGE_COPY = {
 
       { key: 'storiesEyebrow', label: '청맥 이야기 보조제목', type: 'text' },
       { key: 'storiesTitle', label: '청맥 이야기 제목', type: 'editor', rows: 3 },
-      { key: 'storiesImage', label: '청맥 이야기 콜라주 이미지', type: 'image' },
-      { key: 'storiesImageAlt', label: '청맥 이야기 이미지 대체문구', type: 'text' },
+      { key: 'storiesImageTeam', label: '청맥 이야기 의료진 단체 이미지', type: 'image' },
+      { key: 'storiesImageSurgeon', label: '청맥 이야기 의료진 진료 이미지', type: 'image' },
+      { key: 'storiesImageCalligraphy', label: '청맥 이야기 의료진 서예 이미지', type: 'image' },
+      { key: 'storiesImageBandage', label: '청맥 이야기 의료진 손 이미지', type: 'image' },
+      { key: 'storiesImageConsultation', label: '청맥 이야기 상담 이미지', type: 'image' },
+      { key: 'storiesImageFlowers', label: '청맥 이야기 행사 이미지', type: 'image' },
+      { key: 'storiesImageProcedure', label: '청맥 이야기 의료 현장 이미지', type: 'image' },
 
       { key: 'whyEyebrow', label: 'WHY 청맥 보조제목', type: 'text' },
       { key: 'whyTitle', label: 'WHY 청맥 제목', type: 'text' },

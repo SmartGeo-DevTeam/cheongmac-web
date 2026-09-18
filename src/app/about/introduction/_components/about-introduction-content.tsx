@@ -6,6 +6,7 @@ import CollectionAdminEditButton from '@/app/_components/inline-editor/collectio
 import EditablePageCopyRegion from '@/app/_components/inline-editor/editable-page-copy-region';
 import ManagedItemEditButton from '@/app/_components/inline-editor/managed-item-edit-button';
 import SpecialtyPrinciplesSwiper from './specialty-principles-swiper';
+import StoriesCollage from './stories-collage';
 import { useInlineEditMode } from '@/app/_providers/inline-edit-provider';
 import {
   H2 as TypographyH2,
@@ -343,27 +344,17 @@ function IntroTab({
         fieldKeys={[
           'storiesEyebrow',
           'storiesTitle',
-          'storiesImage',
-          'storiesImageAlt',
+          'storiesImageTeam',
+          'storiesImageSurgeon',
+          'storiesImageCalligraphy',
+          'storiesImageBandage',
+          'storiesImageConsultation',
+          'storiesImageFlowers',
+          'storiesImageProcedure',
         ]}
         className="relative"
       >
-        <section className="bg-[linear-gradient(180deg,#F8FCFF_0%,#EAF6FE_100%)] py-16 xl:py-24">
-          <div className="mx-auto max-w-5xl px-5 text-center">
-            <SectionEyebrow>{copy.storiesEyebrow}</SectionEyebrow>
-            <TypographyH2
-              managed={false}
-              className="mt-3 whitespace-pre-line text-2xl font-bold leading-[1.45] tracking-[-0.04em] text-[#262C35] xl:text-[34px]"
-            >
-              {copy.storiesTitle}
-            </TypographyH2>
-            <img
-              src={copy.storiesImage}
-              alt={copy.storiesImageAlt}
-              className="mx-auto mt-10 w-full max-w-[620px] object-contain xl:mt-14"
-            />
-          </div>
-        </section>
+        <StoriesCollage copy={copy} />
       </EditablePageCopyRegion>
 
       <EditablePageCopyRegion
