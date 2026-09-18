@@ -29,6 +29,10 @@ type MoveNavigationInput = {
   direction: 'UP' | 'DOWN';
 };
 
+type DeleteNavigationInput = {
+  id: string;
+};
+
 async function getAdminActor() {
   const session = await getCurrentSession();
 
@@ -281,6 +285,83 @@ export async function moveNavigationItem(
           title: current.title,
           direction: input.direction,
           swappedWith: target.title,
+          parentId: current.parentId,
+        },
+      },
+    });
+  });
+
+  refreshNavigation();
+  return { ok: true };
+}
+
+export async function deleteNavigationItem(
+  input: DeleteNavigationInput,
+): Promise<ActionResult> {
+  const actor = await getAdminActor();
+
+  if (!actor) {
+    return { ok: false, error: '메뉴를 관리할 권한이 없습니다.' };
+  }
+
+  const current = await prisma.navigationMenu.findUnique({
+    where: { id: input.id },
+    select: {
+      id: true,
+      parentId: true,
+      title: true,
+      href: true,
+      sortOrder: true,
+      isVisible: true,
+      children: {
+        select: { id: true },
+        take: 1,
+      },
+    },
+  });
+
+  if (!current) {
+    return { ok: false, error: '삭제할 메뉴를 찾을 수 없습니다.' };
+  }
+
+  if (current.children.length > 0) {
+    return {
+      ok: false,
+      error: '하위 메뉴가 있는 상위 메뉴는 삭제할 수 없습니다. 하위 메뉴를 먼저 삭제해주세요.',
+    };
+  }
+
+  await prisma.$transaction(async (tx) => {
+    await tx.navigationMenu.delete({
+      where: { id: current.id },
+    });
+
+    await tx.adminAuditLog.create({
+      data: {
+        actorId: actor.id,
+        action: 'NAVIGATION_DELETE',
+        targetType: 'NavigationMenu',
+        targetId: current.id,
+        source: 'ADMIN_PAGE',
+        sourcePath: '/admin/common/navigation',
+        operation: 'DELETE',
+        beforeData: {
+          parentId: current.parentId,
+          title: current.title,
+          href: current.href,
+          sortOrder: current.sortOrder,
+          isVisible: current.isVisible,
+        },
+        changedFields: [
+          'parentId',
+          'title',
+          'href',
+          'sortOrder',
+          'isVisible',
+        ],
+        metadata: {
+          title: current.title,
+          href: current.href,
           parentId: current.parentId,
         },
       },

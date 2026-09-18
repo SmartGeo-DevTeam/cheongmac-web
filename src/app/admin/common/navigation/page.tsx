@@ -64,7 +64,7 @@ export default async function AdminNavigationPage() {
         <CardHeader>
           <CardTitle>메뉴 구성</CardTitle>
           <CardDescription>
-            위·아래 화살표로 같은 단계의 메뉴 순서를 바꿀 수 있습니다. 숨김으로 저장한 메뉴는 홈페이지에서는 보이지 않지만 이 화면에는 남아 있습니다.
+            위·아래 화살표로 같은 단계의 메뉴 순서를 바꿀 수 있습니다. 숨김으로 저장한 메뉴는 홈페이지에서는 보이지 않지만 이 화면에는 남아 있습니다. 불필요한 메뉴는 삭제할 수 있으며, 하위 메뉴가 있는 상위 메뉴는 하위 메뉴를 먼저 삭제해야 합니다.
           </CardDescription>
         </CardHeader>
         <CardContent>

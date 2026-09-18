@@ -149,6 +149,43 @@ requireText(
   '청맥병원 소개 LNB 데이터 migration이 필요합니다.',
 );
 
+
+requireText(
+  'src/app/admin/_actions/navigation-menu.ts',
+  'export async function deleteNavigationItem(',
+  'LNB 관리자에서 NavigationMenu를 실제 삭제하는 server action이 필요합니다.',
+);
+requireText(
+  'src/app/admin/_actions/navigation-menu.ts',
+  "action: 'NAVIGATION_DELETE'",
+  'LNB 메뉴 삭제도 변경 이력에 기록되어야 합니다.',
+);
+requireText(
+  'src/app/admin/_actions/navigation-menu.ts',
+  "sourcePath: '/admin/common/navigation'",
+  'LNB 삭제 이력에 변경 위치를 남겨야 합니다.',
+);
+requireText(
+  'src/app/admin/_actions/navigation-menu.ts',
+  "operation: 'DELETE'",
+  'LNB 삭제 이력은 DELETE 작업으로 기록되어야 합니다.',
+);
+requireText(
+  'src/app/admin/common/navigation/navigation-manager.tsx',
+  'deleteNavigationItem',
+  'LNB 메뉴 행에서 삭제 action을 호출해야 합니다.',
+);
+requireText(
+  'src/app/admin/common/navigation/navigation-manager.tsx',
+  '메뉴 삭제',
+  'LNB 메뉴 행에 사용자용 삭제 버튼이 필요합니다.',
+);
+requireText(
+  'src/app/admin/common/navigation/navigation-manager.tsx',
+  'item.children.length > 0',
+  '하위 메뉴가 있는 상위 메뉴는 UI에서도 바로 삭제하지 못하게 해야 합니다.',
+);
+
 if (errors.length) {
   console.error('\nNavigation database integration check failed:\n');
   for (const error of errors) {

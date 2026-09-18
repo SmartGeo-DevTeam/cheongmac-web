@@ -2,6 +2,7 @@
 
 import {
   createNavigationItem,
+  deleteNavigationItem,
   moveNavigationItem,
   updateNavigationItem,
 } from '@/app/admin/_actions/navigation-menu';
@@ -14,6 +15,7 @@ import {
   CornerDownRight,
   ExternalLink,
   Plus,
+  Trash2,
 } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -94,6 +96,35 @@ function MenuEditorRow({
 
       if (!result.ok) {
         setMessage(result.error ?? '순서를 바꾸지 못했습니다.');
+        return;
+      }
+
+      router.refresh();
+    });
+  };
+
+  const remove = () => {
+    if (isPending) return;
+
+    if (
+      !window.confirm(
+        `"${item.title}" 메뉴를 삭제할까요?\n삭제 후에는 복구할 수 없습니다.`,
+      )
+    ) {
+      return;
+    }
+
+    setMessage('');
+
+    startTransition(async () => {
+      const result = await deleteNavigationItem({
+        id: item.id,
+      });
+
+      if (!result.ok) {
+        setMessage(
+          result.error ?? '메뉴를 삭제하지 못했습니다.',
+        );
         return;
       }
 
@@ -196,6 +227,23 @@ function MenuEditorRow({
 
           <Button disabled={isPending || !isDirty} onClick={save}>
             {isPending ? '처리 중...' : '저장'}
+          </Button>
+
+          <Button
+            type="button"
+            variant="outline"
+            disabled={isPending || item.children.length > 0}
+            onClick={remove}
+            className="border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700"
+            aria-label={`${item.title} 메뉴 삭제`}
+            title={
+              item.children.length > 0
+                ? '하위 메뉴를 먼저 삭제해주세요.'
+                : `${item.title} 메뉴 삭제`
+            }
+          >
+            <Trash2 className="size-4" />
+            삭제
           </Button>
         </div>
       </div>
