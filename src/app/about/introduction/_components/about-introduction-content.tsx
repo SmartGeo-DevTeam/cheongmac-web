@@ -210,20 +210,26 @@ function IntroTab({
         ]}
         className="relative"
       >
-        <section className="mx-auto grid w-full max-w-6xl gap-8 px-5 pb-20 xl:grid-cols-[1.05fr_0.95fr] xl:items-center xl:gap-16 xl:px-0 xl:pb-32">
-          <div className="overflow-hidden rounded-[20px] bg-[#F4F6F7]">
+        <section
+          data-about-building-feature
+          className="mx-auto grid w-full max-w-[1280px] overflow-hidden bg-white pb-20 xl:grid-cols-[minmax(0,737px)_minmax(0,543px)] xl:items-stretch xl:pb-32"
+        >
+          <div className="bg-[#F4F6F7] xl:h-[868px]">
             <img
               src={copy.buildingImage}
               alt={copy.buildingAlt}
-              className="aspect-[4/3] w-full object-cover"
+              className="block aspect-[737/868] h-auto w-full object-cover xl:h-[868px] xl:aspect-auto"
             />
           </div>
-          <TypographyP
-            managed={false}
-            className="whitespace-pre-line break-keep text-[15px] leading-[1.9] text-[#565C63] xl:text-lg xl:leading-[2]"
-          >
-            {copy.buildingDescription}
-          </TypographyP>
+
+          <div className="flex items-center px-5 py-12 sm:px-8 lg:px-10 xl:min-h-[868px] xl:px-14 xl:py-16">
+            <TypographyP
+              managed={false}
+              className="mx-auto w-full max-w-[430px] whitespace-pre-line break-keep text-[15px] leading-[1.9] text-[#3E4650] sm:text-base xl:text-[17px] xl:leading-[2]"
+            >
+              {copy.buildingDescription}
+            </TypographyP>
+          </div>
         </section>
       </EditablePageCopyRegion>
 

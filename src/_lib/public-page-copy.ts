@@ -27,7 +27,7 @@ export const PUBLIC_PAGE_COPY = {
       introStatementAccent: '대한민국 혈관특별시',
       introStatementTail: '청맥병원입니다.',
 
-      buildingImage: '/about-introduction/building.webp',
+      buildingImage: 'https://cheongmacmedia.blob.core.windows.net/assets/managed/inline/page-copy/about-introduction/buildingImage/27ccc246716079d6df11c8e8f571ca3da57cec693fa08230e29a51ebe0af0afa.png',
       buildingAlt: '청맥병원 건물',
       buildingDescription:
         '한 사람의 혈관 건강은 곧 그 사람의 삶과 연결되어 있습니다.\n청맥병원은 혈관질환에 집중해 온 경험을 바탕으로 정확한 진단과 환자에게 필요한 치료를 고민합니다.\n\n혈관을 깊이 이해하고 환자의 일상을 함께 살피는 진료, 그것이 청맥이 걸어온 길이자 앞으로도 지켜갈 기준입니다.',

@@ -54,6 +54,12 @@ for (const token of [
   'document.documentElement.style.overflow',
   'useInlineEditMode',
   '2초 인트로 다시 보기',
+  'data-about-building-feature',
+  'max-w-[1280px]',
+  'xl:grid-cols-[minmax(0,737px)_minmax(0,543px)]',
+  'xl:h-[868px]',
+  'aspect-[737/868]',
+  'xl:min-h-[868px]',
 ]) {
   requireToken(component, token);
 }
@@ -115,7 +121,7 @@ for (const token of [
 const copy = 'src/_lib/public-page-copy.ts';
 for (const token of [
   "'/about/introduction'",
-  "buildingImage: '/about-introduction/building.webp'",
+  "buildingImage: 'https://cheongmacmedia.blob.core.windows.net/assets/managed/inline/page-copy/about-introduction/buildingImage/27ccc246716079d6df11c8e8f571ca3da57cec693fa08230e29a51ebe0af0afa.png'",
   "historyHeroImage: '/assets/news/fifty-thousand.webp'",
   "contributionHeroImage: '/about-introduction/contribution-hero.webp'",
 ]) {
@@ -167,5 +173,5 @@ requireToken(
 );
 
 console.log(
-  'ABOUT_INTRODUCTION_CHECK_OK — 청맥병원 소개 2초 full viewport 인트로·fade / 반응형 UI / ManagedPageItem DB / canonical 청맥뉴스 재사용 / 섹션별 인라인 편집 / 관리자·LNB 연결 확인',
+  'ABOUT_INTRODUCTION_CHECK_OK — 청맥병원 소개 2초 full viewport 인트로·fade / 1280×868 대형 건물 비주얼 / Azure canonical 이미지 / 반응형 UI / ManagedPageItem DB / canonical 청맥뉴스 재사용 / 섹션별 인라인 편집 / 관리자·LNB 연결 확인',
 );
