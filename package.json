@@ -32,7 +32,8 @@
     "check:audit-history": "node scripts/check-admin-audit-history.mjs",
     "check:admin-list-history-ui": "node scripts/check-admin-list-history-ui.mjs",
     "check:about-introduction": "node scripts/check-about-introduction-page.mjs",
-    "check:membership-session": "node scripts/check-membership-session-guard.mjs"
+    "check:membership-session": "node scripts/check-membership-session-guard.mjs",
+    "check:about-specialty-swiper": "node scripts/check-about-specialty-swiper.mjs"
   },
   "dependencies": {
     "@better-auth/prisma-adapter": "1.7.3",

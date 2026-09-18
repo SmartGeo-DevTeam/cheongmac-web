@@ -55,43 +55,50 @@ export const ABOUT_INTRO_SPECIALTY_CARDS: AboutIntroductionSpecialtyCard[] = [
   {
     itemKey: 'specialty:patient-centered',
     title: '환자 중심',
-    description: '환자의 삶과 일상을 먼저 생각하는 혈관 진료를 지향합니다.',
+    description:
+      '질환만을 보지 않고, 환자의 건강과 삶의 질을 함께 살펴 꼭 맞는 치료 방향을 제시합니다.',
     image: '/assets/images/hospital-tour/consulting-room.jpg',
   },
   {
     itemKey: 'specialty-vein',
-    title: '정맥 질환',
-    description: '하지정맥류부터 혈전·골반정맥류까지 정맥질환을 폭넓게 진료합니다.',
-    image: '/assets/images/hospital-tour/hybrid-or.jpg',
+    title: '정확한 진단',
+    description:
+      '20년 이상 임상 경험과 체계적인 진단 시스템을 바탕으로 질환의 원인과 상태를 정확하게 짚어냅니다.',
+    image: '/assets/images/medical-equipment/logiq-p9-pro.png',
   },
   {
     itemKey: 'specialty:root-cause',
     title: '근본 원인 치료',
-    description: '보이는 증상뿐 아니라 혈관 문제의 원인까지 확인합니다.',
+    description:
+      '당장의 증상 완화에 머물지 않고, 재발과 합병증까지 막는 근본적인 원인 해결에 집중합니다.',
     image: '/assets/images/medical-equipment/ct.png',
   },
   {
     itemKey: 'specialty:diagnosis',
-    title: '정확한 진단',
-    description: '혈관 초음파와 영상검사를 바탕으로 상태를 세밀하게 확인합니다.',
-    image: '/assets/images/medical-equipment/logiq-p9-pro.png',
+    title: '정직한 진료',
+    description:
+      '과잉 진료 없이 공인된 학회 가이드라인에 따라 내 가족에게 권할 꼭 필요한 치료만 실천합니다.',
+    image: '/assets/images/hospital-tour/hybrid-or.jpg',
   },
   {
     itemKey: 'specialty:safety',
     title: '안전 우선 원칙',
-    description: '치료 전 과정에서 환자의 안전과 회복을 가장 먼저 고려합니다.',
+    description:
+      '외과·영상의학·마취과 전문의의 유기적인 다학제 협진으로 가장 안전한 치료 환경을 구축합니다.',
     image: '/assets/images/hospital-tour/hyperbaric.jpg',
   },
   {
     itemKey: 'specialty:expertise',
     title: '검증된 전문성',
-    description: '축적된 임상 경험과 지속적인 학술 활동을 진료에 연결합니다.',
+    description:
+      '풍부한 임상 경험과 끊임없는 최신 의학 연구를 토대로 환자 맞춤형 치료를 선보입니다.',
     image: '/assets/doctors/byun-headshot-mobile.png',
   },
   {
     itemKey: 'specialty:lifetime',
-    title: '평생 혈관 관리',
-    description: '치료 이후의 생활관리까지 이어지는 혈관 건강 파트너가 되겠습니다.',
+    title: '평생 책임 관리',
+    description:
+      '치료에서 끝내지 않고, 건강한 일상을 온전히 되찾을 때까지 곁에서 지속 관리합니다.',
     image: '/assets/images/hospital-tour/waiting-room.jpg',
   },
 ];

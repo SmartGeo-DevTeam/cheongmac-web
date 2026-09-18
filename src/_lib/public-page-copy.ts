@@ -41,10 +41,10 @@ export const PUBLIC_PAGE_COPY = {
       buildingDescriptionClosing:
         '이념 아래 청맥병원의 문을 활짝 열었습니다.',
 
-      specialtiesEyebrow: 'VASCULAR SPECIALTY',
-      specialtiesTitle: '정확한 진료로, 필요한 치료만',
+      specialtiesEyebrow: '청맥이 지켜온 원칙',
+      specialtiesTitle: '정직한 진료로, 필요한 치료만',
       specialtiesDescription:
-        '혈관질환은 원인과 진행 정도가 모두 다릅니다.\n청맥은 환자 한 분 한 분의 상태를 정확히 확인하고 필요한 치료를 제안합니다.',
+        '청맥병원은 의료의 시작이자 중심을 사람에 둔\n이인위본 정신과 의료윤리를 바탕으로\n다음 7가지 원칙을 고집합니다.',
 
       storiesEyebrow: 'CHEONGMAC STORIES',
       storiesTitle: '치료를 넘어,\n사람에게 남은 이야기',

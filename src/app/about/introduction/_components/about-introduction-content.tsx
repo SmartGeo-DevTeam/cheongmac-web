@@ -5,6 +5,7 @@
 import CollectionAdminEditButton from '@/app/_components/inline-editor/collection-admin-edit-button';
 import EditablePageCopyRegion from '@/app/_components/inline-editor/editable-page-copy-region';
 import ManagedItemEditButton from '@/app/_components/inline-editor/managed-item-edit-button';
+import SpecialtyPrinciplesSwiper from './specialty-principles-swiper';
 import { useInlineEditMode } from '@/app/_providers/inline-edit-provider';
 import {
   H2 as TypographyH2,
@@ -294,64 +295,42 @@ function IntroTab({
         ]}
         className="group/cms-collection relative"
       >
-        <section className="relative overflow-hidden bg-[#002F31] py-16 xl:py-24">
+        <section
+          data-specialty-principles-section
+          className="relative min-h-[650px] overflow-hidden bg-[#002B2E] py-20 xl:min-h-[720px] xl:py-24"
+        >
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_-6%,rgba(77,151,190,0.48)_0%,rgba(25,89,105,0.26)_18%,transparent_42%),radial-gradient(circle_at_5%_95%,rgba(0,108,77,0.34)_0%,transparent_36%),linear-gradient(112deg,#00363A_0%,#002A2C_48%,#002123_100%)]" />
+          <div className="pointer-events-none absolute left-[12%] top-[18%] size-1 rounded-full bg-[#24A7D5]/60 shadow-[120px_55px_0_rgba(36,167,213,.38),260px_-20px_0_rgba(36,167,213,.28),420px_80px_0_rgba(36,167,213,.22)]" />
+
           <CollectionAdminEditButton
             href="/admin/pages/about-introduction?type=specialty-card"
             label="혈관 전문진료 카드"
             className="right-5 top-5"
           />
-          <div className="mx-auto max-w-7xl px-5 xl:px-0">
+
+          <div className="relative z-10 mx-auto w-full max-w-[1320px] px-5 xl:px-0">
             <div className="text-center text-white">
-              <TypographyP managed={false} className="text-xs font-semibold tracking-[0.18em] text-[#61C6B5] xl:text-sm">
+              <TypographyP
+                managed={false}
+                className="text-xs font-bold tracking-[-0.01em] text-[#FF7846] xl:text-sm"
+              >
                 {copy.specialtiesEyebrow}
               </TypographyP>
               <TypographyH2
                 managed={false}
-                className="mt-3 text-2xl font-bold tracking-[-0.04em] text-white xl:text-[34px]"
+                className="mt-3 break-keep text-[28px] font-bold leading-[1.35] tracking-[-0.045em] text-white xl:text-[38px]"
               >
                 {copy.specialtiesTitle}
               </TypographyH2>
               <TypographyP
                 managed={false}
-                className="mx-auto mt-3 max-w-2xl whitespace-pre-line break-keep text-sm leading-7 text-white/70 xl:text-base"
+                className="mx-auto mt-7 max-w-[620px] whitespace-pre-line break-keep text-[14px] font-medium leading-[1.8] tracking-[-0.025em] text-white/80 xl:text-[16px] xl:leading-[1.85]"
               >
                 {copy.specialtiesDescription}
               </TypographyP>
             </div>
 
-            <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-7 xl:gap-4">
-              {specialtyCards.map((item) => (
-                <article
-                  key={item.itemKey}
-                  className="relative overflow-hidden rounded-2xl bg-white text-[#262C35]"
-                >
-                  <div className="px-4 pb-2 pt-5">
-                    <TypographyH3
-                      managed={false}
-                      className="text-base font-bold text-[#0B755F] xl:text-lg"
-                    >
-                      {item.title}
-                    </TypographyH3>
-                    <TypographyP
-                      managed={false}
-                      className="mt-2 line-clamp-3 text-xs leading-5 text-[#6C7279]"
-                    >
-                      {item.description}
-                    </TypographyP>
-                  </div>
-                  <img
-                    src={item.image}
-                    alt=""
-                    className="mt-1 aspect-[4/3] w-full object-cover"
-                  />
-                  <ManagedItemEditButton
-                    pageKey="about-introduction"
-                    itemKey={item.itemKey}
-                    label={item.title}
-                  />
-                </article>
-              ))}
-            </div>
+            <SpecialtyPrinciplesSwiper items={specialtyCards} />
           </div>
         </section>
       </EditablePageCopyRegion>
