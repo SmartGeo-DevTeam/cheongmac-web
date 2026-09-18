@@ -12,6 +12,7 @@ import {
   P as TypographyP,
 } from '@/app/_components/ui/typography';
 import type { InlineContentData } from '@/_lib/inline-content-shared';
+import { notoSerifKR } from '@/_lib/fonts';
 import { ArrowRight, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import {
@@ -206,7 +207,13 @@ function IntroTab({
         fieldKeys={[
           'buildingImage',
           'buildingAlt',
-          'buildingDescription',
+          'buildingDescriptionPrimary',
+          'buildingDescriptionSecondary',
+          'buildingDescriptionClosingLead',
+          'buildingPhilosophyLead',
+          'buildingPhilosophyAccent',
+          'buildingPhilosophySuffix',
+          'buildingDescriptionClosing',
         ]}
         className="relative"
       >
@@ -222,13 +229,55 @@ function IntroTab({
             />
           </div>
 
-          <div className="flex items-center px-5 py-12 sm:px-8 lg:px-10 xl:min-h-[868px] xl:px-14 xl:py-16">
-            <TypographyP
-              managed={false}
-              className="mx-auto w-full max-w-[430px] whitespace-pre-line break-keep text-[15px] leading-[1.9] text-[#3E4650] sm:text-base xl:text-[17px] xl:leading-[2]"
-            >
-              {copy.buildingDescription}
-            </TypographyP>
+          <div
+            data-about-building-story
+            className="flex items-center px-5 py-12 sm:px-8 lg:px-10 xl:min-h-[868px] xl:px-[42px] xl:py-16"
+          >
+            <div className="mx-auto w-full max-w-[500px] text-[#27303B]">
+              <TypographyP
+                managed={false}
+                className="whitespace-pre-line break-keep text-[15px] font-medium leading-[1.85] tracking-[-0.035em] sm:text-base xl:text-[18px] xl:leading-[1.85]"
+              >
+                {copy.buildingDescriptionPrimary}
+              </TypographyP>
+
+              <TypographyP
+                managed={false}
+                className="mt-8 whitespace-pre-line break-keep text-[15px] font-medium leading-[1.85] tracking-[-0.035em] sm:text-base xl:mt-10 xl:text-[18px] xl:leading-[1.85]"
+              >
+                {copy.buildingDescriptionSecondary}
+              </TypographyP>
+
+              <div className="mt-8 xl:mt-10">
+                <TypographyP
+                  managed={false}
+                  className="break-keep text-[15px] font-medium leading-[1.85] tracking-[-0.035em] sm:text-base xl:text-[18px] xl:leading-[1.85]"
+                >
+                  {copy.buildingDescriptionClosingLead}
+                </TypographyP>
+
+                <TypographyP
+                  managed={false}
+                  className="mt-2 break-keep text-[15px] font-medium leading-[1.9] tracking-[-0.035em] sm:text-base xl:mt-3 xl:text-[18px]"
+                >
+                  {copy.buildingPhilosophyLead}{' '}
+                  <span
+                    data-about-philosophy-accent
+                    className={`${notoSerifKR.className} inline-block align-[-0.06em] text-[22px] font-bold leading-none tracking-[-0.05em] text-[#007A67] sm:text-[24px] xl:text-[29px]`}
+                  >
+                    {copy.buildingPhilosophyAccent}
+                  </span>
+                  {copy.buildingPhilosophySuffix}
+                </TypographyP>
+
+                <TypographyP
+                  managed={false}
+                  className="mt-1 break-keep text-[15px] font-medium leading-[1.85] tracking-[-0.035em] sm:text-base xl:text-[18px] xl:leading-[1.85]"
+                >
+                  {copy.buildingDescriptionClosing}
+                </TypographyP>
+              </div>
+            </div>
           </div>
         </section>
       </EditablePageCopyRegion>

@@ -29,8 +29,17 @@ export const PUBLIC_PAGE_COPY = {
 
       buildingImage: 'https://cheongmacmedia.blob.core.windows.net/assets/managed/inline/page-copy/about-introduction/buildingImage/27ccc246716079d6df11c8e8f571ca3da57cec693fa08230e29a51ebe0af0afa.png',
       buildingAlt: '청맥병원 건물',
-      buildingDescription:
-        '한 사람의 혈관 건강은 곧 그 사람의 삶과 연결되어 있습니다.\n청맥병원은 혈관질환에 집중해 온 경험을 바탕으로 정확한 진단과 환자에게 필요한 치료를 고민합니다.\n\n혈관을 깊이 이해하고 환자의 일상을 함께 살피는 진료, 그것이 청맥이 걸어온 길이자 앞으로도 지켜갈 기준입니다.',
+      buildingDescriptionPrimary:
+        '당시 혈관질환은 많은 환자가 고통을 겪으면서도\n체계적인 진료와 올바른 치료를 받기 어려웠던 분야였습니다.',
+      buildingDescriptionSecondary:
+        '청맥병원은 그 길을 외면하지 않았습니다.\n우리 몸 어디에도 혈관이 닿지 않는 곳은 없고\n혈관 건강을 지키는 일이 곧 사람의 삶을 지키는 일입니다.',
+      buildingDescriptionClosingLead:
+        '맑고 건강한 혈관으로 더 나은 삶을 드리려는 마음을 담아,',
+      buildingPhilosophyLead: '사람을 근본으로 여기는',
+      buildingPhilosophyAccent: '이인위본(以人爲本)',
+      buildingPhilosophySuffix: '의',
+      buildingDescriptionClosing:
+        '이념 아래 청맥병원의 문을 활짝 열었습니다.',
 
       specialtiesEyebrow: 'VASCULAR SPECIALTY',
       specialtiesTitle: '정확한 진료로, 필요한 치료만',
@@ -92,7 +101,13 @@ export const PUBLIC_PAGE_COPY = {
 
       { key: 'buildingImage', label: '병원소개 건물 이미지', type: 'image' },
       { key: 'buildingAlt', label: '건물 이미지 대체문구', type: 'text' },
-      { key: 'buildingDescription', label: '병원소개 본문', type: 'editor', rows: 8 },
+      { key: 'buildingDescriptionPrimary', label: '병원소개 본문 1', type: 'editor', rows: 3 },
+      { key: 'buildingDescriptionSecondary', label: '병원소개 본문 2', type: 'editor', rows: 4 },
+      { key: 'buildingDescriptionClosingLead', label: '병원소개 본문 3 첫 문장', type: 'text' },
+      { key: 'buildingPhilosophyLead', label: '이념 강조 앞 문구', type: 'text' },
+      { key: 'buildingPhilosophyAccent', label: '이념 강조 문구', type: 'text' },
+      { key: 'buildingPhilosophySuffix', label: '이념 강조 뒤 조사', type: 'text' },
+      { key: 'buildingDescriptionClosing', label: '병원소개 본문 3 마지막 문장', type: 'text' },
 
       { key: 'specialtiesEyebrow', label: '혈관 전문진료 보조제목', type: 'text' },
       { key: 'specialtiesTitle', label: '혈관 전문진료 제목', type: 'text' },

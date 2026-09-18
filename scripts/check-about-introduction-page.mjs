@@ -60,6 +60,18 @@ for (const token of [
   'xl:h-[868px]',
   'aspect-[737/868]',
   'xl:min-h-[868px]',
+  'data-about-building-story',
+  'buildingDescriptionPrimary',
+  'buildingDescriptionSecondary',
+  'buildingDescriptionClosingLead',
+  'buildingPhilosophyLead',
+  'buildingPhilosophyAccent',
+  'buildingPhilosophySuffix',
+  'buildingDescriptionClosing',
+  'data-about-philosophy-accent',
+  'notoSerifKR.className',
+  'text-[#007A67]',
+  'xl:text-[29px]',
 ]) {
   requireToken(component, token);
 }
@@ -128,6 +140,19 @@ for (const token of [
   requireToken(copy, token);
 }
 
+
+const aboutCopySource = read(copy);
+if (
+  aboutCopySource.includes(
+    "{ key: 'buildingDescription', label: '병원소개 본문'",
+  )
+) {
+  console.error(
+    '❌ ABOUT_INTRODUCTION_CHECK 기존 단일 buildingDescription 필드가 남아 있습니다.',
+  );
+  process.exit(1);
+}
+
 requireToken(
   'src/_lib/public-page-management.ts',
   "'/about/introduction'",
@@ -173,5 +198,5 @@ requireToken(
 );
 
 console.log(
-  'ABOUT_INTRODUCTION_CHECK_OK — 청맥병원 소개 2초 full viewport 인트로·fade / 1280×868 대형 건물 비주얼 / Azure canonical 이미지 / 반응형 UI / ManagedPageItem DB / canonical 청맥뉴스 재사용 / 섹션별 인라인 편집 / 관리자·LNB 연결 확인',
+  'ABOUT_INTRODUCTION_CHECK_OK — 청맥병원 소개 2초 full viewport 인트로·fade / 1280×868 대형 건물 비주얼 / 시안 본문·이인위본 강조 스타일 / Azure canonical 이미지 / 반응형 UI / ManagedPageItem DB / canonical 청맥뉴스 재사용 / 섹션별 인라인 편집 / 관리자·LNB 연결 확인',
 );
