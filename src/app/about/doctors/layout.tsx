@@ -1,10 +1,10 @@
 import Breadcrumb from '@/app/_components/common/breadcrumb';
 import Inner from '@/app/_components/common/inner';
-import PageTitle from '@/app/_components/common/page-title';
+import PageHeader from '@/app/_components/common/page-header';
 import Spacer from '@/app/_components/common/spacer';
 import type { ReactNode } from 'react';
 
-export default function AboutDoctorsLayout({
+export default function AboutIntroductionLayout({
   children,
 }: {
   children: ReactNode;
@@ -17,8 +17,10 @@ export default function AboutDoctorsLayout({
         <Breadcrumb />
       </Inner>
 
-      <PageTitle title="의료진/진료과" />
-      {/* 여기까지 하면서 doctor로 넘어가려다가 연혁, 사회공헌 데스크탑 안 한 거 생각나서 돌아감 - 10/22(목) 10:17  */}
+      <PageHeader
+        title="의료진/진료과"
+        desc="대한민국 혈관치료의 표준을 만들어가는 청맥 의료진을 소개합니다."
+      />
 
       {children}
     </>

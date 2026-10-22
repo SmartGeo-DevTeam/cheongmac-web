@@ -14,10 +14,11 @@ export default function Inner({
   return (
     <div
       className={`
-        ${usePaddingHorizontalInMobile ? `px-5` : ``}
+        ${usePaddingHorizontalInMobile ? 'px-5' : ''}
+        ${usePaddingHorizontalInDesktop ? 'xl:px-5' : 'xl:px-0'}
         ${className}
         xl:mx-auto xl:max-w-7xl
-        `}
+      `}
     >
       {children}
     </div>

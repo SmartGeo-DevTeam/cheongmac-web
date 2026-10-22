@@ -582,7 +582,8 @@
 }
 
 @layer base {
-  body { color: var(--color-text-primary); /* #262C35 */ background-color: var(--color-bg-base); /* #FFFFFF */ line-height: 1.8; letter-spacing: -0.03em; }
+  ::-webkit-scrollbar { display: none; }
+  body { color: var(--color-text-primary); /* #262C35 */ background-color: var(--color-bg-base); /* #FFFFFF */ line-height: 1.8; letter-spacing: -0.03em; -ms-overflow-style: none; }
   button { cursor: pointer; }
 }
 

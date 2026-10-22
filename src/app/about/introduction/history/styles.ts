@@ -11,8 +11,7 @@ export type HistorySectionStylesType = {
 };
 
 const COMMON_HISTORY_STYLES: HistorySectionStylesType = {
-  section: `relative first-of-type:mt-5
-            xl:first-of-type:mt-25`,
+  section: `relative`,
   background: `sticky -top-10 w-full
                xl:top-0`,
   backgroundAspect: ``,
