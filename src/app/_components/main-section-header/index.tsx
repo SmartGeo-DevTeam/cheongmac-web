@@ -1,7 +1,3 @@
-import {
-  H2 as TypographyH2,
-  P as TypographyP,
-} from '@/app/_components/ui/typography';
 import type { ReactNode } from 'react';
 
 function MainSectionHeader({
@@ -21,19 +17,19 @@ function MainSectionHeader({
     <div
       className={`mx-auto max-w-7xl w-full ${usePaddingHorizontal ? 'px-5' : ''} ${className}`}
     >
-      <TypographyP managed={false}
+      <h1
         className="font-semibold text-lg
         xl:text-2xl"
       >
         {eyebrow}
-      </TypographyP>
+      </h1>
 
-      <TypographyH2 managed={false}
+      <div
         className="mt-2 break-keep font-extrabold text-3xl
         xl:leading-[120%] xl:text-5xl"
       >
         {title}
-      </TypographyH2>
+      </div>
 
       {description && (
         <div

@@ -1,7 +1,10 @@
 import { cn } from '@/_lib/utils';
 import type { TextareaHTMLAttributes } from 'react';
 
-export function Textarea({ className, ...props }: TextareaHTMLAttributes<HTMLTextAreaElement>) {
+export function Textarea({
+  className,
+  ...props
+}: TextareaHTMLAttributes<HTMLTextAreaElement>) {
   return (
     <textarea
       data-slot="textarea"

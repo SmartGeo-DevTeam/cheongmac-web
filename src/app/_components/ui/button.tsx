@@ -13,19 +13,22 @@ export type ButtonVariant =
 export type ButtonSize = 'sm' | 'md' | 'lg' | 'icon';
 
 const variantClasses: Record<ButtonVariant, string> = {
-  primary: 'bg-[#006651] text-white hover:bg-[#005446]',
-  orange: 'bg-[#FA6805] text-white hover:bg-[#E85F05]',
+  // CTA / active emphasis: Coral Orange 500
+  primary: 'bg-cm-orange-500 text-white hover:bg-cm-orange-600',
+  orange: 'bg-cm-orange-500 text-white hover:bg-cm-orange-600',
   outline:
-    'border border-[#006651] bg-white text-[#315A50] hover:bg-[#006651] hover:text-white',
-  secondary: 'bg-[#AEB6C0] text-white hover:bg-[#9DA6B1]',
-  ghost: 'bg-transparent text-[#7E848A] hover:bg-[#F1F2F3] hover:text-[#333A40]',
-  white: 'bg-white text-[#39444A] hover:bg-[#F7F8F8]',
+    'border border-cm-teal-600 bg-white text-cm-teal-600 hover:bg-cm-teal-600 hover:text-white',
+  // Secondary actions: Deep Teal
+  secondary: 'bg-cm-teal-600 text-white hover:bg-cm-teal-700',
+  ghost:
+    'bg-transparent text-cm-gray-600 hover:bg-cm-gray-50 hover:text-cm-gray-900',
+  white: 'bg-white text-cm-gray-800 hover:bg-cm-gray-50',
 };
 
 const sizeClasses: Record<ButtonSize, string> = {
-  sm: 'h-9 px-4 text-xs xl:text-sm',
-  md: 'h-11 px-5 text-sm xl:h-12 xl:px-6 xl:text-base',
-  lg: 'h-11 min-w-[104px] px-6 text-base xl:h-[52px] xl:min-w-[132px] xl:text-xl',
+  sm: 'h-9 px-4',
+  md: 'h-11 px-5 xl:h-12 xl:px-6',
+  lg: 'h-11 min-w-[104px] px-6 xl:h-[52px] xl:min-w-[132px]',
   icon: 'size-10 p-0 xl:size-11',
 };
 
@@ -39,7 +42,7 @@ export function buttonClassName({
   className?: string;
 } = {}) {
   return cn(
-    'inline-flex shrink-0 items-center justify-center gap-2 rounded-full font-semibold transition disabled:pointer-events-none disabled:opacity-40',
+    'cm-type-label inline-flex shrink-0 items-center justify-center gap-2 rounded-full transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cm-teal-600 disabled:pointer-events-none disabled:opacity-40',
     variantClasses[variant],
     sizeClasses[size],
     className,

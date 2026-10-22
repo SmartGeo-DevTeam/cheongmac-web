@@ -1,0 +1,34 @@
+import FadeInUp from '@/app/_components/fade-in-up';
+import Image from 'next/image';
+import Link from 'next/link';
+
+export default function Banners() {
+  return (
+    <FadeInUp>
+      <section
+        className="mt-10 px-5
+    xl:mt-15"
+      >
+        <Link
+          target="_blank"
+          href={`/`}
+          className="relative flex w-full aspect-335/136
+        xl:mx-auto xl:max-w-7xl xl:aspect-1280/317"
+        >
+          <Image
+            src="/assets/images/home-banner-mobile.png"
+            alt="m-item-1"
+            fill
+            className="block xl:hidden"
+          />
+          <Image
+            src="/assets/images/home-banner-desktop.png"
+            alt="pc-item-1"
+            fill
+            className="hidden xl:block"
+          />
+        </Link>
+      </section>
+    </FadeInUp>
+  );
+}

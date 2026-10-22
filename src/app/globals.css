@@ -1,39 +1,593 @@
 @import "tailwindcss";
-@import "./typography.css";
 
+/*
+ * CHEONGMAC — 1:1 Figma design tokens (no legacy palette or inferred colors).
+ * Source: 01_Primitive / Primitive.tokens.json
+ *         02_Semantic / Flat.tokens.json
+ *         03_Responsive / Mobile, Tablet, Desktop.tokens.json
+ * IMPORTANT: Exports do NOT specify CSS breakpoints, fonts, font weights or tracking.
+ * Implemented viewport switch: mobile <768, tablet 768–1279, desktop >=1280.
+ * Semantic HEX values are emitted directly, NOT via primitive CSS var() aliases.
+ */
+
+@theme static {
+  /* Hide the default Tailwind color palette: only supplied Figma colors are available. */
+  --color-*: initial;
+
+  /* 01_Primitive / color/* — sparse; no missing palette steps are invented. */
+  --color-orange-50: #FFF9F6;
+  --color-orange-100: #FFD8C4;
+  --color-orange-500: #FD7740;
+  --color-orange-600: #EC6639;
+  --color-orange-700: #E8500B;
+  --color-orange-muted: #D2805E;
+  --color-green-50: #E2F4EF;
+  --color-green-300: #8BC9B8;
+  --color-green-500: #319681;
+  --color-green-600: #1B705B;
+  --color-green-700: #045545;
+  --color-green-900: #012720;
+  --color-oak-50: #FBF8F4;
+  --color-oak-100: #F3EDE3;
+  --color-oak-200: #E8DCCB;
+  --color-oak-700: #A68E79;
+  --color-oak-800: #93755B;
+  --color-oak-900: #5C4535;
+  --color-gray-50: #F4F5F6;
+  --color-gray-100: #E9EBEF;
+  --color-gray-150: #E5E7EB;
+  --color-gray-200: #DFE2E6;
+  --color-gray-300: #CDD1D6;
+  --color-gray-400: #B0B6BE;
+  --color-gray-500: #8E9099;
+  --color-gray-600: #6B6E78;
+  --color-gray-700: #4E5260;
+  --color-gray-800: #393E4A;
+  --color-gray-900: #262C35;
+  --color-white: #FFFFFF;
+  --color-black: #1C1917;
+  --color-info-50: #EAF2FD;
+  --color-info-500: #2E79D9;
+  --color-success-50: #E8F8EF;
+  --color-success-500: #37C278;
+  --color-danger-50: #FEF0F1;
+  --color-danger-500: #FF5050;
+  --color-warning-50: #FFFBEB;
+  --color-warning-500: #FFC83E;
+  --color-legacy-blue: #2563EB;
+  --color-legacy-green: #30C68A;
+  --color-legacy-yellow: #FA8E1C;
+  --color-legacy-red: #D72113;
+
+  /* 02_Semantic / 40 exact Figma HEX values. */
+  --color-text-primary: #262C35;
+  --color-text-secondary: #6B6E78;
+  --color-text-tertiary: #8E9099;
+  --color-text-disabled: #B0B6BE;
+  --color-text-inverse: #FFFFFF;
+  --color-text-brand: #045545;
+  --color-text-accent: #FD7740;
+  --color-text-danger: #FF5050;
+  --color-bg-base: #FFFFFF;
+  --color-bg-subtle: #F4F5F6;
+  --color-bg-gray: #E9EBEF;
+  --color-bg-brand: #045545;
+  --color-bg-brand-deep: #012720;
+  --color-bg-accent-subtle: #FFF9F6;
+  --color-bg-oak-subtle: #FBF8F4;
+  --color-bg-ai-subtle: #E2F4EF;
+  --color-bg-dim: #1C1917;
+  --color-border-default: #E5E7EB;
+  --color-border-strong: #CDD1D6;
+  --color-border-brand: #045545;
+  --color-border-accent: #FD7740;
+  --color-action-primary: #FD7740;
+  --color-action-primary-hover: #EC6639;
+  --color-action-primary-pressed: #E8500B;
+  --color-action-primary-text: #FFFFFF;
+  --color-action-secondary: #045545;
+  --color-action-secondary-hover: #1B705B;
+  --color-action-disabled-bg: #DFE2E6;
+  --color-action-disabled-text: #B0B6BE;
+  --color-accent-ai: #8BC9B8;
+  --color-accent-ai-strong: #319681;
+  --color-accent-premium: #A68E79;
+  --color-status-info: #2E79D9;
+  --color-status-info-bg: #EAF2FD;
+  --color-status-success: #37C278;
+  --color-status-success-bg: #E8F8EF;
+  --color-status-danger: #FF5050;
+  --color-status-danger-bg: #FEF0F1;
+  --color-status-warning: #FFC83E;
+  --color-status-warning-bg: #FFFBEB;
+
+  /* Figma semantic shorthand: text-primary, text-disabled, bg-base, border-default, etc.
+   * These are literal colors (not references to --color-gray-900 or other primitives).
+   */
+  --color-primary: #262C35;
+  --color-secondary: #6B6E78;
+  --color-tertiary: #8E9099;
+  --color-disabled: #B0B6BE;
+  --color-inverse: #FFFFFF;
+  --color-brand: #045545;
+  --color-accent: #FD7740;
+  --color-danger: #FF5050;
+  --color-base: #FFFFFF;
+  --color-subtle: #F4F5F6;
+  --color-gray: #E9EBEF;
+  --color-brand-deep: #012720;
+  --color-accent-subtle: #FFF9F6;
+  --color-oak-subtle: #FBF8F4;
+  --color-ai-subtle: #E2F4EF;
+  --color-dim: #1C1917;
+  --color-default: #E5E7EB;
+  --color-strong: #CDD1D6;
+
+  /* Optional cm- prefixed names for existing component conventions, also exact HEX. */
+  --color-cm-orange-50: #FFF9F6;
+  --color-cm-orange-100: #FFD8C4;
+  --color-cm-orange-500: #FD7740;
+  --color-cm-orange-600: #EC6639;
+  --color-cm-orange-700: #E8500B;
+  --color-cm-orange-muted: #D2805E;
+  --color-cm-green-50: #E2F4EF;
+  --color-cm-green-300: #8BC9B8;
+  --color-cm-green-500: #319681;
+  --color-cm-green-600: #1B705B;
+  --color-cm-green-700: #045545;
+  --color-cm-green-900: #012720;
+  --color-cm-oak-50: #FBF8F4;
+  --color-cm-oak-100: #F3EDE3;
+  --color-cm-oak-200: #E8DCCB;
+  --color-cm-oak-700: #A68E79;
+  --color-cm-oak-800: #93755B;
+  --color-cm-oak-900: #5C4535;
+  --color-cm-gray-50: #F4F5F6;
+  --color-cm-gray-100: #E9EBEF;
+  --color-cm-gray-150: #E5E7EB;
+  --color-cm-gray-200: #DFE2E6;
+  --color-cm-gray-300: #CDD1D6;
+  --color-cm-gray-400: #B0B6BE;
+  --color-cm-gray-500: #8E9099;
+  --color-cm-gray-600: #6B6E78;
+  --color-cm-gray-700: #4E5260;
+  --color-cm-gray-800: #393E4A;
+  --color-cm-gray-900: #262C35;
+  --color-cm-white: #FFFFFF;
+  --color-cm-black: #1C1917;
+  --color-cm-info-50: #EAF2FD;
+  --color-cm-info-500: #2E79D9;
+  --color-cm-success-50: #E8F8EF;
+  --color-cm-success-500: #37C278;
+  --color-cm-danger-50: #FEF0F1;
+  --color-cm-danger-500: #FF5050;
+  --color-cm-warning-50: #FFFBEB;
+  --color-cm-warning-500: #FFC83E;
+  --color-cm-legacy-blue: #2563EB;
+  --color-cm-legacy-green: #30C68A;
+  --color-cm-legacy-yellow: #FA8E1C;
+  --color-cm-legacy-red: #D72113;
+  --color-cm-text-primary: #262C35;
+  --color-cm-text-secondary: #6B6E78;
+  --color-cm-text-tertiary: #8E9099;
+  --color-cm-text-disabled: #B0B6BE;
+  --color-cm-text-inverse: #FFFFFF;
+  --color-cm-text-brand: #045545;
+  --color-cm-text-accent: #FD7740;
+  --color-cm-text-danger: #FF5050;
+  --color-cm-bg-base: #FFFFFF;
+  --color-cm-bg-subtle: #F4F5F6;
+  --color-cm-bg-gray: #E9EBEF;
+  --color-cm-bg-brand: #045545;
+  --color-cm-bg-brand-deep: #012720;
+  --color-cm-bg-accent-subtle: #FFF9F6;
+  --color-cm-bg-oak-subtle: #FBF8F4;
+  --color-cm-bg-ai-subtle: #E2F4EF;
+  --color-cm-bg-dim: #1C1917;
+  --color-cm-border-default: #E5E7EB;
+  --color-cm-border-strong: #CDD1D6;
+  --color-cm-border-brand: #045545;
+  --color-cm-border-accent: #FD7740;
+  --color-cm-action-primary: #FD7740;
+  --color-cm-action-primary-hover: #EC6639;
+  --color-cm-action-primary-pressed: #E8500B;
+  --color-cm-action-primary-text: #FFFFFF;
+  --color-cm-action-secondary: #045545;
+  --color-cm-action-secondary-hover: #1B705B;
+  --color-cm-action-disabled-bg: #DFE2E6;
+  --color-cm-action-disabled-text: #B0B6BE;
+  --color-cm-accent-ai: #8BC9B8;
+  --color-cm-accent-ai-strong: #319681;
+  --color-cm-accent-premium: #A68E79;
+  --color-cm-status-info: #2E79D9;
+  --color-cm-status-info-bg: #EAF2FD;
+  --color-cm-status-success: #37C278;
+  --color-cm-status-success-bg: #E8F8EF;
+  --color-cm-status-danger: #FF5050;
+  --color-cm-status-danger-bg: #FEF0F1;
+  --color-cm-status-warning: #FFC83E;
+  --color-cm-status-warning-bg: #FFFBEB;
+}
+
+/*
+ * Figma Text Styles (mo/* and pc/*).
+ * Size / line-height: latest 20 Figma screenshots (percent converted to unitless).
+ * Weight / tracking: original Typography.png reference table.
+ * These names are explicit per-platform presets; use xl: for PC styles.
+ * Separate from 03_Responsive numeric tokens (e.g. text-display-02).
+ */
+@theme static {
+  /* mo/display-1: 36px / 125% */
+  --text-mo-display-1: 36px;
+  --text-mo-display-1--line-height: 1.25;
+  --text-mo-display-1--font-weight: 800;
+  --text-mo-display-1--letter-spacing: -0.03em;
+
+  /* mo/display-2: 32px / 130% */
+  --text-mo-display-2: 32px;
+  --text-mo-display-2--line-height: 1.30;
+  --text-mo-display-2--font-weight: 700;
+  --text-mo-display-2--letter-spacing: -0.03em;
+
+  /* mo/title-1: 26px / 135% */
+  --text-mo-title-1: 26px;
+  --text-mo-title-1--line-height: 1.35;
+  --text-mo-title-1--font-weight: 800;
+  --text-mo-title-1--letter-spacing: -0.03em;
+
+  /* mo/title-2: 22px / 140% */
+  --text-mo-title-2: 22px;
+  --text-mo-title-2--line-height: 1.40;
+  --text-mo-title-2--font-weight: 700;
+  --text-mo-title-2--letter-spacing: -0.02em;
+
+  /* mo/heading-1: 20px / 145% */
+  --text-mo-heading-1: 20px;
+  --text-mo-heading-1--line-height: 1.45;
+  --text-mo-heading-1--font-weight: 700;
+  --text-mo-heading-1--letter-spacing: -0.02em;
+
+  /* mo/heading-2: 18px / 145% */
+  --text-mo-heading-2: 18px;
+  --text-mo-heading-2--line-height: 1.45;
+  --text-mo-heading-2--font-weight: 700;
+  --text-mo-heading-2--letter-spacing: -0.01em;
+
+  /* mo/body-1: 16px / 150% */
+  --text-mo-body-1: 16px;
+  --text-mo-body-1--line-height: 1.50;
+  --text-mo-body-1--font-weight: 400;
+  --text-mo-body-1--letter-spacing: -0.03em;
+
+  /* mo/body-2: 14px / 155% */
+  --text-mo-body-2: 14px;
+  --text-mo-body-2--line-height: 1.55;
+  --text-mo-body-2--font-weight: 400;
+  --text-mo-body-2--letter-spacing: -0.02em;
+
+  /* mo/label: 14px / 130% */
+  --text-mo-label: 14px;
+  --text-mo-label--line-height: 1.30;
+  --text-mo-label--font-weight: 700;
+  --text-mo-label--letter-spacing: -0.02em;
+
+  /* mo/caption: 12px / 140% */
+  --text-mo-caption: 12px;
+  --text-mo-caption--line-height: 1.40;
+  --text-mo-caption--font-weight: 500;
+  --text-mo-caption--letter-spacing: -0.02em;
+
+  /* pc/display-1: 60px / 130% */
+  --text-pc-display-1: 60px;
+  --text-pc-display-1--line-height: 1.30;
+  --text-pc-display-1--font-weight: 800;
+  --text-pc-display-1--letter-spacing: -0.02em;
+
+  /* pc/display-2: 50px / 140% */
+  --text-pc-display-2: 50px;
+  --text-pc-display-2--line-height: 1.40;
+  --text-pc-display-2--font-weight: 700;
+  --text-pc-display-2--letter-spacing: -0.02em;
+
+  /* pc/title-1: 42px / 135% */
+  --text-pc-title-1: 42px;
+  --text-pc-title-1--line-height: 1.35;
+  --text-pc-title-1--font-weight: 700;
+  --text-pc-title-1--letter-spacing: -0.03em;
+
+  /* pc/title-2: 34px / 145% */
+  --text-pc-title-2: 34px;
+  --text-pc-title-2--line-height: 1.45;
+  --text-pc-title-2--font-weight: 700;
+  --text-pc-title-2--letter-spacing: -0.03em;
+
+  /* pc/heading-1: 26px / 150% */
+  --text-pc-heading-1: 26px;
+  --text-pc-heading-1--line-height: 1.50;
+  --text-pc-heading-1--font-weight: 700;
+  --text-pc-heading-1--letter-spacing: -0.02em;
+
+  /* pc/heading-2: 22px / 140% */
+  --text-pc-heading-2: 22px;
+  --text-pc-heading-2--line-height: 1.40;
+  --text-pc-heading-2--font-weight: 700;
+  --text-pc-heading-2--letter-spacing: -0.02em;
+
+  /* pc/body-1: 20px / 150% */
+  --text-pc-body-1: 20px;
+  --text-pc-body-1--line-height: 1.50;
+  --text-pc-body-1--font-weight: 400;
+  --text-pc-body-1--letter-spacing: -0.03em;
+
+  /* pc/body-2: 18px / 160% */
+  --text-pc-body-2: 18px;
+  --text-pc-body-2--line-height: 1.60;
+  --text-pc-body-2--font-weight: 400;
+  --text-pc-body-2--letter-spacing: -0.04em;
+
+  /* pc/label: 15px / 130% */
+  --text-pc-label: 15px;
+  --text-pc-label--line-height: 1.30;
+  --text-pc-label--font-weight: 700;
+  --text-pc-label--letter-spacing: -0.01em;
+
+  /* pc/caption: 12px / 140% */
+  --text-pc-caption: 12px;
+  --text-pc-caption--line-height: 1.40;
+  --text-pc-caption--font-weight: 500;
+  --text-pc-caption--letter-spacing: -0.02em;
+
+  /* custom */
+   --aspect-logo: 172 / 40;
+}
+
+/* 03_Responsive typography, spacing, width and radius: values read from exported modes. */
+@theme inline {
+  /* Font size + line height only. CSS vars are switched below on breakpoints. */
+  --text-display-01: var(--figma-font-display-01-size);
+  --text-display-01--line-height: var(--figma-font-display-01-lh);
+  --text-cm-display-01: var(--figma-font-display-01-size);
+  --text-cm-display-01--line-height: var(--figma-font-display-01-lh);
+  --text-display-02: var(--figma-font-display-02-size);
+  --text-display-02--line-height: var(--figma-font-display-02-lh);
+  --text-cm-display-02: var(--figma-font-display-02-size);
+  --text-cm-display-02--line-height: var(--figma-font-display-02-lh);
+  --text-heading-01: var(--figma-font-heading-01-size);
+  --text-heading-01--line-height: var(--figma-font-heading-01-lh);
+  --text-cm-heading-01: var(--figma-font-heading-01-size);
+  --text-cm-heading-01--line-height: var(--figma-font-heading-01-lh);
+  --text-heading-02: var(--figma-font-heading-02-size);
+  --text-heading-02--line-height: var(--figma-font-heading-02-lh);
+  --text-cm-heading-02: var(--figma-font-heading-02-size);
+  --text-cm-heading-02--line-height: var(--figma-font-heading-02-lh);
+  --text-heading-03: var(--figma-font-heading-03-size);
+  --text-heading-03--line-height: var(--figma-font-heading-03-lh);
+  --text-cm-heading-03: var(--figma-font-heading-03-size);
+  --text-cm-heading-03--line-height: var(--figma-font-heading-03-lh);
+  --text-body-01: var(--figma-font-body-01-size);
+  --text-body-01--line-height: var(--figma-font-body-01-lh);
+  --text-cm-body-01: var(--figma-font-body-01-size);
+  --text-cm-body-01--line-height: var(--figma-font-body-01-lh);
+  --text-body-02: var(--figma-font-body-02-size);
+  --text-body-02--line-height: var(--figma-font-body-02-lh);
+  --text-cm-body-02: var(--figma-font-body-02-size);
+  --text-cm-body-02--line-height: var(--figma-font-body-02-lh);
+  --text-body-03: var(--figma-font-body-03-size);
+  --text-body-03--line-height: var(--figma-font-body-03-lh);
+  --text-cm-body-03: var(--figma-font-body-03-size);
+  --text-cm-body-03--line-height: var(--figma-font-body-03-lh);
+  --text-label-01: var(--figma-font-label-01-size);
+  --text-label-01--line-height: var(--figma-font-label-01-lh);
+  --text-cm-label-01: var(--figma-font-label-01-size);
+  --text-cm-label-01--line-height: var(--figma-font-label-01-lh);
+  --text-caption: var(--figma-font-caption-size);
+  --text-caption--line-height: var(--figma-font-caption-lh);
+  --text-cm-caption: var(--figma-font-caption-size);
+  --text-cm-caption--line-height: var(--figma-font-caption-lh);
+
+  /* Layout measures. Layout canvas is a reference frame, not a forced body width. */
+  --spacing-figma-page-x: var(--figma-layout-padding-x);
+  --spacing-figma-grid-gutter: var(--figma-layout-grid-gutter);
+  --spacing-figma-header-h: var(--figma-layout-header-h);
+  --spacing-figma-section-y: var(--figma-space-section-y);
+  --spacing-figma-section-header-gap: var(--figma-space-section-header-gap);
+  --spacing-figma-block-y: var(--figma-space-block-y);
+  --spacing-figma-card-gap: var(--figma-space-card-gap);
+  --spacing-figma-card-padding: var(--figma-space-card-padding);
+  --spacing-figma-stack-sm: var(--figma-space-stack-sm);
+  --spacing-figma-stack-md: var(--figma-space-stack-md);
+  --spacing-figma-stack-lg: var(--figma-space-stack-lg);
+  --spacing-figma-inline-gap: var(--figma-space-inline-gap);
+  --spacing-figma-btn-h-lg: var(--figma-comp-btn-h-lg);
+  --spacing-figma-btn-h-md: var(--figma-comp-btn-h-md);
+  --spacing-figma-btn-h-sm: var(--figma-comp-btn-h-sm);
+  --spacing-figma-btn-padding-x: var(--figma-comp-btn-padding-x);
+  --spacing-figma-input-h: var(--figma-comp-input-h);
+  --spacing-figma-icon-sm: var(--figma-comp-icon-sm);
+  --spacing-figma-icon-md: var(--figma-comp-icon-md);
+  --spacing-figma-icon-lg: var(--figma-comp-icon-lg);
+  --spacing-figma-fab-size: var(--figma-comp-fab-size);
+  --container-figma-wide: var(--figma-layout-w-wide);
+  --container-figma-base: var(--figma-layout-w-base);
+  --container-figma-narrow: var(--figma-layout-w-narrow);
+  --radius-figma-btn: var(--figma-comp-btn-radius);
+  --radius-figma-card: var(--figma-comp-card-radius);
+  --radius-figma-chip: var(--figma-comp-chip-radius);
+}
+
+/* Responsive / Mobile — Figma Mobile.tokens.json */
 :root {
-  --background: #ffffff;
-  --foreground: #000000;
+  --figma-layout-canvas: 375px;
+  --figma-layout-w-full: 375px;
+  --figma-layout-w-wide: 335px;
+  --figma-layout-w-base: 335px;
+  --figma-layout-w-narrow: 335px;
+  --figma-layout-padding-x: 20px;
+  --figma-layout-grid-cols: 4;
+  --figma-layout-grid-gutter: 16px;
+  --figma-layout-header-h: 56px;
+  --figma-space-section-y: 64px;
+  --figma-space-section-header-gap: 24px;
+  --figma-space-block-y: 40px;
+  --figma-space-card-gap: 12px;
+  --figma-space-card-padding: 20px;
+  --figma-space-stack-sm: 8px;
+  --figma-space-stack-md: 16px;
+  --figma-space-stack-lg: 24px;
+  --figma-space-inline-gap: 8px;
+  --figma-font-display-01-size: 32px;
+  --figma-font-display-01-lh: 44px;
+  --figma-font-display-02-size: 28px;
+  --figma-font-display-02-lh: 40px;
+  --figma-font-heading-01-size: 24px;
+  --figma-font-heading-01-lh: 34px;
+  --figma-font-heading-02-size: 20px;
+  --figma-font-heading-02-lh: 30px;
+  --figma-font-heading-03-size: 18px;
+  --figma-font-heading-03-lh: 26px;
+  --figma-font-body-01-size: 16px;
+  --figma-font-body-01-lh: 26px;
+  --figma-font-body-02-size: 15px;
+  --figma-font-body-02-lh: 24px;
+  --figma-font-body-03-size: 14px;
+  --figma-font-body-03-lh: 22px;
+  --figma-font-label-01-size: 13px;
+  --figma-font-label-01-lh: 18px;
+  --figma-font-caption-size: 12px;
+  --figma-font-caption-lh: 18px;
+  --figma-comp-btn-h-lg: 54px;
+  --figma-comp-btn-h-md: 48px;
+  --figma-comp-btn-h-sm: 40px;
+  --figma-comp-btn-padding-x: 20px;
+  --figma-comp-btn-radius: 12px;
+  --figma-comp-card-radius: 16px;
+  --figma-comp-chip-radius: 999px;
+  --figma-comp-input-h: 52px;
+  --figma-comp-icon-sm: 20px;
+  --figma-comp-icon-md: 24px;
+  --figma-comp-icon-lg: 32px;
+  --figma-comp-fab-size: 56px;
 }
 
-@theme {
-  --color-cm-orange: #FA6805;
-  --color-cm-green: #254635;
-  --aspect-logo: 162 / 40; 
-  --aspect-retro: 4 / 3; 
+/* Responsive / Tablet — Figma Tablet.tokens.json */
+@media (min-width: 768px) {
+  :root {
+    --figma-layout-canvas: 768px;
+    --figma-layout-w-full: 768px;
+    --figma-layout-w-wide: 704px;
+    --figma-layout-w-base: 704px;
+    --figma-layout-w-narrow: 640px;
+    --figma-layout-padding-x: 32px;
+    --figma-layout-grid-cols: 8;
+    --figma-layout-grid-gutter: 24px;
+    --figma-layout-header-h: 64px;
+    --figma-space-section-y: 80px;
+    --figma-space-section-header-gap: 32px;
+    --figma-space-block-y: 48px;
+    --figma-space-card-gap: 16px;
+    --figma-space-card-padding: 24px;
+    --figma-space-stack-sm: 8px;
+    --figma-space-stack-md: 16px;
+    --figma-space-stack-lg: 24px;
+    --figma-space-inline-gap: 8px;
+    --figma-font-display-01-size: 32px;
+    --figma-font-display-01-lh: 44px;
+    --figma-font-display-02-size: 28px;
+    --figma-font-display-02-lh: 40px;
+    --figma-font-heading-01-size: 24px;
+    --figma-font-heading-01-lh: 34px;
+    --figma-font-heading-02-size: 20px;
+    --figma-font-heading-02-lh: 30px;
+    --figma-font-heading-03-size: 18px;
+    --figma-font-heading-03-lh: 26px;
+    --figma-font-body-01-size: 16px;
+    --figma-font-body-01-lh: 26px;
+    --figma-font-body-02-size: 15px;
+    --figma-font-body-02-lh: 24px;
+    --figma-font-body-03-size: 14px;
+    --figma-font-body-03-lh: 22px;
+    --figma-font-label-01-size: 13px;
+    --figma-font-label-01-lh: 18px;
+    --figma-font-caption-size: 12px;
+    --figma-font-caption-lh: 18px;
+    --figma-comp-btn-h-lg: 54px;
+    --figma-comp-btn-h-md: 48px;
+    --figma-comp-btn-h-sm: 40px;
+    --figma-comp-btn-padding-x: 24px;
+    --figma-comp-btn-radius: 12px;
+    --figma-comp-card-radius: 16px;
+    --figma-comp-chip-radius: 999px;
+    --figma-comp-input-h: 52px;
+    --figma-comp-icon-sm: 20px;
+    --figma-comp-icon-md: 24px;
+    --figma-comp-icon-lg: 32px;
+    --figma-comp-fab-size: 60px;
+  }
 }
 
-@media (prefers-color-scheme: dark) { }
-
-body {
-  background: var(--background);
-  color: var(--foreground);
+/* Responsive / Desktop — Figma Desktop.tokens.json */
+@media (min-width: 1280px) {
+  :root {
+    --figma-layout-canvas: 1920px;
+    --figma-layout-w-full: 1920px;
+    --figma-layout-w-wide: 1600px;
+    --figma-layout-w-base: 1280px;
+    --figma-layout-w-narrow: 800px;
+    --figma-layout-padding-x: 40px;
+    --figma-layout-grid-cols: 12;
+    --figma-layout-grid-gutter: 24px;
+    --figma-layout-header-h: 88px;
+    --figma-space-section-y: 120px;
+    --figma-space-section-header-gap: 40px;
+    --figma-space-block-y: 64px;
+    --figma-space-card-gap: 24px;
+    --figma-space-card-padding: 32px;
+    --figma-space-stack-sm: 12px;
+    --figma-space-stack-md: 20px;
+    --figma-space-stack-lg: 32px;
+    --figma-space-inline-gap: 12px;
+    --figma-font-display-01-size: 56px;
+    --figma-font-display-01-lh: 76px;
+    --figma-font-display-02-size: 44px;
+    --figma-font-display-02-lh: 62px;
+    --figma-font-heading-01-size: 40px;
+    --figma-font-heading-01-lh: 56px;
+    --figma-font-heading-02-size: 32px;
+    --figma-font-heading-02-lh: 46px;
+    --figma-font-heading-03-size: 24px;
+    --figma-font-heading-03-lh: 36px;
+    --figma-font-body-01-size: 18px;
+    --figma-font-body-01-lh: 30px;
+    --figma-font-body-02-size: 16px;
+    --figma-font-body-02-lh: 28px;
+    --figma-font-body-03-size: 15px;
+    --figma-font-body-03-lh: 24px;
+    --figma-font-label-01-size: 14px;
+    --figma-font-label-01-lh: 20px;
+    --figma-font-caption-size: 13px;
+    --figma-font-caption-lh: 20px;
+    --figma-comp-btn-h-lg: 60px;
+    --figma-comp-btn-h-md: 52px;
+    --figma-comp-btn-h-sm: 44px;
+    --figma-comp-btn-padding-x: 28px;
+    --figma-comp-btn-radius: 12px;
+    --figma-comp-card-radius: 16px;
+    --figma-comp-chip-radius: 999px;
+    --figma-comp-input-h: 56px;
+    --figma-comp-icon-sm: 20px;
+    --figma-comp-icon-md: 28px;
+    --figma-comp-icon-lg: 40px;
+    --figma-comp-fab-size: 64px;
+  }
 }
 
-a,
-button {
-  cursor: pointer;
+@layer base {
+  body { color: var(--color-text-primary); /* #262C35 */ background-color: var(--color-bg-base); /* #FFFFFF */ line-height: 1.8; letter-spacing: -0.03em; }
+  button { cursor: pointer; }
 }
 
-input {
-  outline: none;
+/* Figma layout/grid-cols = 4, 8, 12. */
+@utility grid-cols-figma {
+  grid-template-columns: repeat(var(--figma-layout-grid-cols), minmax(0, 1fr));
 }
 
-* {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-*::-webkit-scrollbar {
-  display: none;
-}

@@ -1,0 +1,51 @@
+export const principleItems = [
+  {
+    id: 'principle-1',
+    title: '환자 중심',
+    desc: '질환만을 보지 않고, 환자의 건강과 삶의 질을 함께 살펴 꼭 맞는 치료 방향을 제시합니다.',
+    imgUrl: '/introduction/intro/principle-1.png',
+    imgAlt: 'principle-1',
+  },
+  {
+    id: 'principle-2',
+    title: '정확한 진단',
+    desc: '20년 임상 경험의 전문의와 체계적인 진단 시스템으로 혈관 질환의 원인을 정밀하게 짚어냅니다.',
+    imgUrl: '/introduction/intro/principle-2.png',
+    imgAlt: 'principle-2',
+  },
+  {
+    id: 'principle-3',
+    title: '근본 원인 치료',
+    desc: '당장의 증상 완화에 머물지 않고, 재발과 합병증까지 막는 근본적인 원인 해결에 집중합니다.',
+    imgUrl: '/introduction/intro/principle-3.png',
+    imgAlt: 'principle-3',
+  },
+  {
+    id: 'principle-4',
+    title: '정직한 진료',
+    desc: '과잉 진료 없이 공인된 학회 가이드라인에 따라 내 가족에게 권할 꼭 필요한 치료만 실천합니다.',
+    imgUrl: '/introduction/intro/principle-4.png',
+    imgAlt: 'principle-4',
+  },
+  {
+    id: 'principle-5',
+    title: '안전 우선 원칙',
+    desc: '외과·영상의학·마취과 전문의의 유기적인 다학제 협진으로 가장 안전한 치료 환경을 구축합니다.',
+    imgUrl: '/introduction/intro/principle-5.png',
+    imgAlt: 'principle-5',
+  },
+  {
+    id: 'principle-6',
+    title: '검증된 전문성',
+    desc: '풍부한 임상 경험과 끊임없는 최신 의학 연구를 토대로 환자 맞춤형 치료를 선보입니다.',
+    imgUrl: '/introduction/intro/principle-6.png',
+    imgAlt: 'principle-6',
+  },
+  {
+    id: 'principle-7',
+    title: '평생 책임 관리',
+    desc: '치료에서 끝내지 않고, 건강한 일상을 온전히 되찾을 때까지 곁에서 지속 관리합니다.',
+    imgUrl: '/introduction/intro/principle-7.png',
+    imgAlt: 'principle-7',
+  },
+];

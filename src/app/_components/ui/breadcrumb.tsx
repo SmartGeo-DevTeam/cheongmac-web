@@ -1,20 +1,12 @@
 'use client';
 
-import {
-  resolveNavigationLevels,
-  type NavigationItem,
-} from '@/_lib/navigation-shared';
+import { resolveNavigationLevels } from '@/_lib/navigation-shared';
 import { cn } from '@/_lib/utils';
 import { usePrimaryNavigation } from '@/app/_providers/navigation-provider';
 import { ChevronDown, Home } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import {
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useComponentId } from './component-id';
 
 export type BreadcrumbItem = {
@@ -59,9 +51,7 @@ function FallbackBreadcrumb({
             ) : (
               <span
                 id={itemId}
-                aria-current={
-                  index === items.length - 1 ? 'page' : undefined
-                }
+                aria-current={index === items.length - 1 ? 'page' : undefined}
                 className="flex min-w-0 items-center gap-2"
               >
                 <span className="truncate">{item.label}</span>
@@ -118,11 +108,7 @@ export default function Breadcrumb({
     };
 
     document.addEventListener('mousedown', closeOnOutsideClick);
-    return () =>
-      document.removeEventListener(
-        'mousedown',
-        closeOnOutsideClick,
-      );
+    return () => document.removeEventListener('mousedown', closeOnOutsideClick);
   }, []);
 
   return (
@@ -132,9 +118,7 @@ export default function Breadcrumb({
       aria-label="현재 위치"
       className={cn(
         'relative z-30 flex min-w-0 items-center text-[#555B63]',
-        variant === 'compact'
-          ? 'text-[11px] xl:text-sm'
-          : 'text-xs xl:text-sm',
+        variant === 'compact' ? 'text-[11px] xl:text-sm' : 'text-xs xl:text-sm',
         className,
       )}
     >
@@ -143,10 +127,7 @@ export default function Breadcrumb({
         href="/"
         className="flex shrink-0 items-center gap-1 transition hover:text-[#006651]"
       >
-        <Home
-          className="size-3.5 xl:size-4"
-          strokeWidth={1.8}
-        />
+        <Home className="size-3.5 xl:size-4" strokeWidth={1.8} />
         <span>홈</span>
       </Link>
 
@@ -176,9 +157,7 @@ export default function Breadcrumb({
                   }
                   className="flex min-w-0 items-center gap-2 text-left transition hover:text-[#006651]"
                 >
-                  <span className="truncate">
-                    {level.current.title}
-                  </span>
+                  <span className="truncate">{level.current.title}</span>
                   <ChevronDown
                     className={cn(
                       'size-3.5 shrink-0 transition-transform',
@@ -195,8 +174,7 @@ export default function Breadcrumb({
                     className="absolute left-0 top-[calc(100%+10px)] min-w-[170px] overflow-hidden rounded-xl border border-[#E5E7EB] bg-white py-1.5 shadow-[0_12px_30px_rgba(0,0,0,0.12)]"
                   >
                     {level.options.map((option) => {
-                      const active =
-                        option.id === level.current.id;
+                      const active = option.id === level.current.id;
 
                       return (
                         <Link
@@ -204,9 +182,7 @@ export default function Breadcrumb({
                           key={option.id}
                           href={option.href}
                           role="menuitem"
-                          aria-current={
-                            active ? 'page' : undefined
-                          }
+                          aria-current={active ? 'page' : undefined}
                           onClick={() => setOpenLevel(null)}
                           className={cn(
                             'block whitespace-nowrap px-4 py-2.5 text-sm transition',
@@ -226,10 +202,7 @@ export default function Breadcrumb({
           );
         })
       ) : (
-        <FallbackBreadcrumb
-          componentId={componentId}
-          items={items}
-        />
+        <FallbackBreadcrumb componentId={componentId} items={items} />
       )}
     </nav>
   );

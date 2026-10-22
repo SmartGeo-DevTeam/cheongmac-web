@@ -6,9 +6,9 @@ export type InputVariant = 'default' | 'form' | 'bare';
 
 const variantClasses: Record<InputVariant, string> = {
   default:
-    'h-11 rounded-md border border-[#DFE3E7] bg-white px-3 text-sm text-[#424951] placeholder:text-[#ADB3BA] focus:border-[#AEB6BE]',
+    'h-11 rounded-md border border-cm-gray-200 bg-white px-3 text-sm text-cm-gray-900 placeholder:text-cm-gray-400 focus:border-cm-teal-600',
   form:
-    'h-11 rounded-[6px] border border-[#DFE3E7] bg-white px-3 text-[12px] tracking-[-0.03em] text-[#424951] placeholder:text-[#ADB3BA] focus:border-[#AEB6BE] xl:h-12 xl:text-[13px]',
+    'h-11 rounded-[6px] border border-cm-gray-200 bg-white px-3 text-sm tracking-[-0.02em] text-cm-gray-900 placeholder:text-cm-gray-400 focus:border-cm-teal-600 xl:h-12 xl:text-[15px]',
   bare: 'min-w-0 flex-1 bg-transparent p-0',
 };
 
@@ -26,7 +26,7 @@ export default function Input({
     <input
       id={componentId}
       className={cn(
-        'w-full outline-none transition disabled:cursor-not-allowed disabled:opacity-50',
+        'w-full outline-none transition-colors focus-visible:ring-2 focus-visible:ring-cm-teal-100 disabled:cursor-not-allowed disabled:opacity-50',
         variantClasses[variant],
         className,
       )}

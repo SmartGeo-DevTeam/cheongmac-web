@@ -1,7 +1,5 @@
-import HomeSections from './_components/home';
-
-export const dynamic = 'force-dynamic';
+import Home from './_components/home';
 
 export default function HomePage() {
-  return <HomeSections />;
+  return <Home />;
 }

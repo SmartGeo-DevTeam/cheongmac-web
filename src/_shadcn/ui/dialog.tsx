@@ -39,7 +39,10 @@ export function DialogContent({
   );
 }
 
-export function DialogHeader({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+export function DialogHeader({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
       className={cn('flex flex-col space-y-1.5 text-left', className)}
@@ -48,10 +51,16 @@ export function DialogHeader({ className, ...props }: React.HTMLAttributes<HTMLD
   );
 }
 
-export function DialogFooter({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+export function DialogFooter({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
-      className={cn('flex flex-col-reverse gap-2 sm:flex-row sm:justify-end', className)}
+      className={cn(
+        'flex flex-col-reverse gap-2 sm:flex-row sm:justify-end',
+        className,
+      )}
       {...props}
     />
   );
@@ -63,7 +72,10 @@ export function DialogTitle({
 }: React.ComponentProps<typeof DialogPrimitive.Title>) {
   return (
     <DialogPrimitive.Title
-      className={cn('text-lg font-semibold tracking-[-0.02em] text-[#18181B]', className)}
+      className={cn(
+        'text-lg font-semibold tracking-[-0.02em] text-[#18181B]',
+        className,
+      )}
       {...props}
     />
   );

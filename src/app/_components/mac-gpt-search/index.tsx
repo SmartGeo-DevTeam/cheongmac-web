@@ -600,7 +600,6 @@ export default function MacGptSearchLayer() {
     <AnimatePresence>
       {isOpen ? (
         <motion.section
-          id="mac-gpt-search-layer"
           key="mac-gpt-search-layer"
           role="dialog"
           aria-modal="true"
@@ -620,7 +619,7 @@ export default function MacGptSearchLayer() {
     xl:bottom-0
     xl:left-0
     xl:right-0
-    xl:top-20
+    xl:top-[68px]
   "
         >
           {/* MOBILE HEADER OVERLAY */}
@@ -676,7 +675,6 @@ export default function MacGptSearchLayer() {
            * 모바일에서는 기존 Header가 그대로 보이면서 그 위에 X만 덮입니다.
            */}
           <div
-            id="mac-gpt-search-content"
             className="pointer-events-auto relative min-h-0 flex-1 overflow-hidden"
             style={{
               background:
@@ -715,11 +713,8 @@ export default function MacGptSearchLayer() {
                       className="mt-[48px] flex h-[56px] w-[486px] items-center rounded-[13px] border-2 border-[#FF7642] bg-white pl-[18px] pr-[4px] shadow-[0_0_14px_rgba(255,118,66,0.32)]"
                     >
                       <input
-                        id="mac-gpt-desktop-search"
-                        name="macGptQuery"
                         ref={desktopSearchRef}
                         type="search"
-                        autoComplete="off"
                         value={searchValue}
                         onChange={(event) => setSearchValue(event.target.value)}
                         placeholder={SEARCH_TEXT.placeholder}
@@ -800,11 +795,8 @@ export default function MacGptSearchLayer() {
                       className="flex h-[56px] w-full items-center rounded-full border border-[#DADDE0] bg-white pl-[19px] pr-[14px] shadow-[0_1px_2px_rgba(0,0,0,0.02)]"
                     >
                       <input
-                        id="mac-gpt-mobile-search"
-                        name="macGptQuery"
                         ref={mobileSearchRef}
                         type="search"
-                        autoComplete="off"
                         value={searchValue}
                         onChange={(event) => setSearchValue(event.target.value)}
                         placeholder={SEARCH_TEXT.placeholder}
@@ -890,11 +882,8 @@ export default function MacGptSearchLayer() {
                     className="mx-auto flex h-[56px] w-full max-w-[790px] items-center rounded-full border border-[#DADDE0] bg-white pl-[19px] pr-[14px] xl:rounded-[12px]"
                   >
                     <input
-                      id="mac-gpt-chat-input"
-                      name="macGptChatQuery"
                       ref={chatInputRef}
                       type="search"
-                      autoComplete="off"
                       value={searchValue}
                       onChange={(event) => setSearchValue(event.target.value)}
                       placeholder={SEARCH_TEXT.chatPlaceholder}

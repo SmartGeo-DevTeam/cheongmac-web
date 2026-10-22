@@ -19,9 +19,9 @@ export default function EmptyState({
     <div
       id={componentId}
       className={cn(
-        'flex min-h-48 items-center justify-center px-5 text-center text-sm text-[#8A9098] xl:text-base',
-        variant === 'bordered' && 'rounded-xl border border-[#E4E6E8]',
-        variant === 'soft' && 'rounded-2xl bg-[#F6F7F7]',
+        'cm-type-body-2 flex min-h-48 items-center justify-center px-5 text-center text-cm-gray-500',
+        variant === 'bordered' && 'rounded-xl border border-cm-gray-200',
+        variant === 'soft' && 'rounded-2xl bg-cm-gray-50',
         className,
       )}
     >
