@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 export default function Message() {
   return (
-    <section id="introduction-social-message">
+    <section id="about-social-message">
       <div
         className="mt-15 border-b-2 border-b-strong
       xl:mt-50 xl:border-0"

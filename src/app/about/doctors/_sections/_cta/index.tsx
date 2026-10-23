@@ -6,7 +6,7 @@ import { ctas } from './data';
 
 export default function CTA() {
   return (
-    <section id="introduction-doctors-cta">
+    <section id="about-doctors-cta">
       <Inner>
         <div
           className="my-5

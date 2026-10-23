@@ -4,7 +4,7 @@ import { promiseItems } from './data';
 
 export default function Promise() {
   return (
-    <section id="introduction-intro-promise">
+    <section id="about-introduction-promise">
       <div
         className="mt-5
         xl:my-30"

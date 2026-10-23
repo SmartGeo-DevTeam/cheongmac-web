@@ -20,24 +20,25 @@ export type FieldId = (typeof fields)[number]['id'];
 
 export type DoctorType = {
   id: string;
+  slug: string;
   name: string;
   mobileImgSrc: string;
   desktopImgSrc: string;
-  profileImgSrc: string;
+  pathImgSrc: string;
   fieldIds: FieldId[];
   expertise: string[];
   educations: string[];
-  detailHref: string;
   reservationHref: string;
 };
 
 export const doctors: DoctorType[] = [
   {
     id: 'bak-yong-beom',
+    slug: 'bak',
     name: '박용범',
     mobileImgSrc: '/doctors/bak-m.png',
     desktopImgSrc: '/doctors/bak-pc.png',
-    profileImgSrc: '/doctors/bak-profile.png',
+    pathImgSrc: '/doctors/bak-path.png',
     fieldIds: ['vascular-surgery'],
     expertise: [
       '하지정맥류',
@@ -59,15 +60,15 @@ export const doctors: DoctorType[] = [
       '대한외과학회 상임이사/평생회원',
       '미국정맥학회 정회원',
     ],
-    detailHref: '/',
     reservationHref: '/',
   },
   {
     id: 'jeon-jin-won',
+    slug: 'jeon',
     name: '전진원',
     mobileImgSrc: '/doctors/jeon-m.png',
     desktopImgSrc: '/doctors/jeon-pc.png',
-    profileImgSrc: '/doctors/jeon-profile.png',
+    pathImgSrc: '/doctors/jeon-path.png',
     fieldIds: ['vascular-surgery'],
     expertise: [
       '하지정맥류',
@@ -85,15 +86,15 @@ export const doctors: DoctorType[] = [
       '대한혈관외과학회 정회원',
       '대한정맥학회 정회원',
     ],
-    detailHref: '/',
     reservationHref: '/',
   },
   {
     id: 'jang-ji-ran',
+    slug: 'jang',
     name: '장지란',
     mobileImgSrc: '/doctors/jang-m.png',
     desktopImgSrc: '/doctors/jang-pc.png',
-    profileImgSrc: '/doctors/jang-profile.png',
+    pathImgSrc: '/doctors/jang-path.png',
     fieldIds: ['vascular-surgery'],
     expertise: ['하지정맥류', '정계정맥류', '골반정맥류'],
     educations: [
@@ -103,15 +104,15 @@ export const doctors: DoctorType[] = [
       '대한혈관외과학회 정회원',
       '대한정맥학회 정회원',
     ],
-    detailHref: '/',
     reservationHref: '/',
   },
   {
     id: 'byun-seungjae',
+    slug: 'byun',
     name: '변승재',
     mobileImgSrc: '/doctors/byun-m.png',
     desktopImgSrc: '/doctors/byun-pc.png',
-    profileImgSrc: '/doctors/byun-profile.png',
+    pathImgSrc: '/doctors/byun-path.png',
     fieldIds: ['vascular-surgery'],
     expertise: ['하지정맥류', '정계정맥류', '골반정맥류'],
     educations: [
@@ -121,15 +122,15 @@ export const doctors: DoctorType[] = [
       '대한혈관외과학회 정회원',
       '대한정맥학회 정회원',
     ],
-    detailHref: '/',
     reservationHref: '/',
   },
   {
     id: 'bae-byeongho',
+    slug: 'bae',
     name: '배병호',
     mobileImgSrc: '/doctors/bae-m.png',
     desktopImgSrc: '/doctors/bae-pc.png',
-    profileImgSrc: '/doctors/bae-profile.png',
+    pathImgSrc: '/doctors/bae-path.png',
     fieldIds: ['radiology'],
     expertise: ['하지정맥류', '정계정맥류', '골반정맥류'],
     educations: [
@@ -138,15 +139,15 @@ export const doctors: DoctorType[] = [
       '대한영상의학회 정회원',
       '대한초음파의학회 정회원',
     ],
-    detailHref: '/',
     reservationHref: '/',
   },
   {
     id: 'kim-byeongju',
+    slug: 'kim',
     name: '김병주',
     mobileImgSrc: '/doctors/kim-m.png',
     desktopImgSrc: '/doctors/kim-pc.png',
-    profileImgSrc: '/doctors/kim-profile.png',
+    pathImgSrc: '/doctors/kim-path.png',
     fieldIds: ['anesthesiology'],
     expertise: ['하지정맥류', '정계정맥류', '골반정맥류'],
     educations: [
@@ -155,7 +156,16 @@ export const doctors: DoctorType[] = [
       '대한마취통증의학회 정회원',
       '대한통증학회 정회원',
     ],
-    detailHref: '/',
     reservationHref: '/',
   },
 ];
+
+// 상세 URL을 생성하는 유일한 함수: 목록 카드 등에서 재사용
+export function getDoctorDetailHref(doctor: Pick<DoctorType, 'slug'>) {
+  return `/about/doctors/${doctor.slug}`;
+}
+
+// 향후 DB로 옮길 때는 이 조회 함수의 내부만 변경하면 됩니다.
+export function getDoctorBySlug(slug: string): DoctorType | undefined {
+  return doctors.find((doctor) => doctor.slug === slug);
+}

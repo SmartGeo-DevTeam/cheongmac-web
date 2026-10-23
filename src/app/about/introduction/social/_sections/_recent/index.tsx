@@ -10,7 +10,7 @@ import { recents } from './data';
 
 export default function Recent() {
   return (
-    <section id="introduction-social-recent">
+    <section id="about-social-recent">
       <div
         className="mt-10
         xl:mt-30"
@@ -33,15 +33,21 @@ export default function Recent() {
             </Link>
           </div>
 
-          <div className="mt-5">
+          <div
+            className="mt-5 min-w-0 -mx-5
+            xl:ml-0 xl:mr-[calc(50%-50vw)]"
+          >
             <Swiper
-              slidesPerView={1}
+              className="w-full"
+              slidesOffsetBefore={20}
+              slidesPerView={1.2}
               spaceBetween={16}
               grabCursor
               breakpoints={{
                 1280: {
-                  slidesPerView: 3.3,
+                  slidesPerView: 5.2,
                   spaceBetween: 40,
+                  slidesOffsetAfter: 100,
                 },
               }}
             >
@@ -49,7 +55,7 @@ export default function Recent() {
                 <SwiperSlide key={recent.id}>
                   <div
                     className="rounded-lg overflow-hidden bg-subtle
-                  xl:rounded-xl"
+                    xl:rounded-xl"
                   >
                     <div className="relative aspect-video">
                       <Image src={recent.imgUrl} alt={recent.title} fill />
@@ -57,17 +63,18 @@ export default function Recent() {
 
                     <div
                       className="p-5 space-y-0.5
-                    xl:px-6 xl:py-5 xl:space-y-1"
+                      xl:px-6 xl:py-5 xl:space-y-1"
                     >
                       <p
                         className="text-sm
-                      xl:text-pc-label"
+                        xl:text-pc-label"
                       >
                         {recent.date}
                       </p>
+
                       <h3
                         className="text-mo-heading-2
-                      xl:text-pc-heading-2"
+                        xl:text-pc-heading-2"
                       >
                         {recent.title}
                       </h3>

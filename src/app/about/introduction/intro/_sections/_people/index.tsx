@@ -5,7 +5,7 @@ import { peopleImages } from './data';
 
 export default function People() {
   return (
-    <section id="introduction-intro-people">
+    <section id="about-introduction-people">
       <div
         className="pt-20 pb-15 bg-[url('/introduction/intro/people-m.png')] bg-cover bg-center bg-no-repeat
         xl:py-30 xl:bg-[url('/introduction/intro/people-pc.png')]"

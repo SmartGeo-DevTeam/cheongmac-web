@@ -5,7 +5,7 @@ export default function HistoryContent({ section }: { section: HistoryType }) {
   return (
     /* 연도별 연혁 */
     <ul
-      id="introduction-history-content"
+      id="about-history-content"
       className="relative z-10
       xl:flex xl:flex-col xl:items-end
       "

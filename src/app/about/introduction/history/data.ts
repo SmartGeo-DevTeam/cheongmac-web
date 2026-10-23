@@ -16,7 +16,7 @@ export type HistoryType = {
 };
 export const histories: HistoryType[] = [
   {
-    id: 'introduction-history-2018-2026',
+    id: 'about-history-2018-2026',
     period: '2018 ~ 2026',
     title: '뿌리를 깊이 내리다',
     desc: '더 깊은 땅에 뿌리를 내리고, 오직 혈관 한 길을 파고들었습니다. \n그 한 우물의 깊이가 지금의 청맥을 만들었습니다.',
@@ -198,7 +198,7 @@ export const histories: HistoryType[] = [
     ],
   },
   {
-    id: 'introduction-history-2010-2017',
+    id: 'about-history-2010-2017',
     period: '2010 ~ 2017',
     title: '한 그루의 나무를 심다',
     desc: '혈관질환이 낯설던 시절 남들이 주목하지 않던 길을 택했습니다. \n부산 덕천동의 작은 진료실, 청맥의 첫 나무는 그렇게 심어졌습니다.',

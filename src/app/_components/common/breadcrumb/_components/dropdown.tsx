@@ -58,7 +58,7 @@ export function BreadcrumbDropdown({ label, items }: BreadcrumbDropdownProps) {
         aria-expanded={isOpen}
         aria-controls={dropdownId}
         onClick={() => setIsOpen((prev) => !prev)}
-        className="flex items-center gap-2 whitespace-nowrap text-[12px]
+        className="w-full flex justify-between items-center gap-2 whitespace-nowrap text-[12px]
         xl:text-[16px]"
       >
         <span>{label}</span>

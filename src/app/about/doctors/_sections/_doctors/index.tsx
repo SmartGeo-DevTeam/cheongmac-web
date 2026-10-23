@@ -39,7 +39,7 @@ export default function Doctors() {
 
   return (
     <>
-      <section id="introduction-doctors-doctors">
+      <section id="about-doctors-doctors">
         <div className="xl:mt-15">
           <Inner usePaddingHorizontalInMobile={false}>
             <div
@@ -67,7 +67,7 @@ export default function Doctors() {
                   className="min-w-0 flex-1 pl-5 py-3.5 font-medium placeholder-disabled
                   xl:h-15 xl:rounded-lg xl:border xl:border-[#CCCCCC] xl:bg-base xl:text-[18px]"
                 />
-                <div className="w-15 h-15 flex justify-center items-center rounded-lg bg-accent">
+                <div className="xl:w-15 xl:h-15 xl:flex xl:justify-center xl:items-center xl:rounded-lg xl:bg-accent">
                   <SearchIcon
                     aria-hidden="true"
                     className="size-6 text-gray-800

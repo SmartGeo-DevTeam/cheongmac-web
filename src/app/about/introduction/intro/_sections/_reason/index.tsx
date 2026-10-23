@@ -6,7 +6,7 @@ import { leftItems, rightItems } from './data';
 
 export default function Reason() {
   return (
-    <section id="introduction-intro-reason">
+    <section id="about-introduction-reason">
       <div
         className="mt-20 mb-10 overflow-hidden
         xl:my-30"

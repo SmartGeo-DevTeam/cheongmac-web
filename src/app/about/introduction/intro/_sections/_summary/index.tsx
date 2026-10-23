@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 export default function Summary() {
   return (
-    <section id="introduction-intro-summary">
+    <section id="about-introduction-summary">
       <div
         className="mt-15 mb-25
         xl:my-30"

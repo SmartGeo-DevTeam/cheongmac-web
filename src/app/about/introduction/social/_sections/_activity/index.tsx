@@ -4,7 +4,7 @@ import { activities } from './data';
 
 export default function Activity() {
   return (
-    <section id="introduction-social-activity">
+    <section id="about-social-activity">
       <div
         className="mt-15
         xl:mt-50"

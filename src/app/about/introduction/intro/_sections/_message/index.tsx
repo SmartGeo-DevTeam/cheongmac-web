@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 export default function Message() {
   return (
-    <section id="introduction-intro-message">
+    <section id="about-introduction-message">
       <div className="mt-20">
         <Inner
           className="grid grid-cols-1

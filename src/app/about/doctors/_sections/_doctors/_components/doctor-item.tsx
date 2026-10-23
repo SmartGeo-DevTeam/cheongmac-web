@@ -2,7 +2,7 @@ import { Heart } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { DoctorType } from '../data';
-import { fields } from '../data';
+import { fields, getDoctorDetailHref } from '../data';
 
 export default function DoctorItem({ doctor }: { doctor: DoctorType }) {
   const specialistTitle = fields
@@ -92,7 +92,7 @@ export default function DoctorItem({ doctor }: { doctor: DoctorType }) {
             xl:mt-20 xl:grid xl:grid-cols-2 xl:gap-2"
           >
             <Link
-              href={doctor.detailHref}
+              href={getDoctorDetailHref(doctor)}
               className="py-3 rounded-full bg-green-300 font-bold text-center text-[16px] text-white"
             >
               상세보기
@@ -123,7 +123,7 @@ export default function DoctorItem({ doctor }: { doctor: DoctorType }) {
         xl:hidden"
       >
         <Link
-          href={doctor.detailHref}
+          href={getDoctorDetailHref(doctor)}
           className="py-3 bg-green-300 font-bold text-center text-[15px]"
         >
           상세보기

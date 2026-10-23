@@ -15,7 +15,7 @@ export default function Principle() {
   const principleSwiperRef = useRef<SwiperType | null>(null);
 
   return (
-    <section id="introduction-intro-principle">
+    <section id="about-introduction-principle">
       <div
         className="mt-20 pt-30 pb-20 bg-[url('/introduction/intro/principle-m.png')] bg-cover bg-center bg-no-repeat
         xl:mt-50 xl:pb-40 xl:bg-[url('/introduction/intro/principle-pc.png')]"

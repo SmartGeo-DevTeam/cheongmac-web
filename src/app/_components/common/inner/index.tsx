@@ -17,7 +17,7 @@ export default function Inner({
         ${usePaddingHorizontalInMobile ? 'px-5' : ''}
         ${usePaddingHorizontalInDesktop ? 'xl:px-5' : 'xl:px-0'}
         ${className}
-        xl:mx-auto xl:max-w-7xl
+        xl:mx-auto xl:max-w-7xl xl:w-full
       `}
     >
       {children}

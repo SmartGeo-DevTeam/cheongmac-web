@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 export default function Message() {
   return (
-    <section id="introduction-doctors-message">
+    <section id="about-doctors-message">
       <Inner usePaddingHorizontalInMobile={false}>
         <button
           className="relative mt-5 w-full aspect-375/250

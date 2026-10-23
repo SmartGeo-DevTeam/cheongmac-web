@@ -29,4 +29,16 @@ export const recents = [
     title: '부산진구 김장나눔 후원',
     date: '2026.07.16',
   },
+  {
+    id: '6',
+    imgUrl: '/introduction/social/temp.png',
+    title: '부산진구 김장나눔 후원',
+    date: '2026.07.16',
+  },
+  {
+    id: '7',
+    imgUrl: '/introduction/social/temp.png',
+    title: '부산진구 김장나눔 후원',
+    date: '2026.07.16',
+  },
 ];

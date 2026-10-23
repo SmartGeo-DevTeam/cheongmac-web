@@ -5,6 +5,7 @@ import MacGptSearchLayer from '@/app/_components/mac-gpt-search';
 import { ScrollDirectionProvider } from '@/app/_providers/scroll-direction-provider';
 import { ViewportProvider } from '@/app/_providers/viewport-provider';
 import type { Metadata } from 'next';
+import Spacer from './_components/common/spacer';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -31,6 +32,7 @@ export default function RootLayout({
         <ViewportProvider>
           <ScrollDirectionProvider>
             <Header />
+            <Spacer type="mobile-content-header" />
             {/* <QuickReservationForm /> */}
           </ScrollDirectionProvider>
 

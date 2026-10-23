@@ -163,18 +163,14 @@ export default function Header() {
 
         {/* Common - AI Search */}
         <section
-          className={`absolute left-0 top-16 w-full transition-all duration-200 ease-out z-30
+          className={`pointer-events-none absolute left-0 top-16 w-full
+            transition-all duration-200 ease-out z-30
             xl:top-22
-            ${
-              shouldHideAiSearch
-                ? 'invisible -translate-y-2 opacity-0'
-                : 'visible translate-y-0 opacity-100'
-            }
             `}
         >
           <div className="relative px-4 mx-auto max-w-7xl w-full flex justify-end">
             <form
-              className="px-3 py-1.75 w-full flex items-center gap-1 rounded-xl border border-black/5 bg-white shadow-[0_1px_0_0_rgb(55_55_55/0.2)]
+              className="pointer-events-auto px-3 py-1.75 w-full flex items-center gap-1 rounded-xl border border-black/5 bg-white shadow-[0_1px_0_0_rgb(55_55_55/0.2)]
               xl:px-4 xl:py-2.5 xl:w-auto xl:bg-[#333333]/50"
               onClick={handleAiSearchOpen}
               onFocusCapture={handleAiSearchOpen}

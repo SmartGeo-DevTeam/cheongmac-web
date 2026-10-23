@@ -31,12 +31,12 @@ const HISTORY_SECTION_STYLES: Record<
   string,
   Partial<HistorySectionStylesType>
 > = {
-  'introduction-history-2018-2026': {
+  'about-history-2018-2026': {
     backgroundAspect: `aspect-375/420
                        xl:aspect-auto xl:w-screen xl:h-screen`,
     contentColor: `text-inverse`,
   },
-  'introduction-history-2010-2017': {
+  'about-history-2010-2017': {
     backgroundAspect: `aspect-375/550
                        xl:aspect-auto xl:w-screen xl:h-screen`,
   },
