@@ -190,7 +190,7 @@ export default function Header() {
                 type="search"
                 placeholder={aiSearchPlaceholder}
                 className="flex-1 ml-1 font-semibold text-sm text-[#656565]
-                xl:min-w-80 xl:font-medium xl:text-white xl:text-base"
+                xl:min-w-80 xl:font-medium xl:text-base"
               />
 
               <button type="submit" className="relative shrink-0 w-6.5 h-6.5">
@@ -207,7 +207,7 @@ export default function Header() {
 
         {/* Desktop - LNB */}
         {hoveredPrimary?.children?.length ? (
-          <section className="relative z-20 border-t border-t-[#CCCCCC]">
+          <section className="relative z-50 border-t border-t-[#CCCCCC]">
             <div className="relative w-full bg-white before:absolute before:left-0 before:top-0 before:w-1/2 before:h-full before:bg-[#EEEEEE]">
               <div className="relative mx-auto max-w-440 grid">
                 {primaryNavigation.map((item) => {
@@ -256,7 +256,7 @@ export default function Header() {
 
                           <button
                             type="submit"
-                            className="row-span-2 w-25 aspect-square rounded-lg bg-cm-green tracking-[-5%] text-white"
+                            className="row-span-2 h-full aspect-square rounded-lg bg-brand tracking-[-5%] font-bold text-white"
                           >
                             {headerText.reservation.button_1}
                             <br />

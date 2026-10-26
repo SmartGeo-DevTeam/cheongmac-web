@@ -4,11 +4,12 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { navs } from './data';
 
-export default function AboutIntroductionNav() {
+export default function AboutIntroductionNavs() {
   const pathname = usePathname();
 
   return (
     <nav
+      id="about-introduction-navs"
       aria-label="청맥병원 소개 메뉴"
       className="grid h-11.5 grid-cols-3 text-[15px] font-semibold
       xl:mx-auto xl:mt-15 xl:max-w-157 xl:h-16 xl:gap-3"
