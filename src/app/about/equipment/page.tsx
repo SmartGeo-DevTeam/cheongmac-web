@@ -1,37 +1,60 @@
-import EditablePageCopyBlock from '@/app/_components/inline-editor/editable-page-copy-block';
-import NavigationPageHeader from '@/app/_components/ui/navigation-page-header';
-import { getMedicalEquipmentManagedContent } from '@/_lib/managed-pages';
-import type { Metadata } from 'next';
-import MedicalEquipmentContent from './_components/medical-equipment-content';
+import Inner from '@/app/_components/common/inner';
+import Image from 'next/image';
+import Link from 'next/link';
+import { equipments } from './data';
 
-export const dynamic = 'force-dynamic';
-
-export const metadata: Metadata = {
-  title: '첨단의료장비 | 청맥병원',
-  description:
-    '청맥병원의 영상진단, 기능생체검사, 시술·수술, 특수치료 장비를 안내합니다.',
-};
-
-export default async function MedicalEquipmentPage() {
-  const items = await getMedicalEquipmentManagedContent();
-
+export default function AboutEquipmentPage() {
   return (
-    <div>
-      <NavigationPageHeader
-        id="medical-equipment-page-header"
-        navigationPath="/about/equipment"
-        description={
-          <>
-            대학병원급 고해상도 진단 장비와 첨단 치료 시스템을 통해
-            <br className="hidden xl:block" />
-            보이지 않는 혈관 속 미세한 병변까지 놓치지 않고 찾아냅니다.
-          </>
-        }
-      />
-
-      <EditablePageCopyBlock path="/about/equipment">
-        {(copy) => <MedicalEquipmentContent items={items} copy={copy} />}
-      </EditablePageCopyBlock>
-    </div>
+    <>
+      <section id="about-equipment-equipments">
+        <Inner>
+          <ul
+            className="mt-5 mb-32 grid grid-cols-2 gap-x-2 gap-y-4
+            xl:mt-15 xl:gap-x-6 xl:gap-y-25"
+          >
+            {equipments.map((equipment) => (
+              <li key={equipment.id}>
+                <Link
+                  href={`/about/equipment/${equipment.category}/${equipment.id}`}
+                >
+                  <div className="relative aspect-628/340">
+                    <Image
+                      src={equipment.image}
+                      alt={`${equipment.title} ${equipment.model}`}
+                      fill
+                    />
+                  </div>
+                  <div
+                    className="mt-1 px-2 py-1 flex justify-between items-center
+                  xl:p-2"
+                  >
+                    <div>
+                      <p
+                        className="font-bold text-accent text-[12px]
+                      xl:text-[20px]"
+                      >
+                        {equipment.title}
+                      </p>
+                      <h4
+                        className="font-medium text-[14px]
+                      xl:mt-1 xl:text-pc-heading-2"
+                      >
+                        {equipment.model}
+                      </h4>
+                    </div>
+                    <span
+                      className="hidden
+                      xl:block xl:px-5 xl:py-2 rounded-lg border border-default font-semibold text-[16px] text-disabled"
+                    >
+                      자세히 보기
+                    </span>
+                  </div>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </Inner>
+      </section>
+    </>
   );
 }

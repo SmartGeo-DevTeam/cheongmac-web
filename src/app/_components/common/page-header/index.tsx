@@ -24,7 +24,7 @@ export default function PageHeader({
 
         {desc && (
           <p
-            className="mt-2 text-[14px] text-secondary whitespace-pre leading-[150%]
+            className="mt-2 text-[14px] text-secondary whitespace-break-spaces leading-[150%]
             xl:text-[20px]"
           >
             {desc}
