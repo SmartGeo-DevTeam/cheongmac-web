@@ -83,7 +83,7 @@ export function BreadcrumbDropdown({ label, items }: BreadcrumbDropdownProps) {
               href={item.href}
               aria-current={pathname === item.href ? 'page' : undefined}
               onClick={() => setIsOpen(false)}
-              className="block whitespace-nowrap px-4 py-2.5 text-[14px] text-cm-gray-700 transition hover:bg-cm-gray-50 hover:text-cm-orange
+              className="block whitespace-nowrap px-4 py-2.5 text-[14px] text-cm-gray-700 transition hover:bg-cm-gray-50 hover:text-accent
               xl:text-[16px]"
             >
               {item.label}

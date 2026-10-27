@@ -1,8 +1,8 @@
 'use client';
 
-import { completeMembership, type JoinState } from './actions';
 import Link from 'next/link';
 import { useActionState, useState } from 'react';
+import { completeMembership, type JoinState } from './actions';
 
 const initialState: JoinState = {};
 
@@ -25,8 +25,15 @@ function formatPhoneNumber(value: string) {
   return `${digits.slice(0, 3)}-${digits.slice(3, 7)}-${digits.slice(7)}`;
 }
 
-export default function MembershipForm({ callbackURL, defaultName, email }: Props) {
-  const [state, formAction, pending] = useActionState(completeMembership, initialState);
+export default function MembershipForm({
+  callbackURL,
+  defaultName,
+  email,
+}: Props) {
+  const [state, formAction, pending] = useActionState(
+    completeMembership,
+    initialState,
+  );
   const [phone, setPhone] = useState('');
 
   return (
@@ -39,7 +46,9 @@ export default function MembershipForm({ callbackURL, defaultName, email }: Prop
       />
 
       <label className="block">
-        <span className="mb-2 block text-sm font-semibold text-[#444444]">본명</span>
+        <span className="mb-2 block text-sm font-semibold text-[#444444]">
+          본명
+        </span>
         <input
           id="join-name"
           name="name"
@@ -47,12 +56,14 @@ export default function MembershipForm({ callbackURL, defaultName, email }: Prop
           defaultValue={defaultName}
           autoComplete="name"
           required
-          className="h-13 w-full rounded-xl border border-[#DEDFE1] px-4 text-[15px] focus:border-cm-orange"
+          className="h-13 w-full rounded-xl border border-[#DEDFE1] px-4 text-[15px] focus:border-accent"
         />
       </label>
 
       <label className="block">
-        <span className="mb-2 block text-sm font-semibold text-[#444444]">이메일</span>
+        <span className="mb-2 block text-sm font-semibold text-[#444444]">
+          이메일
+        </span>
         <input
           id="join-email"
           name="email"
@@ -68,7 +79,9 @@ export default function MembershipForm({ callbackURL, defaultName, email }: Prop
       </label>
 
       <label className="block">
-        <span className="mb-2 block text-sm font-semibold text-[#444444]">연락처</span>
+        <span className="mb-2 block text-sm font-semibold text-[#444444]">
+          연락처
+        </span>
         <input
           id="join-phone"
           name="phone"
@@ -80,7 +93,7 @@ export default function MembershipForm({ callbackURL, defaultName, email }: Prop
           onChange={(event) => setPhone(formatPhoneNumber(event.target.value))}
           maxLength={13}
           required
-          className="h-13 w-full rounded-xl border border-[#DEDFE1] px-4 text-[15px] focus:border-cm-orange"
+          className="h-13 w-full rounded-xl border border-[#DEDFE1] px-4 text-[15px] focus:border-accent"
         />
       </label>
 
@@ -94,7 +107,11 @@ export default function MembershipForm({ callbackURL, defaultName, email }: Prop
             className="mt-1 size-4 accent-[#FA6805]"
           />
           <span className="flex-1">[필수] 홈페이지 이용약관에 동의합니다.</span>
-          <Link href="/terms" target="_blank" className="text-xs underline underline-offset-2">
+          <Link
+            href="/terms"
+            target="_blank"
+            className="text-xs underline underline-offset-2"
+          >
             보기
           </Link>
         </label>
@@ -108,7 +125,9 @@ export default function MembershipForm({ callbackURL, defaultName, email }: Prop
               required
               className="mt-1 size-4 accent-[#FA6805]"
             />
-            <span className="flex-1">[필수] 개인정보 수집·이용에 동의합니다.</span>
+            <span className="flex-1">
+              [필수] 개인정보 수집·이용에 동의합니다.
+            </span>
             <Link
               href="/privacy-policy"
               target="_blank"
@@ -120,33 +139,44 @@ export default function MembershipForm({ callbackURL, defaultName, email }: Prop
 
           <div className="ml-7 mt-3 space-y-1 rounded-xl border border-[#E7E7E7] bg-white px-3 py-3 text-xs leading-5 text-[#777777]">
             <p>
-              <strong className="font-semibold text-[#555555]">수집 목적</strong> · 홈페이지 회원가입 및 관리,
-              소셜 로그인 계정 식별·인증
+              <strong className="font-semibold text-[#555555]">
+                수집 목적
+              </strong>{' '}
+              · 홈페이지 회원가입 및 관리, 소셜 로그인 계정 식별·인증
             </p>
             <p>
-              <strong className="font-semibold text-[#555555]">필수 항목</strong> · 본명, 이메일,
-              휴대전화번호
+              <strong className="font-semibold text-[#555555]">
+                필수 항목
+              </strong>{' '}
+              · 본명, 이메일, 휴대전화번호
             </p>
             <p>
-              <strong className="font-semibold text-[#555555]">소셜 연동 정보</strong> · 로그인 제공자,
-              소셜 계정 식별자, 프로필 이름·이미지(제공 및 동의 시)
+              <strong className="font-semibold text-[#555555]">
+                소셜 연동 정보
+              </strong>{' '}
+              · 로그인 제공자, 소셜 계정 식별자, 프로필 이름·이미지(제공 및 동의
+              시)
             </p>
             <p>
-              <strong className="font-semibold text-[#555555]">보유 기간</strong> · 회원 탈퇴 시까지
-              (관계 법령상 보존 의무가 있는 경우 해당 기간)
+              <strong className="font-semibold text-[#555555]">
+                보유 기간
+              </strong>{' '}
+              · 회원 탈퇴 시까지 (관계 법령상 보존 의무가 있는 경우 해당 기간)
             </p>
           </div>
         </div>
       </div>
 
       {state.error ? (
-        <p className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-600">{state.error}</p>
+        <p className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-600">
+          {state.error}
+        </p>
       ) : null}
 
       <button
         type="submit"
         disabled={pending}
-        className="h-14 w-full rounded-xl bg-cm-orange text-base font-bold text-white transition hover:brightness-95 disabled:cursor-wait disabled:opacity-60"
+        className="h-14 w-full rounded-xl bg-accent text-base font-bold transition hover:brightness-95 disabled:cursor-wait disabled:opacity-60"
       >
         {pending ? '회원 전환 중...' : '청맥병원 회원가입 완료'}
       </button>

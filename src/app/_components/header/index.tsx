@@ -123,11 +123,13 @@ export default function Header() {
                     href={item.href}
                     onMouseEnter={() => setHoveredPrimaryId(item.id)}
                     onFocus={() => setHoveredPrimaryId(item.id)}
-                    className={`relative px-7 flex items-center tracking-[-4%] font-medium text-lg cursor-pointer transition ${
-                      isActive
-                        ? 'border-cm-orange text-cm-orange'
-                        : 'border-transparent text-gray-700 hover:font-bold hover:text-cm-orange'
-                    }`}
+                    className={`relative px-7 flex items-center tracking-[-4%] text-lg cursor-pointer transition
+                      ${
+                        isActive
+                          ? 'border-accent font-bold text-accent'
+                          : 'border-transparent text-gray-700 hover:font-bold hover:text-accent'
+                      }
+                      `}
                   >
                     {item.title}
                   </Link>
@@ -273,7 +275,8 @@ export default function Header() {
                               <Link
                                 href={group.href}
                                 onClick={closeDesktopLnb}
-                                className="tracking-[-6%] text-nowrap font-medium text-lg text-[#333333] hover:text-cm-orange"
+                                className="tracking-[-6%] text-nowrap font-medium text-lg text-[#333333]
+                                hover:font-bold hover:text-accent"
                               >
                                 {group.title}
                               </Link>
@@ -285,7 +288,7 @@ export default function Header() {
                                       <Link
                                         href={child.href}
                                         onClick={closeDesktopLnb}
-                                        className="tracking-[-6%] font-normal text-lg text-[#999999] hover:underline underline-offset-4 hover:text-cm-orange"
+                                        className="tracking-[-6%] font-normal text-lg text-[#999999] hover:underline underline-offset-4 hover:text-accent"
                                       >
                                         {`· ${child.title}`}
                                       </Link>
@@ -303,7 +306,8 @@ export default function Header() {
                               key={group.id}
                               href={group.href}
                               onClick={closeDesktopLnb}
-                              className="tracking-[-6%] font-medium text-lg text-[#333333] hover:text-cm-orange"
+                              className="tracking-[-6%] font-medium text-lg text-[#333333]
+                              hover:font-bold hover:text-accent"
                             >
                               {group.title}
                             </Link>
@@ -322,7 +326,7 @@ export default function Header() {
         {isHamburgerOpen ? (
           <div className="fixed inset-0 z-50 flex h-dvh w-screen max-w-none flex-col overflow-y-auto bg-white">
             {/* GNB */}
-            <div className="fixed left-0 top-0 z-10 flex h-51 w-screen max-w-none flex-col border-b border-b-[#EEEEEE] bg-cm-orange-500 px-5">
+            <div className="fixed left-0 top-0 z-10 flex h-51 w-screen max-w-none flex-col border-b border-b-[#EEEEEE] bg-accent px-5">
               {/* Header */}
               <section className="h-14 flex justify-between items-center">
                 <Link href={'/'} className="relative">
@@ -414,7 +418,7 @@ export default function Header() {
                         onClick={closeHamburgerMenu}
                         className="relative flex h-15 w-full items-center border-t border-t-[#EEEEEE] border-b border-b-[#EEEEEE] px-10 bg-white"
                       >
-                        <span className="tracking-[-4%] font-medium text-xl text-cm-orange">
+                        <span className="tracking-[-4%] font-medium text-xl text-accent">
                           {item.title}
                         </span>
 
@@ -463,7 +467,7 @@ export default function Header() {
                           height={30}
                         />
 
-                        <span className="tracking-[-4%] font-medium text-xl text-cm-orange">
+                        <span className="tracking-[-4%] font-medium text-xl text-accent">
                           {item.title}
                         </span>
 
@@ -476,7 +480,7 @@ export default function Header() {
                         />
                       </summary>
 
-                      <div className="w-full max-w-none py-2 pl-[72px]">
+                      <div className="w-full max-w-none py-2 pl-18">
                         <ul className="flex flex-col">
                           {item.children.map((child) => (
                             <li key={child.id}>

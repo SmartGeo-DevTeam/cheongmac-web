@@ -55,13 +55,13 @@ export default function AccountDock() {
   return (
     <aside
       id="account-dock"
-      className="fixed bottom-5 right-5 z-[70] hidden items-center gap-2 rounded-2xl border border-black/10 bg-white/95 p-2 shadow-[0_8px_30px_rgba(0,0,0,0.14)] backdrop-blur xl:flex"
+      className="fixed bottom-5 right-5 z-70 hidden items-center gap-2 rounded-2xl border border-black/10 bg-white/95 p-2 shadow-[0_8px_30px_rgba(0,0,0,0.14)] backdrop-blur xl:flex"
     >
       {!isActive ? (
         <Link
           id="account-dock-complete-membership"
           href="/join"
-          className="rounded-xl bg-cm-orange px-4 py-2 text-sm font-semibold text-white"
+          className="rounded-xl bg-accent px-4 py-2 text-sm font-semibold text-white"
         >
           회원정보 입력
         </Link>
@@ -83,8 +83,8 @@ export default function AccountDock() {
                 aria-pressed={editMode}
                 className={`inline-flex items-center gap-1.5 rounded-xl px-3 py-2 text-sm font-semibold transition ${
                   editMode
-                    ? 'bg-cm-orange text-white'
-                    : 'bg-[#FFF4EC] text-cm-orange hover:bg-[#FFE9D8]'
+                    ? 'bg-accent text-white'
+                    : 'bg-[#FFF4EC] text-accent hover:bg-[#FFE9D8]'
                 }`}
               >
                 <PenLine className="size-4" />

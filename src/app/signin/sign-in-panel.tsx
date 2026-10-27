@@ -4,9 +4,24 @@ import { authClient } from '@/_lib/auth-client';
 import { useState } from 'react';
 
 const PROVIDERS = [
-  { id: 'google', label: 'Google로 계속하기', mark: 'G', className: 'border-[#E5E7EB] bg-white text-[#202124]' },
-  { id: 'naver', label: '네이버로 계속하기', mark: 'N', className: 'border-[#03C75A] bg-[#03C75A] text-white' },
-  { id: 'kakao', label: '카카오로 계속하기', mark: 'K', className: 'border-[#FEE500] bg-[#FEE500] text-[#191919]' },
+  {
+    id: 'google',
+    label: 'Google로 계속하기',
+    mark: 'G',
+    className: 'border-[#E5E7EB] bg-white text-[#202124]',
+  },
+  {
+    id: 'naver',
+    label: '네이버로 계속하기',
+    mark: 'N',
+    className: 'border-[#03C75A] bg-[#03C75A] text-white',
+  },
+  {
+    id: 'kakao',
+    label: '카카오로 계속하기',
+    mark: 'K',
+    className: 'border-[#FEE500] bg-[#FEE500] text-[#191919]',
+  },
 ] as const;
 
 type Props = {
@@ -36,10 +51,14 @@ export default function SignInPanel({ callbackURL, error }: Props) {
   };
 
   return (
-    <div className="w-full max-w-[460px] rounded-3xl border border-[#ECEDEE] bg-white px-6 py-9 shadow-[0_18px_60px_rgba(0,0,0,0.08)] xl:px-9 xl:py-11">
+    <div className="w-full max-w-115 rounded-3xl border border-[#ECEDEE] bg-white px-6 py-9 shadow-[0_18px_60px_rgba(0,0,0,0.08)] xl:px-9 xl:py-11">
       <div className="text-center">
-        <p className="text-sm font-semibold tracking-[0.12em] text-cm-orange">CHEONGMAC</p>
-        <h1 className="mt-2 text-3xl font-bold tracking-[-0.05em] text-[#222222]">로그인</h1>
+        <p className="text-sm font-semibold tracking-[0.12em] text-accent">
+          CHEONGMAC
+        </p>
+        <h1 className="mt-2 text-3xl font-bold tracking-tighter text-[#222222]">
+          로그인
+        </h1>
         <p className="mt-3 break-keep text-sm leading-6 text-[#777777]">
           청맥병원 회원 서비스는 소셜 계정으로 간편하게 이용할 수 있습니다.
         </p>
@@ -64,12 +83,14 @@ export default function SignInPanel({ callbackURL, error }: Props) {
 
       {error || clientError ? (
         <p className="mt-5 rounded-xl bg-red-50 px-4 py-3 text-center text-sm text-red-600">
-          {clientError || '소셜 로그인 중 문제가 발생했습니다. 다시 시도해주세요.'}
+          {clientError ||
+            '소셜 로그인 중 문제가 발생했습니다. 다시 시도해주세요.'}
         </p>
       ) : null}
 
       <p className="mt-7 break-keep text-center text-xs leading-5 text-[#999999]">
-        소셜 인증만으로는 로그인 상태가 유지되지 않습니다. 최초 1회 본명·연락처 확인 및 필수 약관 동의까지 완료해야 홈페이지 회원으로 로그인됩니다.
+        소셜 인증만으로는 로그인 상태가 유지되지 않습니다. 최초 1회 본명·연락처
+        확인 및 필수 약관 동의까지 완료해야 홈페이지 회원으로 로그인됩니다.
       </p>
     </div>
   );

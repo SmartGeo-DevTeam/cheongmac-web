@@ -40,11 +40,11 @@ export default function SignOutClient({
 
   return (
     <section className="mx-auto flex min-h-[calc(100dvh-56px)] w-full max-w-7xl items-center justify-center px-5 py-16 xl:min-h-[calc(100dvh-80px)]">
-      <div className="w-full max-w-[460px] rounded-3xl border border-[#ECEDEE] bg-white px-6 py-9 text-center shadow-[0_18px_60px_rgba(0,0,0,0.08)] xl:px-9 xl:py-11">
-        <div className="text-sm font-semibold tracking-[0.12em] text-cm-orange">
+      <div className="w-full max-w-115 rounded-3xl border border-[#ECEDEE] bg-white px-6 py-9 text-center shadow-[0_18px_60px_rgba(0,0,0,0.08)] xl:px-9 xl:py-11">
+        <div className="text-sm font-semibold tracking-[0.12em] text-accent">
           CHEONGMAC
         </div>
-        <h1 className="mt-2 text-3xl font-bold tracking-[-0.05em] text-[#222222]">
+        <h1 className="mt-2 text-3xl font-bold tracking-tighter text-[#222222]">
           로그아웃
         </h1>
 

@@ -68,8 +68,8 @@ export const NAVIGATION: NavigationItem[] = [
   //           title: '대동맥질환',
   //         },
   //         {
-  //           id: 'vascular-arterial-diabetic-foot',
-  //           href: '/vascular/arterial/diabetic-foot',
+  //           id: 'vascular-arterial-foot',
+  //           href: '/vascular/arterial/foot',
   //           title: '당뇨발',
   //         },
   //       ],
@@ -117,8 +117,8 @@ export const NAVIGATION: NavigationItem[] = [
   //           title: 'KT 증후군',
   //         },
   //         {
-  //           id: 'vascular-special-may-thurner',
-  //           href: '/vascular/special/may-thurner',
+  //           id: 'vascular-special-maythurner',
+  //           href: '/vascular/special/maythurner',
   //           title: '메이타너증후군',
   //         },
   //         {
@@ -181,83 +181,83 @@ export const NAVIGATION: NavigationItem[] = [
   // },
 
   {
-    id: 'education-research',
-    href: '/education-research/exchange',
+    id: 'academics',
+    href: '/academics/collaboration',
     title: '교육·연구',
     children: [
       // {
-      //   id: 'education-research-institute',
-      //   href: '/education-research/institute',
+      //   id: 'academics-institute',
+      //   href: '/academics/institute',
       //   title: '맑은혈관연구소',
       // },
       // {
-      //   id: 'education-research-medical-education',
-      //   href: '/education-research/medical-education',
+      //   id: 'academics-education',
+      //   href: '/academics/education',
       //   title: '의학교육',
       // },
       {
-        id: 'education-research-exchange',
-        href: '/education-research/exchange',
+        id: 'academics-collaboration',
+        href: '/academics/collaboration',
         title: '학술교류',
       },
       {
-        id: 'education-research-society',
-        href: '/education-research/society',
+        id: 'academics-conferences',
+        href: '/academics/conferences',
         title: '학회활동',
       },
     ],
   },
 
   {
-    id: 'communication',
+    id: 'community',
     href: '/community/cases',
     title: '소통공간',
     children: [
       {
-        id: 'communication-cases',
+        id: 'community-cases',
         href: '/community/cases',
         title: '치료사례',
       },
       {
-        id: 'communication-consultation',
+        id: 'community-consultation',
         href: '/community/consultation',
         title: '의학상담',
       },
       {
-        id: 'communication-customer-voice',
-        href: '/community/customer-voice',
+        id: 'community-feedback',
+        href: '/community/feedback',
         title: '고객의 소리',
       },
     ],
   },
 
   {
-    id: 'hospital-news',
+    id: 'newsroom',
     href: '/community/notice',
     title: '병원소식',
     children: [
       {
-        id: 'hospital-news-notice',
+        id: 'newsroom-notice',
         href: '/community/notice',
         title: '공지사항',
       },
       {
-        id: 'hospital-news-news',
+        id: 'newsroom-news',
         href: '/community/news',
         title: '청맥뉴스',
       },
       // {
-      //   id: 'hospital-news-bid',
+      //   id: 'newsroom-bid',
       //   href: '/community/bid',
       //   title: '입찰공고',
       // },
       // {
-      //   id: 'hospital-news-recruit',
+      //   id: 'newsroom-recruit',
       //   href: '/community/recruit',
       //   title: '채용공고',
       // },
       // {
-      //   id: 'hospital-news-program',
+      //   id: 'newsroom-program',
       //   href: '/community/program',
       //   title: '프로그램 신청',
       // },
@@ -266,7 +266,7 @@ export const NAVIGATION: NavigationItem[] = [
 
   {
     id: 'guide',
-    href: '/guide/partner-hospital',
+    href: '/guide/partner',
     title: '이용안내',
     children: [
       // {
@@ -285,13 +285,13 @@ export const NAVIGATION: NavigationItem[] = [
       //   title: '입·퇴원안내',
       // },
       {
-        id: 'guide-partner-hospital',
-        href: '/guide/partner-hospital',
+        id: 'guide-partner',
+        href: '/guide/partner',
         title: '의료협약병원',
       },
       // {
-      //   id: 'guide-medical-support',
-      //   href: '/guide/medical-support',
+      //   id: 'guide-support',
+      //   href: '/guide/support',
       //   title: '의료비지원안내',
       // },
     ],
