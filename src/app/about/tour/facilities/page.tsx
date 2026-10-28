@@ -1,5 +1,6 @@
 'use client';
 
+import CategoryTabs from '@/app/_components/category-tabs';
 import Inner from '@/app/_components/common/inner';
 import { ChevronDown, Search } from 'lucide-react';
 import Image from 'next/image';
@@ -64,40 +65,16 @@ export default function AboutTourFacilitiesPage() {
           xl:mt-20 xl:mb-32"
         >
           <div className="xl:px-5 xl:flex xl:justify-between xl:items-center">
-            <ul
-              className="pl-5 pr-10 flex gap-2 w-full overflow-x-auto whitespace-nowrap
-              xl:p-0 xl:gap-2.5"
-            >
-              {facilityCategories.map((item) => {
-                const isActive = category === item.id;
-
-                return (
-                  <li key={item.id} className="shrink-0">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setCategory(item.id);
-                        setVisibleCount(6);
-                      }}
-                      aria-pressed={isActive}
-                      className={`
-                        relative pl-4 py-2 font-bold text-[15px]
-                        xl:pl-5 xl:text-[18px]
-                        ${
-                          isActive
-                            ? `text-brand
-                          before:absolute before:top-1/2 before:left-1 before:size-1 before:-translate-y-1/2 before:rounded-full before:bg-brand
-                          xl:before:left-2 xl:before:size-1.5`
-                            : 'text-tertiary'
-                        }
-                        `}
-                    >
-                      {item.label}
-                    </button>
-                  </li>
-                );
-              })}
-            </ul>
+            <CategoryTabs
+              id="about-tour-facilities-categories"
+              ariaLabel="시설 분류"
+              categories={facilityCategories}
+              activeId={category}
+              onChange={(id) => {
+                setCategory(id);
+                setVisibleCount(6);
+              }}
+            />
 
             <div
               className="px-5

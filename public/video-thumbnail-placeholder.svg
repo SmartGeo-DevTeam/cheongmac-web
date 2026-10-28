@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="영상 등록 예정">
+  <rect width="640" height="360" fill="#E7F3F0" />
+  <circle cx="320" cy="160" r="42" fill="#096653" />
+  <path d="M308 139v42l35-21z" fill="white" />
+  <text x="320" y="245" text-anchor="middle" font-size="24" font-family="sans-serif" font-weight="600" fill="#096653">영상 등록 예정</text>
+</svg>
