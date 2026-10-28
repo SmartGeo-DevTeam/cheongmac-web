@@ -3,9 +3,11 @@ import Inner from '../inner';
 export default function PageHeader({
   title,
   desc,
+  desktopLineBreak = false,
 }: {
   title: string;
   desc?: string;
+  desktopLineBreak?: boolean;
 }) {
   return (
     <section
@@ -24,8 +26,10 @@ export default function PageHeader({
 
         {desc && (
           <p
-            className="mt-2 text-[14px] text-secondary whitespace-break-spaces leading-[150%]
-            xl:text-[20px]"
+            className={`mt-2 text-[14px] text-secondary whitespace-break-spaces leading-[150%]
+              xl:text-[20px]
+              ${desktopLineBreak ? 'xl:whitespace-pre-line' : 'xl:whitespace-nowrap'}
+              `}
           >
             {desc}
           </p>

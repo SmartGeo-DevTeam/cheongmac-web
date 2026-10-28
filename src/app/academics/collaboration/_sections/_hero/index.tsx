@@ -1,5 +1,8 @@
 'use client';
 
+import AcademicsMessage, {
+  AcademicsHighlight,
+} from '@/app/academics/_components/message';
 import Image from 'next/image';
 import type { Swiper as SwiperType } from 'swiper';
 import 'swiper/css';
@@ -32,44 +35,26 @@ export default function Hero() {
           className="grid min-w-0 grid-cols-1
           xl:mx-auto xl:max-w-7xl xl:w-full xl:px-5 xl:py-20 xl:grid-cols-2 xl:items-center xl:gap-6"
         >
-          <div
-            className="px-5 pt-15
-            xl:p-0"
-          >
-            <span
-              className="text-mo-label text-accent-ai-strong
-              xl:text-pc-label"
-            >
-              ACADEMIC EXCHANGE
-            </span>
-            <p
-              className="mt-3 text-mo-heading-1 text-gray-900
-              xl:text-pc-title-2"
-            >
-              혈관 치료의 올바른 기준을 세우기 위해,{' '}
-              <br
-                className="hidden
-                xl:block"
-              />
-              청맥병원은 끊임없이 연구하고 소통합니다.
-            </p>
-            <p
-              className="mt-10 text-mo-body-2 text-gray-900
-              xl:text-pc-body-2"
-            >
-              국내외 의료진과 임상 경험과 치료 노하우를 공유하고,{' '}
-              <br
-                className="hidden
-                xl:block"
-              />
-              술기 연수와 교육 프로그램을 지속적으로 운영하며{' '}
-              <br
-                className="hidden
-                xl:block"
-              />
-              혈관의학의 저변을 함께 넓혀가고 있습니다.
-            </p>
-          </div>
+          <AcademicsMessage
+            label="ACADEMIC EXCHANGE"
+            className="px-5 pt-10 xl:p-0"
+            title={
+              <>
+                혈관 치료의 <AcademicsHighlight>올바른 기준</AcademicsHighlight>
+                을 세우기 위해, <br />
+                청맥병원은 끊임없이 연구하고 소통합니다.
+              </>
+            }
+            description={
+              <>
+                국내외 의료진과 임상 경험과 치료 노하우를 공유하고,{' '}
+                <br className="hidden xl:block" />
+                술기 연수와 교육 프로그램을 지속적으로 운영하며{' '}
+                <br className="hidden xl:block" />
+                혈관의학의 저변을 함께 넓혀가고 있습니다.
+              </>
+            }
+          />
 
           <div
             className="mt-10 mb-25

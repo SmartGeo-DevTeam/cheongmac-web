@@ -8,7 +8,7 @@ export type NavigationItem = {
 export const NAVIGATION: NavigationItem[] = [
   {
     id: 'about',
-    href: '/about/doctors',
+    href: '/about/introduction',
     title: '병원 소개',
     children: [
       /*
