@@ -1,96 +1,139 @@
-'use client';
-
-import {
-  H3 as TypographyH3,
-  P as TypographyP,
-} from '@/app/_components/ui/typography';
-import { openMacGptSearch } from '@/app/_components/mac-gpt-search';
 import { ArrowUpRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import type { ConsultationFieldId } from '../data';
 
-const RELATED_ITEMS = ['하지정맥류', '정계정맥류', '골반정맥류'];
+/** 디자인 참고용 추천 콘텐츠. 실제 상세 연결은 콘텐츠 API 도입 시 교체합니다. */
+const recommendations = [
+  { label: '하지정맥류', category: 'varicose' },
+  { label: '정계정맥류', category: 'varicocele' },
+  { label: '골반정맥류', category: 'pelvic-vein' },
+] as const satisfies ReadonlyArray<{
+  label: string;
+  category: ConsultationFieldId;
+}>;
 
 export default function ConsultationSidebar() {
   return (
-    <aside className="space-y-8 xl:space-y-11">
-      <section>
-        <div className="mb-3 flex items-end justify-between xl:block">
-          <TypographyH3 className="text-[17px] font-bold tracking-[-0.04em] text-[#292F36] xl:text-[22px]">
-            관련 콘텐츠
-          </TypographyH3>
-          <Link
-            href="/"
-            className="text-[10px] tracking-[-0.03em] text-[#8D939B] xl:mt-1 xl:block xl:text-[12px]"
+    <>
+      <section
+        className="mt-15
+        xl:mt-0"
+      >
+        <div
+          className="flex justify-between items-end
+          xl:flex-col xl:items-start"
+        >
+          <h2
+            className="font-bold text-[20px]
+            xl:text-pc-heading-1"
           >
-            질환정보 바로가기
-          </Link>
+            관련 콘텐츠
+          </h2>
+          <p
+            className="font-medium text-secondary text-[14px]
+            xl:text-[16px]"
+          >
+            진료분야별 상담 보기
+          </p>
         </div>
 
-        <div className="space-y-2">
-          {RELATED_ITEMS.map((item) => (
-            <Link
-              key={item}
-              href="/"
-              className="flex min-h-11 items-center justify-between rounded-[7px] bg-[#F5F6F7] px-3.5 text-[13px] font-medium tracking-[-0.035em] text-[#4B5159] xl:min-h-12 xl:px-4 xl:text-[14px]"
-            >
-              <span>{item}</span>
-              <span className="flex size-8 items-center justify-center rounded-full bg-white text-[#555B63] xl:size-9">
-                <ArrowUpRight className="size-4" strokeWidth={1.7} />
-              </span>
-            </Link>
+        <ul
+          className="mt-3 space-y-2
+          xl:mt-5"
+        >
+          {recommendations.map((item) => (
+            <li key={item.category}>
+              <Link
+                href={`/community/consultation?category=${item.category}`}
+                className="px-5 py-4 flex justify-between items-center rounded-lg bg-subtle font-medium text-[18px]
+                xl:px-6 xl:py-2.5 xl:text-[20px]"
+              >
+                <span>{item.label}</span>
+                <div
+                  className="size-10.5 flex justify-center items-center rounded-full bg-white
+                  xl:size-8"
+                >
+                  <ArrowUpRight
+                    className="size-6
+                    xl:size-5"
+                  />
+                </div>
+              </Link>
+            </li>
           ))}
+        </ul>
+      </section>
+
+      <section
+        className="relative mt-20
+        xl:mt-15"
+      >
+        <h2
+          className="font-bold text-[20px]
+          xl:text-pc-heading-1"
+        >
+          이달의 칼럼
+        </h2>
+
+        <div
+          className="mt-3 px-5 pt-11.5 pb-15 rounded-xl bg-subtle
+          xl:mt-5 xl:p-6 xl:pb-15"
+        >
+          <p
+            className="w-3/5 font-medium text-[18px]
+            xl:w-full xl:leading-[170%] xl:text-[16px]"
+          >
+            자궁근종 수술 고민?
+            <br />
+            로봇 vs 복강경 vs 색전술
+            <br />
+            나에게 맞는 선택은?
+          </p>
+
+          <div
+            className="absolute right-5 bottom-5 size-10.5 flex justify-center items-center rounded-full bg-white
+            xl:size-8"
+          >
+            <ArrowUpRight
+              className="size-6
+              xl:size-5"
+            />
+          </div>
         </div>
       </section>
 
-      <section>
-        <TypographyH3 className="mb-3 text-[17px] font-bold tracking-[-0.04em] text-[#292F36] xl:text-[22px]">
-          이달의 칼럼
-        </TypographyH3>
-        <Link
-          href="/"
-          className="relative block min-h-29.5 rounded-lg bg-[#F5F6F7] p-4 pr-12 xl:min-h-33 xl:p-5"
+      <section
+        className="relative mt-10 mb-16 px-6 pt-16 pb-35 rounded-xl bg-ai-subtle
+        xl:mt-15 xl:p-6 xl:pb-30"
+      >
+        <h3
+          className="text-mo-heading-1
+          xl:text-pc-heading-1"
         >
-          <TypographyP managed={false} className="text-[10px] font-semibold tracking-[-0.03em] text-[#626971] xl:text-[12px]">
-            혈관외과 박용범 원장
-          </TypographyP>
-          <TypographyP managed={false} className="mt-3 whitespace-pre-line text-[13px] font-medium leading-[1.55] tracking-[-0.04em] text-[#333941] xl:text-[15px]">
-            {
-              '자궁근종 수술 고민?\n로봇 vs 복강경 vs 색전술\n나에게 맞는 선택은?'
-            }
-          </TypographyP>
-          <span className="absolute bottom-4 right-4 flex size-8 items-center justify-center rounded-full bg-white xl:size-9">
-            <ArrowUpRight className="size-4" strokeWidth={1.7} />
-          </span>
-        </Link>
-      </section>
+          맥GPT에게 물어보기
+        </h3>
+        <p className="mt-2 text-[16px]">
+          AI에게 물어보고 실시간으로 답변을 얻어보세요.
+        </p>
 
-      <section>
-        <button
-          type="button"
-          onClick={() => openMacGptSearch('다리 부종과 하지정맥류가 궁금해요')}
-          className="relative block min-h-37 w-full overflow-hidden rounded-lg bg-[#DFF5EF] p-4 text-left xl:min-h-42 xl:p-5"
+        <div
+          className="absolute left-0 bottom-0 w-2/5 aspect-179/139
+          xl:w-3/5"
         >
-          <TypographyH3 managed={false} className="text-[17px] font-bold tracking-[-0.04em] text-[#28323A] xl:text-[20px]">
-            맥GPT에게 물어보기
-          </TypographyH3>
-          <TypographyP managed={false} className="mt-1 max-w-38.75 break-keep text-[11px] leading-[1.55] tracking-[-0.03em] text-[#55616A] xl:max-w-43.75 xl:text-[13px]">
-            AI에게 질환 관련 문의하고 실시간으로 답변을 받아보세요.
-          </TypographyP>
+          <Image src={`/consultation/ai.png`} alt="ai" fill />
+        </div>
 
-          <Image
-            src="/assets/community/consultation/macgpt-atom.png"
-            alt="맥GPT"
-            width={105}
-            height={72}
-            className="bottom-0 left-3 h-auto w-26.25 xl:left-4 xl:w-30"
+        <div
+          className="absolute right-5 bottom-5 size-10.5 flex justify-center items-center rounded-full bg-white
+            xl:size-8"
+        >
+          <ArrowUpRight
+            className="size-6
+              xl:size-5"
           />
-
-          <span className="absolute bottom-4 right-4 flex size-8 items-center justify-center rounded-full bg-white xl:size-9">
-            <ArrowUpRight className="size-4" strokeWidth={1.7} />
-          </span>
-        </button>
+        </div>
       </section>
-    </aside>
+    </>
   );
 }

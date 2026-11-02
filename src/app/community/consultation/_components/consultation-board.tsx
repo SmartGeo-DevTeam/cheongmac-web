@@ -1,222 +1,92 @@
 'use client';
 
-import CollectionAdminEditButton from '@/app/_components/inline-editor/collection-admin-edit-button';
-import AdminEditButton from '@/app/_components/inline-editor/admin-edit-button';
-import {
-  H2 as TypographyH2,
-  H3 as TypographyH3,
-  P as TypographyP,
-  Strong as TypographyStrong,
-} from '@/app/_components/ui/typography';
-import { buttonClassName } from '@/app/_components/ui/button';
-import UiPagination from '@/app/_components/ui/pagination';
-
-import type {
-  PublicConsultationItem as ConsultationItem,
-} from '@/_lib/consultations';
-import type { InlineContentData } from '@/_lib/inline-content-shared';
-import {
-  ArrowDownLeft,
-  Link2,
-  LockKeyhole,
-  PenLine,
-  Search,
-  ShieldAlert,
-} from 'lucide-react';
-import Image from 'next/image';
+import CategoryTabs from '@/app/_components/category-tabs';
+import ContentPagination from '@/app/_components/content-list/pagination';
+import ContentListToolbar from '@/app/_components/content-list/toolbar';
+import { PenLine } from 'lucide-react';
 import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import {
+  consultationCategories,
+  type ConsultationCategoryId,
+  type ConsultationItem,
+} from '../data';
+import ConsultationListItem from './consultation-item';
 
 const DESKTOP_PAGE_SIZE = 7;
 const MOBILE_PAGE_SIZE = 5;
+const LIST_PATH = '/community/consultation';
 
-function parsePage(value: string | null) {
-  if (!value) return 1;
-  const page = Number.parseInt(value, 10);
-  return Number.isInteger(page) && page > 0 ? page : 1;
-}
+export type ConsultationFilters = {
+  category: ConsultationCategoryId;
+  query: string;
+  page: number;
+};
 
-function buildListUrl(page: number, query: string) {
-  const params = new URLSearchParams();
-  if (page > 1) params.set('page', String(page));
-  if (query.trim()) params.set('q', query.trim());
-  const search = params.toString();
-  return search
-    ? `/community/consultation?${search}`
-    : '/community/consultation';
-}
-
-function buildDetailHref(id: number, returnTo: string) {
+function readFiltersFromUrl(): ConsultationFilters {
+  const params = new URLSearchParams(window.location.search);
+  const rawPage = Number(params.get('page') ?? 1);
+  const category =
+    consultationCategories.find((item) => item.id === params.get('category'))
+      ?.id ?? 'all';
   return {
-    pathname: `/community/consultation/${id}`,
-    query: { from: returnTo },
+    category,
+    query: params.get('q') ?? '',
+    page: Number.isSafeInteger(rawPage) && rawPage > 0 ? rawPage : 1,
   };
 }
 
-function SearchBox({
-  defaultValue,
-  placeholder,
-}: {
-  defaultValue: string;
-  placeholder: string;
-}) {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-
-  return (
-    <form
-      className="flex h-10 w-39.5 items-center rounded-full border border-[#E0E4E8] bg-white px-4 xl:h-11 xl:w-60"
-      onSubmit={(event) => {
-        event.preventDefault();
-        const formData = new FormData(event.currentTarget);
-        const q = String(formData.get('q') ?? '').trim();
-        const params = new URLSearchParams(searchParams.toString());
-        params.delete('page');
-        if (q) params.set('q', q);
-        else params.delete('q');
-        const qs = params.toString();
-        router.push(
-          qs ? `/community/consultation?${qs}` : '/community/consultation',
-        );
-      }}
-    >
-      <input
-        name="q"
-        type="search"
-        defaultValue={defaultValue}
-        placeholder={placeholder}
-        className="min-w-0 flex-1 bg-transparent text-[11px] tracking-[-0.03em] text-[#3F454C] placeholder:text-[#A9AFB6] xl:text-[13px]"
-      />
-      <button type="submit" aria-label="의학상담 검색">
-        <Search
-          className="size-4.5 text-[#333A43] xl:size-5"
-          strokeWidth={1.7}
-        />
-      </button>
-    </form>
-  );
-}
-
-function NoticeBox({ copy }: { copy: InlineContentData }) {
-  return (
-    <section className="mx-auto max-w-7xl rounded-xl bg-[#E7F5F1] px-5 py-5 xl:rounded-[15px] xl:px-14 xl:py-8">
-      <TypographyH2 className="flex items-center justify-center gap-2 text-[16px] font-bold tracking-[-0.04em] text-[#167963] xl:text-[20px]">
-        <ShieldAlert className="size-5 xl:size-6" strokeWidth={2} />
-        {copy.noticeTitle}
-      </TypographyH2>
-      <div className="mt-4 space-y-3 text-[11px] leading-[1.65] tracking-[-0.035em] text-[#4E5D5A] xl:mt-5 xl:text-[13px] xl:leading-[1.7]">
-        <TypographyP>{copy.notice1}</TypographyP>
-        <TypographyP>{copy.notice2}</TypographyP>
-        <TypographyP>{copy.notice3}</TypographyP>
-      </div>
-    </section>
-  );
-}
-
-function CategoryBadge({ item }: { item: ConsultationItem }) {
-  const text = item.category.secondary
-    ? `${item.category.primary} | ${item.category.secondary}`
-    : item.category.primary;
-
-  return (
-    <span className="inline-flex h-6 items-center rounded-full bg-[#F3F4F5] px-2.5 text-[10px] font-medium tracking-[-0.03em] text-[#555C64] xl:h-7 xl:px-3 xl:text-[11px]">
-      {text}
-    </span>
-  );
-}
-
-function ConsultationCard({
-  item,
-  returnTo,
-}: {
-  item: ConsultationItem;
-  returnTo: string;
-}) {
-  return (
-    <article className="relative rounded-[10px] border border-[#E2E6E9] bg-white px-4 py-4 xl:rounded-[13px] xl:px-6 xl:py-5">
-      <AdminEditButton
-        href={`/admin/content-relations/consultations/${item.id}#admin-related-content-editor`}
-        label={`의학상담 ${item.title}`}
-      />
-      <Link href={buildDetailHref(item.id, returnTo)} className="block">
-        <div className="flex items-start justify-between gap-3">
-          <CategoryBadge item={item} />
-          <time className="shrink-0 pt-1 text-[10px] text-[#A2A8B0] xl:text-[11px]">
-            {item.date}
-          </time>
-        </div>
-
-        <TypographyH3 managed={false} className="mt-2 flex items-start gap-1.5 break-keep text-[15px] font-semibold leading-[1.45] tracking-[-0.04em] text-[#242A31] xl:text-[17px]">
-          {item.isPrivate ? (
-            <LockKeyhole
-              className="mt-0.5 size-3.5 shrink-0"
-              strokeWidth={2.2}
-            />
-          ) : null}
-          <span>{item.title}</span>
-          {item.hasLinkIcon ? (
-            <Link2 className="mt-0.5 size-3.5 shrink-0" strokeWidth={1.7} />
-          ) : null}
-        </TypographyH3>
-
-        {item.answered && item.doctor ? (
-          <div className="mt-3 flex items-center gap-1.5 text-[11px] tracking-[-0.035em] xl:mt-4 xl:text-[12px]">
-            <ArrowDownLeft
-              className="size-4 shrink-0 text-[#858C94]"
-              strokeWidth={1.5}
-            />
-            <div className="relative size-6 shrink-0 overflow-hidden rounded-full bg-[#F3F4F5] xl:size-7">
-              <Image
-                src={item.doctor.imageSrc}
-                alt={item.doctor.name}
-                fill
-                sizes="28px"
-                className="object-cover"
-              />
-            </div>
-            <TypographyStrong className="font-semibold text-[#FF6F3D]">
-              {item.doctor.department} {item.doctor.name}
-            </TypographyStrong>
-            {item.doctors.length > 1 ? (
-              <span className="text-[#8E959D]">
-                외 {item.doctors.length - 1}명
-              </span>
-            ) : null}
-            <span className="text-[#9AA0A7]">이 답변했어요</span>
-          </div>
-        ) : null}
-      </Link>
-    </article>
-  );
+function buildListUrl(filters: ConsultationFilters) {
+  const params = new URLSearchParams();
+  if (filters.category !== 'all') params.set('category', filters.category);
+  if (filters.query.trim()) params.set('q', filters.query.trim());
+  if (filters.page > 1) params.set('page', String(filters.page));
+  const suffix = params.toString();
+  return suffix ? `${LIST_PATH}?${suffix}` : LIST_PATH;
 }
 
 export default function ConsultationBoard({
   items,
-  copy,
+  initialFilters,
 }: {
-  items: ConsultationItem[];
-  copy: InlineContentData;
+  items: readonly ConsultationItem[];
+  initialFilters: ConsultationFilters;
 }) {
-  const searchParams = useSearchParams();
-  const currentPage = parsePage(searchParams.get('page'));
-  const query = searchParams.get('q')?.trim() ?? '';
+  const [filters, setFilters] = useState(initialFilters);
+
+  useEffect(() => {
+    // 뒤로 가기/앞으로 가기나 URL 직접 변경 시 화면 상태를 URL과 동기화합니다.
+    const onPopState = () => setFilters(readFiltersFromUrl());
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
+  }, []);
+
+  const updateFilters = (next: ConsultationFilters) => {
+    setFilters(next);
+    window.history.replaceState(window.history.state, '', buildListUrl(next));
+  };
 
   const filteredItems = useMemo(() => {
-    if (!query) return items;
-    const keyword = query.toLocaleLowerCase('ko-KR');
-    return items.filter((item) =>
-      [
+    const keyword = filters.query.trim().toLocaleLowerCase('ko-KR');
+    return items.filter((item) => {
+      if (filters.category !== 'all' && filters.category !== item.category)
+        return false;
+      if (!keyword) return true;
+      const label =
+        consultationCategories.find((category) => category.id === item.category)
+          ?.label ?? '';
+      const searchable = [
         item.title,
-        item.category.primary,
-        item.category.secondary,
-        ...item.doctors.map((doctor) => doctor.name),
+        item.primaryCategory,
+        label,
+        item.doctor?.department ?? '',
+        item.doctor?.name ?? '',
       ]
         .join(' ')
-        .toLocaleLowerCase('ko-KR')
-        .includes(keyword),
-    );
-  }, [items, query]);
+        .toLocaleLowerCase('ko-KR');
+      return searchable.includes(keyword);
+    });
+  }, [items, filters.category, filters.query]);
 
   const desktopTotalPages = Math.max(
     1,
@@ -226,98 +96,107 @@ export default function ConsultationBoard({
     1,
     Math.ceil(filteredItems.length / MOBILE_PAGE_SIZE),
   );
-  const desktopPage = Math.min(currentPage, desktopTotalPages);
-  const mobilePage = Math.min(currentPage, mobileTotalPages);
-  const returnTo = buildListUrl(currentPage, query);
-
-  const desktopItems = filteredItems.slice(
-    (desktopPage - 1) * DESKTOP_PAGE_SIZE,
-    desktopPage * DESKTOP_PAGE_SIZE,
-  );
+  const desktopPage = Math.min(filters.page, desktopTotalPages);
+  const mobilePage = Math.min(filters.page, mobileTotalPages);
   const mobileItems = filteredItems.slice(
     (mobilePage - 1) * MOBILE_PAGE_SIZE,
     mobilePage * MOBILE_PAGE_SIZE,
   );
+  const returnTo = buildListUrl(filters);
+
+  const onPageChange = (page: number) => {
+    updateFilters({ ...filters, page });
+    document.getElementById('community-consultation-results')?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    });
+  };
+
+  const renderCards = (visibleItems: ConsultationItem[]) =>
+    visibleItems.length
+      ? visibleItems.map((item) => (
+          <ConsultationListItem key={item.id} item={item} returnTo={returnTo} />
+        ))
+      : null;
 
   return (
-    <div className="group/cms-collection relative mx-auto w-full max-w-7xl px-4 pb-14 xl:px-0 xl:pb-24">
-      <CollectionAdminEditButton
-        href="/admin/content-relations/consultations"
-        label="의학상담"
+    <div
+      id="community-consultation-results"
+      className="mt-5
+      xl:mx-auto xl:mt-10 xl:max-w-7xl xl:w-full"
+    >
+      <ContentListToolbar
+        count={filteredItems.length}
+        variant="compact"
+        searchClassName={`w-[58%] max-w-62.5 [&>label]:max-w-full
+        xl:w-75 xl:max-w-none`}
+        searchProps={{
+          ariaLabel: '의학상담 검색',
+          value: filters.query,
+          onChange: (query) => updateFilters({ ...filters, query, page: 1 }),
+        }}
       />
-      <NoticeBox copy={copy} />
 
-      <TypographyH2 id="consultation-list-heading" className="sr-only">
-        의학상담 목록
-      </TypographyH2>
-
-      <div className="mt-5 flex items-end justify-between xl:mt-7">
-        <TypographyP className="text-[10px] tracking-[-0.02em] text-[#8E959D] xl:text-[12px]">
-          총{' '}
-          <TypographyStrong className="font-medium text-[#FA6A3D]">
-            {filteredItems.length.toLocaleString('ko-KR')}
-          </TypographyStrong>{' '}
-          건
-        </TypographyP>
-        <SearchBox defaultValue={query} placeholder={copy.searchPlaceholder} />
-      </div>
-
-      <div className="mt-2 space-y-2.5 xl:hidden">
-        {mobileItems.map((item) => (
-          <ConsultationCard key={item.id} item={item} returnTo={returnTo} />
-        ))}
-      </div>
-      <div className="mt-2 hidden space-y-3 xl:block">
-        {desktopItems.map((item) => (
-          <ConsultationCard key={item.id} item={item} returnTo={returnTo} />
-        ))}
-      </div>
-
-      <div className="mt-8 flex justify-center gap-3 xl:mt-9">
-        <Link
-          id="consultation-write-outline-button"
-          href="/community/consultation/write"
-          className={buttonClassName({
-            variant: 'outline',
-            size: 'md',
-            className: 'hidden min-w-37.5 text-[13px] xl:inline-flex',
-          })}
-        >
-          <PenLine className="size-4" strokeWidth={1.8} /> {copy.writeLabel}
-        </Link>
-        <Link
-          id="consultation-write-primary-button"
-          href="/community/consultation/write"
-          className={buttonClassName({
-            variant: 'primary',
-            size: 'md',
-            className: 'min-w-35.5 text-[13px] xl:min-w-40',
-          })}
-        >
-          <PenLine className="size-4" strokeWidth={1.8} /> {copy.writeLabel}
-        </Link>
-      </div>
-
-      <div className="xl:hidden">
-        <UiPagination
-          id="consultation-pagination-mobile"
-          currentPage={mobilePage}
-          totalPages={mobileTotalPages}
-          getPageHref={(page) => buildListUrl(page, query)}
-          ariaLabel="의학상담 모바일 페이지"
-          variant="compact"
-          className="mt-8"
+      <div
+        className="mt-3 pl-5
+        xl:mt-7 xl:px-5"
+      >
+        <CategoryTabs
+          id="community-consultation-categories"
+          ariaLabel="의학상담 진료분야"
+          categories={consultationCategories}
+          activeId={filters.category}
+          onChange={(category) =>
+            updateFilters({ ...filters, category, page: 1 })
+          }
+          desktopAlign="start"
+          className="[&>ul]:pl-0"
         />
       </div>
-      <div className="hidden xl:block">
-        <UiPagination
-          id="consultation-pagination-desktop"
+
+      <h2 className="sr-only">의학상담 게시글 목록</h2>
+      {filteredItems.length ? (
+        <ul
+          className="mt-3 px-5 space-y-3
+          xl:space-y-4"
+        >
+          {renderCards(mobileItems)}
+        </ul>
+      ) : (
+        <p role="status" className="py-24 text-center text-secondary">
+          검색 결과가 없습니다.
+        </p>
+      )}
+
+      <div className="py-10 flex justify-center">
+        <Link
+          href="/community/consultation/write"
+          className="px-8 py-3 flex items-center gap-2 rounded-full bg-green-900 font-bold text-inverse text-[14px]
+          xl:px-10 xl:py-3.5 xl:gap-3 xl:text-[16px]"
+        >
+          <PenLine
+            className="size-4
+            xl:size-5"
+            aria-hidden="true"
+          />
+          문의글 작성하기
+        </Link>
+      </div>
+
+      <div className="mt-10 xl:hidden">
+        <ContentPagination
+          ariaLabel="의학상담 모바일 페이지 이동"
+          currentPage={mobilePage}
+          totalPages={mobileTotalPages}
+          onChange={onPageChange}
+        />
+      </div>
+      <div className="mt-12 hidden xl:block">
+        <ContentPagination
+          ariaLabel="의학상담 페이지 이동"
           currentPage={desktopPage}
           totalPages={desktopTotalPages}
-          getPageHref={(page) => buildListUrl(page, query)}
-          ariaLabel="의학상담 페이지"
-          variant="default"
-          className="mt-12"
+          onChange={onPageChange}
         />
       </div>
     </div>

@@ -47,9 +47,10 @@ export default function ContentPagination({
     disabled = false,
     active = false,
   ) => {
-    const className = `flex size-8 items-center justify-center rounded-lg ${
-      active ? 'bg-gray-700 text-white' : ''
-    }`;
+    const className = `flex size-8 items-center justify-center rounded-lg
+    xl:size-10
+    ${active ? 'bg-gray-700 text-white' : ''}
+    `;
 
     if (disabled) {
       return (

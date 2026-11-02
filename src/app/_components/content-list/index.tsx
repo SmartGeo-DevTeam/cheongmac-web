@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import ContentListToolbar from './toolbar';
 
 /**
  * full: 모바일에서 이미지/리스트를 화면 양끝까지 확장합니다.
@@ -73,22 +74,7 @@ export default function ContentList<T>({
         className={`mx-auto mt-5 w-full max-w-7xl
           ${desktopMarginTop === 10 ? 'xl:mt-10' : 'xl:mt-20'}`}
       >
-        <div className="flex items-end justify-between gap-3 px-5">
-          <p
-            className="flex shrink-0 items-center gap-1 text-pc-caption text-gray-500
-            xl:text-[16px] xl:font-medium"
-          >
-            <span>총</span>
-            <strong
-              className="text-accent text-pc-label
-            xl:font-semibold xl:text-[16px]"
-            >
-              {filteredItems.length.toLocaleString('ko-KR')}
-            </strong>
-            <span>건</span>
-          </p>
-          {search}
-        </div>
+        <ContentListToolbar count={filteredItems.length} search={search} />
 
         {visibleItems.length > 0 ? (
           <ul
