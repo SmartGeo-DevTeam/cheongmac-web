@@ -79,7 +79,7 @@ export default function ContentList<T>({
         {visibleItems.length > 0 ? (
           <ul
             className={`mt-5 mb-20 grid grid-cols-1
-              xl:mb-28 xl:px-5 xl:grid-cols-3 xl:gap-x-6 xl:gap-y-12
+              xl:mb-20 xl:px-5 xl:grid-cols-3 xl:gap-x-6 xl:gap-y-12
               ${variant === `card` ? `px-5 gap-y-5` : `px-0 gap-y-10`}`}
           >
             {visibleItems.map((item) => (

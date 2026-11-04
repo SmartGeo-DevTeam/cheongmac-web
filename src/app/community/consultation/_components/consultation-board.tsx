@@ -13,8 +13,7 @@ import {
 } from '../data';
 import ConsultationListItem from './consultation-item';
 
-const DESKTOP_PAGE_SIZE = 7;
-const MOBILE_PAGE_SIZE = 5;
+const PAGE_SIZE = 7;
 const LIST_PATH = '/community/consultation';
 
 export type ConsultationFilters = {
@@ -29,6 +28,7 @@ function readFiltersFromUrl(): ConsultationFilters {
   const category =
     consultationCategories.find((item) => item.id === params.get('category'))
       ?.id ?? 'all';
+
   return {
     category,
     query: params.get('q') ?? '',
@@ -38,10 +38,13 @@ function readFiltersFromUrl(): ConsultationFilters {
 
 function buildListUrl(filters: ConsultationFilters) {
   const params = new URLSearchParams();
+
   if (filters.category !== 'all') params.set('category', filters.category);
   if (filters.query.trim()) params.set('q', filters.query.trim());
   if (filters.page > 1) params.set('page', String(filters.page));
+
   const suffix = params.toString();
+
   return suffix ? `${LIST_PATH}?${suffix}` : LIST_PATH;
 }
 
@@ -55,26 +58,34 @@ export default function ConsultationBoard({
   const [filters, setFilters] = useState(initialFilters);
 
   useEffect(() => {
-    // 뒤로 가기/앞으로 가기나 URL 직접 변경 시 화면 상태를 URL과 동기화합니다.
+    // 뒤로 가기/앞으로 가기 시 URL과 화면 상태 동기화
     const onPopState = () => setFilters(readFiltersFromUrl());
+
     window.addEventListener('popstate', onPopState);
+
     return () => window.removeEventListener('popstate', onPopState);
   }, []);
 
   const updateFilters = (next: ConsultationFilters) => {
     setFilters(next);
+
     window.history.replaceState(window.history.state, '', buildListUrl(next));
   };
 
+  // 진료분야 및 검색어 필터링
   const filteredItems = useMemo(() => {
     const keyword = filters.query.trim().toLocaleLowerCase('ko-KR');
+
     return items.filter((item) => {
       if (filters.category !== 'all' && filters.category !== item.category)
         return false;
+
       if (!keyword) return true;
+
       const label =
         consultationCategories.find((category) => category.id === item.category)
           ?.label ?? '';
+
       const searchable = [
         item.title,
         item.primaryCategory,
@@ -84,37 +95,35 @@ export default function ConsultationBoard({
       ]
         .join(' ')
         .toLocaleLowerCase('ko-KR');
+
       return searchable.includes(keyword);
     });
   }, [items, filters.category, filters.query]);
 
-  const desktopTotalPages = Math.max(
-    1,
-    Math.ceil(filteredItems.length / DESKTOP_PAGE_SIZE),
+  // 모바일 / 데스크탑 공통 페이지네이션
+  const totalPages = Math.max(1, Math.ceil(filteredItems.length / PAGE_SIZE));
+
+  const currentPage = Math.min(filters.page, totalPages);
+
+  const visibleItems = filteredItems.slice(
+    (currentPage - 1) * PAGE_SIZE,
+    currentPage * PAGE_SIZE,
   );
-  const mobileTotalPages = Math.max(
-    1,
-    Math.ceil(filteredItems.length / MOBILE_PAGE_SIZE),
-  );
-  const desktopPage = Math.min(filters.page, desktopTotalPages);
-  const mobilePage = Math.min(filters.page, mobileTotalPages);
-  const mobileItems = filteredItems.slice(
-    (mobilePage - 1) * MOBILE_PAGE_SIZE,
-    mobilePage * MOBILE_PAGE_SIZE,
-  );
+
   const returnTo = buildListUrl(filters);
 
   const onPageChange = (page: number) => {
     updateFilters({ ...filters, page });
+
     document.getElementById('community-consultation-results')?.scrollIntoView({
       behavior: 'smooth',
       block: 'start',
     });
   };
 
-  const renderCards = (visibleItems: ConsultationItem[]) =>
-    visibleItems.length
-      ? visibleItems.map((item) => (
+  const renderCards = (items: ConsultationItem[]) =>
+    items.length
+      ? items.map((item) => (
           <ConsultationListItem key={item.id} item={item} returnTo={returnTo} />
         ))
       : null;
@@ -129,7 +138,7 @@ export default function ConsultationBoard({
         count={filteredItems.length}
         variant="compact"
         searchClassName={`w-[58%] max-w-62.5 [&>label]:max-w-full
-        xl:w-75 xl:max-w-none`}
+          xl:w-100 xl:max-w-none`}
         searchProps={{
           ariaLabel: '의학상담 검색',
           value: filters.query,
@@ -155,12 +164,13 @@ export default function ConsultationBoard({
       </div>
 
       <h2 className="sr-only">의학상담 게시글 목록</h2>
+
       {filteredItems.length ? (
         <ul
           className="mt-3 px-5 space-y-3
           xl:space-y-4"
         >
-          {renderCards(mobileItems)}
+          {renderCards(visibleItems)}
         </ul>
       ) : (
         <p role="status" className="py-24 text-center text-secondary">
@@ -183,19 +193,11 @@ export default function ConsultationBoard({
         </Link>
       </div>
 
-      <div className="mt-10 xl:hidden">
-        <ContentPagination
-          ariaLabel="의학상담 모바일 페이지 이동"
-          currentPage={mobilePage}
-          totalPages={mobileTotalPages}
-          onChange={onPageChange}
-        />
-      </div>
-      <div className="mt-12 hidden xl:block">
+      <div className="mt-10 xl:mt-12">
         <ContentPagination
           ariaLabel="의학상담 페이지 이동"
-          currentPage={desktopPage}
-          totalPages={desktopTotalPages}
+          currentPage={currentPage}
+          totalPages={totalPages}
           onChange={onPageChange}
         />
       </div>

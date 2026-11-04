@@ -1,10 +1,7 @@
 import Inner from '@/app/_components/common/inner';
-import {
-  ChevronDown,
-  ChevronRight,
-  ChevronUp,
-  LockKeyhole,
-} from 'lucide-react';
+import ContentDetailHeader from '@/app/_components/content-detail/header';
+import ContentDetailNavigation from '@/app/_components/content-detail/navigation';
+import { ChevronRight, LockKeyhole } from 'lucide-react';
 import Image, { type ImageProps } from 'next/image';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
@@ -13,7 +10,6 @@ import type { ProtectedCaseDetail } from '../../_lib/protected';
 import { isYouTubeVideoId } from '../../_lib/youtube';
 import type { CasePost } from '../../data';
 import { caseCategories } from '../../data';
-import CasesShare from '../share';
 
 type Neighbor = Pick<CasePost, 'id' | 'title'> | null;
 
@@ -401,31 +397,12 @@ export default function CasesDetail({
 
   return (
     <Inner>
-      <div
-        className="mt-5 pt-6 pb-4 grid grid-cols-[1fr_auto] border-t-2 border-t-gray-200 border-b border-b-gray-400
-        xl:mt-20 xl:pt-0 xl:pb-5 xl:border-t-0 xl:border-b-strong"
-      >
-        <span
-          className="justify-self-start inline-block px-2 py-1 rounded-lg bg-ai-subtle font-semibold text-brand
-          xl:px-3 xl:py-1.5 xl:text-[14px]"
-        >
-          {categoryName}
-        </span>
-        <h1
-          className="mt-1 col-start-1 col-end-2 font-bold text-[20px]
-          xl:mt-2 xl:text-pc-heading-1"
-        >
-          {post.title}
-        </h1>
-        <time
-          className="col-start-1 col-end-2 font-medium text-gray-400 text-[14px]
-          xl:mt-2 xl:text-[18px]"
-          dateTime={post.date}
-        >
-          {post.date.replaceAll('-', '. ')}
-        </time>
-        <CasesShare />
-      </div>
+      <ContentDetailHeader
+        category={categoryName}
+        title={post.title}
+        date={post.date}
+        shareLabel="치료 사례 공유하기"
+      />
 
       <div
         className="mt-2
@@ -554,68 +531,13 @@ export default function CasesDetail({
         </p>
       </div>
 
-      <nav
-        aria-label="이전 및 다음 치료 사례"
-        className="mt-5 grid border-y border-y-default text-gray-600 text-[12px]
-        xl:mt-8 xl:grid-cols-2 xl:text-[16px]"
-      >
-        <div
-          className="px-2 flex items-center border-b border-b-default
-          xl:px-5 xl:border-b-0 xl:border-r xl:border-r-default"
-        >
-          <div className="flex items-center gap-2">
-            <ChevronUp className="size-4" aria-hidden="true" />
-            <span className="shrink-0 font-bold">이전글</span>
-          </div>
-          {previous ? (
-            <Link
-              href={`/community/cases/${previous.id}`}
-              className="pl-5 py-4 flex-1 font-medium"
-            >
-              {previous.title}
-            </Link>
-          ) : (
-            <span className="pl-5 py-4 flex-1 text-tertiary">
-              이전글이 없습니다.
-            </span>
-          )}
-        </div>
-
-        <div
-          className="px-2 flex items-center border-b border-b-default
-          xl:px-5 xl:border-b-0"
-        >
-          <div className="flex items-center gap-2">
-            <ChevronDown className="size-4" aria-hidden="true" />
-            <span className="shrink-0 font-bold">다음글</span>
-          </div>
-          {next ? (
-            <Link
-              href={`/community/cases/${next.id}`}
-              className="pl-5 py-4 flex-1 font-medium"
-            >
-              {next.title}
-            </Link>
-          ) : (
-            <span className="pl-5 py-4 flex-1 text-tertiary">
-              다음글이 없습니다.
-            </span>
-          )}
-        </div>
-      </nav>
-
-      <div
-        className="mt-5 mb-20 flex justify-center
-        xl:mt-10 xl:mb-28"
-      >
-        <Link
-          href="/community/cases#community-cases-results"
-          className="px-7 py-3 rounded-full border border-green-900 font-bold text-green-900 text-[14px]
-          xl:px-10 xl:py-4 xl:text-[16px]"
-        >
-          목록보기
-        </Link>
-      </div>
+      <ContentDetailNavigation
+        ariaLabel="이전 및 다음 치료 사례"
+        basePath="/community/cases"
+        listHref="/community/cases#community-cases-results"
+        previous={previous}
+        next={next}
+      />
     </Inner>
   );
 }

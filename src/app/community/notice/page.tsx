@@ -1,34 +1,15 @@
-import EditablePageCopyBlock from '@/app/_components/inline-editor/editable-page-copy-block';
-import Inner from '@/app/_components/inner';
-import { getNoticeManagedContent } from '@/_lib/managed-pages';
-import type { Metadata } from 'next';
-import NoticeList from './_components/notice-list';
-import NoticePageHeader from './_components/notice-page-header';
+import PageHeader from '@/app/_components/common/page-header';
+import { ReactNode } from 'react';
+import List from './_sections/list';
+import Off from './_sections/off';
 
-export const dynamic = 'force-dynamic';
-
-export const metadata: Metadata = {
-  title: '공지사항 | 청맥병원',
-  description: '청맥병원의 주요 공지와 휴진 일정을 안내합니다.',
-};
-
-export default async function NoticePage() {
-  const content = await getNoticeManagedContent();
-
+export default function CommunityNoticePage(): ReactNode {
   return (
-    <div>
-      <NoticePageHeader />
-      <Inner usePaddingHorizontal>
-        <EditablePageCopyBlock path="/community/notice">
-          {(copy) => (
-            <NoticeList
-              items={content.notices}
-              doctorLeaves={content.doctorLeaves}
-              copy={copy}
-            />
-          )}
-        </EditablePageCopyBlock>
-      </Inner>
-    </div>
+    <>
+      <PageHeader title="공지사항" />
+
+      <Off />
+      <List />
+    </>
   );
 }

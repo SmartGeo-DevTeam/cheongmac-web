@@ -11,11 +11,15 @@ type PageProps = {
   params: Promise<{ id: string }>;
 };
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
   const { id } = await params;
   const post = casePosts.find((item) => item.id === id);
   return {
-    title: post ? `${post.title} | 치료 사례 | 청맥병원` : '치료 사례 | 청맥병원',
+    title: post
+      ? `${post.title} | 치료 사례 | 청맥병원`
+      : '치료 사례 | 청맥병원',
     description: post?.description,
   };
 }
@@ -29,9 +33,8 @@ export default async function CommunityCaseDetailPage({ params }: PageProps) {
   if (index < 0) notFound();
 
   const post = casePosts[index];
-  const canView = post.kind === 'before-after'
-    ? await canViewProtectedCaseDetail()
-    : false;
+  const canView =
+    post.kind === 'before-after' ? await canViewProtectedCaseDetail() : false;
   // 후기/인터뷰는 치료 후 보호 데이터 자체를 조회하지 않습니다.
   const protectedDetail =
     post.kind === 'before-after' && canView
@@ -40,12 +43,11 @@ export default async function CommunityCaseDetailPage({ params }: PageProps) {
 
   return (
     <>
-      <div className="hidden xl:block">
-        <PageHeader
-          title="치료 사례"
-          desc="수만 건의 데이터가 증명하는 것은 단순한 숫자가 아닌, 환자분의 되찾은 일상입니다."
-        />
-      </div>
+      <PageHeader
+        title="치료 사례"
+        desc="수만 건의 데이터가 증명하는 것은 단순한 숫자가 아닌, 환자분의 되찾은 일상입니다."
+      />
+
       <CasesDetail
         post={post}
         detail={getPublicCaseDetail(post)}
