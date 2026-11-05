@@ -1,7 +1,11 @@
+import Image from 'next/image';
 import ContentDetailShareButton from './share-button';
 
 type Props = {
   category: string;
+  /** 언론사 로고 등: 값이 없으면 기존 분류 배지를 표시합니다. */
+  categoryLogoSrc?: string;
+  categoryLogoAlt?: string;
   title: string;
   date: string;
   shareLabel: string;
@@ -15,6 +19,8 @@ type Props = {
 /** 치료 사례·공지사항 등 상세 콘텐츠의 제목/분류/날짜/공유 영역입니다. */
 export default function ContentDetailHeader({
   category,
+  categoryLogoSrc,
+  categoryLogoAlt,
   title,
   date,
   shareLabel,
@@ -29,13 +35,25 @@ export default function ContentDetailHeader({
       className={`mt-8 grid grid-cols-[1fr_auto] pb-4 border-b border-b-gray-200
         xl:mt-20 xl:pb-5 xl:border-b-gray-300 ${className}`}
     >
-      <span
-        className={`inline-block justify-self-start rounded-lg px-2 py-1 font-semibold text-[12px]
-          xl:px-3 xl:py-1.5 xl:text-[14px]
-          ${badgeVariant === 'neutral' ? 'bg-subtle text-brand' : 'bg-ai-subtle text-brand'}`}
-      >
-        {category}
-      </span>
+      {categoryLogoSrc ? (
+        <div className="relative h-6 w-32 xl:h-7 xl:w-40">
+          <Image
+            src={categoryLogoSrc}
+            alt={categoryLogoAlt ?? category}
+            fill
+            sizes="(min-width: 1280px) 160px, 128px"
+            className="object-contain object-left"
+          />
+        </div>
+      ) : (
+        <span
+          className={`inline-block justify-self-start rounded-lg px-2 py-1 font-semibold text-[12px]
+            xl:px-3 xl:py-1.5 xl:text-[14px]
+            ${badgeVariant === 'neutral' ? 'bg-subtle text-brand' : 'bg-ai-subtle text-brand'}`}
+        >
+          {category}
+        </span>
+      )}
       <Heading
         className="col-start-1 col-end-2 mt-1 font-bold text-[20px] text-primary
         xl:mt-2 xl:text-pc-heading-1"
