@@ -2,7 +2,7 @@ export const facilityCategories = [
   { id: 'all', label: '전체' },
   { id: 'outpatient', label: '외래진료' },
   { id: 'examination', label: '검사' },
-  { id: 'admission', label: '입원' },
+  { id: 'hospitalized', label: '입원' },
   { id: 'convenience', label: '편의시설' },
 ] as const;
 
@@ -167,7 +167,7 @@ export const facilities: FacilityType[] = [
   },
   {
     id: '9',
-    category: 'admission',
+    category: 'hospitalized',
     name: '입원실',
     floor: {
       code: '3F',
@@ -182,7 +182,7 @@ export const facilities: FacilityType[] = [
   },
   {
     id: '10',
-    category: 'admission',
+    category: 'hospitalized',
     name: '입원실 (1인실)',
     floor: {
       code: '4F',

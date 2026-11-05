@@ -1,6 +1,6 @@
 'use client';
 
-import { Check, Share2 } from 'lucide-react';
+import { Link, MessageCircle, MessageCircleMore } from 'lucide-react';
 import { useState } from 'react';
 
 /** 상세 콘텐츠에서 함께 사용하는 공유 버튼입니다. */
@@ -38,20 +38,28 @@ export default function ContentDetailShareButton({
   };
 
   return (
-    <div className="col-start-2 col-end-3 row-start-1 row-end-3 flex items-end">
+    <div
+      className="mt-5 flex justify-center items-center gap-2
+      xl:mt-4 xl:justify-start xl:gap-3"
+    >
       <button
-        type="button"
-        onClick={handleShare}
-        aria-label={copied ? '링크가 복사되었습니다' : ariaLabel}
-        title={copied ? '링크가 복사되었습니다.' : '공유하기'}
-        className="flex size-9 items-center justify-center rounded-full bg-subtle text-primary transition-colors hover:bg-gray
+        className="size-13 flex justify-center items-center rounded-full bg-base
         xl:size-15"
       >
-        {copied ? (
-          <Check className="size-5 xl:size-6" aria-hidden="true" />
-        ) : (
-          <Share2 className="size-5 xl:size-6" aria-hidden="true" />
-        )}
+        <MessageCircle className="fill-black" />
+      </button>
+      <button
+        className="size-13 flex justify-center items-center rounded-full bg-base
+        xl:size-15"
+      >
+        <Link />
+      </button>
+
+      <button
+        className="size-13 flex justify-center items-center rounded-full bg-base
+        xl:size-15"
+      >
+        <MessageCircleMore />
       </button>
     </div>
   );

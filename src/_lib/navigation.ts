@@ -282,8 +282,8 @@ export const NAVIGATION: NavigationItem[] = [
       },
        */
       {
-        id: 'guide-admission',
-        href: '/guide/admission',
+        id: 'guide-hospitalized',
+        href: '/guide/hospitalized',
         title: '입퇴원안내',
       },
       {
