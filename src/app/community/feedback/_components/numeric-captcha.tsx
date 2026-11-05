@@ -2,7 +2,7 @@
 
 import { RefreshCw } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
-import { FormTextInput } from '@/app/community/_components/form-fields';
+import { FormTextInput } from '@/app/_components/form-fields';
 
 const digitColors = [
   'text-[#9A7ADF]',

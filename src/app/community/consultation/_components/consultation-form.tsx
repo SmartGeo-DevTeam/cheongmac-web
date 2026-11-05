@@ -10,8 +10,8 @@ import {
   FormOptions as Options,
   FormSectionHeading as SectionHeading,
   FormSelect as SelectField,
-} from '@/app/community/_components/form-fields';
-import { useState, type FormEvent } from 'react';
+} from '@/app/_components/form-fields';
+import { useState, type SubmitEvent } from 'react';
 import { consultationCategories } from '../data';
 import TurnstileCaptcha from './turnstile-captcha';
 
@@ -25,7 +25,7 @@ export default function ConsultationForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
     setNotice('');
 

@@ -266,34 +266,36 @@ export const NAVIGATION: NavigationItem[] = [
 
   {
     id: 'guide',
-    href: '/guide/partner',
+    href: '/guide/reservation',
     title: '이용안내',
     children: [
-      // {
-      //   id: 'guide-reservation',
-      //   href: '/guide/reservation',
-      //   title: '진료예약',
-      // },
-      // {
-      //   id: 'guide-outpatient',
-      //   href: '/guide/outpatient',
-      //   title: '외래진료안내',
-      // },
-      // {
-      //   id: 'guide-admission',
-      //   href: '/guide/admission',
-      //   title: '입·퇴원안내',
-      // },
+      {
+        id: 'guide-reservation',
+        href: '/guide/reservation',
+        title: '진료예약',
+      },
+      /* 
+      {
+        id: 'guide-outpatient',
+        href: '/guide/outpatient',
+        title: '외래진료안내',
+      },
+       */
+      {
+        id: 'guide-admission',
+        href: '/guide/admission',
+        title: '입퇴원안내',
+      },
       {
         id: 'guide-partner',
         href: '/guide/partner',
         title: '의료협약병원',
       },
-      // {
-      //   id: 'guide-support',
-      //   href: '/guide/support',
-      //   title: '의료비지원안내',
-      // },
+      {
+        id: 'guide-veterans',
+        href: '/guide/veterans',
+        title: '보훈위탁병원',
+      },
     ],
   },
 

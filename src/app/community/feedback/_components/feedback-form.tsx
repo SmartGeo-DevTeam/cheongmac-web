@@ -7,7 +7,7 @@ import {
   FormSectionHeading,
   FormTextarea,
   FormTextInput,
-} from '@/app/community/_components/form-fields';
+} from '@/app/_components/form-fields';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCallback, useState, type FormEvent } from 'react';
