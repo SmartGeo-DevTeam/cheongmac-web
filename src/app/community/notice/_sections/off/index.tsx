@@ -1,6 +1,6 @@
 import Inner from '@/app/_components/common/inner';
+import SectionTitle from '@/app/_components/common/section-title';
 import { doctors } from '@/app/about/doctors/_sections/_doctors/data';
-import Title from '../../_components/title';
 import { getOffs } from '../../data';
 import OffItem from './_components/off-item';
 import { getTodayInKorea, getUpcomingOffs } from './_lib/offs';
@@ -18,7 +18,7 @@ export default async function Off() {
     <section id="community-notice-off">
       <Inner>
         <div className="mt-10">
-          <Title text="휴진 안내" />
+          <SectionTitle text="휴진 안내" />
 
           <ul
             className="mt-5 grid grid-cols-1 gap-3

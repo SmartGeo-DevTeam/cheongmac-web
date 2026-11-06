@@ -25,7 +25,7 @@ export default function Step({
         return (
           <Link
             key={step.id}
-            href={`/guide/hospitalized/${step.slug}`}
+            href={step.id === 1 ? '/guide/hospitalized' : `/guide/hospitalized/${step.slug}`}
             aria-current={isActive ? 'step' : undefined}
             data-active={isActive}
           >

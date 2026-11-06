@@ -1,4 +1,5 @@
 import Inner from '@/app/_components/common/inner';
+import SectionTitle from '@/app/_components/common/section-title';
 import { ChevronRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -13,10 +14,14 @@ export default function Methods(): ReactNode {
     <section id="guide-reservation-methods">
       <Inner>
         <div className="mt-10 xl:mt-30">
-          <h2 className="text-mo-title-1 xl:text-pc-title-1">
-            언제 어디서나 <br className="xl:hidden" />
-            간편하게 예약하세요
-          </h2>
+          <SectionTitle
+            text={
+              <>
+                언제 어디서나 <br className="xl:hidden" />
+                간편하게 예약하세요
+              </>
+            }
+          />
         </div>
 
         <ul className="mt-5 space-y-3 xl:mt-15 xl:grid xl:grid-cols-3 xl:gap-6">

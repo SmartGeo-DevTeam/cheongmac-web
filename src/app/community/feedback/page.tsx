@@ -3,6 +3,7 @@
 import Inner from '@/app/_components/common/inner';
 import MaskedName from '@/app/_components/common/masked-name';
 import PageHeader from '@/app/_components/common/page-header';
+import SectionTitle from '@/app/_components/common/section-title';
 import {
   ChevronLeft,
   ChevronRight,
@@ -276,12 +277,7 @@ export default function CommunityFeedbackPage() {
             className="mt-10
             xl:mt-20"
           >
-            <h2
-              className="text-gray-900 text-mo-title-2
-              xl:text-pc-heading-1"
-            >
-              고객의 소리 접수방법
-            </h2>
+            <SectionTitle text="고객의 소리 접수방법" />
 
             <ul
               className="mt-3 p-6 rounded-[20px] border border-default space-y-5
@@ -382,12 +378,7 @@ export default function CommunityFeedbackPage() {
             className="mt-10 mb-20
             xl:mt-20 xl:mb-25"
           >
-            <h2
-              className="text-gray-900 text-mo-title-2
-              xl:text-pc-heading-1"
-            >
-              처리절차
-            </h2>
+            <SectionTitle text="처리절차" />
 
             <ul
               className="mt-3 flex flex-col justify-center items-center gap-1

@@ -1,5 +1,10 @@
-import { redirect } from 'next/navigation';
+import type { Metadata } from 'next';
+import HospitalizedContent from './_components/hospitalized-content';
+
+export const metadata: Metadata = {
+  title: '입원준비 | 입·퇴원안내',
+};
 
 export default function GuideHospitalizedPage() {
-  redirect('/guide/hospitalized/preparation');
+  return <HospitalizedContent currentStep={1} />;
 }
