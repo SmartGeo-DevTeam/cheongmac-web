@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import HospitalizedContent from '../_components/hospitalized-content';
+import HospitalizedContent from '../_components/_hospitalized-content';
 
 const HOSPITALIZED_STEPS = {
   preparation: { number: 1, title: '입원준비' },
@@ -24,7 +24,9 @@ export function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
   const { step } = await params;
 
   if (!isStepSlug(step)) {

@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
-import PartnerList from './_sections/list';
-import PartnerStatus from './_sections/status';
-import VeteransBanner from './_sections/veterans';
+import PartnerList from './_sections/_list';
+import PartnerStatus from './_sections/_status';
+import VeteransBanner from './_sections/_veterans';
 
 export default function GuidePartnerPage() {
   return (
