@@ -78,7 +78,10 @@ export default function OnlineReservation() {
   return (
     <section id="guide-online-reservation">
       <Inner>
-        <div className="mt-8">
+        <div
+          className="mt-8
+          xl:px-50"
+        >
           <div
             aria-label={`온라인 예약 ${step}단계 / 2단계`}
             className="grid grid-cols-2 gap-2"

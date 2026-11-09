@@ -12,7 +12,7 @@ export default function Hero(): ReactNode {
         >
           <div
             className="relative aspect-square rounded-xl overflow-clip
-            xl:w-80 xl:rounded-[20px]"
+            xl:min-w-80 xl:h-full xl:rounded-[20px]"
           >
             <Image src={`/guide/thumbnail.png`} alt="" fill />
           </div>
