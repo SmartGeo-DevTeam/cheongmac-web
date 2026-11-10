@@ -1,8 +1,40 @@
 import { NAVIGATION } from '@/app/_data/site/navigation';
 import type { NavigationItem } from '@/app/_types/site/navigation';
 
+export function getPublishedNavigation(items: NavigationItem[]): NavigationItem[] {
+  return items.flatMap((item) => {
+    const children = getPublishedNavigation(item.children ?? []);
+    if (item.isPublished !== true && children.length === 0) return [];
+    return item.children ? [{ ...item, children }] : [item];
+  });
+}
+
+/**
+ * 메뉴 자체의 페이지가 공개되어 있으면 자신의 URL을 사용합니다.
+ * 별도 공개 페이지가 없는 부모는 첫 공개 하위 페이지로 이동합니다.
+ */
+export function getNavigationHref(item: NavigationItem): string {
+  if (item.isPublished === true) return item.href;
+  const firstChild = getPublishedNavigation(item.children ?? [])[0];
+  return firstChild ? getNavigationHref(firstChild) : item.href;
+}
+
 export function getPrimaryNavigation(): NavigationItem[] {
-  return NAVIGATION;
+  return getPublishedNavigation(NAVIGATION);
+}
+
+export function isPublishedNavigationPath(pathname: string): boolean {
+  const currentPath = pathname.replace(/\/+$/, '') || '/';
+
+  function contains(items: NavigationItem[]): boolean {
+    return items.some((item) => {
+      const href = item.href.replace(/\/+$/, '') || '/';
+      if (href === currentPath && item.isPublished === true) return true;
+      return item.children ? contains(item.children) : false;
+    });
+  }
+
+  return contains(getPrimaryNavigation());
 }
 
 /**
@@ -48,7 +80,7 @@ export function getNavigationTrail(pathname: string): NavigationItem[] {
     }
   }
 
-  traverse(NAVIGATION);
+  traverse(getPrimaryNavigation());
 
   return bestTrail;
 }

@@ -1,10 +1,13 @@
 'use client';
 
-import { getPrimaryNavigation } from '@/app/_lib/navigation/navigation-tree';
 import {
   closeMacGptSearch,
   openMacGptSearch,
 } from '@/app/_components/site/mac-gpt-search';
+import {
+  getNavigationHref,
+  getPrimaryNavigation,
+} from '@/app/_lib/navigation/navigation-tree';
 import { useScrollDirection } from '@/app/_providers/scroll-direction-provider';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -120,7 +123,7 @@ export default function SiteHeader() {
                 return (
                   <Link
                     key={item.id}
-                    href={item.href}
+                    href={getNavigationHref(item)}
                     onMouseEnter={() => setHoveredPrimaryId(item.id)}
                     onFocus={() => setHoveredPrimaryId(item.id)}
                     className={`relative px-7 flex items-center tracking-[-4%] text-lg cursor-pointer transition
@@ -271,9 +274,12 @@ export default function SiteHeader() {
                       {hasThirdDepth ? (
                         <section className="min-w-1/2 flex bg-white divide-x divide-[#DDDDDD]">
                           {item.children.map((group) => (
-                            <div key={group.id} className="px-10 pt-12 pb-14">
+                            <div
+                              key={group.id}
+                              className="shrink-0 min-w-1/5 px-10 pt-12 pb-14"
+                            >
                               <Link
-                                href={group.href}
+                                href={getNavigationHref(group)}
                                 onClick={closeDesktopLnb}
                                 className="tracking-[-6%] text-nowrap font-medium text-lg text-[#333333]
                                 hover:font-bold hover:text-accent"
@@ -286,7 +292,7 @@ export default function SiteHeader() {
                                   {group.children.map((child) => (
                                     <li key={child.id} className="flex">
                                       <Link
-                                        href={child.href}
+                                        href={getNavigationHref(child)}
                                         onClick={closeDesktopLnb}
                                         className="tracking-[-6%] font-normal text-lg text-[#999999] hover:underline underline-offset-4 hover:text-accent"
                                       >
@@ -304,7 +310,7 @@ export default function SiteHeader() {
                           {item.children.map((group) => (
                             <Link
                               key={group.id}
-                              href={group.href}
+                              href={getNavigationHref(group)}
                               onClick={closeDesktopLnb}
                               className="tracking-[-6%] font-medium text-lg text-[#333333]
                               hover:font-bold hover:text-accent"
@@ -414,7 +420,7 @@ export default function SiteHeader() {
                     return (
                       <Link
                         key={item.id}
-                        href={item.href}
+                        href={getNavigationHref(item)}
                         onClick={closeHamburgerMenu}
                         className="relative flex h-15 w-full items-center border-t border-t-[#EEEEEE] border-b border-b-[#EEEEEE] px-10 bg-white"
                       >
@@ -485,12 +491,27 @@ export default function SiteHeader() {
                           {item.children.map((child) => (
                             <li key={child.id}>
                               <Link
-                                href={child.href}
+                                href={getNavigationHref(child)}
                                 onClick={closeHamburgerMenu}
                                 className="h-11 flex items-center tracking-[-4%] text-xl text-[#555555]"
                               >
                                 {`· ${child.title}`}
                               </Link>
+                              {child.children?.length ? (
+                                <ul className="pl-5">
+                                  {child.children.map((grandchild) => (
+                                    <li key={grandchild.id}>
+                                      <Link
+                                        href={getNavigationHref(grandchild)}
+                                        onClick={closeHamburgerMenu}
+                                        className="min-h-9 flex items-center tracking-[-4%] text-[#777777]"
+                                      >
+                                        {`· ${grandchild.title}`}
+                                      </Link>
+                                    </li>
+                                  ))}
+                                </ul>
+                              ) : null}
                             </li>
                           ))}
                         </ul>

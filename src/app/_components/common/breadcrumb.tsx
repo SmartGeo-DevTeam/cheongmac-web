@@ -1,7 +1,6 @@
 'use client';
 
-import { NAVIGATION } from '@/app/_data/site/navigation';
-import { getNavigationTrail } from '@/app/_lib/navigation/navigation-tree';
+import { getNavigationTrail, getPrimaryNavigation, getNavigationHref } from '@/app/_lib/navigation/navigation-tree';
 import { Home } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -15,6 +14,7 @@ export default function Breadcrumb() {
 
   // 현재 경로에 해당하는 메뉴 계층
   const trail = getNavigationTrail(pathname);
+  const navigation = getPrimaryNavigation();
 
   // 등록되지 않은 경로라면 표시하지 않음
   if (trail.length === 0) return null;
@@ -36,7 +36,7 @@ export default function Breadcrumb() {
             // 1차 메뉴라면 전체 NAVIGATION
             // 2차 이상이라면 부모 메뉴의 children
             const siblings =
-              depth === 0 ? NAVIGATION : (trail[depth - 1].children ?? []);
+              depth === 0 ? navigation : (trail[depth - 1].children ?? []);
 
             return (
               <Fragment key={item.id}>
@@ -46,7 +46,7 @@ export default function Breadcrumb() {
                   label={item.title}
                   items={siblings.map((sibling) => ({
                     label: sibling.title,
-                    href: sibling.href,
+                    href: getNavigationHref(sibling),
                   }))}
                 />
               </Fragment>
