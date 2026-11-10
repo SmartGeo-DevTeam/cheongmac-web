@@ -1,12 +1,12 @@
-import { suit } from '@/_lib/fonts';
-import Footer from '@/app/_components/footer';
-import Header from '@/app/_components/header';
-import MacGptSearchLayer from '@/app/_components/mac-gpt-search';
+import { suit } from '@/app/_lib/config/fonts';
+import SiteFooter from '@/app/_components/site/footer';
+import SiteHeader from '@/app/_components/site/header';
+import MacGptSearchLayer from '@/app/_components/site/mac-gpt-search';
 import { ScrollDirectionProvider } from '@/app/_providers/scroll-direction-provider';
 import { ViewportProvider } from '@/app/_providers/viewport-provider';
 import type { Metadata } from 'next';
 import Spacer from './_components/common/spacer';
-import QuickReservationForm from './_components/quick-reservation-form';
+import QuickReservationForm from './_components/site/quick-reservation-form';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -32,7 +32,7 @@ export default function RootLayout({
       <body>
         <ViewportProvider>
           <ScrollDirectionProvider>
-            <Header />
+            <SiteHeader />
             <Spacer type="mobile-content-header" />
             <QuickReservationForm />
           </ScrollDirectionProvider>
@@ -40,7 +40,7 @@ export default function RootLayout({
           <MacGptSearchLayer />
 
           <main>{children}</main>
-          <Footer />
+          <SiteFooter />
         </ViewportProvider>
       </body>
     </html>
