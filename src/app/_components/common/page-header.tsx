@@ -25,11 +25,14 @@ export default function PageHeader({
         </h1>
 
         {(englishTitle || desc) && (
-          <div className="mt-2">
+          <div
+            className="mt-2 space-y-1 break-keep text-center
+            xl:space-y-2"
+          >
             {englishTitle && (
               <p
-                className="text-[12px] font-semibold text-secondary
-                xl:text-[16px]"
+                className="font-bold text-[14px] leading-[140%] text-disabled
+                xl:text-[20px]"
               >
                 [{englishTitle}]
               </p>
@@ -37,8 +40,8 @@ export default function PageHeader({
 
             {desc && (
               <p
-                className={`text-[14px] text-secondary whitespace-break-spaces leading-[150%]
-                xl:text-[20px]
+                className={`mx-auto w-4/5 text-[14px] text-secondary whitespace-break-spaces leading-[150%]
+                xl:w-full xl:text-[20px]
                 ${desktopLineBreak ? 'xl:whitespace-pre-line' : 'xl:whitespace-nowrap'}`}
               >
                 {desc}

@@ -1,6 +1,6 @@
 import Inner from '@/app/_components/common/inner';
 import SectionBlock from '@/app/_components/common/section-block';
-import HospitalizedFaqList from '@/app/_ui/guide/hospitalized/faq-list';
+import FaqList from '@/app/_components/common/faq-list';
 import { admissionFaqs } from '@/app/_data/guide/hospitalized/preparation/faq';
 
 export default function HospitalizedPreparationFaq() {
@@ -12,7 +12,7 @@ export default function HospitalizedPreparationFaq() {
           variant="side"
           className="xl:mt-40"
         >
-          <HospitalizedFaqList items={admissionFaqs} />
+          <FaqList items={admissionFaqs} />
         </SectionBlock>
       </Inner>
     </section>

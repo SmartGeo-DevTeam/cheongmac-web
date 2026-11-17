@@ -1,4 +1,4 @@
-import type { FaqItem } from '@/app/_types/guide/hospitalized';
+import type { FaqItem } from '@/app/_types/common/faq';
 
 export const admissionFaqs: FaqItem[] = [
   { id: 'preparation', question: '입원할 때 무엇을 준비해야 하나요?', answer: '답변을 입력해 주세요.' },

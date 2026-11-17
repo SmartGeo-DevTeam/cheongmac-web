@@ -1,7 +1,16 @@
-import { ChevronDown } from 'lucide-react';
-import type { FaqItem } from '@/app/_types/guide/hospitalized';
+import { ChevronDown, Minus, Plus } from 'lucide-react';
+import type { FaqItem } from '@/app/_types/common/faq';
 
-export default function HospitalizedFaqList({ items }: { items: FaqItem[] }) {
+type FaqListProps = {
+  items: FaqItem[];
+  iconVariant?: 'chevron' | 'plus-minus';
+};
+
+/** 모든 페이지에서 공유하는 FAQ 아코디언. 기본 모드는 기존 입퇴원안내 UI를 유지합니다. */
+export default function FaqList({
+  items,
+  iconVariant = 'chevron',
+}: FaqListProps) {
   return (
     <div
       className="mt-2
@@ -23,11 +32,24 @@ export default function HospitalizedFaqList({ items }: { items: FaqItem[] }) {
               <p>{item.question}</p>
             </div>
 
-            <ChevronDown
-              aria-hidden="true"
-              className="size-5 text-primary
-                group-open:rotate-180"
-            />
+            {iconVariant === 'plus-minus' ? (
+              <>
+                <Plus
+                  aria-hidden="true"
+                  className="size-5 shrink-0 text-primary group-open:hidden"
+                />
+                <Minus
+                  aria-hidden="true"
+                  className="hidden size-5 shrink-0 text-primary group-open:block"
+                />
+              </>
+            ) : (
+              <ChevronDown
+                aria-hidden="true"
+                className="size-5 text-primary
+                  group-open:rotate-180"
+              />
+            )}
           </summary>
 
           <div

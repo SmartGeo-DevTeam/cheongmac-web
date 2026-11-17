@@ -1,4 +1,4 @@
-import type { FaqItem } from '@/app/_types/guide/hospitalized';
+import type { FaqItem } from '@/app/_types/common/faq';
 
 export const dischargeFaqs: FaqItem[] = [
   { id: 'holiday', question: '주말이나 공휴일에 퇴원할 수 있나요?', answer: '답변을 입력해 주세요.' },

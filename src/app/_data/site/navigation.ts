@@ -57,7 +57,7 @@ export const NAVIGATION: NavigationItem[] = [
             id: 'vascular-arterial-occlusion',
             href: '/vascular/arterial/occlusion',
             title: '하지동맥폐색증',
-            isPublished: false,
+            isPublished: true,
           },
           {
             id: 'vascular-arterial-aneurysm',

@@ -1,4 +1,4 @@
-import type { FaqItem } from '@/app/_types/guide/hospitalized';
+import type { FaqItem } from '@/app/_types/common/faq';
 
 export const livingFaqs: FaqItem[] = [
   { id: 'insurance', question: '보험 관련 상담은 어디서 하나요?', answer: '답변을 입력해 주세요.' },

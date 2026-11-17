@@ -211,3 +211,26 @@ src/app/
 - `src/app/(site)/vascular/page.tsx`, `src/app/(site)/general/page.tsx`는 첫 공개 하위 URL로 리다이렉트합니다.
 - 2차의 `false`와 3차의 `true`가 공존할 수 있습니다. 이때 2차 메뉴는 보이지만 2차 루트 페이지는 비공개이며 클릭 시 공개 3차로 이동합니다.
 - 이전의 "최하위 메뉴에만 isPublished", "부모 클릭 시 무조건 최하위 페이지" 규칙은 이 규칙으로 대체합니다.
+
+## 동맥질환 개요 기능별 폴더 배치 (2026-11-11)
+- `src/app/_ui/vascular/arterial/overview.tsx`는 자가진단·질환 소개·진행 단계 섹션만 조립합니다.
+- 복수 자식 컴포넌트가 있는 섹션은 `_ui/vascular/arterial/{self-diagnosis,diseases,progression}/` 하위에 `section.tsx`, `item.tsx`, `map.tsx`, `card.tsx`로 기능별 배치합니다. `SectionHeading`은 진료분야 공통 UI이므로 `src/app/_components/clinic/section-heading.tsx`에 둡니다.
+- 관련 정적 데이터는 `_data/vascular/arterial/{self-diagnosis,diseases,progression}/`의 명시적인 파일에 둡니다.
+- 사용 이미지의 공개 경로는 `public/vascular/arterial/<기능>/<의미 있는 파일명>`으로 관리합니다. 기존 `/temp/` 이미지는 다른 코드 보호를 위해 삭제하지 않습니다.
+- 진행 단계 이미지는 현재 원본 파일이 한 장뿐이므로 `artery-stage-placeholder.png`를 4단계가 임시 공유합니다. 실제 단계별 이미지가 생기면 해당 데이터의 이미지 경로만 교체합니다.
+- 향후 `/vascular/arterial`의 새 섹션도 이와 같은 원칙으로 추가합니다.
+
+## 진료분야 공통 제목 및 동맥질환 전문성 이미지 (CHEONGMAC_CLINIC_SECTION_HEADING_MOVE_2026_11_12)
+
+- `src/app/_components/clinic/section-heading.tsx`는 기존 `SectionHeading` 코드를 변경하지 않고 이동한 공통 제목입니다.
+- `src/app/_components/clinic/split-heading.tsx`는 2열 레이아웃 전용 제목으로 별도 유지합니다.
+- `src/app/_ui/vascular/arterial/expertise/{section,item}.tsx`는 기존 JSX/스타일을 유지합니다. 콘텐츠는 `src/app/_data/vascular/arterial/expertise/items.ts`에 둡니다.
+- 전문성 섹션의 공개 이미지는 `public/vascular/arterial/expertise/`에 의미 있는 파일명으로 보관합니다. 이 섹션에서만 사용하던 `public/________temp/temp-1~3.png`는 이전 후 제거합니다.
+
+
+## 동맥질환 초안 구조 점검 및 진료분야 배너 공통화 (2026-11-17)
+
+- 진료분야의 여러 페이지에서 사용할 배너 UI는 `src/app/_components/clinic/banner.tsx`의 `ClinicBanner`에서 관리합니다. `VascularBanner`의 JSX/Tailwind/Props 동작은 그대로 보존하면서 컴포넌트의 위치와 이름만 일반화했습니다.
+- 기존 혈관 진료 전용 배너 데이터는 `src/app/_data/vascular/banner/content.ts`, 동맥폐쇄증 배너 데이터는 `src/app/_data/vascular/arterial/occlusion-banner/content.ts`에 그대로 둡니다.
+- 더 이상 참조되지 않는 예전 동맥폐쇄증 전용 배너 렌더러 `src/app/_ui/vascular/arterial/occlusion-banner/section.tsx`는 중복 구현이므로 제거합니다(원본 불일치 또는 사용처 발견 시 자동 삭제하지 않음).
+- 동맥질환의 나머지 feature 폴더, 정적 데이터, 이미지 URL, JSX 및 Tailwind 클래스는 이 구조 패치에서 변경하지 않습니다.

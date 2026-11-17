@@ -100,3 +100,17 @@
 - `src/app/(site)/vascular/page.tsx`, `src/app/(site)/general/page.tsx`는 첫 공개 하위 URL로 리다이렉트합니다.
 - 2차의 `false`와 3차의 `true`가 공존할 수 있습니다. 이때 2차 메뉴는 보이지만 2차 루트 페이지는 비공개이며 클릭 시 공개 3차로 이동합니다.
 - 이전의 "최하위 메뉴에만 isPublished", "부모 클릭 시 무조건 최하위 페이지" 규칙은 이 규칙으로 대체합니다.
+
+## 동맥질환 개요 및 향후 섹션 구성 규칙 (2026-11-11)
+- `_ui/<라우트>/overview.tsx`는 섹션 호출만 조립합니다. 진료분야의 여러 페이지에서 공유하는 제목은 `_components/clinic/section-heading.tsx`에 둡니다.
+- 하위 아이템/지도/카드가 있는 섹션은 `_ui/<라우트>/<기능>/section.tsx`, `item.tsx`, `map.tsx`, `card.tsx`로 기능 폴더 안에 배치합니다. 루트에 `*-item.tsx`, `*-map.tsx`를 나열하지 않습니다.
+- 정적 데이터는 `_data/<라우트>/<기능>/questions.ts`, `map.ts`, `cards.ts`, `steps.ts`처럼 같은 기능 폴더에 둡니다.
+- 사용 중인 공개 이미지 원본은 `public/<라우트>/<기능>/<의미 있는 파일명>.png`에 둡니다. `/temp/`를 신규 콘텐츠의 최종 이미지 경로로 사용하지 않습니다.
+- `/vascular/arterial`에서는 `self-diagnosis`, `diseases`, `progression`이 이 규칙의 기준입니다. 새 섹션에도 적용하되 불필요한 추상화는 하지 않습니다.
+
+## 진료분야 공통 제목 및 동맥질환 전문성 이미지 (CHEONGMAC_CLINIC_SECTION_HEADING_MOVE_2026_11_12)
+
+- `src/app/_components/clinic/section-heading.tsx`는 기존 `SectionHeading` 코드를 변경하지 않고 이동한 공통 제목입니다.
+- `src/app/_components/clinic/split-heading.tsx`는 2열 레이아웃 전용 제목으로 별도 유지합니다.
+- `src/app/_ui/vascular/arterial/expertise/{section,item}.tsx`는 기존 JSX/스타일을 유지합니다. 콘텐츠는 `src/app/_data/vascular/arterial/expertise/items.ts`에 둡니다.
+- 전문성 섹션의 공개 이미지는 `public/vascular/arterial/expertise/`에 의미 있는 파일명으로 보관합니다. 이 섹션에서만 사용하던 `public/________temp/temp-1~3.png`는 이전 후 제거합니다.

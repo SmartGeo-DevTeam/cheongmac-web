@@ -16,6 +16,14 @@ export default function Breadcrumb() {
   const trail = getNavigationTrail(pathname);
   const navigation = getPrimaryNavigation();
 
+  // 진료 개요 페이지에서는 공개된 3차 항목 선택기를 추가합니다.
+  // 기존 Breadcrumb 계층은 유지하고, 상세 페이지를 현재 위치로 오인하지 않게 합니다.
+  const clinicDetailItems =
+    trail.length === 2 &&
+    (trail[0]?.id === 'vascular' || trail[0]?.id === 'general')
+      ? (trail[1]?.children ?? [])
+      : [];
+
   // 등록되지 않은 경로라면 표시하지 않음
   if (trail.length === 0) return null;
 
@@ -52,6 +60,20 @@ export default function Breadcrumb() {
               </Fragment>
             );
           })}
+
+          {/* 2차 진료 개요에서도 공개된 3차 메뉴를 선택할 수 있습니다. */}
+          {clinicDetailItems.length > 0 && (
+            <>
+              <BreadcrumbDivider />
+              <BreadcrumbDropdown
+                label="세부 진료 선택"
+                items={clinicDetailItems.map((child) => ({
+                  label: child.title,
+                  href: getNavigationHref(child),
+                }))}
+              />
+            </>
+          )}
         </div>
       </Inner>
     </section>
