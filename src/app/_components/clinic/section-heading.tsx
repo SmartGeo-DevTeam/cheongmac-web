@@ -14,9 +14,9 @@ type SectionHeadingProps = {
 
 const mtSizes: Record<mtVariant, string> = {
   none: '',
-  base: 'mt-10 xl:mt-30',
-  lg: 'mt-20 xl:mt-40',
-  xl: 'mt-30 xl:mt-50',
+  base: 'pt-10 xl:pt-30',
+  lg: 'pt-20 xl:pt-40',
+  xl: 'pt-30 xl:pt-50',
 };
 
 const labelColors: Record<LabelVariant, string> = {
