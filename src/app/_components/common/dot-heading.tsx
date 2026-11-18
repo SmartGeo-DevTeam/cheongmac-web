@@ -3,11 +3,13 @@ import type { ReactNode } from 'react';
 type DotHeadingProps = {
   title: ReactNode;
   className?: string;
+  as?: 'h2' | 'h3' | 'h4';
 };
 
 export default function DotHeading({
   title,
   className = '',
+  as: HeadingTag = 'h2',
 }: DotHeadingProps) {
   return (
     <div
@@ -24,12 +26,12 @@ export default function DotHeading({
           xl:before:size-2.5"
       />
 
-      <h2
+      <HeadingTag
         className="break-keep text-mo-title-2
           xl:text-pc-title-2"
       >
         {title}
-      </h2>
+      </HeadingTag>
     </div>
   );
 }

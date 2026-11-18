@@ -1,21 +1,23 @@
 import Inner from '@/app/_components/common/inner';
-import { occlusionHeadings } from '@/app/_data/vascular/arterial/occlusion/content';
+import MethodSelector from '@/app/_components/clinic/diagnostics/method-selector';
 import { occlusionDiagnosticMethods } from '@/app/_data/vascular/arterial/occlusion/diagnostics/methods';
+import DiagnosticsIntroduction from './introduction';
+import MethodDetail from './method-detail';
 
 export default function OcclusionDiagnostics() {
   return (
     <section id="vascular-arterial-occlusion-diagnostics">
+      <DiagnosticsIntroduction />
       <Inner>
-        <h2>{occlusionHeadings.diagnostics}</h2>
-        <div>
-          {occlusionDiagnosticMethods.map((method) => (
-            <article key={method.id}>
-              <h3>{method.title}</h3>
-              {method.description && <p>{method.description}</p>}
-              {/* TODO(신규): 검사 사진, 검사 결과 화면, 설명표 */}
-            </article>
+        <MethodSelector
+          tabs={occlusionDiagnosticMethods.map(({ id, tabLabel }) => ({
+            id: `vascular-arterial-occlusion-diagnostics-${id}`,
+            label: tabLabel,
+          }))}
+          panels={occlusionDiagnosticMethods.map((method) => (
+            <MethodDetail key={method.id} method={method} />
           ))}
-        </div>
+        />
       </Inner>
     </section>
   );

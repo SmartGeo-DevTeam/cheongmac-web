@@ -234,3 +234,13 @@ src/app/
 - 기존 혈관 진료 전용 배너 데이터는 `src/app/_data/vascular/banner/content.ts`, 동맥폐쇄증 배너 데이터는 `src/app/_data/vascular/arterial/occlusion-banner/content.ts`에 그대로 둡니다.
 - 더 이상 참조되지 않는 예전 동맥폐쇄증 전용 배너 렌더러 `src/app/_ui/vascular/arterial/occlusion-banner/section.tsx`는 중복 구현이므로 제거합니다(원본 불일치 또는 사용처 발견 시 자동 삭제하지 않음).
 - 동맥질환의 나머지 feature 폴더, 정적 데이터, 이미지 URL, JSX 및 Tailwind 클래스는 이 구조 패치에서 변경하지 않습니다.
+
+## 진료분야 검사·진단 UI 재사용과 하지동맥폐색증 진단 분리 (2026-11-18 승인)
+
+- 다른 진료 페이지에서도 사용할 검사 선택·정보·진단 카드 UI는 `src/app/_components/clinic/diagnostics/`에 배치합니다. 질환별 검사명·시간·기준·이미지는 해당 라우트의 `_data`에만 둡니다.
+- 탭은 선택한 검사 하나의 콘텐츠만 표시하며, 키보드 탐색을 제공합니다. PC에서는 기존 sticky 배치를 유지합니다.
+- 진단 기준 그리드는 1~3개 항목을 지원하되 PC에서는 항상 3컬럼을 유지합니다. ABI와 같은 고유 레이아웃은 라우트 전용 `_ui`에 둡니다.
+- 하지동맥폐색증 검사 콘텐츠는 기존 `comparison/section.tsx`에서 `diagnostics/`로 이동하며, 증상 비교 ID `vascular-arterial-occlusion-comparison`은 유지합니다. 진단 ID는 `vascular-arterial-occlusion-diagnostics`, 검사별 ID는 이 접두사에 검사 키를 붙여 사용합니다.
+- 승인된 이미지 16개만 `public/_____________temp`에서 `public/vascular/arterial/occlusion/diagnostics/`로 원본 바이트 그대로 이동하고 기존 이미지 경로를 변경합니다.
+- 상세 페이지의 기존 의료 문구·수치·검사 시간은 검증 없이 바꾸지 않습니다.
+- 변경 이유: 여러 진료 페이지에서 재사용 가능한 UI를 분리하고 중복 섹션 ID, 빈 진단 스캐폴드, 임시 이미지 경로를 해소합니다. 되돌릴 때는 배포 ZIP 적용 전 백업을 복원합니다.
