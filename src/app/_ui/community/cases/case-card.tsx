@@ -1,12 +1,18 @@
 'use client';
 
-import MaskedName from '@/app/_components/common/masked-name';
+import CaseCategoryBadge from '@/app/_components/community/cases/category-badge';
+import CaseDescription from '@/app/_components/community/cases/case-description';
+import CaseTitle from '@/app/_components/community/cases/case-title';
+import CasePatientMeta from '@/app/_components/community/cases/patient-meta';
 import ContentCard, {
   type ContentCardMedia,
 } from '@/app/_components/content-list/card';
 import Link from 'next/link';
 import { saveCasesListScroll } from '@/app/_lib/community/cases/list-state.client';
-import { getInterviewThumbnail, isYouTubeVideoId } from '@/app/_lib/community/cases/youtube-thumbnail';
+import {
+  getInterviewThumbnail,
+  isYouTubeVideoId,
+} from '@/app/_lib/community/cases/youtube-thumbnail';
 import { caseCategories, type CasePost } from '@/app/_data/community/cases/cases';
 
 export default function CasesCard({ post }: { post: CasePost }) {
@@ -54,35 +60,16 @@ export default function CasesCard({ post }: { post: CasePost }) {
       }}
     >
       <ContentCard media={media} ratio="wide">
-        <span className="inline-block rounded-lg bg-ai-subtle px-2.5 py-1.5 text-[14px] font-semibold text-brand xl:text-[18px]">
-          {category?.label ?? '기타'}
-        </span>
-
-        <h3 className="mt-3 text-mo-heading-2 xl:text-pc-heading-2">
-          {post.title}
-        </h3>
-
-        <p className="mt-2 text-secondary text-mo-body-2 xl:mt-3 xl:text-pc-body-1">
-          {post.description}
-        </p>
-
+        <CaseCategoryBadge label={category?.label ?? '기타'} />
+        <CaseTitle>{post.title}</CaseTitle>
+        <CaseDescription>{post.description}</CaseDescription>
         <div className="mt-2 flex items-center justify-between gap-2 xl:mt-3">
-          <div
-            className="flex min-w-0 flex-wrap items-center gap-1 text-tertiary text-mo-body-2
-              [&>span+span]:inline-flex [&>span+span]:items-center
-              [&>span+span]:before:mr-1 [&>span+span]:before:size-1
-              [&>span+span]:before:shrink-0 [&>span+span]:before:rounded-full
-              [&>span+span]:before:bg-default
-              xl:gap-1.5 xl:text-[18px]
-              xl:[&>span+span]:before:mr-1.5 xl:[&>span+span]:before:size-1.5"
-          >
-            {post.patient && <MaskedName name={post.patient} />}
-
-            {post.views != null && <span>{post.views}회</span>}
-            {post.age != null && <span>{post.age}세</span>}
-            {post.sex && <span>{post.sex}</span>}
-          </div>
-
+          <CasePatientMeta
+            patient={post.patient}
+            views={post.views}
+            age={post.age}
+            sex={post.sex}
+          />
           <time
             className="shrink-0 text-tertiary text-mo-label xl:text-[16px] xl:font-medium"
             dateTime={post.date}
