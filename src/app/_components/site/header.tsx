@@ -272,11 +272,17 @@ export default function SiteHeader() {
 
                       {/* LNB */}
                       {hasThirdDepth ? (
-                        <section className="min-w-1/2 flex bg-white divide-x divide-[#DDDDDD]">
+                        <section
+                          className="min-w-0 flex-1 grid bg-white divide-x divide-[#DDDDDD]"
+                          style={{
+                            // 공개된 2차 메뉴 수에 맞춰 LNB 열을 균등 배분합니다.
+                            gridTemplateColumns: `repeat(${item.children.length}, minmax(0, 1fr))`,
+                          }}
+                        >
                           {item.children.map((group) => (
                             <div
                               key={group.id}
-                              className="shrink-0 min-w-1/5 px-10 pt-12 pb-14"
+                              className="min-w-0 px-6 pt-12 pb-14 2xl:px-10"
                             >
                               <Link
                                 href={getNavigationHref(group)}
@@ -306,7 +312,7 @@ export default function SiteHeader() {
                           ))}
                         </section>
                       ) : (
-                        <section className="min-w-1/2 px-10 pt-12 pb-14 flex flex-col items-start bg-white gap-5">
+                        <section className="min-w-0 flex-1 px-10 pt-12 pb-14 flex flex-col items-start bg-white gap-5">
                           {item.children.map((group) => (
                             <Link
                               key={group.id}
