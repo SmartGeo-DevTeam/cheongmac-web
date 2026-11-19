@@ -14,7 +14,6 @@ export type OcclusionStrength = {
   titleLines: readonly OcclusionStrengthTitleLine[];
   description: string;
   visual: OcclusionStrengthVisual;
-  titleSize?: 'regular' | 'large';
   descriptionNarrow?: boolean;
   extraBottomPadding?: boolean;
   note?: string;

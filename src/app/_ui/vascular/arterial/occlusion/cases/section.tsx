@@ -9,15 +9,15 @@ import {
 import OcclusionCasesCarousel from './carousel';
 
 const categoryLabel =
-  caseCategories.find((category) => category.id === 'peripheral-artery')?.label ??
-  '하지동맥폐색증';
+  caseCategories.find((category) => category.id === 'peripheral-artery')
+    ?.label ?? '하지동맥폐색증';
 
 export default function OcclusionCases() {
   return (
     <section id="vascular-arterial-occlusion-cases">
       <Inner>
         <SectionHeading
-          mtVariant="xl"
+          mtVariant="lg"
           label="Cases · 실제 치료 사례"
           labelVariant="disabled"
           title={
@@ -32,9 +32,6 @@ export default function OcclusionCases() {
           }
           description={<>※ 치료 경과는 개인에 따라서 달라질 수 있습니다.</>}
         />
-        <p className="mt-2 text-center text-mo-label text-tertiary xl:mt-3 xl:text-pc-label">
-          ※ 현재 표시된 3건과 공통 비교 이미지는 시안용 가상 예시이며, 실제 환자의 치료 기록이 아닙니다.
-        </p>
       </Inner>
 
       <OcclusionCasesCarousel
@@ -44,7 +41,10 @@ export default function OcclusionCases() {
       />
 
       <Inner>
-        <div className="mt-10 flex items-center justify-center xl:mt-14">
+        <div
+          className="mt-10 flex items-center justify-center
+          xl:mt-20"
+        >
           <ClinicLinkButton
             href="/community/cases?tab=before-after&category=peripheral-artery"
             title="치료사례 더보기"

@@ -20,7 +20,8 @@ export default function OcclusionStrengthItem({ item, className = '' }: Props) {
     >
       <div className="relative z-1 break-keep">
         <h3
-          className={`${item.titleSize === 'large' ? 'text-mo-title-1' : 'text-mo-title-2'}
+          className={`text-mo-title-1
+            xl:text-pc-title-2
             ${isImage ? 'text-inverse' : ''}`}
         >
           {item.titleLines.map((line, index) => (
@@ -48,7 +49,8 @@ export default function OcclusionStrengthItem({ item, className = '' }: Props) {
           )}
         </h3>
         <p
-          className={`mt-3 text-mo-body-2
+          className={`mt-3 text-mo-body-1
+            xl:mt-5 xl:text-pc-body-1
             ${item.descriptionNarrow ? 'w-7/10' : ''}
             ${isImage ? 'text-inverse' : ''}`}
         >

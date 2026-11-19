@@ -9,11 +9,12 @@ type ClinicSplitHeadingProps = {
   description?: ReactNode;
 };
 
-type LabelVariant = 'green-300' | 'accent';
+type LabelVariant = 'green-300' | 'accent' | 'disabled';
 
 const labelColors: Record<LabelVariant, string> = {
   'green-300': 'text-green-300',
   accent: 'text-accent',
+  disabled: 'text-disabled',
 };
 
 /** ClinicSplitLayout leading 영역의 독립적인 제목 UI. */

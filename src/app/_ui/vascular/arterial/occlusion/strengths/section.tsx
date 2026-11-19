@@ -14,7 +14,6 @@ import { useRef } from 'react';
 import OcclusionStrengthItem from './item';
 
 export default function OcclusionStrengths() {
-  // 섹션 전체가 아니라 제목만 추적해 스크롤 진행이 역전되지 않도록 합니다.
   const headingRef = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();
   const { scrollYProgress } = useScroll({
@@ -32,7 +31,7 @@ export default function OcclusionStrengths() {
       <Inner>
         <div
           className="w-full pt-30 pb-20 flex flex-col justify-center items-center
-            xl:pt-50"
+            xl:pt-60"
         >
           <div ref={headingRef}>
             {occlusionStrengthsHeadingLines.map((line, index) => (
@@ -55,7 +54,10 @@ export default function OcclusionStrengths() {
             ))}
           </div>
 
-          <ul className="mt-10 w-full grid gap-3 xl:mt-30 xl:grid-cols-6 xl:gap-5">
+          <ul
+            className="mt-10 w-full grid gap-3
+            xl:mt-24 xl:grid-cols-6 xl:gap-6"
+          >
             {occlusionStrengthItems.map((item, index) => (
               <OcclusionStrengthItem
                 key={item.id}

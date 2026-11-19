@@ -107,10 +107,7 @@ export default function OcclusionCasesCarousel({
             onClick={() => swiperRef.current?.slidePrev()}
             className="pointer-events-auto absolute left-3 top-1/2 -translate-y-1/2 size-9 flex justify-center items-center rounded-full bg-base shadow-[0_0_10px_0_#0000001a] z-1"
           >
-            <ChevronLeft
-              className="size-6"
-              aria-hidden="true"
-            />
+            <ChevronLeft className="size-6" aria-hidden="true" />
           </button>
           <button
             type="button"
@@ -118,10 +115,7 @@ export default function OcclusionCasesCarousel({
             onClick={() => swiperRef.current?.slideNext()}
             className="pointer-events-auto absolute right-3 top-1/2 -translate-y-1/2 size-9 flex justify-center items-center rounded-full bg-base shadow-[0_0_10px_0_#0000001a] z-1"
           >
-            <ChevronRight
-              className="size-6"
-              aria-hidden="true"
-            />
+            <ChevronRight className="size-6" aria-hidden="true" />
           </button>
         </div>
       )}
