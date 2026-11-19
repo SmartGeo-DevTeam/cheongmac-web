@@ -1,7 +1,7 @@
 import ClinicBanner from '@/app/_components/clinic/banner';
 import ClinicSymptomComparison from '@/app/_components/clinic/symptom-comparison/section';
 import { vascularReservationBanner } from '@/app/_data/vascular/banner/content';
-import OcclusionCareMessage from './care-message/section';
+import OcclusionStrengths from './strengths/section';
 import OcclusionCases from './cases/section';
 import OcclusionDiagnostics from './diagnostics/section';
 import OcclusionFaq from './faq/section';
@@ -25,7 +25,7 @@ export default function OcclusionOverview() {
       <OcclusionCases />
       <OcclusionTreatments />
       <OcclusionReservationLinks />
-      <OcclusionCareMessage />
+      <OcclusionStrengths />
       <OcclusionFaq />
     </>
   );

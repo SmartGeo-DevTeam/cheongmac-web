@@ -254,3 +254,12 @@ src/app/
 - 네이버 링크는 운영 URL 확정 전까지 승인된 `href="/"`를 유지합니다. FAQ의 5개 답변은 디자인 확인용 예시로 명시하고, 정적 영상 썸네일은 재생 기능 없이 유지합니다. DB 연동 시 해당 진료분야에 속한 Q&A만 조회합니다.
 - `public/_______temp/`의 이미지 9개는 원본 바이트 그대로 `public/vascular/arterial/occlusion/{treatments,reservation-links,faq}/` 하위로 옮기고, 이전 임시 이미지 경로와 미사용 스캐폴드를 삭제합니다.
 - 다른 페이지에서 실제 공유하지 않는 UI는 `_components`로 승격하지 않으며 기존 `cases` 구현은 변경하지 않습니다.
+
+
+## 하지동맥폐색증 진료 강점 섹션 분리 (2026-11-19)
+
+- 기존 `care-message`는 도입 메시지 외에 혈관 진료 강점 5개를 다루므로 `strengths`로 변경합니다. 섹션 ID는 `vascular-arterial-occlusion-strengths`로 통일하고 `overview.tsx`에서 호출명을 갱신합니다.
+- `strengths/section.tsx`는 스크롤 제목·목록 조립만 담당합니다. `strengths/item.tsx`는 `visual.kind`로 배경 사진(`image`)과 장식 아이콘(`icon`)의 렌더링을 구분합니다. 정적 문구와 이미지 경로는 `_data/.../strengths`로, 두 파일에서 사용하는 데이터 타입은 `_types/.../strengths.ts`로 분리합니다.
+- PC에서는 6컬럼 그리드에 아이템당 2컬럼을 사용해 1행 3개/2행 2개를 중앙 정렬합니다. 모바일은 기존 1열을 유지합니다.
+- 제목 애니메이션의 스크롤 대상은 섹션 전체가 아닌 제목 래퍼로 한정하고, 시작·종료 오프셋을 정상 순서로 수정합니다. 아래 방향 스크롤에서 진행률이 되감기지 않고 강조가 완료된 상태를 유지합니다.
+- `public/_______temp/temp-1~5.png`의 원본은 바이트 변경 없이 `public/vascular/arterial/occlusion/strengths/`로 이동하며 기존 임시 경로를 삭제합니다. 병원 관련 문구·수치는 원문을 유지합니다.
