@@ -244,3 +244,13 @@ src/app/
 - 승인된 이미지 16개만 `public/_____________temp`에서 `public/vascular/arterial/occlusion/diagnostics/`로 원본 바이트 그대로 이동하고 기존 이미지 경로를 변경합니다.
 - 상세 페이지의 기존 의료 문구·수치·검사 시간은 검증 없이 바꾸지 않습니다.
 - 변경 이유: 여러 진료 페이지에서 재사용 가능한 UI를 분리하고 중복 섹션 ID, 빈 진단 스캐폴드, 임시 이미지 경로를 해소합니다. 되돌릴 때는 배포 ZIP 적용 전 백업을 복원합니다.
+
+
+## 하지동맥폐색증 후반부 섹션 역할·공개 이미지 정리 (2026-11-19 승인)
+
+- `overview.tsx`는 기존 `cases`를 유지하고 `treatments`, `reservation-links`, `care-message`, `faq` 섹션 순서만 조립합니다.
+- `procedures`는 시술 과정이 아닌 5개 치료법 선택 UI이므로 `treatments`로 통합했습니다. 선택 탭 상태·화면 구성은 해당 라우트의 `_ui`, 치료 정보는 `_data/.../treatments/methods.ts`에 분리합니다. 원본에 없는 추가 의료 정보는 임의로 만들지 않습니다.
+- `resources`는 네이버 예약·톡톡 링크이므로 `reservation-links`로, `message`는 스크롤 색상 강조 메시지이므로 `care-message`로, `media`는 Q&A이므로 `faq`로 의미를 통일합니다. 섹션 ID와 컴포넌트도 변경된 이름을 따릅니다.
+- 네이버 링크는 운영 URL 확정 전까지 승인된 `href="/"`를 유지합니다. FAQ의 5개 답변은 디자인 확인용 예시로 명시하고, 정적 영상 썸네일은 재생 기능 없이 유지합니다. DB 연동 시 해당 진료분야에 속한 Q&A만 조회합니다.
+- `public/_______temp/`의 이미지 9개는 원본 바이트 그대로 `public/vascular/arterial/occlusion/{treatments,reservation-links,faq}/` 하위로 옮기고, 이전 임시 이미지 경로와 미사용 스캐폴드를 삭제합니다.
+- 다른 페이지에서 실제 공유하지 않는 UI는 `_components`로 승격하지 않으며 기존 `cases` 구현은 변경하지 않습니다.

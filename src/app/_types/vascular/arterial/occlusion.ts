@@ -17,10 +17,3 @@ export type OcclusionCaseItem = OcclusionContentItem & {
   beforeImage?: OcclusionImage;
   afterImage?: OcclusionImage;
 };
-
-export type OcclusionProcedureTab = {
-  id: string;
-  label: string;
-  description?: string;
-  image?: OcclusionImage;
-};

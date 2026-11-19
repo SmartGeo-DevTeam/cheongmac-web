@@ -7,10 +7,10 @@ export const occlusionHeadings = {
   diagnostics: '검사 및 진단',
   treatments: '치료 방법',
   cases: '치료 사례',
-  procedures: '시술 과정 및 방법',
   management: '치료 후 관리',
-  resources: '관련 진료 정보',
-  media: '혈관 건강 영상',
+  reservationLinks: '네이버 예약·문의',
+  careMessage: '병원 메시지',
+  faq: '자주 묻는 질문',
 } as const;
 
 /** 현재 프로젝트에 실제 존재하는 경로만 연결합니다. */
