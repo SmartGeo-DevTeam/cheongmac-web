@@ -48,3 +48,13 @@
 3. 2개 이상 서로 다른 페이지가 동일한 UI를 사용할 때 `_components/clinic/`으로 옮기고 Props로 데이터 받도록 만듭니다.
 4. 섹션 ID는 그대로 유지하고, 필요시 항목 ID는 `vascular-venous-<section>-<item>` 패턴을 따릅니다.
 5. UI 구현 후 `npm run build`와 실제 모바일/PC 브라우저 검증을 수행합니다.
+
+## Causes · 원인 섹션 구현 (2026-11-19)
+
+- `_ui/vascular/venous/causes/section.tsx`는 제목과 두 비교 카드의 배치만 담당합니다.
+- `_ui/vascular/venous/causes/item.tsx`는 두 카드에 반복되는 이미지·제목·설명·세부 정보 행을 렌더링합니다.
+- `_data/vascular/venous/causes/content.ts`는 섹션 제목/설명, `cards.ts`는 카드 문구·배지 정보를 보관합니다.
+- `_types/vascular/venous/causes.ts`는 데이터와 UI가 함께 참조하는 카드 타입입니다.
+- 기존 `public/_______temp/temp-1.png` 및 `temp-2.png`는 각각 `public/vascular/venous/causes/normal-vein.png`, `impaired-venous-circulation.png`로 원본 바이트 그대로 이동했습니다.
+- `vascular-venous-causes` 섹션 ID, 반응형 스타일, 카드 배치, 행 구분선, 마지막 행 여백을 유지합니다.
+- 다른 정맥질환 섹션의 미구현 상태 및 공개 설정은 이번 변경 범위에 포함하지 않습니다.
