@@ -7,6 +7,7 @@ type MethodTabsProps = {
   tabs: readonly DiagnosticTab[];
   activeId: string;
   onSelect: (id: string) => void;
+  ariaLabel?: string;
 };
 
 const desktopColumns: Record<number, string> = {
@@ -16,7 +17,7 @@ const desktopColumns: Record<number, string> = {
   4: 'xl:grid-cols-[auto_auto_auto_auto]',
 };
 
-export default function MethodTabs({ tabs, activeId, onSelect }: MethodTabsProps) {
+export default function MethodTabs({ tabs, activeId, onSelect, ariaLabel = '검사 방법 선택' }: MethodTabsProps) {
   function onKeyDown(event: KeyboardEvent<HTMLButtonElement>, current: number) {
     let next: number;
     switch (event.key) {
@@ -36,7 +37,7 @@ export default function MethodTabs({ tabs, activeId, onSelect }: MethodTabsProps
 
   return (
     <div className="mt-15 text-[16px] xl:mt-20 xl:px-50 xl:sticky xl:top-16 xl:z-1">
-      <div role="tablist" aria-label="검사 방법 선택" className={`grid grid-cols-2 gap-2 xl:p-4 xl:gap-5 xl:rounded-full xl:border xl:border-default xl:bg-base ${desktopColumns[tabs.length] ?? 'xl:flex xl:flex-wrap'}`}>
+      <div role="tablist" aria-label={ariaLabel} className={`grid grid-cols-2 gap-2 xl:p-4 xl:gap-5 xl:rounded-full xl:border xl:border-default xl:bg-base ${desktopColumns[tabs.length] ?? 'xl:flex xl:flex-wrap'}`}>
         {tabs.map((tab, index) => {
           const selected = tab.id === activeId;
           return (
