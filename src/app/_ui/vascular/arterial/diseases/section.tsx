@@ -2,7 +2,7 @@ import Inner from '@/app/_components/common/inner';
 import { arterialDiseaseCards } from '@/app/_data/vascular/arterial/diseases/cards';
 import { Info } from 'lucide-react';
 import SectionHeading from '@/app/_components/clinic/section-heading';
-import ArterialDiseaseCard from './card';
+import ClinicDiseaseCard from '@/app/_components/clinic/diseases/disease-card';
 import ArterialDiseaseMap from './map';
 
 export default function ArterialDiseases() {
@@ -55,7 +55,7 @@ export default function ArterialDiseases() {
           xl:grid-cols-3 xl:gap-10"
         >
           {arterialDiseaseCards.map((item) => (
-            <ArterialDiseaseCard key={item.title} item={item} />
+            <ClinicDiseaseCard key={item.title} item={item} />
           ))}
         </div>
       </Inner>

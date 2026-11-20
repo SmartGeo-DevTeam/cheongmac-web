@@ -3,7 +3,7 @@ import Inner from '@/app/_components/common/inner';
 import { venousDiseasesContent } from '@/app/_data/vascular/venous/diseases/content';
 import { venousDiseaseCards } from '@/app/_data/vascular/venous/diseases/cards';
 import { Info } from 'lucide-react';
-import VenousDiseaseCard from './card';
+import ClinicDiseaseCard from '@/app/_components/clinic/diseases/disease-card';
 import VenousDiseaseMap from './map';
 
 /** 부위별 정맥질환: 기존 동맥질환과 동일한 섹션 조립 구조. */
@@ -35,10 +35,9 @@ export default function VenousDiseases() {
           </div>
         </div>
 
-        {/* 카드 사진은 미제공 상태이므로 UI 뼈대만 유지합니다. */}
         <div className="mt-10 grid gap-6 xl:grid-cols-4 xl:gap-5">
           {venousDiseaseCards.map((item) => (
-            <VenousDiseaseCard key={item.id} item={item} />
+            <ClinicDiseaseCard key={item.id} item={item} showMoreLink />
           ))}
         </div>
       </Inner>
