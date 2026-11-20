@@ -1,6 +1,8 @@
-import Inner from '@/app/_components/common/inner';
+import ClinicMethodCarousel from '@/app/_components/clinic/method-carousel/carousel';
 import SectionHeading from '@/app/_components/clinic/section-heading';
-import ArterialDiagnosticCarousel from './carousel';
+import Inner from '@/app/_components/common/inner';
+import { arterialDiagnosticMethods } from '@/app/_data/vascular/arterial/diagnostics/methods';
+import ArterialDiagnosticItem from './item';
 
 export default function ArterialDiagnostics() {
   return (
@@ -21,7 +23,14 @@ export default function ArterialDiagnostics() {
         />
       </Inner>
 
-      <ArterialDiagnosticCarousel />
+      <ClinicMethodCarousel
+        itemLabel="진단방법"
+        slides={arterialDiagnosticMethods.map((item) => ({
+          id: item.id,
+          title: item.title,
+          content: <ArterialDiagnosticItem item={item} />,
+        }))}
+      />
     </section>
   );
 }
