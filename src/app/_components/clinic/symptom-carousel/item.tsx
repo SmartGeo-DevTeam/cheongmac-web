@@ -1,21 +1,25 @@
-import { occlusionIntroductionSymptoms } from '@/app/_data/vascular/arterial/occlusion/introduction/symptoms';
-import type { OcclusionIntroductionSymptom } from '@/app/_types/vascular/arterial/occlusion/introduction';
+import type { SymptomCarouselItem } from '@/app/_types/vascular/symptom-carousel';
 import { Check } from 'lucide-react';
 import Image from 'next/image';
 
-type Props = {
-  item: OcclusionIntroductionSymptom;
+type SymptomCarouselItemProps = {
+  id: string;
+  item: SymptomCarouselItem;
+  items: readonly SymptomCarouselItem[];
   activeIndex: number;
   desktopTabHeight: number;
 };
 
-export default function OcclusionIntroductionItem({
+export default function SymptomCarouselItemView({
+  id,
   item,
+  items,
   activeIndex,
   desktopTabHeight,
-}: Props) {
+}: SymptomCarouselItemProps) {
   return (
     <div
+      id={id}
       className="w-full flex-1 pb-10
       xl:mx-auto xl:pb-20 xl:max-w-7xl xl:grid xl:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)] xl:grid-rows-[auto_1fr_auto] xl:gap-x-20 xl:gap-y-6"
     >
@@ -42,10 +46,14 @@ export default function OcclusionIntroductionItem({
             fill
             draggable={false}
             className="object-cover"
+            sizes="(min-width: 1280px) 40vw, 100vw"
           />
 
-          <div className="absolute left-1/2 bottom-4 -translate-x-1/2 flex justify-center items-center gap-2">
-            {occlusionIntroductionSymptoms.map((tab, index) => (
+          <div
+            aria-hidden="true"
+            className="absolute left-1/2 bottom-4 -translate-x-1/2 flex justify-center items-center gap-2"
+          >
+            {items.map((tab, index) => (
               <span
                 key={tab.id}
                 className={
@@ -114,7 +122,7 @@ export default function OcclusionIntroductionItem({
               {item.caution.tail}
             </>
           ) : (
-            // TODO(신규): 나머지 탭의 주의 문구는 의료진 검수 후 입력하세요.
+            // TODO: 미작성 탭의 주의 문구는 의료진 검수 후 입력합니다.
             '해당 증상의 상세 안내를 준비 중입니다.'
           )}
         </p>
