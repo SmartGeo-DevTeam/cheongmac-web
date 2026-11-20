@@ -7,7 +7,6 @@ import type {
 } from '@/app/_types/clinic/specialists';
 import ClinicSpecialistActions from './actions';
 import ClinicSpecialistsCarousel from './carousel';
-import ClinicSpecialistProfile from './profile';
 
 type ClinicSpecialistsSectionProps = {
   id: string;
@@ -22,11 +21,12 @@ export default function ClinicSpecialistsSection({
   doctors,
 }: ClinicSpecialistsSectionProps) {
   const { label, title, description, links } = content;
+  const isMultiple = doctors.length > 1;
 
   return (
     <section
       id={id}
-      className={doctors.length > 1 ? 'overflow-x-clip' : undefined}
+      className={isMultiple ? 'overflow-x-clip' : undefined}
     >
       <div
         className={`mt-20
@@ -56,19 +56,16 @@ export default function ClinicSpecialistsSection({
               </div>
             }
           >
-            {doctors.length === 1 ? (
-              <ClinicSpecialistProfile
-                id={`${id}-doctor-${doctors[0].id}`}
-                doctor={doctors[0]}
-              />
-            ) : (
-              <div
-                className={`-mr-5 min-w-0 h-full
-                  xl:mr-[calc((80rem-100vw)/2-1.25rem)]`}
-              >
-                <ClinicSpecialistsCarousel id={id} doctors={doctors} />
-              </div>
-            )}
+            <div
+              className={
+                isMultiple
+                  ? `-mr-5 min-w-0 h-full
+                      xl:mr-[calc((80rem-100vw)/2-1.25rem)]`
+                  : 'min-w-0 h-full'
+              }
+            >
+              <ClinicSpecialistsCarousel id={id} doctors={doctors} />
+            </div>
           </ClinicSplitLayout>
         </Inner>
       </div>
