@@ -1,9 +1,17 @@
+import Breadcrumb from '@/app/_components/common/breadcrumb';
+import PageHeader from '@/app/_components/common/page-header';
+import VaricoseOverview from '@/app/_ui/vascular/venous/varicose/overview';
 import { isPublishedNavigationPath } from '@/app/_lib/navigation/navigation-tree';
 import { notFound } from 'next/navigation';
 
 export default function VascularVenousVaricosePage() {
   if (!isPublishedNavigationPath('/vascular/venous/varicose')) notFound();
 
-  // TODO: 이 페이지의 UI가 준비되면 _ui/vascular/venous/varicose/ 아래에 구현하고 여기에서 조립합니다.
-  return null;
+  return (
+    <>
+      <Breadcrumb />
+      <PageHeader title="하지정맥류" />
+      <VaricoseOverview />
+    </>
+  );
 }
