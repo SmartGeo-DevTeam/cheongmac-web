@@ -1,50 +1,26 @@
-import ClinicSplitHeading from '@/app/_components/clinic/split-heading';
-import ClinicSplitLayout from '@/app/_components/clinic/split-layout';
-import Inner from '@/app/_components/common/inner';
-import { doctors } from '@/app/_data/about/doctors/doctors';
+import ClinicSpecialistsSection from '@/app/_components/clinic/specialists/section';
+import {
+  doctors,
+  fields,
+  getDoctorDetailHref,
+} from '@/app/_data/about/doctors/doctors';
 import { arterialSpecialistsContent } from '@/app/_data/vascular/arterial/specialists/content';
-import ArterialSpecialistActions from './actions';
-import ArterialSpecialistProfile from './profile';
+import { toClinicSpecialistData } from '@/app/_utils/clinic/specialists';
 
+/** 동맥질환은 기존 의료진 1명과 콘텐츠를 그대로 사용합니다. */
 export default function ArterialSpecialists() {
-  const { label, title, description, links, doctorId } =
-    arterialSpecialistsContent;
-  const doctor = doctors.find((item) => item.id === doctorId);
+  const doctor = doctors.find(
+    (item) => item.id === arterialSpecialistsContent.doctorId,
+  );
+  const selectedDoctors = doctor
+    ? [toClinicSpecialistData(doctor, fields, getDoctorDetailHref(doctor))]
+    : [];
 
   return (
-    <section id="vascular-arterial-specialists">
-      <div
-        className="mt-20
-        xl:mt-45"
-      >
-        <Inner>
-          <ClinicSplitLayout
-            className="xl:items-end"
-            leading={
-              <div>
-                <ClinicSplitHeading
-                  label={label}
-                  title={
-                    <>
-                      {title.intro}
-                      {title.emphasis.map((line) => (
-                        <span key={line} className="block">
-                          <strong>{line}</strong>
-                        </span>
-                      ))}
-                    </>
-                  }
-                  description={description}
-                />
-
-                <ArterialSpecialistActions links={links} />
-              </div>
-            }
-          >
-            {doctor && <ArterialSpecialistProfile doctor={doctor} />}
-          </ClinicSplitLayout>
-        </Inner>
-      </div>
-    </section>
+    <ClinicSpecialistsSection
+      id="vascular-arterial-specialists"
+      content={arterialSpecialistsContent}
+      doctors={selectedDoctors}
+    />
   );
 }

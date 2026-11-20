@@ -1,13 +1,26 @@
-/**
- * 정맥질환 전문 의료진 섹션.
- * TODO: 확정된 UI를 이 경로에서 구현합니다.
- * 여러 페이지에서 실제 공유하는 UI만 _components/clinic/으로 승격합니다.
- * 섹션 ID는 변경하지 않습니다.
- */
+import ClinicSpecialistsSection from '@/app/_components/clinic/specialists/section';
+import {
+  doctors,
+  fields,
+  getDoctorDetailHref,
+} from '@/app/_data/about/doctors/doctors';
+import { venousSpecialistsContent } from '@/app/_data/vascular/venous/specialists/content';
+import { toClinicSpecialistData } from '@/app/_utils/clinic/specialists';
+
+/** 정맥질환 전용 의료진 ID의 표시 순서를 지키면서 공통 UI를 사용합니다. */
 export default function VenousSpecialists() {
+  const selectedDoctors = venousSpecialistsContent.doctorIds.flatMap((id) => {
+    const doctor = doctors.find((item) => item.id === id);
+    return doctor
+      ? [toClinicSpecialistData(doctor, fields, getDoctorDetailHref(doctor))]
+      : [];
+  });
+
   return (
-    <section id="vascular-venous-specialists">
-      {/* TODO: 정맥질환 전문 의료진 UI 및 데이터 연결 */}
-    </section>
+    <ClinicSpecialistsSection
+      id="vascular-venous-specialists"
+      content={venousSpecialistsContent}
+      doctors={selectedDoctors}
+    />
   );
 }
