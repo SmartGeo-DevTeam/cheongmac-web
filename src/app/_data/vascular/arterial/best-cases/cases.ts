@@ -1,10 +1,10 @@
-import type { ArterialBestCase } from '@/app/_types/vascular/arterial/best-cases';
+import type { BestCase } from '@/app/_types/vascular/best-case';
 
 /**
  * 시안 확인용 샘플 카드입니다. 실제 환자 사례·치료 성과를 의미하지 않습니다.
  * 운영 DB 도입 후 사례 레코드와 의료진 FK(doctorId)로 교체할 수 있습니다.
  */
-export const arterialBestCases: ArterialBestCase[] = [
+export const arterialBestCases: BestCase[] = [
   {
     id: 'peripheral-artery',
     title: '말초동맥폐쇄증',
