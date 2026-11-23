@@ -2,11 +2,13 @@ import type { ReactNode } from 'react';
 
 type mtVariant = 'none' | 'base' | 'lg' | 'xl';
 
-type LabelVariant = 'disabled' | 'accent';
+type LabelVariant = 'disabled' | 'accent' | 'green';
 
 type SectionHeadingProps = {
   label: string;
   labelVariant?: LabelVariant;
+  /** 특정 섹션에서만 필요한 반응형 label 색상 등. 지정 시 labelVariant 대신 사용합니다. */
+  labelClassName?: string;
   mtVariant?: mtVariant;
   title: ReactNode;
   description?: ReactNode;
@@ -22,12 +24,14 @@ const mtSizes: Record<mtVariant, string> = {
 const labelColors: Record<LabelVariant, string> = {
   disabled: 'text-disabled',
   accent: 'text-accent',
+  green: 'text-green-500',
 };
 
 export default function SectionHeading({
   mtVariant = 'base',
   label,
   labelVariant = 'disabled',
+  labelClassName,
   title,
   description,
 }: SectionHeadingProps) {
@@ -42,7 +46,7 @@ export default function SectionHeading({
         <span
           className={`font-semibold text-[15px]
             xl:font-medium xl:text-[24px]
-            ${labelColors[labelVariant]}
+            ${labelClassName ?? labelColors[labelVariant]}
             `}
         >
           {label}
