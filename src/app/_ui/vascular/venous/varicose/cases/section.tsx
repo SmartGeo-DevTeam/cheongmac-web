@@ -1,11 +1,22 @@
-/**
- * TODO: Cases · 실제 치료 사례: 사례 목록 UI와 데이터를 구현합니다.
- * 섹션 ID는 앵커 및 향후 데이터 연결을 위해 유지합니다.
- */
+import ClinicCases from '@/app/_components/clinic/cases/section';
+import { varicoseCasePreviews } from '@/app/_data/vascular/venous/varicose/cases/featured';
+
+/** 하지정맥류 치료사례: 공통 UI에 정맥 사례 데이터를 연결합니다. */
 export default function VaricoseCases() {
   return (
-    <section id="vascular-venous-varicose-cases">
-      {/* TODO: 섹션 콘텐츠 조립 */}
-    </section>
+    <ClinicCases
+      id="vascular-venous-varicose-cases"
+      items={varicoseCasePreviews}
+      categoryLabel="하지정맥류"
+      title={
+        <>
+          하지정맥류 치료 과정,
+          <br />
+          <b>다양한 사례로 살펴보세요</b>
+        </>
+      }
+      description={<>※ 치료 경과는 개인에 따라서 달라질 수 있습니다.</>}
+      moreHref="/community/cases?tab=before-after&category=varicose"
+    />
   );
 }

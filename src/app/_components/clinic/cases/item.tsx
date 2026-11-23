@@ -2,39 +2,40 @@ import CaseDescription from '@/app/_components/community/cases/case-description'
 import CaseTitle from '@/app/_components/community/cases/case-title';
 import CaseCategoryBadge from '@/app/_components/community/cases/category-badge';
 import CasePatientMeta from '@/app/_components/community/cases/patient-meta';
-import type { CasePost } from '@/app/_data/community/cases/cases';
+import type { ClinicCasePreview } from '@/app/_types/vascular/clinic-case';
 import Image from 'next/image';
 import Link from 'next/link';
 
-type OcclusionCaseItemProps = {
-  post: CasePost;
+type ClinicCaseItemProps = {
+  id: string;
+  post: ClinicCasePreview;
   categoryLabel: string;
-  sampleImage: string;
 };
 
-/** 실제 비교 영상이 준비될 때까지 세 사례 모두 시안용 이미지를 사용합니다. */
-export default function OcclusionCaseItem({
+/** 진료 페이지 치료사례 미리보기 카드. 실제 게시글 URL과 표시 이미지는 데이터가 결정합니다. */
+export default function ClinicCaseItem({
+  id,
   post,
   categoryLabel,
-  sampleImage,
-}: OcclusionCaseItemProps) {
+}: ClinicCaseItemProps) {
   return (
     <Link
-      href={`/community/cases/${post.id}`}
+      id={id}
+      href={post.href}
       className="inline-block w-full h-full rounded-xl overflow-clip border border-default
-      xl:bg-[#F2F4F6]"
+        xl:bg-[#F2F4F6]"
     >
       <div className="relative aspect-319/196 overflow-hidden">
         <Image
-          src={sampleImage}
-          alt="시안용 혈관 비교 이미지. 실제 환자의 치료 전후 사진이 아닙니다."
+          src={post.image}
+          alt={post.imageAlt}
           fill
           className="object-cover"
         />
       </div>
       <div
         className="px-5 pt-4 pb-5
-        xl:px-15 xl:py-10 xl:pb-15"
+          xl:px-15 xl:py-10 xl:pb-15"
       >
         <div className="flex justify-between items-center flex-wrap">
           <CaseCategoryBadge label={categoryLabel} />
