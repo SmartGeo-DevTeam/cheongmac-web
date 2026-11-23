@@ -23,7 +23,7 @@ export type DiagnosticMethod = {
 export type DiagnosticCriteriaCard = {
   image: string;
   label: string;
-  tone: 'normal' | 'warning' | 'danger';
+  tone: 'normal' | 'warning' | 'danger' | 'neutral';
   items: readonly string[];
 };
 

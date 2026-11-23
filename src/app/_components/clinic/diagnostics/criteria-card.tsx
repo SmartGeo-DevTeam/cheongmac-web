@@ -6,6 +6,7 @@ const toneClasses: Record<DiagnosticCriteriaCard['tone'], string> = {
   normal: 'bg-legacy-green',
   warning: 'bg-legacy-yellow',
   danger: 'bg-legacy-red',
+  neutral: 'bg-gray-600',
 };
 
 export default function CriteriaCard({ image, label, tone, items }: DiagnosticCriteriaCard) {
