@@ -9,3 +9,15 @@ export type TreatmentMethod = {
   candidates: readonly string[];
   features: readonly { label: string; description: string }[];
 };
+
+/** 탭 치료법과 별개로 섹션 하단에 표시하는 선택적 보조 치료 정보. */
+export type AdditionalTreatmentItem = {
+  id: string;
+  title: string;
+  image: { src: string; alt: string };
+};
+
+export type AdditionalTreatmentsContent = {
+  items: readonly AdditionalTreatmentItem[];
+  description?: string;
+};
