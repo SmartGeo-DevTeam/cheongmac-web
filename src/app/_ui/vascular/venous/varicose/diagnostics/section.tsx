@@ -1,10 +1,10 @@
+import MethodSelector from '@/app/_components/clinic/diagnostics/method-selector';
 import SectionHeading from '@/app/_components/clinic/section-heading';
 import Inner from '@/app/_components/common/inner';
 import { varicoseDiagnosticMethods } from '@/app/_data/vascular/venous/varicose/diagnostics/methods';
 import MethodDetail from './method-detail';
-import MethodSelector from './method-selector';
 
-/** PC: 세 가지 검사 항목 전체 표시. 모바일: 선택한 검사만 표시. */
+/** PC와 모바일 모두 기존 하지동맥폐색증 진단과 동일한 단일 선택 탭을 사용합니다. */
 export default function VaricoseDiagnostics() {
   return (
     <section id="vascular-venous-varicose-diagnostics" className={`pb-20 xl:pb-40`}>
@@ -33,7 +33,10 @@ export default function VaricoseDiagnostics() {
           치료가 필요한지, 어느 혈관을 치료해야 하는지는 혈류를 직접 확인해야 알 수 있습니다.
         </p>
         <MethodSelector
-          methods={varicoseDiagnosticMethods}
+          tabs={varicoseDiagnosticMethods.map(({ id, tabLabel }) => ({
+            id: `vascular-venous-varicose-diagnostics-${id}-panel`,
+            label: tabLabel,
+          }))}
           panels={varicoseDiagnosticMethods.map((method) => (
             <MethodDetail key={method.id} method={method} />
           ))}
