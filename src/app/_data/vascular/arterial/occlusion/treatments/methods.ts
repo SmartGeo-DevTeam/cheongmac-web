@@ -1,10 +1,10 @@
-import type { OcclusionTreatmentMethod } from '@/app/_types/vascular/arterial/occlusion/treatments';
+import type { TreatmentMethod } from '@/app/_types/vascular/treatment-method';
 
 /**
  * 현재 상세 페이지의 치료법 문구·시기·수치를 원본 주석에서 그대로 옮겼습니다.
  * 의료적 적합성 및 안내 문구는 공개 전 의료진 검토가 필요합니다.
  */
-export const occlusionTreatmentMethods: readonly OcclusionTreatmentMethod[] = [
+export const occlusionTreatmentMethods: readonly TreatmentMethod[] = [
   {
     id: 'angioplasty',
     category: '시술',
