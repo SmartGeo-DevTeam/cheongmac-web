@@ -21,7 +21,6 @@ export default function VaricoseFaq() {
       thumbnailAlt="다리 가려움과 하지정맥류 증상을 소개하는 영상 썸네일"
       avatar={varicoseFaqMedia.avatar}
       questions={varicoseFaqQuestions}
-      presentation="comments"
     />
   );
 }

@@ -4,7 +4,6 @@ import type { FaqItem } from '@/app/_types/common/faq';
 import type { ReactNode } from 'react';
 import Image from 'next/image';
 import ClinicMediaFaqItem from './item';
-import ClinicMediaFaqCommentItem from './comment-item';
 
 type Props = {
   id: string;
@@ -14,7 +13,6 @@ type Props = {
   headingLabel?: string;
   headingTitle?: ReactNode;
   thumbnailAlt?: string;
-  presentation?: 'default' | 'comments';
 };
 
 /** 이미지·Q&A 데이터를 페이지마다 교체할 수 있는 공통 섹션. */
@@ -26,10 +24,7 @@ export default function ClinicMediaFaq({
   headingLabel,
   headingTitle,
   thumbnailAlt,
-  presentation = 'default',
 }: Props) {
-  const isComments = presentation === 'comments';
-
   return (
     <section id={id}>
       <div className="mb-28">
@@ -48,9 +43,8 @@ export default function ClinicMediaFaq({
             )}
           />
           <div
-            className={isComments
-              ? `mt-5 xl:mx-auto xl:mt-15 xl:max-w-[850px]`
-              : `mt-5 xl:mt-15 xl:px-50`}
+            className="mt-5
+              xl:mt-15 xl:px-50"
           >
             {thumbnail && (
               <div
@@ -69,25 +63,16 @@ export default function ClinicMediaFaq({
             {questions.length > 0 && (
               <ul
                 id={`${id}-questions`}
-                className={isComments
-                  ? `mt-12 space-y-4 xl:mt-20 xl:space-y-5`
-                  : `mt-3 xl:mt-10 xl:space-y-3`}
+                className="mt-3
+                  xl:mt-10 xl:space-y-3"
               >
                 {questions.map((item) => (
-                  isComments ? (
-                    <ClinicMediaFaqCommentItem
-                      key={item.id}
-                      id={`${id}-${item.id}`}
-                      item={item}
-                      avatar={avatar}
-                    />
-                  ) : (
-                    <ClinicMediaFaqItem
-                      key={item.id}
-                      item={item}
-                      avatar={avatar}
-                    />
-                  )
+                  <ClinicMediaFaqItem
+                    key={item.id}
+                    id={`${id}-${item.id}`}
+                    item={item}
+                    avatar={avatar}
+                  />
                 ))}
               </ul>
             )}

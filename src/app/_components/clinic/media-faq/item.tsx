@@ -2,15 +2,16 @@ import type { FaqItem } from '@/app/_types/common/faq';
 import { ChevronDown } from 'lucide-react';
 import Image from 'next/image';
 
-type Props = { item: FaqItem; avatar?: string | null };
+type Props = { id: string; item: FaqItem; avatar?: string | null };
 
 /** 기존 입퇴원안내 FAQ와 같은 native details/summary 패턴. */
 export default function ClinicMediaFaqItem({
+  id,
   item,
   avatar,
 }: Props) {
   return (
-    <li>
+    <li id={id}>
       <details className="group border-b border-default xl:border xl:rounded-[20px]">
         <summary className="[&::-webkit-details-marker]:hidden outline-none py-4 flex justify-between items-start gap-4 leading-[150%] break-keep font-medium text-[16px] cursor-pointer xl:p-6 xl:pl-7 xl:font-semibold xl:text-[20px]">
           <div className="flex items-start gap-3">
