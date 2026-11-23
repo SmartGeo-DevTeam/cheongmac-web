@@ -1,9 +1,9 @@
-import Link from 'next/link';
-import Image from 'next/image';
 import {
   venousDiseasePoints,
   type BodyPoint,
 } from '@/app/_data/vascular/venous/diseases/map';
+import Image from 'next/image';
+import Link from 'next/link';
 
 /**
  * 동맥질환과 동일한 반응형 지도 좌표계.
@@ -41,14 +41,16 @@ export default function VenousDiseaseMap() {
 
   return (
     <div className="relative mx-auto w-full">
-      <div className="relative mx-auto w-3/5 xl:w-2/5">
+      <div
+        className="relative mx-auto w-3/5
+        xl:w-2/5"
+      >
         <Image
           src="/vascular/venous/diseases/venous-body.png"
           alt="전신 정맥 구조 이미지"
           width={306}
           height={719}
           className="block h-auto w-full"
-          sizes="(min-width: 1280px) 40vw, 60vw"
         />
         {venousDiseasePoints.map(({ id, href, title, body }) => (
           <Link
@@ -60,19 +62,24 @@ export default function VenousDiseaseMap() {
               left: `${(body.x / originalWidth) * 100}%`,
               top: `${(body.y / originalHeight) * 100}%`,
             }}
-            className="absolute z-20 size-5 -translate-x-1/2 -translate-y-1/2 rounded-full focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-orange-500 xl:size-10"
+            className="absolute z-20 size-5 -translate-x-1/2 -translate-y-1/2 rounded-full
+            focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-orange-500
+            xl:size-10"
           >
             <span
               aria-hidden="true"
-              className="pointer-events-none absolute inset-0 m-auto size-5 rounded-full bg-[#FFD5C3] blur-[2.5px] xl:size-9 xl:blur-[5px]"
+              className="pointer-events-none absolute inset-0 m-auto size-5 rounded-full bg-[#FFD5C3] blur-[2.5px]
+              xl:size-9 xl:blur-[5px]"
             />
             <span
               aria-hidden="true"
-              className="pointer-events-none absolute inset-0 m-auto size-3 rounded-full bg-[#FF8756] blur-[2.5px] xl:size-5.5 xl:blur-[5px]"
+              className="pointer-events-none absolute inset-0 m-auto size-3 rounded-full bg-[#FF8756] blur-[2.5px]
+              xl:size-5.5 xl:blur-[5px]"
             />
             <span
               aria-hidden="true"
-              className="pointer-events-none absolute inset-0 m-auto size-1.5 rounded-full bg-[#FA6805] xl:size-3"
+              className="pointer-events-none absolute inset-0 m-auto size-1.5 rounded-full bg-[#FA6805]
+              xl:size-3"
             />
           </Link>
         ))}
@@ -97,7 +104,10 @@ export default function VenousDiseaseMap() {
             left: `${(mobile.labelX / canvasWidth) * 100}%`,
             top: `${(mobile.labelY / canvasHeight) * 100}%`,
           }}
-          className={`absolute z-30 -translate-y-1/2 whitespace-nowrap rounded-full bg-orange-500 px-3 py-1 font-medium text-[12px] text-inverse focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500 xl:px-5 xl:py-1.5 xl:text-[18px] ${mobile.side === 'left' ? '-translate-x-full' : ''}`}
+          className={`absolute z-30 -translate-y-1/2 whitespace-nowrap rounded-full bg-orange-500 px-3 py-1 font-medium text-[12px] text-inverse
+            focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500
+            xl:px-5 xl:py-1.5 xl:text-[18px]
+            ${mobile.side === 'left' ? '-translate-x-full' : ''}`}
         >
           {title}
         </Link>

@@ -1,6 +1,5 @@
 import ClinicSplitHeading from '@/app/_components/clinic/split-heading';
 import ClinicSplitLayout from '@/app/_components/clinic/split-layout';
-import Inner from '@/app/_components/common/inner';
 import type {
   ClinicSpecialistData,
   ClinicSpecialistsContent,
@@ -24,50 +23,46 @@ export default function ClinicSpecialistsSection({
   const isMultiple = doctors.length > 1;
 
   return (
-    <section
-      id={id}
-      className={isMultiple ? 'overflow-x-clip' : undefined}
-    >
+    <section id={id} className={isMultiple ? 'overflow-x-clip' : undefined}>
       <div
         className={`mt-20
           xl:mt-45`}
       >
-        <Inner>
-          <ClinicSplitLayout
-            className="xl:items-end"
-            leading={
-              <div>
-                <ClinicSplitHeading
-                  label={label}
-                  title={
-                    <>
-                      {title.intro}
-                      {title.emphasis.map((line) => (
-                        <span key={line} className="block">
-                          <strong>{line}</strong>
-                        </span>
-                      ))}
-                    </>
-                  }
-                  description={description}
-                />
+        <ClinicSplitLayout
+          leading={
+            <div className="xl:flex xl:flex-col xl:justify-between">
+              <ClinicSplitHeading
+                label={label}
+                title={
+                  <>
+                    {title.intro}
+                    {title.emphasis.map((line) => (
+                      <span key={line} className="block">
+                        <strong>{line}</strong>
+                      </span>
+                    ))}
+                  </>
+                }
+                description={description}
+              />
 
-                <ClinicSpecialistActions links={links} />
-              </div>
-            }
-          >
-            <div
-              className={
+              <ClinicSpecialistActions links={links} />
+            </div>
+          }
+        >
+          <div
+            className={`flex items-end
+              ${
                 isMultiple
                   ? `-mr-5 min-w-0 h-full
-                      xl:mr-[calc((80rem-100vw)/2-1.25rem)]`
+                xl:mr-[calc((80rem-100vw)/2-1.25rem)]`
                   : 'min-w-0 h-full'
               }
-            >
-              <ClinicSpecialistsCarousel id={id} doctors={doctors} />
-            </div>
-          </ClinicSplitLayout>
-        </Inner>
+              `}
+          >
+            <ClinicSpecialistsCarousel id={id} doctors={doctors} />
+          </div>
+        </ClinicSplitLayout>
       </div>
     </section>
   );

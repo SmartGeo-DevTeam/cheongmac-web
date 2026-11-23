@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, type KeyboardEvent } from 'react';
 import type { TreatmentMethod } from '@/app/_types/vascular/treatment-method';
+import { useState, type KeyboardEvent } from 'react';
 import TreatmentDetail from './detail';
 
 type TreatmentSelectorProps = {
@@ -25,25 +25,39 @@ export default function TreatmentSelector({
   methods,
 }: TreatmentSelectorProps) {
   const [activeId, setActiveId] = useState(methods[0]?.id ?? '');
-  const selected = methods.find((method) => method.id === activeId) ?? methods[0];
+  const selected =
+    methods.find((method) => method.id === activeId) ?? methods[0];
 
   if (!selected) return null;
 
-  function handleKeyDown(event: KeyboardEvent<HTMLButtonElement>, index: number) {
+  function handleKeyDown(
+    event: KeyboardEvent<HTMLButtonElement>,
+    index: number,
+  ) {
     let next: number;
     switch (event.key) {
       case 'ArrowRight':
-      case 'ArrowDown': next = (index + 1) % methods.length; break;
+      case 'ArrowDown':
+        next = (index + 1) % methods.length;
+        break;
       case 'ArrowLeft':
-      case 'ArrowUp': next = (index - 1 + methods.length) % methods.length; break;
-      case 'Home': next = 0; break;
-      case 'End': next = methods.length - 1; break;
-      default: return;
+      case 'ArrowUp':
+        next = (index - 1 + methods.length) % methods.length;
+        break;
+      case 'Home':
+        next = 0;
+        break;
+      case 'End':
+        next = methods.length - 1;
+        break;
+      default:
+        return;
     }
     event.preventDefault();
     setActiveId(methods[next].id);
     event.currentTarget.parentElement
-      ?.querySelectorAll<HTMLButtonElement>('[role="tab"]')[next]?.focus();
+      ?.querySelectorAll<HTMLButtonElement>('[role="tab"]')
+      [next]?.focus();
   }
 
   return (
@@ -68,13 +82,13 @@ export default function TreatmentSelector({
               onClick={() => setActiveId(method.id)}
               onKeyDown={(event) => handleKeyDown(event, index)}
               className={`py-2.5 rounded-lg border border-default
-                ${active
-                  ? 'bg-green-700'
-                  : 'bg-base'}
-                xl:px-4 xl:py-6 xl:rounded-t-[20px] xl:rounded-b-none xl:border-0 xl:text-left
-                ${active
-                  ? 'xl:bg-base'
-                  : (inactiveDesktopBackgrounds[index] ?? 'xl:bg-green-700')}`}
+                ${active ? 'bg-green-700' : 'bg-base'}
+                xl:px-6 xl:py-6 xl:rounded-t-[20px] xl:rounded-b-none xl:border-0 xl:text-left
+                ${
+                  active
+                    ? 'xl:bg-base'
+                    : (inactiveDesktopBackgrounds[index] ?? 'xl:bg-green-700')
+                }`}
             >
               <span
                 className={`hidden

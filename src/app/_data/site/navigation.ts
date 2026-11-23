@@ -77,7 +77,7 @@ export const NAVIGATION: NavigationItem[] = [
         id: 'vascular-venous',
         href: '/vascular/venous',
         title: '정맥질환',
-        isPublished: false,
+        isPublished: true,
         children: [
           {
             id: 'vascular-venous-varicose',

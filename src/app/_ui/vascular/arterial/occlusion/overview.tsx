@@ -25,11 +25,7 @@ export default function OcclusionOverview() {
       <OcclusionCases />
       <OcclusionTreatments />
       <OcclusionReservationLinks />
-
-      {/* 1/2 폰트 사이즈만 조금더 균일화하고 다음 단계로 넘어가자. */}
       <OcclusionStrengths />
-
-      {/* 2/2 아래 부분 UI만 개선하고 마무리하자. */}
       <OcclusionFaq />
     </>
   );

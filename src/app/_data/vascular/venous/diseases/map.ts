@@ -50,7 +50,7 @@ export const venousDiseasePoints: VenousDiseasePoint[] = [
     id: 'varicocele',
     title: '정계정맥류',
     href: '/vascular/venous/varicocele',
-    body: { x: 295, y: 709 },
+    body: { x: 302, y: 709 },
     mobile: { labelX: 76, labelY: 216, elbowX: 132, side: 'left' },
   },
   {

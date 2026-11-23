@@ -10,7 +10,10 @@ type BestCasesCarouselProps = {
   cases: readonly BestCase[];
 };
 
-export default function BestCasesCarousel({ id, cases }: BestCasesCarouselProps) {
+export default function BestCasesCarousel({
+  id,
+  cases,
+}: BestCasesCarouselProps) {
   if (cases.length === 0) return null;
 
   // 반복된 고유 key를 사용해 양 끝에서도 앞뒤 사례가 보이도록 배치합니다.
@@ -29,13 +32,16 @@ export default function BestCasesCarousel({ id, cases }: BestCasesCarouselProps)
     >
       <Swiper
         className="[&_.swiper-wrapper]:items-stretch"
-        slidesPerView="auto"
+        slidesPerView={1.1}
         centeredSlides
         initialSlide={cases.length + Math.floor(cases.length / 2)}
         spaceBetween={20}
         grabCursor={cases.length > 1}
+        slidesOffsetBefore={20}
+        slidesOffsetAfter={20}
         breakpoints={{
           1280: {
+            slidesPerView: 4.5,
             spaceBetween: 48,
           },
         }}
@@ -43,9 +49,8 @@ export default function BestCasesCarousel({ id, cases }: BestCasesCarouselProps)
         {slides.map(({ item, slideKey }) => (
           <SwiperSlide
             key={slideKey}
-            className={`relative h-auto! w-[calc(100vw-40px)]!
-              md:w-[420px]!
-              xl:w-[396px]! xl:transition-transform xl:duration-300 xl:[&.swiper-slide-active]:z-10 xl:[&.swiper-slide-active]:scale-[1.1]`}
+            className={`relative h-auto!
+              xl:transition-transform xl:duration-300 xl:[&.swiper-slide-active]:z-10`}
           >
             <BestCaseItem id={`${id}-card-${slideKey}`} item={item} />
           </SwiperSlide>

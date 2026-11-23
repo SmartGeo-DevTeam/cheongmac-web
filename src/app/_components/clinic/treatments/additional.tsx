@@ -16,24 +16,26 @@ export default function TreatmentAdditional({
   return (
     <div
       id={id}
-      className={`mt-8
-        xl:mt-15`}
+      className={`
+        mt-5
+        xl:mt-20 xl:mb-10
+        `}
     >
       <span
         aria-hidden="true"
-        className={`block font-semibold text-[28px] leading-none text-center text-disabled
+        className={`inline-block w-full text-center text-mo-title-2 text-disabled
           xl:hidden`}
       >
         +
       </span>
       <div
-        className={`mt-5 flex flex-col gap-7
-          xl:mt-0 xl:flex-row xl:items-center xl:gap-8`}
+        className={`mt-5 flex flex-col gap-5
+          xl:flex-row xl:gap-10`}
       >
         <ul
           aria-label="함께 고려할 수 있는 치료"
-          className={`min-w-0 w-full grid grid-cols-3 gap-2
-            xl:flex-[3] xl:gap-4`}
+          className={`w-full grid grid-cols-3 gap-2
+            xl:flex-3 xl:gap-6`}
         >
           {content.items.map((item) => (
             <TreatmentAdditionalItem
@@ -45,8 +47,8 @@ export default function TreatmentAdditional({
         </ul>
         {content.description && (
           <p
-            className={`break-keep font-semibold text-[17px] leading-[150%] text-center text-secondary
-              xl:flex-[2] xl:text-[20px] xl:text-left`}
+            className={`mt-5 break-keep text-mo-heading-2 text-center text-secondary
+              xl:flex-2 xl:text-left xl:text-pc-heading-2`}
           >
             {content.description}
           </p>

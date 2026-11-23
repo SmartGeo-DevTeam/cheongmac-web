@@ -52,7 +52,7 @@ export default function ClinicCasesCarousel({
         slidesOffsetAfter={28}
         breakpoints={{
           1280: {
-            slidesPerView: items.length === 1 ? 1 : items.length === 2 ? 2.3 : 3.7,
+            slidesPerView: items.length === 1 ? 1 : 3.7,
             spaceBetween: 60,
             slidesOffsetBefore: 0,
             slidesOffsetAfter: 0,

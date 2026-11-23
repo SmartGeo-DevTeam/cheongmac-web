@@ -12,7 +12,7 @@ export default function ClinicSplitLayout({
 }: ClinicSplitLayoutProps) {
   return (
     <div
-      className={`grid grid-cols-1 gap-10
+      className={`mx-auto max-w-7xl grid grid-cols-1 gap-10
         xl:grid-cols-[auto_1fr] gap-x-35
         ${className}`}
     >

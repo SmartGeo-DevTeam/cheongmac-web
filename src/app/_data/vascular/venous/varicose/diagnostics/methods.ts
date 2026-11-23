@@ -17,7 +17,7 @@ export const varicoseDiagnosticMethods: readonly DiagnosticMethod[] = [
         label: '특징',
         items: [
           '별도 장비 없이 진행하는 기본 진찰',
-          '가족력·기저질환 문진 및 피부 온도 차이 촉진',
+          '가족력, 기저질환 문진 및 피부 온도 차이 촉진',
           '튀어나온 혈관·부종·색소침착 등 겉으로 드러난 징후 확인',
           '역류 여부는 육안으로 파악하기 어려워 초음파 검사 필요',
         ],
@@ -30,23 +30,23 @@ export const varicoseDiagnosticMethods: readonly DiagnosticMethod[] = [
     eyebrow: 'Doppler Ultrasonography',
     title: '도플러 초음파 검사',
     description:
-      '하지정맥류 진단의 핵심이 되는 검사로, 혈액의 역류를 색상과 시간으로 나타내며 병변 위치와 역류 정도를 정확히 확인합니다. 하지정맥류는 서 있을 때 역류가 잘 나타날 수 있어, 기립 자세에서 검사해 정확하게 진단합니다.',
+      '하지정맥류 진단의 핵심이 되는 검사로, 혈액의 역류를 색상과 시간으로 나타내어 병변 위치와 역류 정도를 정확히 확인합니다. 하지정맥류는 서 있을 때 역류가 가장 잘 나타나므로, 누워서가 아니라 선 자세로 검사해야 정확하게 진단할 수 있습니다.',
     image: `${IMAGE_ROOT}/doppler/ultrasound-examination.png`,
     infoGroups: [
       { label: '검사시간', items: ['약 20분 소요'] },
       {
         label: '검사과정',
         items: [
-          '사타구니부터 발목까지 정맥 경로 따라 확인',
-          '종아리를 압박했다 풀며 역류 여부, 시간 측정',
-          '초음파로 혈관의 위치와 굵기까지 종합적으로 확인',
+          '① 사타구니부터 발목까지 정맥 경로 따라 확인',
+          '② 종아리를 압박했다 풀며 역류 여부, 시간 측정',
+          '③ 숨을 참고 배에 힘을 주어 허벅지 쪽 역류 확인',
         ],
       },
       {
         label: '특징',
         items: [
           '역류 지점, 역류 시간, 판막 기능 실시간 확인',
-          '방사선 노출·조영제 투여 부담 없는 비침습 검사',
+          '방사선 노출/조영제 투여 부담 없는 비침습 검사',
         ],
       },
     ],
@@ -57,7 +57,7 @@ export const varicoseDiagnosticMethods: readonly DiagnosticMethod[] = [
     eyebrow: 'Whole Body CT Scan',
     title: '혈관 CT',
     description:
-      '하지정맥류는 대부분 도플러 초음파만으로 진단하지만, 일부 초음파로 보기 어려운 골반·복부 정맥의 원인이 의심될 때 추가로 진행하는 보조 검사입니다.',
+      '하지정맥류는 대부분 도플러 초음파만으로 진단하지만, 일부 초음파로 보기 어려운 골반·복부 정맥에 원인이 있다고 의심될 때 추가로 진행하는 보조 검사입니다.',
     image: `${IMAGE_ROOT}/ct/ct-examination.png`,
     notice: '신장 기능이 저하된 환자는 사전에 의료진과 상의가 필요합니다.',
     infoGroups: [
@@ -73,8 +73,8 @@ export const varicoseDiagnosticMethods: readonly DiagnosticMethod[] = [
       {
         label: '특징',
         items: [
-          '조영제를 통해 혈관을 선명하게 관찰',
-          '골반·복부 정맥 이상(호두까기증후군, 메이-터너증후군, 골반울혈증후군 등)이 의심될 때 초음파로 보기 어려운 부위 및 혈류의 상행 원인까지 확인 가능',
+          '조영제와 방사선을 사용하는 검사',
+          '골반·복부 정맥 이상 (호두까기증후군, 메이터너증후군, 골반정맥류 등)이 의심될 때, 초음파로 보기 어려운 부위 및 역류의 상부 원인까지 확인 가능',
         ],
       },
     ],

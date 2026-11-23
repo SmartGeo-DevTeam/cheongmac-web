@@ -1,8 +1,7 @@
-import type { ReactNode } from 'react';
 import ClinicSplitHeading from '@/app/_components/clinic/split-heading';
 import ClinicSplitLayout from '@/app/_components/clinic/split-layout';
-import Inner from '@/app/_components/common/inner';
 import type { ClinicExpertiseItem as ClinicExpertiseItemType } from '@/app/_types/clinic/expertise';
+import type { ReactNode } from 'react';
 import ClinicExpertiseItem from './item';
 
 type ClinicExpertiseSectionProps = {
@@ -31,29 +30,27 @@ export default function ClinicExpertiseSection({
         className={`relative mt-20 py-20 bg-green-700
           xl:mt-30 xl:py-30`}
       >
-        <Inner>
-          <ClinicSplitLayout
-            className="xl:items-start"
-            leading={
-              <ClinicSplitHeading
-                isDesktopSticky
-                theme="light"
-                labelVariant="green-300"
-                label={label}
-                title={title}
-              />
-            }
+        <ClinicSplitLayout
+          className="xl:items-start"
+          leading={
+            <ClinicSplitHeading
+              isDesktopSticky
+              theme="light"
+              labelVariant="green-300"
+              label={label}
+              title={title}
+            />
+          }
+        >
+          <div
+            className={`px-5 grid grid-cols-1 gap-16
+              xl:gap-20`}
           >
-            <div
-              className={`grid grid-cols-1 gap-16
-                xl:gap-20`}
-            >
-              {items.map((item) => (
-                <ClinicExpertiseItem key={item.id} item={item} />
-              ))}
-            </div>
-          </ClinicSplitLayout>
-        </Inner>
+            {items.map((item) => (
+              <ClinicExpertiseItem key={item.id} item={item} />
+            ))}
+          </div>
+        </ClinicSplitLayout>
       </div>
     </section>
   );

@@ -31,7 +31,6 @@ export default function BestCaseItem({ id, item }: BestCaseItemProps) {
           src={item.image}
           alt={item.imageAlt}
           fill
-          sizes="(min-width: 1280px) 340px, (min-width: 768px) 380px, calc(100vw - 80px)"
           className={`object-cover`}
         />
       </div>

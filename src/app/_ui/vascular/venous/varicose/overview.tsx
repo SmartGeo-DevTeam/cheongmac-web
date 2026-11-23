@@ -1,3 +1,5 @@
+import ClinicBanner from '@/app/_components/clinic/banner';
+import { vascularReservationBanner } from '@/app/_data/vascular/banner/content';
 import VaricoseCases from './cases/section';
 import VaricoseCeap from './ceap/section';
 import VaricoseDiagnostics from './diagnostics/section';
@@ -14,6 +16,7 @@ export default function VaricoseOverview() {
       <VaricoseSymptoms />
       <VaricoseCeap />
       <VaricoseDiagnostics />
+      <ClinicBanner {...vascularReservationBanner} />
       <VaricoseTreatments />
       <VaricoseCases />
       <VaricoseReservationLinks />

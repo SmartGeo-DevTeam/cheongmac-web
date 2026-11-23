@@ -1,5 +1,8 @@
+import {
+  arterialDiseasePoints,
+  type BodyPoint,
+} from '@/app/_data/vascular/arterial/diseases/map';
 import Link from 'next/link';
-import { arterialDiseasePoints, type BodyPoint } from '@/app/_data/vascular/arterial/diseases/map';
 
 export default function ArterialDiseaseMap() {
   const canvasWidth = 335;

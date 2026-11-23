@@ -10,7 +10,7 @@ export const venousSpecialistsContent = {
   },
   description:
     '20년 이상 임상경험과 숙련도를 지닌 청맥의 전문의가 당신의 건강한 내일을 책임집니다.',
-  doctorIds: ['bak-yong-beom', 'jeon-jin-won'],
+  doctorIds: ['bak-yong-beom', 'jeon-jin-won', 'jang-ji-ran'],
   links: [
     {
       id: 'clinic-closures',

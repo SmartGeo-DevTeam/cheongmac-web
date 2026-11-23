@@ -14,7 +14,7 @@ export default function ClinicSpecialistProfile({
   isCarousel = false,
 }: ClinicSpecialistProfileProps) {
   return (
-    <figure id={id} className="min-w-0">
+    <figure id={id}>
       <Link
         href={doctor.detailHref}
         aria-label={`${doctor.name} 원장 상세보기`}
@@ -25,7 +25,7 @@ export default function ClinicSpecialistProfile({
           src={doctor.imageSrc}
           alt={`${doctor.name} 원장`}
           className={`object-cover
-            ${isCarousel ? 'w-full' : 'xl:w-2/3'}`}
+            ${isCarousel ? 'w-[100%]' : 'w-[100%]'}`}
         />
       </Link>
       <figcaption

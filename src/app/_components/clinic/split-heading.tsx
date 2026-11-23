@@ -29,6 +29,7 @@ export default function ClinicSplitHeading({
   return (
     <div
       className={`
+        px-5
         ${isDesktopSticky ? `xl:sticky xl:top-28` : ``}
         ${theme === 'light' ? `text-inverse` : ``}
         `}

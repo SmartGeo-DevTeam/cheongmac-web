@@ -14,7 +14,7 @@ export default function ClinicSpecialistActions({
     <nav aria-label="의료진 관련 링크" className="mt-10">
       <ul
         className={`grid grid-cols-2 gap-2
-          xl:grid-cols-1`}
+          px-5 xl:grid-cols-1`}
       >
         {links.map((link) => (
           <li key={link.id}>

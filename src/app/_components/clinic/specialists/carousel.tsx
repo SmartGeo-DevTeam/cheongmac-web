@@ -28,14 +28,16 @@ export default function ClinicSpecialistsCarousel({
     >
       <Swiper
         className="w-full"
-        slidesPerView={isSingle ? 1 : 1.3}
-        spaceBetween={16}
+        slidesPerView={isSingle ? 1 : 1.5}
+        spaceBetween={0}
         grabCursor={doctors.length > 1}
         watchOverflow
+        slidesOffsetBefore={20}
+        slidesOffsetAfter={isSingle ? 20 : 60}
         breakpoints={{
           1280: {
-            slidesPerView: isSingle ? 1 : 2.3,
-            spaceBetween: 28,
+            slidesPerView: isSingle ? 1 : 2.6,
+            spaceBetween: 0,
           },
         }}
       >

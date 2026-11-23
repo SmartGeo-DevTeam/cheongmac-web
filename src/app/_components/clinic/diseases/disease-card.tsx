@@ -1,4 +1,4 @@
-import { ChevronRight } from 'lucide-react';
+import { ArrowRight, ChevronRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -64,9 +64,13 @@ export default function ClinicDiseaseCard({
           ))}
         </ul>
         {showMoreLink && (
-          <span className="mt-3 hidden items-center gap-1 text-[14px] text-orange-500 xl:inline-flex">
-            자세히보기 <ChevronRight aria-hidden="true" className="size-4" />
-          </span>
+          <div
+            className="hidden
+            xl:mt-5 xl:flex xl:items-center xl:gap-2"
+          >
+            <span className="text-pc-label text-accent">자세히보기</span>
+            <ArrowRight aria-hidden="true" className="size-4 text-accent" />
+          </div>
         )}
       </div>
     </Link>

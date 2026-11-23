@@ -1,7 +1,7 @@
 import SectionHeading from '@/app/_components/clinic/section-heading';
 import Inner from '@/app/_components/common/inner';
-import { venousCausesContent } from '@/app/_data/vascular/venous/causes/content';
 import { venousCauseCards } from '@/app/_data/vascular/venous/causes/cards';
+import { venousCausesContent } from '@/app/_data/vascular/venous/causes/content';
 import { ChevronDown } from 'lucide-react';
 import { Fragment } from 'react';
 import VenousCauseItem from './item';
