@@ -1,7 +1,11 @@
+import ClinicBanner from '@/app/_components/clinic/banner';
+import ClinicCases from '@/app/_components/clinic/cases/section';
 import ClinicSymptoms from '@/app/_components/clinic/symptom-carousel/section';
 import ClinicSymptomComparison from '@/app/_components/clinic/symptom-comparison/section';
 import Breadcrumb from '@/app/_components/common/breadcrumb';
 import PageHeader from '@/app/_components/common/page-header';
+import { vascularReservationBanner } from '@/app/_data/vascular/banner/content';
+import { pelvicCasePreviews } from '@/app/_data/vascular/venous/pelvic/cases/featured';
 import {
   menstrualPainCondition,
   pelvicVaricesCondition,
@@ -62,6 +66,36 @@ export default function VascularVenousPelvicPage() {
 
       {/* 골반정맥류 - 연관 질환 */}
       <PelvicRelated id="vascular-venous-pelvic-related" />
+
+      {/* 공통 - 배너: 최대한 빠른 검사 날짜는 언제일까요? */}
+      <ClinicBanner
+        id="vascular-reservation-banner"
+        {...vascularReservationBanner}
+      />
+
+      {/* 공통 - 치료사례 */}
+      <ClinicCases
+        id="vascular-venous-pelvic-cases"
+        items={pelvicCasePreviews}
+        categoryLabel="골반정맥류"
+        title={
+          <>
+            무거웠던 일상에서{` `}
+            <br className={`xl:hidden`} />
+            가벼운 걸음으로,
+            <br />
+            <b>실제 치료 결과로 증명합니다</b>
+          </>
+        }
+        description={
+          <>
+            ※ 치료 경과는 개인에 따라서 달라질 수 있습니다.
+            <br />
+            ※ 현재는 시안용 가상 사례 및 예시 이미지입니다.
+          </>
+        }
+        moreHref="/community/cases?tab=before-after&category=pelvic-vein"
+      />
     </>
   );
 }
