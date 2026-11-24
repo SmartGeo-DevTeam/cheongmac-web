@@ -13,7 +13,7 @@ export const pelvicSymptoms: SymptomCarouselItem[] = [
       '아침보다 저녁으로 갈수록 통증이 심해져요',
     ],
     caution: {
-      lead: '통증이 계속되는데도 정확한 원인을 찾기 어렵다면',
+      lead: '통증이 계속되는데도 정확한 원인을 찾기 어렵다면 ',
       emphasis: '골반정맥류를 의심해볼 수 있습니다.',
       tail: '',
     },
@@ -30,7 +30,7 @@ export const pelvicSymptoms: SymptomCarouselItem[] = [
       '출산 후부터 증상이 시작됐거나 더 심해졌어요',
     ],
     caution: {
-      lead: '생리통이 예전보다 심해졌거나 생리 기간이 아닐 때도 아프다면',
+      lead: '생리통이 예전보다 심해졌거나 생리 기간이 아닐 때도 아프다면 ',
       emphasis: '단순 생리통이 아닐 수 있습니다.',
       tail: '',
     },
@@ -38,7 +38,8 @@ export const pelvicSymptoms: SymptomCarouselItem[] = [
   {
     id: 'urinary-frequency-constipation',
     label: '빈뇨·변비',
-    image: '/vascular/venous/pelvic/symptoms/urinary-frequency-constipation.png',
+    image:
+      '/vascular/venous/pelvic/symptoms/urinary-frequency-constipation.png',
     imageAlt: '두 손으로 골반 앞쪽을 감싸고 있는 모습',
     symptoms: [
       '소변이 자주 마렵고, 보고 나서도 시원하지 않아요',
@@ -46,7 +47,7 @@ export const pelvicSymptoms: SymptomCarouselItem[] = [
       '변비가 오래가고 아랫배가 늘 더부룩해요',
     ],
     caution: {
-      lead: '배뇨·배변 불편이 골반 통증과 함께 반복된다면',
+      lead: '배뇨·배변 불편이 골반 통증과 함께 반복된다면 ',
       emphasis: '골반 정맥 상태도 확인해볼 필요가 있습니다.',
       tail: '',
     },
@@ -63,7 +64,7 @@ export const pelvicSymptoms: SymptomCarouselItem[] = [
       '종아리에 쥐가 자주 나서 하지정맥류 같아요',
     ],
     caution: {
-      lead: '다리의 증상이 골반 통증과 함께 나타난다면',
+      lead: '다리의 증상이 골반 통증과 함께 나타난다면 ',
       emphasis: '진짜 원인은 다리가 아니라 골반에 있을 수 있습니다.',
       tail: '',
     },

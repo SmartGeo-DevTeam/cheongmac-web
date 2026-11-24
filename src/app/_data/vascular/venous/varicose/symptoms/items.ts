@@ -14,7 +14,7 @@ export const varicoseSymptoms: SymptomCarouselItem[] = [
       '앉았다 일어나면 다리가 축 처지는 느낌이에요',
     ],
     caution: {
-      lead: '처음엔 단순 피로처럼 느껴지지만, 다리가 무겁다는 것은',
+      lead: '처음엔 단순 피로처럼 느껴지지만, 다리가 무겁다는 것은 ',
       emphasis: '정맥 순환이 막히기 시작했다는 신호',
       tail: '입니다.',
     },
@@ -31,7 +31,7 @@ export const varicoseSymptoms: SymptomCarouselItem[] = [
       '다리를 누르면 쑥 들어갔다 천천히 올라와요',
     ],
     caution: {
-      lead: '잠깐 붓는 건 괜찮지만',
+      lead: '잠깐 붓는 건 괜찮지만 ',
       emphasis: '저녁마다 반복되는 부종',
       tail: '은 정맥이 제 역할을 못하고 있다는 증거입니다.',
     },
@@ -49,7 +49,7 @@ export const varicoseSymptoms: SymptomCarouselItem[] = [
       '반바지 입을 때 다리가 신경 쓰여요',
     ],
     caution: {
-      lead: '겉으로 드러난 혈관은',
+      lead: '겉으로 드러난 혈관은 ',
       emphasis: '이미 역류가 진행됐다는 뜻',
       tail: '으로, 저절로 사라지지 않습니다.',
     },
@@ -67,7 +67,7 @@ export const varicoseSymptoms: SymptomCarouselItem[] = [
       '다리가 화끈거리고 욱신거려요',
     ],
     caution: {
-      lead: '특히 밤에 쥐가 나고 저린 증상은',
+      lead: '특히 밤에 쥐가 나고 저린 증상은 ',
       emphasis: '고인 혈액이 신경과 근육을 자극',
       tail: '하고 있다는 신호입니다.',
     },
@@ -84,7 +84,7 @@ export const varicoseSymptoms: SymptomCarouselItem[] = [
       '피부가 딱딱하고 가죽처럼 두꺼워졌어요',
     ],
     caution: {
-      lead: '피부가 어둡게 변하거나 딱딱해지는 것은 정맥질환이 상당히 진행돼',
+      lead: '피부가 어둡게 변하거나 딱딱해지는 것은 정맥질환이 상당히 진행돼 ',
       emphasis: '피부·조직까지 영향',
       tail: '을 주고 있다는 신호입니다.',
     },
