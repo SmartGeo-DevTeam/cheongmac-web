@@ -1,18 +1,32 @@
-import PageHeader from '@/app/_components/common/page-header';
-import Breadcrumb from '@/app/_components/common/breadcrumb';
 import ClinicBanner from '@/app/_components/clinic/banner';
+import ClinicCases from '@/app/_components/clinic/cases/section';
+import ClinicMediaFaq from '@/app/_components/clinic/media-faq/section';
+import ClinicReservationLinks from '@/app/_components/clinic/reservation-links/section';
+import ClinicStrengths from '@/app/_components/clinic/strengths/section';
 import ClinicSymptomComparison from '@/app/_components/clinic/symptom-comparison/section';
+import ClinicTreatments from '@/app/_components/clinic/treatments/section';
+import Breadcrumb from '@/app/_components/common/breadcrumb';
+import PageHeader from '@/app/_components/common/page-header';
+import { caseCategories } from '@/app/_data/community/cases/cases';
+import { occlusionCasePreviews } from '@/app/_data/vascular/arterial/occlusion/cases/featured';
+import {
+  occlusionFaqMedia,
+  occlusionFaqQuestions,
+} from '@/app/_data/vascular/arterial/occlusion/faq/questions';
+import { occlusionStrengthsHeadingLines } from '@/app/_data/vascular/arterial/occlusion/strengths/content';
+import { occlusionTreatmentMethods } from '@/app/_data/vascular/arterial/occlusion/treatments/methods';
 import { vascularReservationBanner } from '@/app/_data/vascular/banner/content';
-import OcclusionCases from '@/app/_ui/vascular/arterial/occlusion/cases/section';
+import { vascularReservationLinks } from '@/app/_data/vascular/reservation-links/links';
+import { vascularStrengthItems } from '@/app/_data/vascular/strengths/items';
+import { isPublishedNavigationPath } from '@/app/_lib/navigation/navigation-tree';
 import OcclusionDiagnostics from '@/app/_ui/vascular/arterial/occlusion/diagnostics/section';
-import OcclusionFaq from '@/app/_ui/vascular/arterial/occlusion/faq/section';
 import OcclusionIntroduction from '@/app/_ui/vascular/arterial/occlusion/introduction/section';
 import OcclusionMechanism from '@/app/_ui/vascular/arterial/occlusion/mechanism/section';
-import OcclusionReservationLinks from '@/app/_ui/vascular/arterial/occlusion/reservation-links/section';
-import OcclusionStrengths from '@/app/_ui/vascular/arterial/occlusion/strengths/section';
-import OcclusionTreatments from '@/app/_ui/vascular/arterial/occlusion/treatments/section';
-import { isPublishedNavigationPath } from '@/app/_lib/navigation/navigation-tree';
 import { notFound } from 'next/navigation';
+
+const categoryLabel =
+  caseCategories.find((category) => category.id === 'peripheral-artery')
+    ?.label ?? '하지동맥폐색증';
 
 export default function VascularArterialOcclusionPage() {
   if (!isPublishedNavigationPath('/vascular/arterial/occlusion')) notFound();
@@ -46,19 +60,52 @@ export default function VascularArterialOcclusionPage() {
       />
 
       {/* 하지동맥폐색증 - 치료사례 */}
-      <OcclusionCases />
+      <ClinicCases
+        id="vascular-arterial-occlusion-cases"
+        items={occlusionCasePreviews}
+        categoryLabel={categoryLabel}
+        title={
+          <>
+            무거웠던 일상에서
+            <br className="xl:hidden" />
+            <span className="hidden xl:inline"> </span>
+            가벼운 걸음으로,
+            <br />
+            <b>실제 치료 결과로 증명합니다</b>
+          </>
+        }
+        description={<>※ 치료 경과는 개인에 따라서 달라질 수 있습니다.</>}
+        moreHref="/community/cases?tab=before-after&category=peripheral-artery"
+      />
 
       {/* 하지동맥폐색증 - 치료법 */}
-      <OcclusionTreatments />
+      <ClinicTreatments
+        id="vascular-arterial-occlusion-treatments"
+        ariaLabel="하지동맥폐색증 치료 방법"
+        title={<>환자 개인의 상태에 맞는<br /><b>단계별 치료를 시행합니다</b></>}
+        methods={occlusionTreatmentMethods}
+      />
 
       {/* 공통 - 네이버/톡톡 예약 */}
-      <OcclusionReservationLinks />
+      <ClinicReservationLinks
+        id="vascular-arterial-occlusion-reservation-links"
+        links={vascularReservationLinks}
+      />
 
       {/* 하지동맥폐색증 - 어디서, 누구에게 받느냐가 치료의 결과를 바꿉니다 */}
-      <OcclusionStrengths />
+      <ClinicStrengths
+        id="vascular-arterial-occlusion-strengths"
+        headingLines={occlusionStrengthsHeadingLines}
+        items={vascularStrengthItems}
+      />
 
       {/* 하지동맥폐색증 - 자주 묻는 질문 */}
-      <OcclusionFaq />
+      <ClinicMediaFaq
+        id="vascular-arterial-occlusion-faq"
+        thumbnail={occlusionFaqMedia.thumbnail}
+        avatar={occlusionFaqMedia.avatar}
+        questions={occlusionFaqQuestions}
+      />
     </>
   );
 }

@@ -1,21 +1,27 @@
 import ClinicBanner from '@/app/_components/clinic/banner';
+import BestCasesSection from '@/app/_components/clinic/best-cases/section';
+import ClinicExpertiseSection from '@/app/_components/clinic/expertise/section';
+import ClinicSplitFaq from '@/app/_components/clinic/faq/section';
+import ClinicSymptomComparison from '@/app/_components/clinic/symptom-comparison/section';
+import Breadcrumb from '@/app/_components/common/breadcrumb';
+import PageHeader from '@/app/_components/common/page-header';
+import { arterialBestCases } from '@/app/_data/vascular/arterial/best-cases/cases';
+import { arterialExpertiseItems } from '@/app/_data/vascular/arterial/expertise/items';
+import {
+  arterialFaqMoreLink,
+  arterialFaqs,
+} from '@/app/_data/vascular/arterial/faq/questions';
 import { arterialOcclusionBanner } from '@/app/_data/vascular/arterial/occlusion-banner/content';
 import {
   vascularHealthBanner,
   vascularReservationBanner,
 } from '@/app/_data/vascular/banner/content';
-import ArterialBestCases from '@/app/_ui/vascular/arterial/best-cases/section';
+import { isPublishedNavigationPath } from '@/app/_lib/navigation/navigation-tree';
 import ArterialDiagnostics from '@/app/_ui/vascular/arterial/diagnostics/section';
 import ArterialDiseases from '@/app/_ui/vascular/arterial/diseases/section';
-import ArterialExpertise from '@/app/_ui/vascular/arterial/expertise/section';
-import ArterialFaq from '@/app/_ui/vascular/arterial/faq/section';
 import ArterialProgression from '@/app/_ui/vascular/arterial/progression/section';
 import ArterialSelfDiagnosis from '@/app/_ui/vascular/arterial/self-diagnosis/section';
 import ArterialSpecialists from '@/app/_ui/vascular/arterial/specialists/section';
-import ArterialSymptomComparison from '@/app/_ui/vascular/arterial/symptom-comparison/section';
-import Breadcrumb from '@/app/_components/common/breadcrumb';
-import PageHeader from '@/app/_components/common/page-header';
-import { isPublishedNavigationPath } from '@/app/_lib/navigation/navigation-tree';
 import { notFound } from 'next/navigation';
 
 export default function VascularArterialPage() {
@@ -37,7 +43,7 @@ export default function VascularArterialPage() {
       <ArterialProgression />
 
       {/* 동맥질환 - 비슷한 증상, 다른 전혀 질환 */}
-      <ArterialSymptomComparison />
+      <ClinicSymptomComparison id="vascular-arterial-symptom-comparison" />
 
       {/* 공통배너 - 말초동맥폐쇄증, 더 자세히 알아보고 싶다면 */}
       <ClinicBanner {...arterialOcclusionBanner} />
@@ -49,10 +55,16 @@ export default function VascularArterialPage() {
       <ClinicBanner {...vascularReservationBanner} />
 
       {/* 동맥질환 - BEST 치료사례 */}
-      <ArterialBestCases />
+      <BestCasesSection
+        id="vascular-arterial-best-cases"
+        cases={arterialBestCases}
+      />
 
       {/* 동맥질환 - 혈관만 봅니다 그래서 다릅니다 */}
-      <ArterialExpertise />
+      <ClinicExpertiseSection
+        id="vascular-arterial-expertise"
+        items={arterialExpertiseItems}
+      />
 
       {/* 동맥질환 - 의료진 */}
       <ArterialSpecialists />
@@ -61,7 +73,18 @@ export default function VascularArterialPage() {
       <ClinicBanner {...vascularHealthBanner} />
 
       {/* 동맥질환 - 자주 묻는 질문 */}
-      <ArterialFaq />
+      <ClinicSplitFaq
+        id="vascular-arterial-faq"
+        title={
+          <>
+            동맥질환
+            <br />
+            <strong>자주 묻는 질문</strong>
+          </>
+        }
+        questions={arterialFaqs}
+        moreLink={arterialFaqMoreLink}
+      />
     </>
   );
 }
