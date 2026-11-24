@@ -55,7 +55,7 @@ export default function ArterialDiseases() {
           xl:grid-cols-3 xl:gap-10"
         >
           {arterialDiseaseCards.map((item) => (
-            <ClinicDiseaseCard key={item.title} item={item} />
+            <ClinicDiseaseCard key={item.id} id={`vascular-arterial-diseases-card-${item.id}`} item={item} />
           ))}
         </div>
       </Inner>

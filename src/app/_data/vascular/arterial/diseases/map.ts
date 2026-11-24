@@ -1,32 +1,9 @@
-// CHEONGMAC_BODY_IMAGE_COORDINATES_V1
-// 동맥 점은 원본 인체 이미지(612×1438) 기준의 공통 좌표를 사용합니다.
-export type BodyPoint = { x: number; y: number };
-
-type MapPosition = {
-  labelX: number;
-  labelY: number;
-  elbowX: number;
-  side: 'left' | 'right';
-};
-
-type ArterialDiseasePoint = {
-  id: string;
-  title: string;
-  href: string;
-  body: BodyPoint;
-  mobile: MapPosition;
-  desktop: MapPosition;
-  additionalPoint?: {
-    body: BodyPoint;
-    mobile: { elbowX: number };
-    desktop: { elbowX: number };
-  };
-};
+import type { DiseaseMapPoint } from '@/app/_types/vascular/disease-map';
 
 // 각 좌표는 모바일 335×425, PC 900×840 SVG 캔버스 기준입니다.
 // 디자인 시안의 버튼 계단식 배치, 점 위치, 연결선 굴절을 기기별로 지정합니다.
 // 경동맥·관상동맥·신장동맥질환 href는 아직 생성되지 않은 예정 경로입니다.
-export const arterialDiseasePoints: ArterialDiseasePoint[] = [
+export const arterialDiseasePoints: readonly DiseaseMapPoint[] = [
   {
     id: 'carotid',
     title: '경동맥질환',

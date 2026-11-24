@@ -10,6 +10,7 @@ type DiseaseCardItem = {
 };
 
 type Props = {
+  id: string;
   item: DiseaseCardItem;
   /** 기존 정맥질환 카드의 PC '자세히보기' 안내 표시 여부. */
   showMoreLink?: boolean;
@@ -17,11 +18,13 @@ type Props = {
 
 /** 동맥질환·정맥질환 개요 페이지에서 공통으로 사용하는 질환 카드. */
 export default function ClinicDiseaseCard({
+  id,
   item,
   showMoreLink = false,
 }: Props) {
   return (
     <Link
+      id={id}
       href={item.href}
       aria-label={`${item.title} 상세 페이지로 이동`}
       className="flex items-center gap-5

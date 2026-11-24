@@ -43,7 +43,7 @@ export default function VenousDiseases() {
           xl:grid-cols-4 xl:gap-5"
         >
           {venousDiseaseCards.map((item) => (
-            <ClinicDiseaseCard key={item.id} item={item} showMoreLink />
+            <ClinicDiseaseCard key={item.id} id={`vascular-venous-diseases-card-${item.id}`} item={item} showMoreLink />
           ))}
         </div>
       </Inner>

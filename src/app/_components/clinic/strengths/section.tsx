@@ -66,6 +66,7 @@ export default function ClinicStrengths({ id, headingLines, items }: Props) {
           >
             {items.map((item, index) => (
               <ClinicStrengthItem
+                id={`${id}-${item.id}`}
                 key={item.id}
                 item={item}
                 className={index === 3 ? 'xl:col-start-2' : undefined}

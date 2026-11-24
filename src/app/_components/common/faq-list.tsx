@@ -2,7 +2,8 @@ import { ChevronDown, Minus, Plus } from 'lucide-react';
 import type { FaqItem } from '@/app/_types/common/faq';
 
 type FaqListProps = {
-  items: FaqItem[];
+  items: readonly FaqItem[];
+  idPrefix?: string;
   iconVariant?: 'chevron' | 'plus-minus';
 };
 
@@ -10,6 +11,7 @@ type FaqListProps = {
 export default function FaqList({
   items,
   iconVariant = 'chevron',
+  idPrefix,
 }: FaqListProps) {
   return (
     <div
@@ -19,6 +21,7 @@ export default function FaqList({
       {items.map((item) => (
         <details
           key={item.id}
+          id={idPrefix ? `${idPrefix}-${item.id}` : undefined}
           className="group border-b border-default
           xl:border xl:rounded-[20px]"
         >

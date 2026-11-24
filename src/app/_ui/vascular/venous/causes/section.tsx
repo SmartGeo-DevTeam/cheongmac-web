@@ -38,7 +38,7 @@ export default function VenousCauses() {
                     </div>
                   </li>
                 )}
-                <VenousCauseItem item={item} />
+                <VenousCauseItem id={`vascular-venous-causes-${item.id}`} item={item} />
               </Fragment>
             ))}
           </ul>

@@ -3,16 +3,18 @@ import Image from 'next/image';
 import { Fragment } from 'react';
 
 type Props = {
+  id: string;
   item: ClinicStrength;
   className?: string;
 };
 
 /** 배경 사진과 장식용 아이콘을 명시적으로 구분하는 진료 강점 카드. */
-export default function ClinicStrengthItem({ item, className = '' }: Props) {
+export default function ClinicStrengthItem({ id, item, className = '' }: Props) {
   const isImage = item.visual.kind === 'image';
 
   return (
     <li
+      id={id}
       className={`relative p-10 rounded-[20px] overflow-clip xl:col-span-2
         ${isImage ? '' : 'bg-subtle'}
         ${item.extraBottomPadding ? 'xl:pb-30' : ''}

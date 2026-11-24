@@ -2,13 +2,15 @@ import Image from 'next/image';
 import type { VenousCauseCard } from '@/app/_types/vascular/venous/causes';
 
 type VenousCauseItemProps = {
+  id: string;
   item: VenousCauseCard;
 };
 
 /** 원인 비교 카드: 이미지·설명·행 단위 진단 정보를 동일한 UI로 렌더링합니다. */
-export default function VenousCauseItem({ item }: VenousCauseItemProps) {
+export default function VenousCauseItem({ id, item }: VenousCauseItemProps) {
   return (
     <li
+      id={id}
       className="rounded-lg overflow-clip border border-default
       xl:flex-1 xl:rounded-[20px]"
     >

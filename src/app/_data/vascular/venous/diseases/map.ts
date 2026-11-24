@@ -1,3 +1,5 @@
+import type { DiseaseMapPoint } from '@/app/_types/vascular/disease-map';
+
 /**
  * 지도 좌표는 동맥 지도와 동일한 논리 인체 캔버스(612 × 1438)를 사용합니다.
  * 정맥 원본 이미지는 306 × 719로 정확히 절반 크기이며 종횡비가 같습니다.
@@ -9,22 +11,7 @@
  * 화면 크기가 바뀌어도 인체 이미지상의 같은 위치를 가리킵니다.
  * UI 미세 조정이 필요하면 이 파일의 좌표만 바꾸면 됩니다.
  */
-export type BodyPoint = { x: number; y: number };
-type LabelPosition = {
-  labelX: number;
-  labelY: number;
-  elbowX: number;
-  side: 'left' | 'right';
-};
-export type VenousDiseasePoint = {
-  id: string;
-  title: string;
-  href: string;
-  body: BodyPoint;
-  mobile: LabelPosition;
-};
-
-export const venousDiseasePoints: VenousDiseasePoint[] = [
+export const venousDiseasePoints: readonly DiseaseMapPoint[] = [
   {
     id: 'nutcracker',
     title: '호두까기증후군',
