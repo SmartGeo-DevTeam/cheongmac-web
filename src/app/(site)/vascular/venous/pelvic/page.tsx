@@ -1,18 +1,16 @@
+import ClinicSymptoms from '@/app/_components/clinic/symptom-carousel/section';
 import ClinicSymptomComparison from '@/app/_components/clinic/symptom-comparison/section';
+import Breadcrumb from '@/app/_components/common/breadcrumb';
+import PageHeader from '@/app/_components/common/page-header';
 import {
   menstrualPainCondition,
   pelvicVaricesCondition,
 } from '@/app/_data/vascular/venous/pelvic/comparison/conditions';
-import {
-  pelvicComparisonHeading,
-  pelvicPainPattern,
-} from '@/app/_data/vascular/venous/pelvic/comparison/content';
-import PelvicPainPattern from '@/app/_ui/vascular/venous/pelvic/comparison/pain-pattern';
-import ClinicSymptoms from '@/app/_components/clinic/symptom-carousel/section';
-import Breadcrumb from '@/app/_components/common/breadcrumb';
-import PageHeader from '@/app/_components/common/page-header';
+import { pelvicPainPattern } from '@/app/_data/vascular/venous/pelvic/comparison/content';
 import { pelvicSymptoms } from '@/app/_data/vascular/venous/pelvic/symptoms/items';
 import { isPublishedNavigationPath } from '@/app/_lib/navigation/navigation-tree';
+import PelvicPainPattern from '@/app/_ui/vascular/venous/pelvic/comparison/pain-pattern';
+import PelvicStatistics from '@/app/_ui/vascular/venous/pelvic/statistics/section';
 import { notFound } from 'next/navigation';
 
 export default function VascularVenousPelvicPage() {
@@ -40,11 +38,12 @@ export default function VascularVenousPelvicPage() {
       <ClinicSymptomComparison
         id="vascular-venous-pelvic-comparison"
         heading={{
-          label: pelvicComparisonHeading.label,
+          label: '언제 어떻게 아픈지가 중요 단서',
           title: (
             <>
-              <b>{pelvicComparisonHeading.titleEmphasis}</b>
-              {pelvicComparisonHeading.titleSuffix}
+              <b>단순 생리통</b>과는 {` `}
+              <br className="xl:hidden" />
+              이렇게 다릅니다
             </>
           ),
         }}
@@ -56,6 +55,9 @@ export default function VascularVenousPelvicPage() {
           content={pelvicPainPattern}
         />
       </ClinicSymptomComparison>
+
+      {/* 골반정맥류 - 질환 통계 */}
+      <PelvicStatistics id="vascular-venous-pelvic-statistics" />
     </>
   );
 }
