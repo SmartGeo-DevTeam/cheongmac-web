@@ -1,9 +1,9 @@
-import Image from 'next/image';
 import type {
   TreatmentDetailSection as DetailSection,
   TreatmentDisplayMode,
   TreatmentMethod,
 } from '@/app/_types/vascular/treatment-method';
+import Image from 'next/image';
 import TreatmentDetailSection from './detail-section';
 
 type TreatmentDetailProps = {
@@ -62,18 +62,34 @@ export default function TreatmentDetail({
         />
       </div>
 
-      <div className={`mt-5 break-keep
-        xl:row-start-1 xl:col-span-2`}>
-        <span className={`font-bold text-[12px] text-disabled ${isStandalone ? 'uppercase' : ''}
-          xl:text-[16px]`}>{method.englishTitle}</span>
-        <h3 className={`font-bold text-[26px] text-gray-900
-          xl:font-bold xl:text-[40px] xl:text-primary`}>{method.title}</h3>
-        <p className={`mt-5 text-[15px] text-gray-900
-          xl:text-pc-body-1 xl:text-primary`}>{method.description}</p>
+      <div
+        className={`mt-5 break-keep
+        xl:row-start-1 xl:col-span-2`}
+      >
+        <span
+          className={`font-bold text-[12px] text-disabled ${isStandalone ? 'uppercase' : ''}
+          xl:text-[16px]`}
+        >
+          {method.englishTitle}
+        </span>
+        <h3
+          className={`font-bold text-[26px] text-gray-900
+          xl:font-bold xl:text-[40px] xl:text-primary`}
+        >
+          {method.title}
+        </h3>
+        <p
+          className={`mt-3 text-[15px] text-gray-900
+          xl:text-pc-body-1 xl:text-primary`}
+        >
+          {method.description}
+        </p>
       </div>
 
-      <div className={`mt-7 space-y-7
-        xl:mt-3 xl:space-y-10`}>
+      <div
+        className={`mt-7 space-y-7
+        xl:mt-3 xl:space-y-10`}
+      >
         {sections.map((section) => (
           <TreatmentDetailSection
             key={section.id}

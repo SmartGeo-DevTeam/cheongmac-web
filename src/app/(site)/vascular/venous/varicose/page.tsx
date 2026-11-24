@@ -31,7 +31,11 @@ export default function VascularVenousVaricosePage() {
   return (
     <>
       <Breadcrumb />
-      <PageHeader title="하지정맥류" />
+      <PageHeader
+        title="하지정맥류"
+        englishTitle="Varicose Veins"
+        desc="심장으로 올라가야 할 혈액이 다리에 고이는 만성 정맥질환으로 겉으로 드러나지 않아도 다양한 증상이 나타날 수 있습니다."
+      />
 
       {/* 공통 - 증상 */}
       <ClinicSymptoms

@@ -5,11 +5,7 @@ import Image from 'next/image';
 type Props = { id: string; item: FaqItem; avatar?: string | null };
 
 /** 기존 입퇴원안내 FAQ와 같은 native details/summary 패턴. */
-export default function ClinicMediaFaqItem({
-  id,
-  item,
-  avatar,
-}: Props) {
+export default function ClinicMediaFaqItem({ id, item, avatar }: Props) {
   return (
     <li id={id}>
       <details className="group border-b border-default xl:border xl:rounded-[20px]">
@@ -24,7 +20,7 @@ export default function ClinicMediaFaqItem({
                 className="size-7.5 object-cover shrink-0 rounded-full"
               />
             )}
-            <span className="relative top-1">{item.question}</span>
+            <span>{item.question}</span>
           </div>
           <ChevronDown
             aria-hidden="true"

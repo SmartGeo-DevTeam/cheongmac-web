@@ -13,9 +13,16 @@ type PelvicPainPatternProps = {
 };
 
 /** 골반정맥류 비교 섹션에만 필요한 통증 변화 예시입니다. */
-export default function PelvicPainPattern({ id, content }: PelvicPainPatternProps) {
+export default function PelvicPainPattern({
+  id,
+  content,
+}: PelvicPainPatternProps) {
   return (
-    <figure id={id} className="-mx-2 mt-10 xl:mx-0 xl:mt-11">
+    <figure
+      id={id}
+      className="mt-15 rounded-lg overflow-clip
+      xl:mt-10 xl:rounded-[20px]"
+    >
       <Image
         src={content.image}
         alt={content.imageAlt}
@@ -25,8 +32,8 @@ export default function PelvicPainPattern({ id, content }: PelvicPainPatternProp
         className="w-full h-auto"
       />
       <figcaption
-        className="mt-5 px-2 break-keep text-[17px] leading-[160%] text-center text-[#294968]
-        xl:mt-15 xl:text-[24px]"
+        className="mt-5 text-center text-mo-heading-2 text-[#324E6D]
+        xl:mt-15 xl:text-pc-heading-1"
       >
         {content.caption}
         <br />

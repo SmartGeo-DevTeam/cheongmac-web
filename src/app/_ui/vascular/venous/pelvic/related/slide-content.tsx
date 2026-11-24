@@ -63,7 +63,10 @@ export default function PelvicRelatedSlideContent({
       </div>
 
       {/* 질환 설명 카드 */}
-      <div className={`xl:px-5`}>
+      <div
+        className={`flex-1 flex flex-col
+          xl:px-5`}
+      >
         <PelvicRelatedCard id={cardId} disease={disease} />
       </div>
     </>

@@ -72,7 +72,7 @@ export default function SymptomCarouselItemView({
       {/* 증상 */}
       <ul
         className="mt-5 px-6 space-y-2
-        xl:col-start-2 xl:row-start-2 xl:mt-10 xl:px-0 xl:flex xl:flex-wrap xl:gap-3 xl:space-y-0"
+        xl:col-start-2 xl:row-start-2 xl:mt-10 xl:px-0 xl:flex xl:flex-wrap xl:content-start xl:gap-3 xl:space-y-0"
       >
         {item.symptoms.map((symptom) => (
           <li key={symptom} className="flex items-center gap-1">
@@ -111,13 +111,16 @@ export default function SymptomCarouselItemView({
           <div className="flex-1 h-px bg-accent" />
         </div>
         <p
-          className="mt-3 text-[18px]
+          className="mt-3 break-keep text-[18px]
           xl:text-[26px]"
         >
           {item.caution ? (
             <>
               {item.caution.lead}
-              <br />
+              <br
+                className="hidden
+                xl:block"
+              />
               <strong>{item.caution.emphasis}</strong>
               {item.caution.tail}
             </>

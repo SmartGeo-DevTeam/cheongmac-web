@@ -1,7 +1,7 @@
 export const pelvicComparisonHeading = {
   label: '언제 어떻게 아픈지가 중요 단서',
-  titleEmphasis: '단순 생리통',
-  titleSuffix: '과는 이렇게 다릅니다',
+  titleEmphasis: '단순 생리통과는',
+  titleSuffix: '이렇게 다릅니다',
 } as const;
 
 /** 시안에서 추출한 예시 이미지이며 원본 디자인 에셋으로 교체할 수 있습니다. */

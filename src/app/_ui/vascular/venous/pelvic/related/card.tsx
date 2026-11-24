@@ -14,7 +14,7 @@ export default function PelvicRelatedCard({
   return (
     <article
       id={id}
-      className={`mt-6 p-6 flex flex-1 flex-col rounded-xl border border-brand
+      className={`flex-1 mt-6 p-6 flex flex-col rounded-xl border border-brand
       xl:px-10 xl:py-8`}
     >
       <div className={`flex justify-between items-center`}>

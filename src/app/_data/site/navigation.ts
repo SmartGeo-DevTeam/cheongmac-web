@@ -89,7 +89,7 @@ export const NAVIGATION: NavigationItem[] = [
             id: 'vascular-venous-pelvic',
             href: '/vascular/venous/pelvic',
             title: '골반정맥류',
-            isPublished: false,
+            isPublished: true,
           },
           {
             id: 'vascular-venous-varicocele',

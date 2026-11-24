@@ -51,7 +51,7 @@ export default function PelvicRelatedCarousel({
     >
       <Swiper
         className={`w-full [&_.swiper-wrapper]:items-stretch`}
-        slidesPerView={1.5}
+        slidesPerView={1.3}
         spaceBetween={8}
         centeredSlides
         loop
@@ -76,7 +76,7 @@ export default function PelvicRelatedCarousel({
           <SwiperSlide
             key={key}
             className={`h-auto! flex! flex-col transition-opacity duration-300
-              xl:[&:not(.swiper-slide-active)]:opacity-30`}
+              [&:not(.swiper-slide-active)]:opacity-30`}
           >
             {({ isActive }) => (
               <PelvicRelatedSlideContent
@@ -93,7 +93,10 @@ export default function PelvicRelatedCarousel({
       <CarouselControls
         id={`${id}-controls`}
         variant="compact"
-        items={items.map((item) => ({ id: item.id, ariaLabel: `${item.title} 보기` }))}
+        items={items.map((item) => ({
+          id: item.id,
+          ariaLabel: `${item.title} 보기`,
+        }))}
         activeIndex={activeIndex}
         previousAriaLabel="이전 연관 질환"
         nextAriaLabel="다음 연관 질환"
