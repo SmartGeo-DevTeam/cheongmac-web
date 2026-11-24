@@ -21,3 +21,14 @@ export const arterialOcclusionCondition: ClinicSymptomComparisonCondition = {
     { label: '발등 맥박', value: '약하거나 느껴지지 않음' },
   ],
 };
+
+/** 동맥질환과 하지동맥폐색증에서 공통으로 사용하는 비교 제목 데이터입니다. */
+export const arterialComparisonHeading = {
+  label: '비슷한 증상, 다른 전혀 질환',
+  titlePrefix: '혹시 ',
+  titleEmphasis: '척추디스크',
+  titleSuffix: '로',
+  titleSecondLine: '오해하고 계신가요?',
+  description:
+    '말초동맥폐쇄증은 증상이 척추디스크와 매우 비슷해 혼동되는 경우가 많습니다.',
+} as const;

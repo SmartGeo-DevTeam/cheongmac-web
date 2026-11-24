@@ -21,6 +21,7 @@ import { vascularReservationBanner } from '@/app/_data/vascular/banner/content';
 import { vascularReservationLinks } from '@/app/_data/vascular/reservation-links/links';
 import { vascularStrengthItems } from '@/app/_data/vascular/strengths/items';
 import {
+  arterialComparisonHeading,
   arterialOcclusionCondition,
   spinalStenosisCondition,
 } from '@/app/_data/vascular/symptom-comparison/conditions';
@@ -60,6 +61,19 @@ export default function VascularArterialOcclusionPage() {
       {/* 공통 - 비슷한 증상, 다른 전혀 질환 (척추디스크) */}
       <ClinicSymptomComparison
         id="vascular-arterial-occlusion-comparison"
+        heading={{
+          label: arterialComparisonHeading.label,
+          title: (
+            <>
+              {arterialComparisonHeading.titlePrefix}
+              <b>{arterialComparisonHeading.titleEmphasis}</b>
+              {arterialComparisonHeading.titleSuffix}
+              <br />
+              {arterialComparisonHeading.titleSecondLine}
+            </>
+          ),
+          description: arterialComparisonHeading.description,
+        }}
         leftCondition={spinalStenosisCondition}
         rightCondition={arterialOcclusionCondition}
       />

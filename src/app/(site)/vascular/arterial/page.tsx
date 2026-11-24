@@ -25,6 +25,7 @@ import {
   vascularReservationBanner,
 } from '@/app/_data/vascular/banner/content';
 import {
+  arterialComparisonHeading,
   arterialOcclusionCondition,
   spinalStenosisCondition,
 } from '@/app/_data/vascular/symptom-comparison/conditions';
@@ -70,6 +71,19 @@ export default function VascularArterialPage() {
       {/* 공통 - 비슷한 증상, 다른 전혀 질환 */}
       <ClinicSymptomComparison
         id="vascular-arterial-symptom-comparison"
+        heading={{
+          label: arterialComparisonHeading.label,
+          title: (
+            <>
+              {arterialComparisonHeading.titlePrefix}
+              <b>{arterialComparisonHeading.titleEmphasis}</b>
+              {arterialComparisonHeading.titleSuffix}
+              <br />
+              {arterialComparisonHeading.titleSecondLine}
+            </>
+          ),
+          description: arterialComparisonHeading.description,
+        }}
         leftCondition={spinalStenosisCondition}
         rightCondition={arterialOcclusionCondition}
       />

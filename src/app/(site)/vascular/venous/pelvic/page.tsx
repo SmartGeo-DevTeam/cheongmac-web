@@ -1,3 +1,13 @@
+import ClinicSymptomComparison from '@/app/_components/clinic/symptom-comparison/section';
+import {
+  menstrualPainCondition,
+  pelvicVaricesCondition,
+} from '@/app/_data/vascular/venous/pelvic/comparison/conditions';
+import {
+  pelvicComparisonHeading,
+  pelvicPainPattern,
+} from '@/app/_data/vascular/venous/pelvic/comparison/content';
+import PelvicPainPattern from '@/app/_ui/vascular/venous/pelvic/comparison/pain-pattern';
 import ClinicSymptoms from '@/app/_components/clinic/symptom-carousel/section';
 import Breadcrumb from '@/app/_components/common/breadcrumb';
 import PageHeader from '@/app/_components/common/page-header';
@@ -25,6 +35,27 @@ export default function VascularVenousPelvicPage() {
         items={pelvicSymptoms}
         tabsAriaLabel="골반정맥류 증상 선택"
       />
+
+      {/* 공통 - 일반 생리통과 골반정맥류 비교 */}
+      <ClinicSymptomComparison
+        id="vascular-venous-pelvic-comparison"
+        heading={{
+          label: pelvicComparisonHeading.label,
+          title: (
+            <>
+              <b>{pelvicComparisonHeading.titleEmphasis}</b>
+              {pelvicComparisonHeading.titleSuffix}
+            </>
+          ),
+        }}
+        leftCondition={menstrualPainCondition}
+        rightCondition={pelvicVaricesCondition}
+      >
+        <PelvicPainPattern
+          id="vascular-venous-pelvic-comparison-pain-pattern"
+          content={pelvicPainPattern}
+        />
+      </ClinicSymptomComparison>
     </>
   );
 }
