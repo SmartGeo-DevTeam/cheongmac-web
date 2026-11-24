@@ -114,3 +114,10 @@
 - `src/app/_components/clinic/split-heading.tsx`는 2열 레이아웃 전용 제목으로 별도 유지합니다.
 - `src/app/_ui/vascular/arterial/expertise/{section,item}.tsx`는 기존 JSX/스타일을 유지합니다. 콘텐츠는 `src/app/_data/vascular/arterial/expertise/items.ts`에 둡니다.
 - 전문성 섹션의 공개 이미지는 `public/vascular/arterial/expertise/`에 의미 있는 파일명으로 보관합니다. 이 섹션에서만 사용하던 `public/________temp/temp-1~3.png`는 이전 후 제거합니다.
+
+## 혈관 진료 페이지 조립 예외 (2026-11-24 승인)
+
+- 동맥질환, 정맥질환, 하지동맥폐색증, 하지정맥류 네 페이지는 `page.tsx`에서 공통 및 개별 섹션을 직접 조립한다. 단순 Props 래퍼는 만들지 않는다.
+- 공통 섹션은 페이지에서 데이터·ID를 Props로 전달하며 페이지별 여백은 필요 시 `className` Props를 사용한다. 다른 페이지의 기본 구조는 그대로 유지한다.
+- `_ui`에는 독립적인 페이지 전용 구현을 유지한다. `_services`는 의료진 등 표시 데이터 조회/결합에 사용하고 `_utils`는 순수 변환에 사용한다.
+- 자세한 승인 범위는 `docs/ARCHITECTURE.md`의 2026-11-24 후속 기록을 따른다.

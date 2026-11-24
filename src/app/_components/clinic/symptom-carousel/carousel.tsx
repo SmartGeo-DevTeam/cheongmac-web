@@ -10,18 +10,18 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import SymptomCarouselItemView from './item';
 import SymptomCarouselTabs from './tabs';
 
-type SymptomCarouselProps = {
+type ClinicSymptomCarouselProps = {
   id: string;
   items: readonly SymptomCarouselItem[];
   tabsAriaLabel: string;
 };
 
 /** 여러 진료 상세 페이지의 증상 탭·이미지·주의 문구를 동일한 UI로 표시합니다. */
-export default function SymptomCarousel({
+export default function ClinicSymptomCarousel({
   id,
   items,
   tabsAriaLabel,
-}: SymptomCarouselProps) {
+}: ClinicSymptomCarouselProps) {
   const swiperRef = useRef<SwiperType | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [desktopTabHeight, setDesktopTabHeight] = useState(0);

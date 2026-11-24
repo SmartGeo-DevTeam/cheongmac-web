@@ -3,11 +3,12 @@ import type {
   DiseaseMapPoint,
 } from '@/app/_types/vascular/disease-map';
 import Image from 'next/image';
-import Link from 'next/link';
+import DiseaseLink from './link';
 
 type Props = {
   id: string;
   points: readonly DiseaseMapPoint[];
+  publishedHrefs: ReadonlySet<string>;
   image: string;
   imageAlt: string;
   imageWidth: number;
@@ -25,6 +26,7 @@ const CANVAS_HEIGHT = (CANVAS_WIDTH * MOBILE_IMAGE_RATIO * ORIGINAL_HEIGHT) / OR
 export default function ClinicDiseaseBodyMap({
   id,
   points,
+  publishedHrefs,
   image,
   imageAlt,
   imageWidth,
@@ -87,10 +89,10 @@ export default function ClinicDiseaseBodyMap({
           ];
 
           return dots.map((body, index) => (
-            <Link
+            <DiseaseLink
               key={`${point.id}-${index}`}
-              href={point.href}
-              aria-label={`${point.title} 위치에서 상세 페이지로 이동`}
+              href={publishedHrefs.has(point.href) ? point.href : undefined}
+              ariaLabel={`${point.title} 위치에서 상세 페이지로 이동`}
               title={point.title}
               style={{
                 left: `${(body.x / ORIGINAL_WIDTH) * 100}%`,
@@ -115,7 +117,7 @@ export default function ClinicDiseaseBodyMap({
                 className="pointer-events-none absolute inset-0 m-auto size-1.5 rounded-full bg-[#FA6805]
                   xl:size-3"
               />
-            </Link>
+            </DiseaseLink>
           ));
         })}
       </div>
@@ -134,10 +136,10 @@ export default function ClinicDiseaseBodyMap({
         const pos = point.mobile;
 
         return (
-          <Link
+          <DiseaseLink
             key={point.id}
-            href={point.href}
-            aria-label={`${point.title} 상세 페이지로 이동`}
+            href={publishedHrefs.has(point.href) ? point.href : undefined}
+            ariaLabel={`${point.title} 상세 페이지로 이동`}
             style={{
               left: `${(pos.labelX / CANVAS_WIDTH) * 100}%`,
               top: `${(pos.labelY / CANVAS_HEIGHT) * 100}%`,
@@ -148,7 +150,7 @@ export default function ClinicDiseaseBodyMap({
               ${pos.side === 'left' ? '-translate-x-full' : ''}`}
           >
             {point.title}
-          </Link>
+          </DiseaseLink>
         );
       })}
     </div>

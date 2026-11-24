@@ -1,11 +1,6 @@
-export type ArterialSymptomComparisonCondition = {
-  title: string;
-  alternateTitle: string;
-  image: string;
-  symptoms: { label: string; value: string }[];
-};
+import type { ClinicSymptomComparisonCondition } from '@/app/_types/vascular/symptom-comparison';
 
-export const spinalStenosisCondition: ArterialSymptomComparisonCondition = {
+export const spinalStenosisCondition: ClinicSymptomComparisonCondition = {
   title: '척추디스크',
   alternateTitle: '요추관협착증',
   image: '/vascular/arterial/symptom-comparison/spinal-stenosis.png',
@@ -16,7 +11,7 @@ export const spinalStenosisCondition: ArterialSymptomComparisonCondition = {
   ],
 };
 
-export const arterialOcclusionCondition: ArterialSymptomComparisonCondition = {
+export const arterialOcclusionCondition: ClinicSymptomComparisonCondition = {
   title: '하지동맥폐색증',
   alternateTitle: '말초동맥폐쇄증',
   image: '/vascular/arterial/symptom-comparison/arterial-occlusion.png',

@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 
-type mtVariant = 'none' | 'base' | 'lg' | 'xl';
+type MtVariant = 'none' | 'base' | 'lg' | 'xl';
 
 type LabelVariant = 'disabled' | 'accent' | 'green';
 
@@ -9,12 +9,12 @@ type SectionHeadingProps = {
   labelVariant?: LabelVariant;
   /** 특정 섹션에서만 필요한 반응형 label 색상 등. 지정 시 labelVariant 대신 사용합니다. */
   labelClassName?: string;
-  mtVariant?: mtVariant;
+  mtVariant?: MtVariant;
   title: ReactNode;
   description?: ReactNode;
 };
 
-const mtSizes: Record<mtVariant, string> = {
+const mtSizes: Record<MtVariant, string> = {
   none: '',
   base: 'pt-10 xl:pt-30',
   lg: 'pt-20 xl:pt-40',

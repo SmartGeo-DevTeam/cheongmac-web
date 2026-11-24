@@ -1,13 +1,13 @@
 'use client';
 
-import type { BestCase } from '@/app/_types/vascular/best-case';
+import type { ClinicBestCaseData } from '@/app/_types/vascular/best-case';
 import 'swiper/css';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import BestCaseItem from './item';
 
 type BestCasesCarouselProps = {
   id: string;
-  cases: readonly BestCase[];
+  cases: readonly ClinicBestCaseData[];
 };
 
 export default function BestCasesCarousel({

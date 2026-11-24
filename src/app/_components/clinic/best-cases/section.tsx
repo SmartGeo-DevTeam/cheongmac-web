@@ -1,15 +1,15 @@
 import Inner from '@/app/_components/common/inner';
 import ClinicLinkButton from '../link-button';
 import SectionHeading from '../section-heading';
-import type { BestCase } from '@/app/_types/vascular/best-case';
+import type { ClinicBestCaseData } from '@/app/_types/vascular/best-case';
 import BestCasesCarousel from './carousel';
 
-type BestCasesSectionProps = {
+type ClinicBestCasesSectionProps = {
   id: string;
-  cases: readonly BestCase[];
+  cases: readonly ClinicBestCaseData[];
 };
 
-export default function BestCasesSection({ id, cases }: BestCasesSectionProps) {
+export default function ClinicBestCasesSection({ id, cases }: ClinicBestCasesSectionProps) {
   return (
     <section id={id}>
       <Inner>

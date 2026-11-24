@@ -3,6 +3,7 @@ import ClinicCases from '@/app/_components/clinic/cases/section';
 import ClinicMediaFaq from '@/app/_components/clinic/media-faq/section';
 import ClinicReservationLinks from '@/app/_components/clinic/reservation-links/section';
 import ClinicStrengths from '@/app/_components/clinic/strengths/section';
+import ClinicSymptoms from '@/app/_components/clinic/symptom-carousel/section';
 import ClinicSymptomComparison from '@/app/_components/clinic/symptom-comparison/section';
 import ClinicTreatments from '@/app/_components/clinic/treatments/section';
 import Breadcrumb from '@/app/_components/common/breadcrumb';
@@ -13,14 +14,18 @@ import {
   occlusionFaqMedia,
   occlusionFaqQuestions,
 } from '@/app/_data/vascular/arterial/occlusion/faq/questions';
+import { occlusionIntroductionSymptoms } from '@/app/_data/vascular/arterial/occlusion/introduction/symptoms';
 import { occlusionStrengthsHeadingLines } from '@/app/_data/vascular/arterial/occlusion/strengths/content';
 import { occlusionTreatmentMethods } from '@/app/_data/vascular/arterial/occlusion/treatments/methods';
 import { vascularReservationBanner } from '@/app/_data/vascular/banner/content';
 import { vascularReservationLinks } from '@/app/_data/vascular/reservation-links/links';
 import { vascularStrengthItems } from '@/app/_data/vascular/strengths/items';
+import {
+  arterialOcclusionCondition,
+  spinalStenosisCondition,
+} from '@/app/_data/vascular/symptom-comparison/conditions';
 import { isPublishedNavigationPath } from '@/app/_lib/navigation/navigation-tree';
 import OcclusionDiagnostics from '@/app/_ui/vascular/arterial/occlusion/diagnostics/section';
-import OcclusionIntroduction from '@/app/_ui/vascular/arterial/occlusion/introduction/section';
 import OcclusionMechanism from '@/app/_ui/vascular/arterial/occlusion/mechanism/section';
 import { notFound } from 'next/navigation';
 
@@ -41,20 +46,30 @@ export default function VascularArterialOcclusionPage() {
         desc="죽상경화증으로 인해 신체 말단의 동맥이 막히거나 좁아져 혈류가 감소하는 질환"
       />
 
-      {/* 하지동맥폐색증 - 증상 */}
-      <OcclusionIntroduction />
+      {/* 공통 - 증상 */}
+      <ClinicSymptoms
+        id="vascular-arterial-occlusion-about"
+        carouselId="vascular-arterial-occlusion-symptoms-carousel"
+        items={occlusionIntroductionSymptoms}
+        tabsAriaLabel="하지동맥폐색증 증상 선택"
+      />
 
       {/* 하지동맥폐색증 - 생명을 위협하는 하지동맥폐색증 */}
-      <OcclusionMechanism />
+      <OcclusionMechanism id="vascular-arterial-occlusion-mechanism" />
 
       {/* 공통 - 비슷한 증상, 다른 전혀 질환 (척추디스크) */}
-      <ClinicSymptomComparison id="vascular-arterial-occlusion-comparison" />
+      <ClinicSymptomComparison
+        id="vascular-arterial-occlusion-comparison"
+        leftCondition={spinalStenosisCondition}
+        rightCondition={arterialOcclusionCondition}
+      />
 
       {/* 하지동맥폐색증 - 진단 방법 */}
-      <OcclusionDiagnostics />
+      <OcclusionDiagnostics id="vascular-arterial-occlusion-diagnostics" />
 
       {/* 공통 - 배너: 최대한 빠른 검사 날짜는 언제일까요? */}
       <ClinicBanner
+        id="vascular-reservation-banner"
         {...vascularReservationBanner}
         isPaddingHorizontalInMobile={false}
       />
@@ -82,7 +97,13 @@ export default function VascularArterialOcclusionPage() {
       <ClinicTreatments
         id="vascular-arterial-occlusion-treatments"
         ariaLabel="하지동맥폐색증 치료 방법"
-        title={<>환자 개인의 상태에 맞는<br /><b>단계별 치료를 시행합니다</b></>}
+        title={
+          <>
+            환자 개인의 상태에 맞는
+            <br />
+            <b>단계별 치료를 시행합니다</b>
+          </>
+        }
         methods={occlusionTreatmentMethods}
       />
 

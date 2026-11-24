@@ -1,13 +1,19 @@
 import SectionHeading from '@/app/_components/clinic/section-heading';
 import Inner from '@/app/_components/common/inner';
-import {
-  arterialOcclusionCondition,
-  spinalStenosisCondition,
-} from '@/app/_data/vascular/arterial/symptom-comparison/conditions';
-import ArterialOcclusionCard from './arterial-card';
-import SpinalStenosisCard from './spinal-card';
+import type { ClinicSymptomComparisonCondition } from '@/app/_types/vascular/symptom-comparison';
+import ClinicSymptomComparisonCard from './card';
 
-export default function ClinicSymptomComparison({ id }: { id: string }) {
+type ClinicSymptomComparisonProps = {
+  id: string;
+  leftCondition: ClinicSymptomComparisonCondition;
+  rightCondition: ClinicSymptomComparisonCondition;
+};
+
+export default function ClinicSymptomComparison({
+  id,
+  leftCondition,
+  rightCondition,
+}: ClinicSymptomComparisonProps) {
   return (
     <section id={id}>
       <div
@@ -38,7 +44,7 @@ export default function ClinicSymptomComparison({ id }: { id: string }) {
             className="relative mt-10 grid gap-1
             xl:mt-20 xl:grid-cols-[1fr_auto_1fr] xl:gap-3"
           >
-            <SpinalStenosisCard condition={spinalStenosisCondition} />
+            <ClinicSymptomComparisonCard condition={leftCondition} variant="base" />
 
             <li className="relative z-1">
               <div
@@ -49,7 +55,7 @@ export default function ClinicSymptomComparison({ id }: { id: string }) {
               </div>
             </li>
 
-            <ArterialOcclusionCard condition={arterialOcclusionCondition} />
+            <ClinicSymptomComparisonCard condition={rightCondition} variant="brand" />
           </ul>
         </Inner>
       </div>

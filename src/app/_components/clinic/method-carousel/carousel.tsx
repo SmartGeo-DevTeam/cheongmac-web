@@ -1,17 +1,11 @@
 'use client';
 
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import type { ReactNode } from 'react';
+import type { ClinicMethodSlide } from '@/app/_types/clinic/method-carousel';
 import { useRef, useState } from 'react';
 import type { Swiper as SwiperType } from 'swiper';
 import 'swiper/css';
 import { Swiper, SwiperSlide } from 'swiper/react';
-
-type ClinicMethodSlide = {
-  id: string;
-  title: string;
-  content: ReactNode;
-};
 
 type ClinicMethodCarouselProps = {
   slides: readonly ClinicMethodSlide[];

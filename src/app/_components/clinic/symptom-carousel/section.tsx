@@ -1,12 +1,23 @@
 import SectionHeading from '@/app/_components/clinic/section-heading';
-import SymptomCarousel from '@/app/_components/clinic/symptom-carousel/carousel';
 import Inner from '@/app/_components/common/inner';
-import { varicoseSymptoms } from '@/app/_data/vascular/venous/varicose/symptoms/items';
+import type { SymptomCarouselItem } from '@/app/_types/vascular/symptom-carousel';
+import ClinicSymptomCarousel from './carousel';
 
-/** 하지정맥류 증상 섹션: 동맥질환 증상 캐러셀과 레이아웃을 공유합니다. */
-export default function VaricoseSymptoms() {
+type ClinicSymptomsProps = {
+  id: string;
+  carouselId: string;
+  items: readonly SymptomCarouselItem[];
+  tabsAriaLabel: string;
+};
+
+export default function ClinicSymptoms({
+  id,
+  carouselId,
+  items,
+  tabsAriaLabel,
+}: ClinicSymptomsProps) {
   return (
-    <section id="vascular-venous-varicose-symptoms">
+    <section id={id}>
       <div className="xl:bg-[#F9F9F9]">
         <Inner>
           <SectionHeading
@@ -22,10 +33,10 @@ export default function VaricoseSymptoms() {
           />
         </Inner>
 
-        <SymptomCarousel
-          id="vascular-venous-varicose-symptoms-carousel"
-          items={varicoseSymptoms}
-          tabsAriaLabel="하지정맥류 증상 선택"
+        <ClinicSymptomCarousel
+          id={carouselId}
+          items={items}
+          tabsAriaLabel={tabsAriaLabel}
         />
       </div>
     </section>

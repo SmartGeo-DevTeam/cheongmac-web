@@ -1,15 +1,15 @@
+import ClinicDiagnosticMethodContent from '@/app/_components/clinic/diagnostics/method-content';
 import Inner from '@/app/_components/common/inner';
-import MethodContent from '@/app/_components/clinic/diagnostics/method-content';
 import { occlusionDiagnosticMethods } from '@/app/_data/vascular/arterial/occlusion/diagnostics/methods';
 import DiagnosticsIntroduction from './introduction';
 import MethodDetail from './method-detail';
 
-export default function OcclusionDiagnostics() {
+export default function OcclusionDiagnostics({ id }: { id: string }) {
   return (
-    <section id="vascular-arterial-occlusion-diagnostics">
+    <section id={id}>
       <DiagnosticsIntroduction />
       <Inner>
-        <MethodContent
+        <ClinicDiagnosticMethodContent
           idPrefix="vascular-arterial-occlusion-diagnostics"
           methods={occlusionDiagnosticMethods}
           DetailComponent={MethodDetail}

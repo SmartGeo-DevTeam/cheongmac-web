@@ -1,13 +1,7 @@
-/** 부위별 정맥질환 카드: 임시 사진 4개를 페이지별 공개 이미지 경로로 이전했습니다. */
-export type VenousDiseaseCard = {
-  id: string;
-  title: string;
-  href: string;
-  tags: string[];
-  image: string;
-};
+import type { ClinicDiseaseCardData } from '@/app/_types/vascular/disease-card';
 
-export const venousDiseaseCards: VenousDiseaseCard[] = [
+/** 부위별 정맥질환 카드: 임시 사진 4개를 페이지별 공개 이미지 경로로 이전했습니다. */
+export const venousDiseaseCards: ClinicDiseaseCardData[] = [
   {
     id: 'varicose',
     title: '하지정맥류',

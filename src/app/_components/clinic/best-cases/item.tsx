@@ -1,15 +1,13 @@
-import { doctors } from '@/app/_data/about/doctors/doctors';
-import type { BestCase } from '@/app/_types/vascular/best-case';
+import type { ClinicBestCaseData } from '@/app/_types/vascular/best-case';
 import Image from 'next/image';
 
 type BestCaseItemProps = {
   id: string;
-  item: BestCase;
+  item: ClinicBestCaseData;
 };
 
 export default function BestCaseItem({ id, item }: BestCaseItemProps) {
-  // 향후 DB 연결 시에는 doctorId 관계로 조회한 의료진 정보를 전달할 수 있습니다.
-  const doctor = doctors.find((person) => person.id === item.doctorId);
+  const { doctor } = item;
 
   return (
     <article

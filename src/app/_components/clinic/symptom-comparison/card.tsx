@@ -1,22 +1,24 @@
-import type { ArterialSymptomComparisonCondition } from '@/app/_data/vascular/arterial/symptom-comparison/conditions';
+import type { ClinicSymptomComparisonCondition } from '@/app/_types/vascular/symptom-comparison';
 import Image from 'next/image';
 
-export default function ArterialOcclusionCard({
+export default function ClinicSymptomComparisonCard({
   condition,
+  variant,
 }: {
-  condition: ArterialSymptomComparisonCondition;
+  condition: ClinicSymptomComparisonCondition;
+  variant: 'base' | 'brand';
 }) {
+  const isBrand = variant === 'brand';
+
   return (
     <li
-      className="rounded-lg overflow-clip bg-brand
-      xl:rounded-[20px]"
+      className={`rounded-lg overflow-clip ${isBrand ? 'bg-brand' : 'bg-base'} xl:rounded-[20px]`}
     >
       <div className="relative aspect-520/300">
         <Image src={condition.image} alt="" fill />
       </div>
       <div
-        className="mt-5 flex justify-center gap-1 text-white
-        xl:mt-10 xl:flex-col xl:items-center xl:gap-0"
+        className={`mt-5 flex justify-center gap-1 ${isBrand ? 'text-white' : ''} xl:mt-10 xl:flex-col xl:items-center xl:gap-0`}
       >
         <span
           className="hidden
@@ -46,14 +48,12 @@ export default function ArterialOcclusionCard({
             xl:py-6"
           >
             <span
-              className="text-green-300
-              xl:text-[20px]"
+              className={`${isBrand ? 'text-green-300' : 'text-[#767C88]'} xl:text-[20px]`}
             >
               {symptom.label}
             </span>
             <p
-              className="text-mo-body-1 text-white
-              xl:font-semibold text-[22px]"
+              className={`text-mo-body-1 ${isBrand ? 'text-white' : ''} xl:font-semibold text-[22px]`}
             >
               {symptom.value}
             </p>

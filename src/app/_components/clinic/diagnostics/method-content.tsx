@@ -2,7 +2,7 @@ import MethodSelector from './method-selector';
 import type { DiagnosticMethod } from '@/app/_types/clinic/diagnostics';
 import type { ComponentType } from 'react';
 
-type MethodContentProps = {
+type ClinicDiagnosticMethodContentProps = {
   idPrefix: string;
   methods: readonly DiagnosticMethod[];
   DetailComponent: ComponentType<{ method: DiagnosticMethod }>;
@@ -10,12 +10,12 @@ type MethodContentProps = {
 };
 
 /** 페이지별 검사 데이터와 상세 UI를 공통 탭/패널 구조에 연결합니다. */
-export default function MethodContent({
+export default function ClinicDiagnosticMethodContent({
   idPrefix,
   methods,
   DetailComponent,
   panelIdSuffix = '',
-}: MethodContentProps) {
+}: ClinicDiagnosticMethodContentProps) {
   return (
     <MethodSelector
       tabs={methods.map(({ id, tabLabel }) => ({

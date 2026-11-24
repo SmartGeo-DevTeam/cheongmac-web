@@ -3,6 +3,7 @@ import ClinicCases from '@/app/_components/clinic/cases/section';
 import ClinicMediaFaq from '@/app/_components/clinic/media-faq/section';
 import ClinicReservationLinks from '@/app/_components/clinic/reservation-links/section';
 import ClinicStrengths from '@/app/_components/clinic/strengths/section';
+import ClinicSymptoms from '@/app/_components/clinic/symptom-carousel/section';
 import ClinicTreatments from '@/app/_components/clinic/treatments/section';
 import Breadcrumb from '@/app/_components/common/breadcrumb';
 import PageHeader from '@/app/_components/common/page-header';
@@ -16,12 +17,12 @@ import {
   varicoseFaqQuestions,
 } from '@/app/_data/vascular/venous/varicose/faq/questions';
 import { varicoseStrengthsHeadingLines } from '@/app/_data/vascular/venous/varicose/strengths/content';
+import { varicoseSymptoms } from '@/app/_data/vascular/venous/varicose/symptoms/items';
 import { varicoseAdditionalTreatments } from '@/app/_data/vascular/venous/varicose/treatments/additional';
 import { varicoseTreatmentMethods } from '@/app/_data/vascular/venous/varicose/treatments/methods';
 import { isPublishedNavigationPath } from '@/app/_lib/navigation/navigation-tree';
 import VaricoseCeap from '@/app/_ui/vascular/venous/varicose/ceap/section';
 import VaricoseDiagnostics from '@/app/_ui/vascular/venous/varicose/diagnostics/section';
-import VaricoseSymptoms from '@/app/_ui/vascular/venous/varicose/symptoms/section';
 import { notFound } from 'next/navigation';
 
 export default function VascularVenousVaricosePage() {
@@ -31,34 +32,42 @@ export default function VascularVenousVaricosePage() {
     <>
       <Breadcrumb />
       <PageHeader title="하지정맥류" />
-      {/* 하지정맥류 - 증상 */}
-      <VaricoseSymptoms />
+
+      {/* 공통 - 증상 */}
+      <ClinicSymptoms
+        id="vascular-venous-varicose-symptoms"
+        carouselId="vascular-venous-varicose-symptoms-carousel"
+        items={varicoseSymptoms}
+        tabsAriaLabel="하지정맥류 증상 선택"
+      />
 
       {/* 하지정맥류 - 나는 몇기에 해당될까? */}
-      <VaricoseCeap />
+      <VaricoseCeap id="vascular-venous-varicose-ceap" />
 
       {/* 하지정맥류 - 진단 방법 */}
-      <VaricoseDiagnostics />
+      <VaricoseDiagnostics id="vascular-venous-varicose-diagnostics" />
 
       {/* 공통 - 배너: 최대한 빠른 검사 날짜는 언제일까요? */}
-      <ClinicBanner {...vascularReservationBanner} />
+      <ClinicBanner
+        id="vascular-reservation-banner"
+        {...vascularReservationBanner}
+      />
 
       {/* 공통 - 치료법 */}
-      <div className="mt-30">
-        <ClinicTreatments
-          id="vascular-venous-varicose-treatments"
-          ariaLabel="하지정맥류 치료 방법"
-          title={
-            <>
-              하지정맥류의 모든 치료법
-              <br />
-              <b>청맥병원에서 가능합니다</b>
-            </>
-          }
-          methods={varicoseTreatmentMethods}
-          additionalTreatments={varicoseAdditionalTreatments}
-        />
-      </div>
+      <ClinicTreatments
+        id="vascular-venous-varicose-treatments"
+        ariaLabel="하지정맥류 치료 방법"
+        title={
+          <>
+            하지정맥류의 모든 치료법
+            <br />
+            <b>청맥병원에서 가능합니다</b>
+          </>
+        }
+        methods={varicoseTreatmentMethods}
+        additionalTreatments={varicoseAdditionalTreatments}
+        className="mt-30"
+      />
 
       {/* 공통 - 치료사례 */}
       <ClinicCases
@@ -97,7 +106,9 @@ export default function VascularVenousVaricosePage() {
         headingLabel={varicoseFaqHeading.label}
         headingTitle={
           <>
-            <span className={`font-normal`}>{varicoseFaqHeading.firstLine}</span>
+            <span className={`font-normal`}>
+              {varicoseFaqHeading.firstLine}
+            </span>
             <br />
             <b className={`font-bold`}>{varicoseFaqHeading.secondLine}</b>
           </>

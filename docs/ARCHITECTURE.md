@@ -286,4 +286,14 @@ src/app/
 
 - 동맥·정맥질환 의료진 섹션의 기존 doctorId/doctorIds 형식을 doctorIds 배열로 통일한다. 페이지는 공통 ClinicSpecialistsSection을 직접 호출하고, _services/clinic/specialists.ts의 getClinicSpecialists로 기존 의료진 단일 원본에서 표시 데이터를 조회한다. 표시 순서와 누락 ID 제외 동작은 유지하며 기존 공통 UI는 수정하지 않는다.
 - 정맥질환 전용 혈관 맞춤 치료의 컴포넌트명은 VenousPersonalizedTreatments로 명확히 구분한다. 기존 기능 폴더·데이터·이미지 URL 및 DOM ID는 유지한다.
-- 하지정맥류 ClinicTreatments와 기존 mt-30 레이아웃 래퍼를 page.tsx로 옮긴다. 이전 직접 호출 기록의 의료진/하지정맥류 치료법 유지 결정에 대한 후속 승인이다. 다른 페이지 및 UI 디자인은 변경하지 않는다.
+- 하지정맥류 ClinicTreatments는 page.tsx에서 직접 호출하고 `className="mt-30"` Props를 사용한다. 별도 DOM 래퍼를 추가하지 않는다. 이전 직접 호출 기록의 의료진/하지정맥류 치료법 유지 결정에 대한 후속 승인이다. 다른 페이지 및 UI 디자인은 변경하지 않는다.
+
+## 혈관 진료 4개 페이지 공통 섹션 심화 정리 (2026-11-24 승인)
+
+- 기존 4개 라우트의 `page.tsx` 직접 조립 예외를 유지한다. `_components/clinic`의 ClinicDiseases, ClinicSymptoms, ClinicMethodSection을 직접 호출한다. 진단/치료 슬라이드의 고유 하단 UI는 해당 `_ui`의 item.tsx를 사용하며, 나머지 7개 개별 섹션은 유지한다.
+- 부위별 질환은 기존 이미지·좌표·컬럼·간격·ID를 유지한다. 실제 상세 라우트 href는 데이터에 두고 페이지가 전달하는 `isPublishedNavigationPath`로 공개된 경로만 링크로 렌더링한다. 미공개 또는 미등록 경로는 지도와 카드에 정적 표시하고 이동 버튼은 표시하지 않는다. 공개 설정 자체는 변경하지 않는다.
+- 증상 비교 데이터와 타입은 공통 `_data/vascular/symptom-comparison` 및 `_types/vascular`에 두고 페이지에서 Props로 전달한다. 비교 카드의 두 색상 variant를 통합한다.
+- BEST 치료사례 의료진 표시는 `_services/clinic/best-cases.ts`에서 기존 단일 의료진 원본과 결합하며 클라이언트에 이름·썸네일 경로만 전달한다. 기존 표시 순서와 누락 시 문구를 유지한다.
+- 공통 배너의 ID는 호출부에서 전달한다. 정맥 건강 배너 ID는 `vascular-venous-health-banner`로 정정하고 다른 기존 ID는 유지한다.
+- 주석은 공통 UI 직접 호출이면 `공통 - ...`, 개별 섹션이면 `질환명 - ...`으로 작성한다. 공통 치료법의 페이지별 여백은 기존 `className="mt-30"`처럼 명시적 Props를 허용한다.
+- 기존 공통화 예외 기록 중 위 사항과 충돌하는 내용은 이 후속 승인으로 대체한다.

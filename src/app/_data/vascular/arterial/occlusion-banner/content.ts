@@ -1,5 +1,4 @@
 export const arterialOcclusionBanner = {
-  id: 'vascular-arterial-occlusion-banner',
   href: '/vascular/arterial/occlusion',
   heading: '말초동맥폐쇄증,',
   subheading: '더 자세히 알아보고 싶다면',

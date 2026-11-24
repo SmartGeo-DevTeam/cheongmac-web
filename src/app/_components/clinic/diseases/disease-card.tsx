@@ -1,17 +1,12 @@
 import { ArrowRight, ChevronRight } from 'lucide-react';
 import Image from 'next/image';
-import Link from 'next/link';
-
-type DiseaseCardItem = {
-  title: string;
-  href: string;
-  image: string;
-  tags: readonly string[];
-};
+import type { ClinicDiseaseCardData } from '@/app/_types/vascular/disease-card';
+import DiseaseLink from './link';
 
 type Props = {
   id: string;
-  item: DiseaseCardItem;
+  item: ClinicDiseaseCardData;
+  isAvailable: boolean;
   /** 기존 정맥질환 카드의 PC '자세히보기' 안내 표시 여부. */
   showMoreLink?: boolean;
 };
@@ -20,13 +15,14 @@ type Props = {
 export default function ClinicDiseaseCard({
   id,
   item,
+  isAvailable,
   showMoreLink = false,
 }: Props) {
   return (
-    <Link
+    <DiseaseLink
       id={id}
-      href={item.href}
-      aria-label={`${item.title} 상세 페이지로 이동`}
+      href={isAvailable ? item.href : undefined}
+      ariaLabel={`${item.title} 상세 페이지로 이동`}
       className="flex items-center gap-5
         xl:flex-col xl:items-start"
     >
@@ -50,7 +46,7 @@ export default function ClinicDiseaseCard({
           >
             {item.title}
           </h3>
-          <ChevronRight className="size-5 xl:hidden" aria-hidden="true" />
+          {isAvailable && <ChevronRight className="size-5 xl:hidden" aria-hidden="true" />}
         </div>
         <ul
           className="mt-2 flex flex-wrap gap-1
@@ -66,7 +62,7 @@ export default function ClinicDiseaseCard({
             </li>
           ))}
         </ul>
-        {showMoreLink && (
+        {isAvailable && showMoreLink && (
           <div
             className="hidden
             xl:mt-5 xl:flex xl:items-center xl:gap-2"
@@ -76,6 +72,6 @@ export default function ClinicDiseaseCard({
           </div>
         )}
       </div>
-    </Link>
+    </DiseaseLink>
   );
 }
