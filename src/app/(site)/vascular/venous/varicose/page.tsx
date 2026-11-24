@@ -3,6 +3,7 @@ import ClinicCases from '@/app/_components/clinic/cases/section';
 import ClinicMediaFaq from '@/app/_components/clinic/media-faq/section';
 import ClinicReservationLinks from '@/app/_components/clinic/reservation-links/section';
 import ClinicStrengths from '@/app/_components/clinic/strengths/section';
+import ClinicTreatments from '@/app/_components/clinic/treatments/section';
 import Breadcrumb from '@/app/_components/common/breadcrumb';
 import PageHeader from '@/app/_components/common/page-header';
 import { vascularReservationBanner } from '@/app/_data/vascular/banner/content';
@@ -15,11 +16,12 @@ import {
   varicoseFaqQuestions,
 } from '@/app/_data/vascular/venous/varicose/faq/questions';
 import { varicoseStrengthsHeadingLines } from '@/app/_data/vascular/venous/varicose/strengths/content';
+import { varicoseAdditionalTreatments } from '@/app/_data/vascular/venous/varicose/treatments/additional';
+import { varicoseTreatmentMethods } from '@/app/_data/vascular/venous/varicose/treatments/methods';
 import { isPublishedNavigationPath } from '@/app/_lib/navigation/navigation-tree';
 import VaricoseCeap from '@/app/_ui/vascular/venous/varicose/ceap/section';
 import VaricoseDiagnostics from '@/app/_ui/vascular/venous/varicose/diagnostics/section';
 import VaricoseSymptoms from '@/app/_ui/vascular/venous/varicose/symptoms/section';
-import VaricoseTreatments from '@/app/_ui/vascular/venous/varicose/treatments/section';
 import { notFound } from 'next/navigation';
 
 export default function VascularVenousVaricosePage() {
@@ -42,7 +44,21 @@ export default function VascularVenousVaricosePage() {
       <ClinicBanner {...vascularReservationBanner} />
 
       {/* 하지정맥류 - 치료법 */}
-      <VaricoseTreatments />
+      <div className="mt-30">
+        <ClinicTreatments
+          id="vascular-venous-varicose-treatments"
+          ariaLabel="하지정맥류 치료 방법"
+          title={
+            <>
+              하지정맥류의 모든 치료법
+              <br />
+              <b>청맥병원에서 가능합니다</b>
+            </>
+          }
+          methods={varicoseTreatmentMethods}
+          additionalTreatments={varicoseAdditionalTreatments}
+        />
+      </div>
 
       {/* 하지정맥류 - 치료사례 */}
       <ClinicCases

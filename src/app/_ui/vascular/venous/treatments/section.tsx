@@ -5,7 +5,7 @@ import { venousTreatmentMethods } from '@/app/_data/vascular/venous/treatments/m
 import VenousTreatmentItem from './item';
 
 /** 정맥질환 맞춤 치료: 데이터와 페이지별 하단 콘텐츠는 분리하고, 캐러셀 UI만 공유합니다. */
-export default function VenousTreatments() {
+export default function VenousPersonalizedTreatments() {
   return (
     <section id="vascular-venous-treatments">
       <Inner>

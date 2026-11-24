@@ -2,6 +2,7 @@ import ClinicBanner from '@/app/_components/clinic/banner';
 import BestCasesSection from '@/app/_components/clinic/best-cases/section';
 import ClinicExpertiseSection from '@/app/_components/clinic/expertise/section';
 import ClinicSplitFaq from '@/app/_components/clinic/faq/section';
+import ClinicSpecialistsSection from '@/app/_components/clinic/specialists/section';
 import ClinicSymptomComparison from '@/app/_components/clinic/symptom-comparison/section';
 import Breadcrumb from '@/app/_components/common/breadcrumb';
 import PageHeader from '@/app/_components/common/page-header';
@@ -12,16 +13,17 @@ import {
   arterialFaqs,
 } from '@/app/_data/vascular/arterial/faq/questions';
 import { arterialOcclusionBanner } from '@/app/_data/vascular/arterial/occlusion-banner/content';
+import { arterialSpecialistsContent } from '@/app/_data/vascular/arterial/specialists/content';
 import {
   vascularHealthBanner,
   vascularReservationBanner,
 } from '@/app/_data/vascular/banner/content';
 import { isPublishedNavigationPath } from '@/app/_lib/navigation/navigation-tree';
+import { getClinicSpecialists } from '@/app/_services/clinic/specialists';
 import ArterialDiagnostics from '@/app/_ui/vascular/arterial/diagnostics/section';
 import ArterialDiseases from '@/app/_ui/vascular/arterial/diseases/section';
 import ArterialProgression from '@/app/_ui/vascular/arterial/progression/section';
 import ArterialSelfDiagnosis from '@/app/_ui/vascular/arterial/self-diagnosis/section';
-import ArterialSpecialists from '@/app/_ui/vascular/arterial/specialists/section';
 import { notFound } from 'next/navigation';
 
 export default function VascularArterialPage() {
@@ -67,7 +69,11 @@ export default function VascularArterialPage() {
       />
 
       {/* 동맥질환 - 의료진 */}
-      <ArterialSpecialists />
+      <ClinicSpecialistsSection
+        id="vascular-arterial-specialists"
+        content={arterialSpecialistsContent}
+        doctors={getClinicSpecialists(arterialSpecialistsContent.doctorIds)}
+      />
 
       {/* 공통배너 - 청맥병원에서 시작하는 혈관 건강 */}
       <ClinicBanner {...vascularHealthBanner} />

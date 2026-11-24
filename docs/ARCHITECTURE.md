@@ -281,3 +281,9 @@ src/app/
 
 - 동맥질환·하지동맥폐색증·정맥질환·하지정맥류 4개 페이지에서 공통 컴포넌트에 Props만 연결하는 중간 섹션을 제거하고, page.tsx에서 공통 UI와 기존 _data를 직접 연결한다. 하지동맥폐색증 치료사례의 기존 분류 조회 및 fallback은 유지한다.
 - 페이지 전용 DOM·레이아웃(하지정맥류 치료법의 mt-30 포함), 의료진 선택·변환 등 독립 책임이 있는 섹션은 _ui에 유지한다. 공통 UI, 데이터, 기존 ID·Props·섹션 순서와 화면을 변경하지 않는다. 다른 페이지에는 적용하지 않는다.
+
+## 의료진 데이터 연결 및 치료 섹션 직접 호출 (2026-11-24)
+
+- 동맥·정맥질환 의료진 섹션의 기존 doctorId/doctorIds 형식을 doctorIds 배열로 통일한다. 페이지는 공통 ClinicSpecialistsSection을 직접 호출하고, _services/clinic/specialists.ts의 getClinicSpecialists로 기존 의료진 단일 원본에서 표시 데이터를 조회한다. 표시 순서와 누락 ID 제외 동작은 유지하며 기존 공통 UI는 수정하지 않는다.
+- 정맥질환 전용 혈관 맞춤 치료의 컴포넌트명은 VenousPersonalizedTreatments로 명확히 구분한다. 기존 기능 폴더·데이터·이미지 URL 및 DOM ID는 유지한다.
+- 하지정맥류 ClinicTreatments와 기존 mt-30 레이아웃 래퍼를 page.tsx로 옮긴다. 이전 직접 호출 기록의 의료진/하지정맥류 치료법 유지 결정에 대한 후속 승인이다. 다른 페이지 및 UI 디자인은 변경하지 않는다.

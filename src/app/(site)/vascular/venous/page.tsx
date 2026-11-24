@@ -2,6 +2,7 @@ import ClinicBanner from '@/app/_components/clinic/banner';
 import BestCasesSection from '@/app/_components/clinic/best-cases/section';
 import ClinicExpertiseSection from '@/app/_components/clinic/expertise/section';
 import ClinicSplitFaq from '@/app/_components/clinic/faq/section';
+import ClinicSpecialistsSection from '@/app/_components/clinic/specialists/section';
 import Breadcrumb from '@/app/_components/common/breadcrumb';
 import PageHeader from '@/app/_components/common/page-header';
 import {
@@ -14,11 +15,12 @@ import {
   venousFaqMoreLink,
   venousFaqs,
 } from '@/app/_data/vascular/venous/faq/questions';
+import { venousSpecialistsContent } from '@/app/_data/vascular/venous/specialists/content';
 import { isPublishedNavigationPath } from '@/app/_lib/navigation/navigation-tree';
+import { getClinicSpecialists } from '@/app/_services/clinic/specialists';
 import VenousCauses from '@/app/_ui/vascular/venous/causes/section';
 import VenousDiseases from '@/app/_ui/vascular/venous/diseases/section';
-import VenousSpecialists from '@/app/_ui/vascular/venous/specialists/section';
-import VenousTreatments from '@/app/_ui/vascular/venous/treatments/section';
+import VenousPersonalizedTreatments from '@/app/_ui/vascular/venous/treatments/section';
 import { notFound } from 'next/navigation';
 
 export default function VascularVenousPage() {
@@ -35,7 +37,7 @@ export default function VascularVenousPage() {
       <VenousDiseases />
 
       {/* 정맥질환 - 혈관 맞춤 치료 */}
-      <VenousTreatments />
+      <VenousPersonalizedTreatments />
 
       {/* 공통배너 - 최대한 빠른 검사 날짜는 언제일까요? */}
       <ClinicBanner {...vascularReservationBanner} />
@@ -50,7 +52,11 @@ export default function VascularVenousPage() {
       />
 
       {/* 정맥질환 - 의료진 */}
-      <VenousSpecialists />
+      <ClinicSpecialistsSection
+        id="vascular-venous-specialists"
+        content={venousSpecialistsContent}
+        doctors={getClinicSpecialists(venousSpecialistsContent.doctorIds)}
+      />
 
       {/* 공통배너 - 청맥병원에서 시작하는 혈관 건강 */}
       <ClinicBanner {...vascularHealthBanner} />

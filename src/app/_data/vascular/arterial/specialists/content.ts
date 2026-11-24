@@ -8,7 +8,7 @@ export const arterialSpecialistsContent = {
   description:
     '20년 이상 임상경험과 숙련도를 지닌 청맥의 전문의가 당신의 건강한 내일을 책임집니다.',
   // 기존 의료진 데이터의 ID. 추후 DB에서는 doctors.id FK로 교체.
-  doctorId: 'byun-seungjae',
+  doctorIds: ['byun-seungjae'],
   links: [
     {
       id: 'clinic-closures',
