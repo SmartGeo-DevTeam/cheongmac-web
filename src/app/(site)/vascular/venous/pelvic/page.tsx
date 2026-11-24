@@ -1,17 +1,28 @@
 import ClinicBanner from '@/app/_components/clinic/banner';
 import ClinicCases from '@/app/_components/clinic/cases/section';
+import ClinicMediaFaq from '@/app/_components/clinic/media-faq/section';
+import ClinicReservationLinks from '@/app/_components/clinic/reservation-links/section';
+import ClinicStrengths from '@/app/_components/clinic/strengths/section';
 import ClinicSymptoms from '@/app/_components/clinic/symptom-carousel/section';
 import ClinicSymptomComparison from '@/app/_components/clinic/symptom-comparison/section';
 import ClinicTreatments from '@/app/_components/clinic/treatments/section';
 import Breadcrumb from '@/app/_components/common/breadcrumb';
 import PageHeader from '@/app/_components/common/page-header';
 import { vascularReservationBanner } from '@/app/_data/vascular/banner/content';
+import { vascularReservationLinks } from '@/app/_data/vascular/reservation-links/links';
+import { vascularStrengthItems } from '@/app/_data/vascular/strengths/items';
 import { pelvicCasePreviews } from '@/app/_data/vascular/venous/pelvic/cases/featured';
 import {
   menstrualPainCondition,
   pelvicVaricesCondition,
 } from '@/app/_data/vascular/venous/pelvic/comparison/conditions';
 import { pelvicPainPattern } from '@/app/_data/vascular/venous/pelvic/comparison/content';
+import {
+  pelvicFaqHeading,
+  pelvicFaqMedia,
+  pelvicFaqQuestions,
+} from '@/app/_data/vascular/venous/pelvic/faq/questions';
+import { pelvicStrengthsHeadingLines } from '@/app/_data/vascular/venous/pelvic/strengths/content';
 import { pelvicSymptoms } from '@/app/_data/vascular/venous/pelvic/symptoms/items';
 import { pelvicTreatmentMethod } from '@/app/_data/vascular/venous/pelvic/treatments/methods';
 import { isPublishedNavigationPath } from '@/app/_lib/navigation/navigation-tree';
@@ -112,12 +123,46 @@ export default function VascularVenousPelvicPage() {
           <>
             골반정맥류는 자궁이나 난소의 병이 아닌 혈관질환입니다.{` `}
             <br className={`hidden xl:block`} />
-            원인이 되는 난소정맥의 역류만 안전하게 차단하는 스마트 코일
-            색전술을 통해 정상 정맥의 혈액 순환을 회복시키고 통증과 증상을
-            효과적으로 개선합니다.
+            원인이 되는 난소정맥의 역류만 안전하게 차단하는 스마트 코일 색전술을
+            통해 정상 정맥의 혈액 순환을 회복시키고 통증과 증상을 효과적으로
+            개선합니다.
           </>
         }
         method={pelvicTreatmentMethod}
+      />
+
+      {/* 공통 - 네이버/톡톡 예약 */}
+      <ClinicReservationLinks
+        id="vascular-venous-varicose-reservation-links"
+        links={vascularReservationLinks}
+      />
+
+      {/* 공통 - 어디서, 누구에게 받느냐가 치료의 결과를 바꿉니다 */}
+      {/* TODO: 메시지가 확정되면 _data/.../strengths/content.ts에 입력합니다. */}
+      {/* 기존 병원 공통 강점 카드 5개는 동맥 페이지와 동일하게 재사용합니다. */}
+      <ClinicStrengths
+        id="vascular-venous-pelvic-strengths"
+        headingLines={pelvicStrengthsHeadingLines}
+        items={vascularStrengthItems}
+      />
+
+      {/* 공통 - 자주 묻는 질문 */}
+      <ClinicMediaFaq
+        id="vascular-venous-pelvic-faq"
+        headingLabel={pelvicFaqHeading.label}
+        headingTitle={
+          <>
+            <span className={`font-normal`}>
+              {pelvicFaqHeading.firstLine}
+            </span>
+            <br />
+            <b className={`font-bold`}>{pelvicFaqHeading.secondLine}</b>
+          </>
+        }
+        thumbnail={pelvicFaqMedia.thumbnail}
+        thumbnailAlt="골반정맥류의 증상·검사·치료를 소개하는 영상 썸네일"
+        avatar={pelvicFaqMedia.avatar}
+        questions={pelvicFaqQuestions}
       />
     </>
   );
