@@ -1,6 +1,6 @@
 'use client';
 
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import CarouselControls from '@/app/_components/common/carousel-controls';
 import type { ClinicMethodSlide } from '@/app/_types/clinic/method-carousel';
 import { useRef, useState } from 'react';
 import type { Swiper as SwiperType } from 'swiper';
@@ -8,12 +8,14 @@ import 'swiper/css';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 type ClinicMethodCarouselProps = {
+  id: string;
   slides: readonly ClinicMethodSlide[];
   itemLabel: string;
 };
 
 /** 동맥 진단·정맥 치료가 공유하는 캐러셀 UI/슬라이드 동작. */
 export default function ClinicMethodCarousel({
+  id,
   slides,
   itemLabel,
 }: ClinicMethodCarouselProps) {
@@ -24,6 +26,7 @@ export default function ClinicMethodCarousel({
 
   return (
     <div
+      id={id}
       className="mt-10
       xl:mt-25"
     >
@@ -58,61 +61,20 @@ export default function ClinicMethodCarousel({
         ))}
       </Swiper>
 
-      <div
-        className="mt-10 flex items-center justify-center gap-5
-        xl:mt-15 xl:gap-15"
-      >
-        <button
-          type="button"
-          aria-label={`이전 ${itemLabel} 보기`}
-          onClick={() => swiperRef.current?.slidePrev()}
-          className="size-9 flex justify-center items-center rounded-full shadow-[0_0_10px_0_rgba(0,0,0,0.06)]
-          xl:size-15"
-        >
-          <ChevronLeft
-            className="size-5
-            xl:size-8"
-          />
-        </button>
-
-        <div
-          role="group"
-          aria-label={`${itemLabel} 슬라이드 선택`}
-          className="flex items-center gap-2"
-        >
-          {slides.map((slide, index) => (
-            <button
-              key={slide.id}
-              type="button"
-              aria-label={`${index + 1}번째 ${itemLabel} ${slide.title} 보기`}
-              aria-current={activeIndex === index ? 'true' : undefined}
-              onClick={() => swiperRef.current?.slideTo(index)}
-              className={`h-2 rounded-full
-                xl:h-2.5
-                ${
-                  activeIndex === index
-                    ? `w-6 bg-accent-ai
-                    xl:w-8`
-                    : `w-2 bg-gray-150
-                    xl:w-2.5`
-                }`}
-            />
-          ))}
-        </div>
-
-        <button
-          type="button"
-          aria-label={`다음 ${itemLabel} 보기`}
-          onClick={() => swiperRef.current?.slideNext()}
-          className="size-9 flex justify-center items-center rounded-full shadow-[0_0_10px_0_rgba(0,0,0,0.06)]
-          xl:size-15"
-        >
-          <ChevronRight
-            className="size-5
-            xl:size-8"
-          />
-        </button>
-      </div>
+      <CarouselControls
+        id={`${id}-controls`}
+        items={slides.map((slide, index) => ({
+          id: slide.id,
+          ariaLabel: `${index + 1}번째 ${itemLabel} ${slide.title} 보기`,
+        }))}
+        activeIndex={activeIndex}
+        previousAriaLabel={`이전 ${itemLabel} 보기`}
+        nextAriaLabel={`다음 ${itemLabel} 보기`}
+        paginationAriaLabel={`${itemLabel} 슬라이드 선택`}
+        onPrevious={() => swiperRef.current?.slidePrev()}
+        onNext={() => swiperRef.current?.slideNext()}
+        onSelect={(index) => swiperRef.current?.slideTo(index)}
+      />
     </div>
   );
 }

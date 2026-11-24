@@ -23,7 +23,11 @@ export default function ClinicMethodSection({
       <Inner>
         <SectionHeading {...heading} />
       </Inner>
-      <ClinicMethodCarousel itemLabel={itemLabel} slides={slides} />
+      <ClinicMethodCarousel
+        id={`${id}-carousel`}
+        itemLabel={itemLabel}
+        slides={slides}
+      />
     </section>
   );
 }
