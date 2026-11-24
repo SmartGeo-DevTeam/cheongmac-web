@@ -2,6 +2,7 @@ import ClinicBanner from '@/app/_components/clinic/banner';
 import ClinicCases from '@/app/_components/clinic/cases/section';
 import ClinicSymptoms from '@/app/_components/clinic/symptom-carousel/section';
 import ClinicSymptomComparison from '@/app/_components/clinic/symptom-comparison/section';
+import ClinicTreatments from '@/app/_components/clinic/treatments/section';
 import Breadcrumb from '@/app/_components/common/breadcrumb';
 import PageHeader from '@/app/_components/common/page-header';
 import { vascularReservationBanner } from '@/app/_data/vascular/banner/content';
@@ -12,6 +13,7 @@ import {
 } from '@/app/_data/vascular/venous/pelvic/comparison/conditions';
 import { pelvicPainPattern } from '@/app/_data/vascular/venous/pelvic/comparison/content';
 import { pelvicSymptoms } from '@/app/_data/vascular/venous/pelvic/symptoms/items';
+import { pelvicTreatmentMethod } from '@/app/_data/vascular/venous/pelvic/treatments/methods';
 import { isPublishedNavigationPath } from '@/app/_lib/navigation/navigation-tree';
 import PelvicPainPattern from '@/app/_ui/vascular/venous/pelvic/comparison/pain-pattern';
 import PelvicDiagnostics from '@/app/_ui/vascular/venous/pelvic/diagnostics/section';
@@ -93,6 +95,29 @@ export default function VascularVenousPelvicPage() {
         }
         description={<>※ 치료 경과는 개인에 따라서 달라질 수 있습니다.</>}
         moreHref="/community/cases?tab=before-after&category=pelvic-vein"
+      />
+
+      {/* 공통 - 치료법 */}
+      <ClinicTreatments
+        id="vascular-venous-pelvic-treatments"
+        mode="standalone"
+        title={
+          <b>
+            자궁은 지키고,{` `}
+            <br className={`xl:hidden`} />
+            문제 정맥만 막습니다
+          </b>
+        }
+        description={
+          <>
+            골반정맥류는 자궁이나 난소의 병이 아닌 혈관질환입니다.{` `}
+            <br className={`hidden xl:block`} />
+            원인이 되는 난소정맥의 역류만 안전하게 차단하는 스마트 코일
+            색전술을 통해 정상 정맥의 혈액 순환을 회복시키고 통증과 증상을
+            효과적으로 개선합니다.
+          </>
+        }
+        method={pelvicTreatmentMethod}
       />
     </>
   );
