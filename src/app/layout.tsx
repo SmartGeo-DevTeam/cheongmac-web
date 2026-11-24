@@ -1,5 +1,5 @@
 import { suit } from '@/app/_lib/config/fonts';
-import SiteFooter from '@/app/_components/site/footer';
+import SiteFooter from '@/app/_components/site/footer/section';
 import SiteHeader from '@/app/_components/site/header';
 import MacGptSearchLayer from '@/app/_components/site/mac-gpt-search';
 import { ScrollDirectionProvider } from '@/app/_providers/scroll-direction-provider';
