@@ -14,6 +14,7 @@ import { pelvicPainPattern } from '@/app/_data/vascular/venous/pelvic/comparison
 import { pelvicSymptoms } from '@/app/_data/vascular/venous/pelvic/symptoms/items';
 import { isPublishedNavigationPath } from '@/app/_lib/navigation/navigation-tree';
 import PelvicPainPattern from '@/app/_ui/vascular/venous/pelvic/comparison/pain-pattern';
+import PelvicDiagnostics from '@/app/_ui/vascular/venous/pelvic/diagnostics/section';
 import PelvicRelated from '@/app/_ui/vascular/venous/pelvic/related/section';
 import PelvicStatistics from '@/app/_ui/vascular/venous/pelvic/statistics/section';
 import { notFound } from 'next/navigation';
@@ -67,6 +68,9 @@ export default function VascularVenousPelvicPage() {
       {/* 골반정맥류 - 연관 질환 */}
       <PelvicRelated id="vascular-venous-pelvic-related" />
 
+      {/* 골반정맥류 - 진단 방법 */}
+      <PelvicDiagnostics id="vascular-venous-pelvic-diagnostics" />
+
       {/* 공통 - 배너: 최대한 빠른 검사 날짜는 언제일까요? */}
       <ClinicBanner
         id="vascular-reservation-banner"
@@ -87,13 +91,7 @@ export default function VascularVenousPelvicPage() {
             <b>실제 치료 결과로 증명합니다</b>
           </>
         }
-        description={
-          <>
-            ※ 치료 경과는 개인에 따라서 달라질 수 있습니다.
-            <br />
-            ※ 현재는 시안용 가상 사례 및 예시 이미지입니다.
-          </>
-        }
+        description={<>※ 치료 경과는 개인에 따라서 달라질 수 있습니다.</>}
         moreHref="/community/cases?tab=before-after&category=pelvic-vein"
       />
     </>
