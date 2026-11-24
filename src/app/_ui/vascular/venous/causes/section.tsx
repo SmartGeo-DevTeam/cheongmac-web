@@ -7,9 +7,9 @@ import { Fragment } from 'react';
 import VenousCauseItem from './item';
 
 /** 정맥질환 원인: 섹션 조립만 담당하며, 카드 UI와 정적 데이터는 분리합니다. */
-export default function VenousCauses() {
+export default function VenousCauses({ id }: { id: string }) {
   return (
-    <section id="vascular-venous-causes">
+    <section id={id}>
       <div>
         <Inner>
           <SectionHeading
@@ -38,7 +38,10 @@ export default function VenousCauses() {
                     </div>
                   </li>
                 )}
-                <VenousCauseItem id={`vascular-venous-causes-${item.id}`} item={item} />
+                <VenousCauseItem
+                  id={`vascular-venous-causes-${item.id}`}
+                  item={item}
+                />
               </Fragment>
             ))}
           </ul>

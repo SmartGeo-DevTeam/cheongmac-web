@@ -1,5 +1,4 @@
 export const vascularReservationBanner = {
-  id: 'vascular-reservation-banner',
   href: '/guide/reservation',
   heading: '최대한 빠른',
   subheading: '검사 날짜는 언제일까요?',
@@ -13,7 +12,6 @@ export const vascularReservationBanner = {
 } as const;
 
 export const vascularHealthBanner = {
-  id: 'vascular-arterial-health-banner',
   href: '/guide/reservation',
   heading: '청맥병원에서 시작하는',
   subheading: '혈관 건강',

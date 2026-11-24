@@ -14,6 +14,7 @@ type ClinicTreatmentsProps = {
   title: ReactNode;
   methods: readonly TreatmentMethod[];
   additionalTreatments?: AdditionalTreatmentsContent;
+  className?: string;
 };
 
 /** 치료법 섹션의 반응형 제목·탭·상세정보 공통 조립. */
@@ -23,9 +24,10 @@ export default function ClinicTreatments({
   title,
   methods,
   additionalTreatments,
+  className = '',
 }: ClinicTreatmentsProps) {
   return (
-    <section id={id}>
+    <section id={id} className={`${className}`}>
       <div className={`mt-15 pb-15 bg-[#F2F2F2]`}>
         <Inner>
           <SectionHeading

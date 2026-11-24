@@ -1,7 +1,7 @@
+import type { EquipmentType } from '@/app/_data/about/equipment/equipment';
 import { Check, ChevronLeft, ChevronRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import type { EquipmentType } from '@/app/_data/about/equipment/equipment';
 import EquipmentDetailSection from './detail-section';
 
 export default function EquipmentDetail({
@@ -16,10 +16,7 @@ export default function EquipmentDetail({
   const detail = equipment.detail;
 
   return (
-    <article
-      className="mb-20
-      xl:mb-28"
-    >
+    <article>
       <section>
         <div
           className="relative aspect-628/340 overflow-hidden rounded-xl bg-subtle

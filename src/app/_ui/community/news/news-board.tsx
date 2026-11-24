@@ -2,15 +2,15 @@
 
 import Inner from '@/app/_components/common/inner';
 import PageHeader from '@/app/_components/common/page-header';
+import PageTabs from '@/app/_components/common/page-tabs';
 import ContentPagination from '@/app/_components/content-list/pagination';
 import ContentListToolbar from '@/app/_components/content-list/toolbar';
-import PageTabs from '@/app/_components/common/page-tabs';
+import { NEWS_ITEMS, type NewsCategory } from '@/app/_data/community/news/news';
 import { useViewport } from '@/app/_providers/viewport-provider';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Suspense, useEffect, useMemo, useState } from 'react';
-import { NEWS_ITEMS, type NewsCategory } from '@/app/_data/community/news/news';
 
 type NewsTabId = 'all' | NewsCategory;
 
@@ -354,8 +354,8 @@ function NewsContent() {
             </div>
 
             <div
-              className="mt-4 mb-20 space-y-2
-              xl:grid xl:grid-cols-3 xl:gap-3"
+              className="mt-4 space-y-2
+              xl:mt-32 xl:grid xl:grid-cols-3 xl:gap-3"
             >
               <Link
                 href={`/`}

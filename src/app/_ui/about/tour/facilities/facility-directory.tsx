@@ -2,16 +2,16 @@
 
 import CategoryTabs from '@/app/_components/common/category-tabs';
 import Inner from '@/app/_components/common/inner';
-import { ChevronDown, Search } from 'lucide-react';
-import Image from 'next/image';
-import { useState } from 'react';
-import TourFacilityModal from '@/app/_ui/about/tour/facilities/facility-modal';
 import {
   facilities,
   facilityCategories,
   type FacilityCategoryId,
   type FacilityType,
 } from '@/app/_data/about/tour/facilities/facilities';
+import TourFacilityModal from '@/app/_ui/about/tour/facilities/facility-modal';
+import { ChevronDown, Search } from 'lucide-react';
+import Image from 'next/image';
+import { useState } from 'react';
 
 export default function FacilityDirectory() {
   const [category, setCategory] = useState<FacilityCategoryId>('all');
@@ -164,7 +164,7 @@ export default function FacilityDirectory() {
 
           {visibleCount < filteredFacilities.length && (
             <div
-              className="mt-8 mb-14 flex justify-center
+              className="mt-8 flex justify-center
               xl:mt-20"
             >
               <button

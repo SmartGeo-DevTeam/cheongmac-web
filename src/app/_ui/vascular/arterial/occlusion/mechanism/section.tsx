@@ -5,9 +5,9 @@ import Image from 'next/image';
 import OcclusionMechanismItem from './item';
 import OcclusionMechanismTip from './tip';
 
-export default function OcclusionMechanism() {
+export default function OcclusionMechanism({ id }: { id: string }) {
   return (
-    <section id="vascular-arterial-occlusion-mechanism">
+    <section id={id}>
       <div className="mt-15">
         <Inner>
           <SectionHeading

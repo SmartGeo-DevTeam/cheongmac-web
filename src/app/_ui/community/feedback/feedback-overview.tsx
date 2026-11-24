@@ -375,8 +375,8 @@ export default function FeedbackOverview() {
       <section id="community-feedback-procedure">
         <Inner>
           <div
-            className="mt-10 mb-20
-            xl:mt-20 xl:mb-25"
+            className="mt-10
+            xl:mt-20"
           >
             <SectionTitle text="처리절차" />
 

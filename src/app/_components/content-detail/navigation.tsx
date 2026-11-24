@@ -76,7 +76,10 @@ export default function ContentDetailNavigation({
         </div>
       </nav>
 
-      <div className="mb-20 mt-5 flex justify-center xl:mb-28 xl:mt-10">
+      <div
+        className="mt-5 flex justify-center
+        xl:mt-10"
+      >
         <Link
           href={listHref}
           className="rounded-full border border-green-900 px-7 py-3 font-bold text-green-900 text-[14px]

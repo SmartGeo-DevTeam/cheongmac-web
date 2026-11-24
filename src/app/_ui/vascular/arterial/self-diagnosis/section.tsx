@@ -1,12 +1,12 @@
+import SectionHeading from '@/app/_components/clinic/section-heading';
 import Inner from '@/app/_components/common/inner';
 import { arterialSelfDiagnosisQuestions } from '@/app/_data/vascular/arterial/self-diagnosis/questions';
 import Image from 'next/image';
-import SectionHeading from '@/app/_components/clinic/section-heading';
 import ArterialSelfDiagnosisItem from './item';
 
-export default function ArterialSelfDiagnosis() {
+export default function ArterialSelfDiagnosis({ id }: { id: string }) {
   return (
-    <section id="vascular-arterial-self-diagnosis">
+    <section id={id}>
       <Inner>
         <SectionHeading
           label="자가진단 테스트"

@@ -1,11 +1,11 @@
+import SectionHeading from '@/app/_components/clinic/section-heading';
 import Inner from '@/app/_components/common/inner';
 import { arterialProgressionSteps } from '@/app/_data/vascular/arterial/progression/steps';
-import SectionHeading from '@/app/_components/clinic/section-heading';
 import ArterialProgressionItem from './item';
 
-export default function ArterialProgression() {
+export default function ArterialProgression({ id }: { id: string }) {
   return (
-    <section id="vascular-arterial-progression">
+    <section id={id}>
       <Inner>
         <SectionHeading
           mtVariant="xl"

@@ -1,10 +1,10 @@
 'use client';
 
 import Inner from '@/app/_components/common/inner';
+import { presentations } from '@/app/_data/about/doctors/[slug]/presentations';
 import Image from 'next/image';
 import Link from 'next/link';
 import Marquee from 'react-fast-marquee';
-import { presentations } from '@/app/_data/about/doctors/[slug]/presentations';
 
 export default function DoctorDetailPresentations() {
   return (
@@ -73,12 +73,12 @@ export default function DoctorDetailPresentations() {
         </div>
 
         <div
-          className="mt-10 mb-15 text-center
-          xl:mt-15 xl:mb-30"
+          className="mt-10 text-center
+          xl:mt-15"
         >
           <Link
             href="/about/doctors"
-            className="px-5 py-2 rounded-full border border-default bg-base font-bold text-[14px]
+            className="inline-block px-5 py-2 rounded-full border border-default bg-base font-bold text-[14px]
             xl:px-10 xl:py-3 xl:text-[20px]"
           >
             발표이력 전체보기

@@ -5,9 +5,9 @@ import CeapIntroduction from './introduction';
 import CeapStageList from './stage-list';
 
 /** CEAP 섹션: 모바일 상단·도해는 어두운 배경, 단계 목록은 흰 배경. PC는 전체 흰 배경. */
-export default function VaricoseCeap() {
+export default function VaricoseCeap({ id }: { id: string }) {
   return (
-    <section id="vascular-venous-varicose-ceap" className={`mt-15`}>
+    <section id={id} className={`mt-15`}>
       {/* 제목과 CEAP 소개: 모바일만 어두운 배경 */}
       <div
         className={`rounded-t-[20px] bg-brand-deep

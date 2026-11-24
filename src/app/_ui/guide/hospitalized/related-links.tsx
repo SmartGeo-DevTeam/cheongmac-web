@@ -1,16 +1,16 @@
 import Inner from '@/app/_components/common/inner';
 import ContentDetailShareButton from '@/app/_components/content-detail/share-button';
+import { relatedLinks } from '@/app/_data/guide/hospitalized/related-links';
 import { ChevronRight } from 'lucide-react';
 import Link from 'next/link';
-import { relatedLinks } from '@/app/_data/guide/hospitalized/related-links';
 
 export default function HospitalizedRelatedLinks() {
   return (
     <section id="guide-hospitalized-related">
       <Inner>
         <div
-          className="mt-15 mb-24
-          xl:mt-40 xl:mb-36 xl:pl-21 xl:pr-5 xl:py-11 xl:flex xl:justify-between xl:items-center xl:rounded-[20px] xl:bg-subtle"
+          className="mt-15
+          xl:mt-40 xl:pl-21 xl:pr-5 xl:py-11 xl:flex xl:justify-between xl:items-center xl:rounded-[20px] xl:bg-subtle"
         >
           <div
             className="p-6 rounded-xl bg-subtle

@@ -91,8 +91,7 @@ export default function ContentPagination({
   return (
     <nav
       aria-label={ariaLabel}
-      className="pb-24 flex items-center justify-center gap-2 px-5 text-[16px] font-semibold text-gray-600
-      xl:pb-30"
+      className="flex items-center justify-center gap-2 px-5 text-[16px] font-semibold text-gray-600"
     >
       {pageControl(
         1,

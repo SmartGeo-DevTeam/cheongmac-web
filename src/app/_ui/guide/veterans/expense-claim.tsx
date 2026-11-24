@@ -1,17 +1,16 @@
 import Inner from '@/app/_components/common/inner';
 import SectionBlock from '@/app/_components/common/section-block';
+import {
+  paymentDescription,
+  paymentDocuments,
+} from '@/app/_data/guide/veterans/expense-claim';
 import VeteransSectionDescription from './section-description';
-import { paymentDescription, paymentDocuments } from '@/app/_data/guide/veterans/expense-claim';
 
 export default function VeteransExpenseClaim() {
   return (
     <section id="guide-veterans-payment">
       <Inner>
-        <SectionBlock
-          title="진료비 지급 신청"
-          variant="side"
-          className="mb-20 xl:mb-36"
-        >
+        <SectionBlock title="진료비 지급 신청" variant="side">
           <VeteransSectionDescription text={paymentDescription} />
 
           <ul

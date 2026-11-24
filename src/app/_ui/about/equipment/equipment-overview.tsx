@@ -1,7 +1,7 @@
 import Inner from '@/app/_components/common/inner';
+import { equipments } from '@/app/_data/about/equipment/equipment';
 import Image from 'next/image';
 import Link from 'next/link';
-import { equipments } from '@/app/_data/about/equipment/equipment';
 
 export default function EquipmentOverview() {
   return (
@@ -9,7 +9,7 @@ export default function EquipmentOverview() {
       <section id="about-equipment-equipments">
         <Inner>
           <ul
-            className="mt-5 mb-32 grid grid-cols-2 gap-x-2 gap-y-4
+            className="mt-5 grid grid-cols-2 gap-x-2 gap-y-4
             xl:mt-15 xl:gap-x-6 xl:gap-y-25"
           >
             {equipments.map((equipment) => (

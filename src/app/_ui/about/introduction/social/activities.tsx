@@ -1,6 +1,6 @@
 import Inner from '@/app/_components/common/inner';
-import IntroductionSocialActivityCard from './activity-card';
 import { activities } from '@/app/_data/about/introduction/social/activities';
+import IntroductionSocialActivityCard from './activity-card';
 
 export default function IntroductionSocialActivities() {
   return (
@@ -11,11 +11,14 @@ export default function IntroductionSocialActivities() {
       >
         <Inner>
           <ul
-            className="pb-20 space-y-20
-          xl:pb-30 xl:space-y-50"
+            className="space-y-20
+            xl:space-y-50"
           >
             {activities.map((items) => (
-              <IntroductionSocialActivityCard key={items.id} activities={items} />
+              <IntroductionSocialActivityCard
+                key={items.id}
+                activities={items}
+              />
             ))}
           </ul>
         </Inner>

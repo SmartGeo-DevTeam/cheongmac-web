@@ -5,8 +5,8 @@ export default function IntroductionIntroSummary() {
   return (
     <section id="about-introduction-summary">
       <div
-        className="mt-15 mb-25
-        xl:my-30"
+        className="mt-15
+        xl:mt-30"
       >
         <Inner>
           <h2

@@ -1,16 +1,16 @@
 import Inner from '@/app/_components/common/inner';
+import { ctas } from '@/app/_data/about/doctors/appointment-cta';
 import { ChevronRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ctas } from '@/app/_data/about/doctors/appointment-cta';
 
 export default function DoctorAppointmentCta() {
   return (
     <section id="about-doctors-cta">
       <Inner>
         <div
-          className="my-5
-          xl:mt-10 xl:mb-20"
+          className="mt-5
+          xl:mt-10"
         >
           <ul
             className="grid grid-cols-1 gap-2
