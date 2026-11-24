@@ -47,19 +47,19 @@ export default function VascularArterialOcclusionPage() {
       {/* 하지동맥폐색증 - 생명을 위협하는 하지동맥폐색증 */}
       <OcclusionMechanism />
 
-      {/* 하지동맥폐색증 - 비슷한 증상, 다른 전혀 질환 (척추디스크) */}
+      {/* 공통 - 비슷한 증상, 다른 전혀 질환 (척추디스크) */}
       <ClinicSymptomComparison id="vascular-arterial-occlusion-comparison" />
 
       {/* 하지동맥폐색증 - 진단 방법 */}
       <OcclusionDiagnostics />
 
-      {/* 공통배너 - 최대한 빠른 검사 날짜는 언제일까요? */}
+      {/* 공통 - 배너: 최대한 빠른 검사 날짜는 언제일까요? */}
       <ClinicBanner
         {...vascularReservationBanner}
         isPaddingHorizontalInMobile={false}
       />
 
-      {/* 하지동맥폐색증 - 치료사례 */}
+      {/* 공통 - 치료사례 */}
       <ClinicCases
         id="vascular-arterial-occlusion-cases"
         items={occlusionCasePreviews}
@@ -78,7 +78,7 @@ export default function VascularArterialOcclusionPage() {
         moreHref="/community/cases?tab=before-after&category=peripheral-artery"
       />
 
-      {/* 하지동맥폐색증 - 치료법 */}
+      {/* 공통 - 치료법 */}
       <ClinicTreatments
         id="vascular-arterial-occlusion-treatments"
         ariaLabel="하지동맥폐색증 치료 방법"
@@ -92,14 +92,14 @@ export default function VascularArterialOcclusionPage() {
         links={vascularReservationLinks}
       />
 
-      {/* 하지동맥폐색증 - 어디서, 누구에게 받느냐가 치료의 결과를 바꿉니다 */}
+      {/* 공통 - 어디서, 누구에게 받느냐가 치료의 결과를 바꿉니다 */}
       <ClinicStrengths
         id="vascular-arterial-occlusion-strengths"
         headingLines={occlusionStrengthsHeadingLines}
         items={vascularStrengthItems}
       />
 
-      {/* 하지동맥폐색증 - 자주 묻는 질문 */}
+      {/* 공통 - 자주 묻는 질문 */}
       <ClinicMediaFaq
         id="vascular-arterial-occlusion-faq"
         thumbnail={occlusionFaqMedia.thumbnail}

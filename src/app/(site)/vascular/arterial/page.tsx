@@ -44,41 +44,41 @@ export default function VascularArterialPage() {
       {/* 동맥질환 - 증상이 없다고 안심하면 안 되는 이유 */}
       <ArterialProgression />
 
-      {/* 동맥질환 - 비슷한 증상, 다른 전혀 질환 */}
+      {/* 공통 - 비슷한 증상, 다른 전혀 질환 */}
       <ClinicSymptomComparison id="vascular-arterial-symptom-comparison" />
 
-      {/* 공통배너 - 말초동맥폐쇄증, 더 자세히 알아보고 싶다면 */}
+      {/* 공통 - 배너: 말초동맥폐쇄증, 더 자세히 알아보고 싶다면 */}
       <ClinicBanner {...arterialOcclusionBanner} />
 
       {/* 동맥질환 - 동맥질환 진단방법 */}
       <ArterialDiagnostics />
 
-      {/* 공통배너 - 최대한 빠른 검사 날짜는 언제일까요? */}
+      {/* 공통 - 배너: 최대한 빠른 검사 날짜는 언제일까요? */}
       <ClinicBanner {...vascularReservationBanner} />
 
-      {/* 동맥질환 - BEST 치료사례 */}
+      {/* 공통 - BEST 치료사례 */}
       <BestCasesSection
         id="vascular-arterial-best-cases"
         cases={arterialBestCases}
       />
 
-      {/* 동맥질환 - 혈관만 봅니다 그래서 다릅니다 */}
+      {/* 공통 - 혈관만 봅니다 그래서 다릅니다 */}
       <ClinicExpertiseSection
         id="vascular-arterial-expertise"
         items={arterialExpertiseItems}
       />
 
-      {/* 동맥질환 - 의료진 */}
+      {/* 공통 - 의료진 */}
       <ClinicSpecialistsSection
         id="vascular-arterial-specialists"
         content={arterialSpecialistsContent}
         doctors={getClinicSpecialists(arterialSpecialistsContent.doctorIds)}
       />
 
-      {/* 공통배너 - 청맥병원에서 시작하는 혈관 건강 */}
+      {/* 공통 - 배너: 청맥병원에서 시작하는 혈관 건강 */}
       <ClinicBanner {...vascularHealthBanner} />
 
-      {/* 동맥질환 - 자주 묻는 질문 */}
+      {/* 공통 - 자주 묻는 질문 */}
       <ClinicSplitFaq
         id="vascular-arterial-faq"
         title={

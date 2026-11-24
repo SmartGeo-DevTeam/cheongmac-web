@@ -40,10 +40,10 @@ export default function VascularVenousVaricosePage() {
       {/* 하지정맥류 - 진단 방법 */}
       <VaricoseDiagnostics />
 
-      {/* 공통배너 - 최대한 빠른 검사 날짜는 언제일까요? */}
+      {/* 공통 - 배너: 최대한 빠른 검사 날짜는 언제일까요? */}
       <ClinicBanner {...vascularReservationBanner} />
 
-      {/* 하지정맥류 - 치료법 */}
+      {/* 공통 - 치료법 */}
       <div className="mt-30">
         <ClinicTreatments
           id="vascular-venous-varicose-treatments"
@@ -60,7 +60,7 @@ export default function VascularVenousVaricosePage() {
         />
       </div>
 
-      {/* 하지정맥류 - 치료사례 */}
+      {/* 공통 - 치료사례 */}
       <ClinicCases
         id="vascular-venous-varicose-cases"
         items={varicoseCasePreviews}
@@ -82,7 +82,7 @@ export default function VascularVenousVaricosePage() {
         links={vascularReservationLinks}
       />
 
-      {/* 하지정맥류 - 어디서, 누구에게 받느냐가 치료의 결과를 바꿉니다 */}
+      {/* 공통 - 어디서, 누구에게 받느냐가 치료의 결과를 바꿉니다 */}
       {/* TODO: 메시지가 확정되면 _data/.../strengths/content.ts에 입력합니다. */}
       {/* 기존 병원 공통 강점 카드 5개는 동맥 페이지와 동일하게 재사용합니다. */}
       <ClinicStrengths
@@ -91,7 +91,7 @@ export default function VascularVenousVaricosePage() {
         items={vascularStrengthItems}
       />
 
-      {/* 하지정맥류 - 자주 묻는 질문 */}
+      {/* 공통 - 자주 묻는 질문 */}
       <ClinicMediaFaq
         id="vascular-venous-varicose-faq"
         headingLabel={varicoseFaqHeading.label}

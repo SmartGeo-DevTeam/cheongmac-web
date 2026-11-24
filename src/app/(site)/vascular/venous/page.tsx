@@ -39,29 +39,29 @@ export default function VascularVenousPage() {
       {/* 정맥질환 - 혈관 맞춤 치료 */}
       <VenousPersonalizedTreatments />
 
-      {/* 공통배너 - 최대한 빠른 검사 날짜는 언제일까요? */}
+      {/* 공통 - 배너: 최대한 빠른 검사 날짜는 언제일까요? */}
       <ClinicBanner {...vascularReservationBanner} />
 
-      {/* 정맥질환 - BEST 치료사례 */}
+      {/* 공통 - BEST 치료사례 */}
       <BestCasesSection id="vascular-venous-best-cases" cases={venousBestCases} />
 
-      {/* 정맥질환 - 혈관만 봅니다 그래서 다릅니다 */}
+      {/* 공통 - 혈관만 봅니다 그래서 다릅니다 */}
       <ClinicExpertiseSection
         id="vascular-venous-expertise"
         items={venousExpertiseItems}
       />
 
-      {/* 정맥질환 - 의료진 */}
+      {/* 공통 - 의료진 */}
       <ClinicSpecialistsSection
         id="vascular-venous-specialists"
         content={venousSpecialistsContent}
         doctors={getClinicSpecialists(venousSpecialistsContent.doctorIds)}
       />
 
-      {/* 공통배너 - 청맥병원에서 시작하는 혈관 건강 */}
+      {/* 공통 - 배너: 청맥병원에서 시작하는 혈관 건강 */}
       <ClinicBanner {...vascularHealthBanner} />
 
-      {/* 정맥질환 - 자주 묻는 질문 */}
+      {/* 공통 - 자주 묻는 질문 */}
       <ClinicSplitFaq
         id="vascular-venous-faq"
         title={
