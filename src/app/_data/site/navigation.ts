@@ -101,7 +101,7 @@ export const NAVIGATION: NavigationItem[] = [
             id: 'vascular-venous-thrombosis',
             href: '/vascular/venous/thrombosis',
             title: '심부정맥혈전증',
-            isPublished: false,
+            isPublished: true,
           },
         ],
       },
