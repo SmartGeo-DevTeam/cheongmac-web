@@ -23,8 +23,7 @@ export const occlusionIntroductionSymptoms: OcclusionIntroductionSymptom[] = [
   {
     id: 'coldness',
     label: '하지 냉감',
-    image:
-      '/vascular/arterial/occlusion/introduction/coldness.png',
+    image: '/vascular/arterial/occlusion/introduction/coldness.png',
     imageAlt: '발등을 손으로 감싸고 있는 모습',
     symptoms: [
       '여름에도 발이 얼음장처럼 차가워요',
@@ -41,8 +40,7 @@ export const occlusionIntroductionSymptoms: OcclusionIntroductionSymptom[] = [
   {
     id: 'numbness',
     label: '저림·감각저하',
-    image:
-      '/vascular/arterial/occlusion/introduction/numbness.png',
+    image: '/vascular/arterial/occlusion/introduction/numbness.png',
     imageAlt: '발가락을 손으로 만지고 있는 모습',
     symptoms: [
       '발가락 끝이 저려요',

@@ -35,7 +35,11 @@ export default function ClinicCases({
         />
       </Inner>
 
-      <ClinicCasesCarousel id={id} items={items} categoryLabel={categoryLabel} />
+      <ClinicCasesCarousel
+        id={id}
+        items={items}
+        categoryLabel={categoryLabel}
+      />
 
       <Inner>
         <div

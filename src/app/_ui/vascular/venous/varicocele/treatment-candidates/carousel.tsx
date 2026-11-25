@@ -26,7 +26,7 @@ export default function VaricoceleTreatmentCandidatesCarousel({
         spaceBetween={40}
         grabCursor
         slidesOffsetBefore={20}
-        slidesOffsetAfter={20}
+        slidesOffsetAfter={40}
         breakpoints={{
           1280: {
             slidesPerView: 3.2,

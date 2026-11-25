@@ -95,7 +95,7 @@ export const NAVIGATION: NavigationItem[] = [
             id: 'vascular-venous-varicocele',
             href: '/vascular/venous/varicocele',
             title: '정계정맥류',
-            isPublished: false,
+            isPublished: true,
           },
           {
             id: 'vascular-venous-thrombosis',

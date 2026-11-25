@@ -31,6 +31,7 @@ export default function VascularVenousVaricosePage() {
   return (
     <>
       <Breadcrumb />
+
       <PageHeader
         title="하지정맥류"
         englishTitle="Varicose Veins"
