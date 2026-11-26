@@ -66,7 +66,7 @@ export default function TreatmentSelector({
         role="tablist"
         aria-label={ariaLabel}
         className={`mt-5 grid grid-cols-2 gap-1 text-[15px]
-          xl:mt-20 xl:grid-cols-5`}
+          xl:mt-20 ${methods.length === 4 ? 'xl:grid-cols-4' : 'xl:grid-cols-5'}`}
       >
         {methods.map((method, index) => {
           const active = selected.id === method.id;

@@ -73,12 +73,7 @@ export default function VascularVenousVaricocelePage() {
             <b>다양한 사례로 살펴보세요</b>
           </>
         }
-        description={
-          <>
-            ※ 치료 경과는 개인에 따라서 달라질 수 있습니다.
-            <br />※ 현재는 UI 확인용 가상 사례 및 예시 이미지입니다.
-          </>
-        }
+        description={<>※ 치료 경과는 개인에 따라서 달라질 수 있습니다.</>}
         moreHref="/community/cases?tab=before-after&category=varicocele"
       />
 

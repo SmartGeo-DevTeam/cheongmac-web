@@ -37,3 +37,18 @@ export type DiagnosticCriteriaSet = {
   description?: string;
   cards: DiagnosticCriteriaItems;
 };
+
+/** 선택형 진단 기준 표: 2열의 항목·판단 구조를 공유합니다. */
+export type DiagnosticCriteriaTableColumn = {
+  label: string;
+  mobileLabel?: string;
+};
+
+export type DiagnosticCriteriaTable = {
+  columns: readonly [DiagnosticCriteriaTableColumn, DiagnosticCriteriaTableColumn];
+  rows: readonly {
+    id: string;
+    cells: readonly [string, string];
+  }[];
+  note?: string;
+};
