@@ -1,3 +1,4 @@
+import { footerNavs } from '@/app/_data/site/footer';
 import { NAVIGATION } from '@/app/_data/site/navigation';
 import type { NavigationItem } from '@/app/_types/site/navigation';
 
@@ -21,6 +22,16 @@ export function getNavigationHref(item: NavigationItem): string {
 
 export function getPrimaryNavigation(): NavigationItem[] {
   return getPublishedNavigation(NAVIGATION);
+}
+
+/** Footer 문서 메뉴를 Breadcrumb의 내비게이션 형식으로 변환합니다. */
+export function getDocumentNavigation(): NavigationItem[] {
+  return footerNavs.map((item) => ({
+    id: `document-${item.id}`,
+    href: item.link,
+    title: item.title,
+    isPublished: true,
+  }));
 }
 
 export function isPublishedNavigationPath(pathname: string): boolean {

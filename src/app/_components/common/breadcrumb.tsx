@@ -1,6 +1,11 @@
 'use client';
 
-import { getNavigationTrail, getPrimaryNavigation, getNavigationHref } from '@/app/_lib/navigation/navigation-tree';
+import {
+  getDocumentNavigation,
+  getNavigationHref,
+  getNavigationTrail,
+  getPrimaryNavigation,
+} from '@/app/_lib/navigation/navigation-tree';
 import { Home } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -12,9 +17,17 @@ import { BreadcrumbDropdown } from './breadcrumb-dropdown';
 export default function Breadcrumb() {
   const pathname = usePathname();
 
-  // 현재 경로에 해당하는 메뉴 계층
-  const trail = getNavigationTrail(pathname);
-  const navigation = getPrimaryNavigation();
+  // Footer 문서 페이지에서는 문서 메뉴끼리 이동할 수 있도록 구성합니다.
+  const documentNavigation = getDocumentNavigation();
+  const documentItem = documentNavigation.find(
+    (item) => item.href === pathname.replace(/\/+$/, ''),
+  );
+
+  // 일반 페이지는 기존 GNB 계층을 그대로 사용합니다.
+  const trail = documentItem ? [documentItem] : getNavigationTrail(pathname);
+  const navigation = documentItem
+    ? documentNavigation
+    : getPrimaryNavigation();
 
   // 진료 개요 페이지에서는 공개된 3차 항목 선택기를 추가합니다.
   // 기존 Breadcrumb 계층은 유지하고, 상세 페이지를 현재 위치로 오인하지 않게 합니다.
